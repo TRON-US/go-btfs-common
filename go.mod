@@ -1,3 +1,3 @@
-module github.com/TRON-US/go-btfs-common
+module github.com/tron-us/go-btfs-common
 
 go 1.12
