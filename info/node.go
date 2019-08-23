@@ -1,5 +1,9 @@
 package info
 
+import (
+	"time"
+)
+
 type Node struct {
 	tableName struct{} `sql:"node_metrics,alias:t" pg:",discard_unknown_columns"`
 
