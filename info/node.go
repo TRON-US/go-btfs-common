@@ -28,10 +28,16 @@ type Node struct {
 	NumPeers           uint64    `sql:"peers_connected,notnull" json:"peers_connected"`
 	Reputation         float64   `sql:"reputation,notnull" json:"reputation"`
 	StoragePriceDeal   uint64    `sql:"storage_price_deal" json:"storage_price_deal"`
-	StoragePriceAsk    uint64    `sql:"storage_price_ask" json:"storage_price_ask"`
 	BandwidthPriceDeal uint64    `sql:"bandwidth_price_deal" json:"bandwidth_price_deal"`
-	BandwidthPriceAsk  uint64    `sql:"bandwidth_price_ask" json:"bandwidth_price_ask"`
-	StorageTimeMin     uint64    `sql:"storage_time_min" json:"storage_time_min"`
-	BandwidthLimit     uint64    `sql:"bandwidth_limit" json:"bandwidth_limit"`
-	CollateralStake    uint64    `sql:"collateral_stake" json:"collateral_stake"`
+
+	NodeStorage
+}
+
+// Host storage publishable information
+type NodeStorage struct {
+	StoragePriceAsk   uint64 `sql:"storage_price_ask" json:"storage_price_ask"`
+	BandwidthPriceAsk uint64 `sql:"bandwidth_price_ask" json:"bandwidth_price_ask"`
+	StorageTimeMin    uint64 `sql:"storage_time_min" json:"storage_time_min"`
+	BandwidthLimit    uint64 `sql:"bandwidth_limit" json:"bandwidth_limit"`
+	CollateralStake   uint64 `sql:"collateral_stake" json:"collateral_stake"`
 }
