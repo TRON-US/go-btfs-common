@@ -213,6 +213,7 @@ message UpdatePaymentRequest{
 	bytes payment_id = 1;
 	bytes manager_address = 2; //guard's address
 	enum status{
+		NOTSTART = 0;
 		RUNNING = 1;
 		PAUSE = 2;
 		DONE = 3;
@@ -243,6 +244,7 @@ message HealthStatus{
 	bytes peerID =1 //guard’s peer ID
 	bytes guard_address = 2 //guard’s pub key/address
 	enum status{
+		WRONG = 0;
 		RUNNING = 1;
 		BOOTSTRAP = 2; //reserve 
 		PARTIAL_STOP = 3; //reserve field, some function cannot work
