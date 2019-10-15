@@ -10,11 +10,12 @@ package btfs;
 
 service guard {
 
-  	rpc startContract (Contract) returns (Contract) {}
-  	rpc checkContract(CheckContractRequest) returns (ContractStatus){}
-  	rpc reportUploadStatus(UploadStatusReport) returns(Result){}
+  	rpc startContract (Contract) returns (Contract) {} //used for renter submit the contract
+  	rpc checkContract(CheckContractRequest) returns (ContractStatus){} //reserved for other nodes to check contract status
+  	rpc reportUploadStatus(UploadStatusReport) returns(Result){} //used for renter submit upload status
   	rpc updatePayment(PaymentStatus) returns (Result){}  //reserved, notification while payment has been changed from escrow
-  	rpc health() returns(HealthStatus){}
+  	rpc health() returns(HealthStatus){} //used for other nodes check guard health , TBD input argument
+  	
 }
 
 //service provided by escrow need to be request by guard
@@ -26,9 +27,12 @@ service escrow{
 
 //host provided service
 service host{
-	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){}
+	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){} //used for receieve challenge question and return the answer
 }
 
+service renter{
+	rpc requestQuestions(ChanllengeQuestionsRequest) returns(Questions){} //used for guard request challenge questions 
+}
 
 
 
@@ -96,18 +100,39 @@ message Contract{
 	bytes guard_signature = 18; //guard's signature for above information
 }
 
-message ProofOfReplicateChallenge{
-	bytes shard_id = 1 //shard hash 
+message ChanllengeQuestion{
+	bytes shard_hash = 1 //shard hash 
 	bytes host_address = 2 //host's address
 	int chunk_index = 3 //the chunk's index for calculation
 	int random_nounce = 4 //the challenge questions's random nounce 
-	bytes expect_answer = 5 //the challenge expected answer, of course this field should be clear before send to the host`
-	Timestamp challenge_time = 6 //challenge time from guard
-	bytes guard_address = 7 //guar's address
-	bytes guard_signature = 8 //guard signed for the challenge
-	bytes host_answer = 9 //challenge answer
-	Timestamp host_sign_time = 10 //response time from host
-	bytes host_signature = 11
+	bytes expect_answer = 5 //the challenge expected answer, 
+}
+
+message ProofOfReplicateChallenge{
+	ChanllengeQuestion question = 1; //of course expect_answer should be clear before send to the host`
+	Timestamp challenge_time = 2 //challenge time from guard
+	bytes guard_address = 3 //guar's address
+	bytes guard_signature = 4 //guard signed for the challenge
+	bytes host_answer = 5 //challenge answer
+	Timestamp host_sign_time = 6 //response time from host
+	bytes host_signature = 7
+}
+
+message ChanllengeQuestionsRequest{
+	bytes file_hash = 1;
+	bytes shard_hash = 2;
+	bytes guard_address = 3;
+	Timestamp request_time = 4;
+	bytes guard_signature = 5;
+}
+
+message ChallengeQuestions{
+	bytes file_hash = 1; //file's hash
+	bytes shard_hash = 2;
+	bytes preparer_address = 3 ; //challenge questions preparer's address, it is renter address at phase 1
+	repeated ChanllengeQuestion = 4;
+	Timestamp prepare_time = 5;
+	bytes renter_signature = 6;
 }
 
 message SubContractStatus{
