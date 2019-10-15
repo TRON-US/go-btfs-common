@@ -122,17 +122,19 @@ message ChanllengeQuestionsRequest{
 	bytes file_hash = 1;
 	bytes shard_hash = 2;
 	bytes guard_address = 3;
-	Timestamp request_time = 4;
-	bytes guard_signature = 5;
+	int request_count = 4;
+	Timestamp request_time = 5;
+	bytes guard_signature = 6;
 }
 
 message ChallengeQuestions{
 	bytes file_hash = 1; //file's hash
 	bytes shard_hash = 2;
 	bytes preparer_address = 3 ; //challenge questions preparer's address, it is renter address at phase 1
-	repeated ChanllengeQuestion = 4;
-	Timestamp prepare_time = 5;
-	bytes renter_signature = 6;
+	int request_count = 4;
+	repeated ChanllengeQuestion = 5;
+	Timestamp prepare_time = 6;
+	bytes renter_signature = 7;
 }
 
 message SubContractStatus{
