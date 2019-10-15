@@ -13,7 +13,7 @@ service guard {
   	rpc startContract (Contract) returns (Contract) {}
   	rpc checkContract(CheckContractRequest) returns (ContractStatus){}
   	rpc reportUploadStatus(UploadStatusReport) returns(Result){}
-  	rpc updatePayment(UpdatePaymentRequest) returns (Result){}  //reserved, notification while payment has been changed
+  	rpc updatePayment(PaymentStatus) returns (Result){}  //reserved, notification while payment has been changed from escrow
   	rpc health() returns(HealthStatus){}
 }
 
@@ -21,8 +21,7 @@ service guard {
 service escrow{
 	rpc reserveFund(ProofOfFund) returns (ProofOfFund){}
 	rpc startEscrow(StartEscrowRequest) returns (PaymentStatus){}
-	rpc updatePayment(UpdatePaymentRequest) returns (PaymentStatus){}  //upload payment status and change host were combined in this rpc
-
+	rpc changeEscrow(changeEscrowRequest) returns(PaymentStatus){}
 }
 
 //host provided service
@@ -34,25 +33,29 @@ service host{
 
 
 message ProofOfFund{
-	bytes id = 1;// the proof id provide by escrow
-	bytes reference_id = 2; //the reference id to present purpose of such proof, in the BTFS, it is file_hash or chunk_hash
+	int64 id = 1;// the proof id provide by escrow
+	bytes reference_id = 2; //the reference id to present purpose of such proof, in the BTFS, it is file_hash or shard_hash
 	bytes escrow_address = 3; //the escrow service’s public key 
 	bytes owner_address = 4; //owner’s public key
 	bytes target_address = 5; //payment target’s pub key, in BTFS, it is host pub key for renter prepare such POF, and is renter pub key for host to prepare such POF
 	bytes manager_address = 6; //the manager’s(guard) public key, which can decide to transfer money out
-	int64 amount = 7; //the amount of this proof 
-	Timestamp signed_time = 8; //escrow signed_time 
-	Timestamp expire_time = 9; //the expire time of such proof 
-	bytes owner_signature = 10; //owner's signature for the money 
-	bytes escrow_signature = 11; //escrow’s signature
+	enum TokenType{
+		BTT = 0; 
+    }
+	TokenType token_type = 7; // token type enum
+	int64 amount = 8; //the amount of this proof 
+	Timestamp signed_time = 9; //escrow signed_time 
+	Timestamp expire_time = 10; //the expire time of such proof 
+	bytes owner_signature = 11; //owner's signature for the money 
+	bytes escrow_signature = 12; //escrow’s signature
 }
 
 message SubContract{
 	bytes renter_address = 1; //renter's wallet address
 	bytes host_address =2; //host’s wallet address
-	bytes chunk_hash = 3; //chunk’s hash
-	int chunk_index = 4; //chunk’s sequence of the original file
-	int64 chunk_file_size = 5; //chunk’s file size
+	bytes shard_hash = 3; //shard’s hash
+	int shard_index = 4; //shard’s sequence of the original file
+	int64 shard_file_size = 5; //shard’s file size
 	int64 proposed_price = 6; //renter proposed price 
 	Timestamp rent_start = 7; //rent start time
 	Timestamp rent_end = 8 ; //rent end time
@@ -61,9 +64,9 @@ message SubContract{
 	bytes renter_propose_signature = 11; //renter signature for proposed information, signed for above information
 	int64 agreed_price = 12; //the price which agreed by host and rental, on the first phase, it equal to the proposed_price
 	int64 agreed_amount = 13; //the amount which agreed by host and rental, on the first phase, it should be equal file_size*duration*agreed_price
-	int pay_frequency = 14; //payment frequency of such chunk , TBD need escrow suggestion
+	int pay_frequency = 14; //payment frequency of such shard , TBD need escrow suggestion
 	bytes host_agreed_signature = 15; //renter signature for proposed information, signed for above information
-	ProofOfFund renter_pre_qualify = 16; // the proof of renter had reserve money in the escrow for such chunk 
+	ProofOfFund renter_pre_qualify = 16; // the proof of renter had reserve money in the escrow for such shard 
 	ProofOfFund host_pre_qualify = 17; //the proof of host for collateral
 	Timestamp signed_time = 18; //contract signed time
 	Timestamp expire_time = 19; // the time when the agreement got expired, which should be equal with expire time in the Proof of fund
@@ -78,12 +81,12 @@ message Contract{
 	int64 file_size = 3; // file’s size
 	Timestamp rent_start = 4; //rent start time
 	Timestamp rent_end = 5; //rent end time
-	int check_frequence = 6; // chunk check frequence in a year,  1 means check once per year
+	int check_frequence = 6; // shard check frequence in a year,  1 means check once per year
 	int64 guard_fee= 7; // reserve: the fee which guard will charge for supporting 
 	int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
 	ProofOfFund management_fee = 9; //reserve: the fee which will be pay to guard and escrow
-	int chunk_count = 10; //chunk's count
-	int recover_threshold = 11; //reserved field, indicate the right chunk count for the file
+	int shard_count = 10; //shard's count
+	int recover_threshold = 11; //reserved field, indicate the right shard count for the file
 	repeated SubContract SubContracts = 12;
 	bytes escrow_address = 13;
 	bytes guard_address = 14;
@@ -94,14 +97,14 @@ message Contract{
 }
 
 message ProofOfReplicateChallenge{
-	bytes Chunk_id = 1 //chunk hash 
+	bytes shard_id = 1 //shard hash 
 	bytes host_address = 2 //host's address
-	int chunk_offset = 3 //the hash part offset 
-	int chunk_size = 4 //the hash part size 
+	int chunk_index = 3 //the chunk's index for calculation
+	int random_nounce = 4 //the challenge questions's random nounce 
 	bytes expect_answer = 5 //the challenge expected answer, of course this field should be clear before send to the host`
 	Timestamp challenge_time = 6 //challenge time from guard
 	bytes guard_address = 7 //guar's address
-	bytes guard_signature = 8 //guard signed for 
+	bytes guard_signature = 8 //guard signed for the challenge
 	bytes host_answer = 9 //challenge answer
 	Timestamp host_sign_time = 10 //response time from host
 	bytes host_signature = 11
@@ -110,9 +113,9 @@ message ProofOfReplicateChallenge{
 message SubContractStatus{
 	bytes renter_address = 1; //renter's wallet address
 	bytes host_address =2; //host’s wallet address
-	bytes chunk_hash = 3; //chunk’s hash
-	int chunk_index = 4; //chunk’s sequence of the original file
-	int64 chunk_file_size = 5; //chunk’s file size
+	bytes shard_hash = 3; //shard’s hash
+	int shard_index = 4; //shard’s sequence of the original file
+	int64 shard_file_size = 5; //shard’s file size
 	bytes payment_id = 6; //escrow assigned id for the payment
 	int64 total_amount = 7; //whole amount of the subcontract , equal rent amount + collateral amount
 	int64 withhold_amount = 8;
@@ -126,8 +129,8 @@ message SubContractStatus{
 	Timestamp last_payment_time = 16; 
 	Timestamp next_payment_amount = 17;
 	enum State{
-		INIT = 0; //the contract was init, but the first challenge is not done. Which means host is reserve the space, but the renter had not used it for whole chunk.  
-    	RUNNING = 1; //the renter is using the host's space for the chunk. 
+		INIT = 0; //the contract was init, but the first challenge is not done. Which means host is reserve the space, but the renter had not used it for whole shard.  
+    	RUNNING = 1; //the renter is using the host's space for the shard. 
     	CHANGING_HOST = 2;  //Guard is working to change the host
     	CLOSED = 3; //the sub contract was closed, no payment occur in the future. 
     	CANCELED = 4; //reserve state, for some situation that the subcontract was closed abnormally
@@ -146,8 +149,8 @@ message ContractStatus{
 	int64 file_size = 5; //file's size
 	Timestamp rent_start = 6;
 	Timestamp rent_end = 7;
-	int chunk_count = 8; //chunk's count
-	int recover_threshold = 9; //reserved field, indicate the right chunk count for the file
+	int shard_count = 8; //shard's count
+	int recover_threshold = 9; //reserved field, indicate the right shard count for the file
 	int check_frequence = 10; //check's frequency, 1 means check once per year
 	repeated SubContractStatus SubContractStatus = 11; //all sub contract's status
 	Timestamp status_time = 12;  //current status generated time
@@ -159,8 +162,8 @@ message ContractStatus{
 message UploadStatusReport{
 	bytes renter_address = 1; 
 	bytes host_address = 2;
-	bytes chunk_hash = 3;
-	int64 chunk_size = 4;
+	bytes shard_hash = 3;
+	int64 shard_size = 4;
 	int64 upload_size = 5;
 	int64 bandwidth_since_last_report = 6; //bps since last bandwidth_since_last_report
 	int64 connection_lost_times = 7;
@@ -176,14 +179,45 @@ message CheckContractRequest{
 }
 
 message StartEscrowRequest{
-	ProofOfFund escrow_amount = 1; // the proof of renter had reserve money in the escrow for such chunk 
+	ProofOfFund escrow_amount = 1; // the proof of renter had reserve money in the escrow for such shard 
 	ProofOfFund escrow_collateral_amount = 2; //the proof of host for collateral
-	int pay_frequency = 3; 
-	Timestamp start_time = 4;
-	Timestamp end_time = 5;
-	bytes peerId = 6; //guard's instance's peerId
+	enum TokenType{
+		BTT = 0; 
+    }
+	TokenType token_type = 3; // token type enum
+	enum Schedule{
+		IMME = 0; // immediate
+    	DAY = 1;
+    	WEEK = 2;
+    	MONTH = 3;
+	}
+    Schedule payout_schedule = 4; // schedule enum
+   	int32 num_payouts = 5; // numbers of payouts
+	bytes peerId = 6; //reserve: guard's instance's peerId
 	bytes signature = 7; 
 }
+
+message changeEscrowRequest{
+	bytes escrow_id =1;
+	bytes admin_address =2;
+	enum RequestType{
+		NOCHANGE = 0;
+		STARTPAY = 1;
+		PAYSINCENOW = 2;
+		FREEZE = 3; //reserved
+		STOP = 4;
+	}
+	RequestType RequestType = 3;
+	Timestamp request_sign_time = 4;
+	bytes signature = 5; 
+}
+
+// message StopEscrowRequest{
+// 	bytes escrow_id =1;
+// 	bytes admin_address =2;
+// 	Timestamp stop_sign_time = 3;
+// 	bytes signature = 4; 
+// }
 
 message PaymentStatus{ 
 	//fields need by guard for escrow payment's staus, need ESCROW decision and revise
@@ -191,12 +225,13 @@ message PaymentStatus{
 	bytes to_address = 2; //the fund's target wallet address, in BTFS it should be host's address
 	bytes manager_address = 3; //the manager's wallet address, in BTFS it should be guard's address
 	enum status{
+		NOTSTART = 0;
 		RUNNING = 1;
 		PAUSE = 2;
 		DONE = 3;
 	}
 	status status = 4;
-	bytes payment_id = 5; //escrow assigned id for the payment
+	bytes escrow_id = 5; //escrow assigned id for the payment
 	int64 total_amount = 6; //whole amount of the subcontract , equal rent amount + collateral amount
 	int64 collateral_amount = 7;
 	int64 withhold_amount = 8;
@@ -204,30 +239,10 @@ message PaymentStatus{
 	int64 next_payment_amount = 10;
 	Timestamp next_payment_time = 11;
 	Timestamp last_payment_time = 12;
-	Timestamp sign_time = 13;
+	Timestamp status_time = 13;
 	bytes signature = 14;
 }
 
-message UpdatePaymentRequest{
-	//fields need by guard for escrow payment's staus, need ESCROW decision and revise, some fields can be nil
-	bytes payment_id = 1;
-	bytes manager_address = 2; //guard's address
-	enum status{
-		NOTSTART = 0;
-		RUNNING = 1;
-		PAUSE = 2;
-		DONE = 3;
-	}
-	status update_to_Status = 3;
-	bytes original_to_address = 4;
-	bytes new_to_address = 5;
-	int64 new_collateral_amount = 6;
-	int64 new_withhold_amount =7;
-	ProofOfFund new_collateral = 8;
-	ProofOfFund remaining_money = 9;
-	Timestamp sign_time = 10;
-	bytes signature = 11;
-}
 
 message Result {
     enum response_code {
