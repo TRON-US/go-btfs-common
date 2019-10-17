@@ -4,21 +4,11 @@ syntax = "proto3";
 
 package btfs;
 
-//service provided by escrow need to be request by guard
-service EscrowService{
-	rpc reserveFund(ProofOfFund) returns (ProofOfFund){}
-	rpc startEscrow(StartEscrowRequest) returns (PaymentStatus){}
-	rpc changeEscrow(changeEscrowRequest) returns(PaymentStatus){}
-	rpc checkEscrow() returns (EscrowStatus){}
-}
 
-//host provided service
-// service HostService{
-// 	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){} //used for receieve challenge question and return the answer
-// 	rpc cancelContract() returns (Result){}
-// }
 
-// service EscrowService{
+
+
+// service EscrowService{. //FYI from Cong's review, this part will be removed eventually
 // 	submitContracts()
 // 	fullPay()
 // 	checkContract()
@@ -26,19 +16,19 @@ service EscrowService{
 // }
 
 service GuardService{
-	rpc submitFileMeta(FileMeta) returns (Result){}
+	rpc submitFileStoreMeta(FileStoreMeta) returns (Result){}
 	rpc health() returns(HealthStatus){} //used for other nodes check guard health , TBD input argument
   	rpc sendQuestions(Questions) returns(Result){} //used for renter send the questions to guard
-  	rpc checkFileMeta(CheckFileMetaRequest) returns (FileMeta){} //reserved for other nodes to check contract status
+  	rpc checkFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreMeta){} //reserved for other nodes to check contract status
 }
 
 service HostService{
-	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){} //used for receieve challenge question and return the answer
+	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){} //used for receieve challenge question and return the answer, TBD seems can be removed as the BTFS has embed function
 	rpc cancelContract(Contract) returns (Result){} 
 }
 
 //the relationship of the objects from Guard's view
-// FileMeta (1:n) Contract (1:n) payment
+// FileStoreMeta (1:n) Contract (1:n) payout
 
 
 
@@ -54,7 +44,7 @@ message Contract{
 	bytes shard_hash = 4; //shard’s hash
 	int shard_index = 5; //shard’s sequence of the original file
 	int64 shard_file_size = 6; //shard’s file size
-	bytes file_hash = 7; //original file's hash, reserved point back to fileMeta
+	bytes file_hash = 7; //original file's hash, reserved point back to FileStoreMeta
 	Timestamp rent_start = 7; //rent start time
 	Timestamp rent_end = 8 ; //rent end time
 	bytes guard_address = 9; //renter proposed guard's address
@@ -75,11 +65,12 @@ message Contract{
 	bytes host_signature = 19; //host’s signature from the sub contract
 	bytes escrow_signature = 20； //escrow's signature 
 	enum State{
-		DRAFT = 0; //the contract was init, but the first challenge is not done. Which means host is reserve the space, but the renter had not used it for whole shard.  
-		ALLPAID = 1;
-    	RUNNING = 2; //the renter is using the host's space for the shard.
-    	CLOSED = 3; //the sub contract was closed, no payment occur in the future. 
-    	CANCELED = 4; //reserve state, for some situation that the subcontract was closed abnormally
+		DRAFT = 0; //the contract was draft, but the escrow service did not received the money
+		SIGNED = 1;  // the escrow service received the money from renter, the contract was start.
+		UPLOADED = 2; //the first challenge was done, which means the shard was in the host, all pending payouts can be issued now
+		LOST = 3; // the challenge failed, the following payout should be hold or even stopped
+		CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NOQUESTION, it go to CANCELED status
+		CLOSED = 5; // the all work in such contract was done
 	}
 	State state = 21;
 	bytes change_log = 22; //TBD one field to store the contract change log, need to discuss whether need the field
@@ -88,7 +79,7 @@ message Contract{
 }
 
 
-message FileMeta{
+message FileStoreMeta{
 	bytes renter_address = 1; // buyer wallet address
 	bytes file_hash = 2; // file’s hash
 	int64 file_size = 3; // file’s size
@@ -99,15 +90,16 @@ message FileMeta{
 	int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
 	int shard_count = 9; //shard's count, by default is 30
 	int minimum_shards = 10; //minimum count of shards which can recover the whole file, by default is 10
-	int recover_threshold = 11; //reserved field, indicate the threshold for start to recover
+	int recover_threshold = 11; //reserved field, indicate the threshold for starting to recover
 	repeated Contract Contracts = 12;
 	bytes escrow_address = 13;
 	bytes guard_address = 14;
 	bytes renter_signature = 15; //renter's signature for above information
-	Timestamp sign_time = 16; //guard signed time, which is contract start time
+	Timestamp guard_receive_time = 16; //guard received time, which used to calculate the timeout for cancel
 	bytes change_log = 17; //TBD one field to store the contract change log, need to discuss whether need the field
 	Timestamp last_modify_time = 18;
 	bytes guard_signature = 19;
+	//TBD need to add one more field for status? 
 }
 
 message ChanllengeQuestion{
@@ -139,7 +131,7 @@ message ChallengeQuestions{
 	bytes renter_signature = 7;
 }
 
-message CheckFileMetaRequest{
+message CheckFileStoreMetaRequest{
 	bytes file_hash = 1;
 	bytes renter_address = 2;
 	bytes requester_address = 3;
@@ -157,7 +149,7 @@ message Result {
     string message = 2;
 }
 
-message HealthStatus{
+message HealthStatus{ //TBD if we have another defined object for it, use that object
 	bytes peerID =1 //guard’s peer ID
 	bytes guard_address = 2 //guard’s pub key/address
 	enum status{
