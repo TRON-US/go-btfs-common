@@ -15,6 +15,6 @@ lint:
 build: lint
 # 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
-    do \
-    eval protoc --go_out=./ $$proto ; \
-    done
+	do \
+	eval protoc --go_out=./ $$proto ; \
+	done
