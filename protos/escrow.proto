@@ -4,10 +4,10 @@ import "google/protobuf/timestamp.proto";
 package btfs;
 
 service EscrowService{
-	rpc submitContracts(EscrowContractRequest) returns (EscrowContractResult) {}
-	rpc payIn(PayinRquest) returns (PayinResult) {}
-	rpc checkPayment(ContractID) returns (PayinStatus) {}
-	rpc cancelContracts(CancelContractRequest) returns (CancelContractResult) {}
+	rpc SubmitContracts(EscrowContractRequest) returns (EscrowContractResult) {}
+	rpc PayIn(PayinRquest) returns (PayinResult) {}
+	rpc CheckPayment(ContractID) returns (PayinStatus) {}
+	rpc CancelContracts(CancelContractRequest) returns (CancelContractResult) {}
 };
 
 enum TokenType {
@@ -56,8 +56,8 @@ message Escrow {
 
 message EscrowContractResult {
 	bytes payin_id = 1; // for buyer to pay in a group of escrows
-	bytes escrow_address = 2;
-	repeated Escrow escrow = 3;
+	repeated Escrow escrow = 2;
+	bytes escrow_address = 3;
 	google.protobuf.Timestamp escrow_signed_time = 4;
 	bytes escrow_signature = 5;
 }
@@ -71,8 +71,9 @@ message PayinRquest {
 message PayinResult {
 	bytes payin_id = 1;
 	int64 sequence_id = 2; // ledger sequence id
-	google.protobuf.Timestamp escrow_signed_time = 3;
-	bytes escrow_signature = 4;
+	bytes escrow_address = 3;
+	google.protobuf.Timestamp escrow_signed_time = 4;
+	bytes escrow_signature = 5;
 }
 
 message PayinStatus {
@@ -94,6 +95,7 @@ message CancelContractResult {
 	}
 	
 	Result result = 1;
-	google.protobuf.Timestamp escrow_signed_time = 2;
-	bytes escrow_signature = 3;
+	bytes escrow_address = 2;
+	google.protobuf.Timestamp escrow_signed_time = 3;
+	bytes escrow_signature = 4;
 }
