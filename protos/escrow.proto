@@ -90,7 +90,7 @@ message CancelContractRequest {
 message CancelContractResult {
 	message Result {
 		bytes contract_id = 1;
-		bytes escrow_id = 2;
+		int64 escrow_id = 2;
 		bool canceled = 3;
 	}
 	
