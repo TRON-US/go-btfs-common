@@ -1,8 +1,9 @@
 default: lint
 
 PROTO_FILES=./protos/node/node.proto \
+ 			./protos/guard/guard.proto \
 # 			./protos/status/status.proto \
-# 			./protos/guard/guard.proto \
+
 # 			./protos/escrow/escrow.proto \
 
 install:
