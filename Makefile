@@ -1,4 +1,4 @@
-default: lint
+default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
 # 			./protos/status/status.proto \
@@ -9,12 +9,13 @@ install:
 	brew install protobuf
 	brew install prototool
 
-lint:
+lintf:
 	prototool lint ./protos
+	prototool format -w
 
-build: lint
+build: lintf
 # 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
-	eval protoc --go_out=./ $$proto ; \
+	eval protoc --go_out=plugins=grpc:. $$proto ; \
 	done
