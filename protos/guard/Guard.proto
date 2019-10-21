@@ -56,7 +56,7 @@ message ContractMeta{ //Contract proposed by renter, will not be changed after r
 }
 
 message Contract{ //the contract executor record, changed frequently after proposal
-	Contract contract = 1;
+	ContractMeta contract = 1;
 	enum ContractState{
 		DRAFT = 0; //the contract was draft, but the escrow service did not received the money
 		SIGNED = 1;  // the escrow service received the money from renter, the contract was start.
@@ -108,7 +108,8 @@ message FileStoreStatus{
 	bytes renter_signature = 4; //renter's signature for FileStoreMeta and all contractMeta
 	google.protobuf.Timestamp guard_receive_time = 5; //guard received time, which used to calculate the timeout for cancel
 	repeated Log change_log = 6;
-	bytes guard_signature = 7;
+	google.protobuf.Timestamp curent_time = 7; //the time for generate the status
+	bytes guard_signature = 8;
 }	
 
 message ChallengeQuestion{
@@ -151,15 +152,16 @@ message CheckFileStoreMetaRequest{
 	bytes signature =4; //requester signed 
 }
 
-message Result {
-    enum ResponseCode {
+enum ResponseCode {
       SUCCESS = 0;
       SIGNATURE_FORMAT_ERROR = 1;
       COMPUTE_ADDRESS_ERROR = 2;
       OTHER_ERROR = 20;
-    }
+}
+message Result {
     ResponseCode code = 1;
     string message = 2;
+    google.protobuf.Timestamp response_time = 3;
 }
 
 message HealthStatus{ 
@@ -172,7 +174,7 @@ message HealthStatus{
 		PARTIAL_STOP = 3; //reserve field, some function cannot work
 	}
 	HealthStatus status = 3; //current status , running, starting, partial stop
-	google.protobuf.Timestamp now =4; //current time of guard
+	google.protobuf.Timestamp curent_time =4; //current time of guard
 	google.protobuf.Timestamp start_time = 5;
 	bytes git_hash = 6; //the git hash of the build related the git repository's branch  
 	bytes version = 7; //version we defined for current node
