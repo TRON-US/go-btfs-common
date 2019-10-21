@@ -25,14 +25,14 @@ Common packages among various go-btfs projects
 make install
 ```
 
-## Lint
+## Lint and Format
 
 ```
 make
 ```
 or
 ```
-make lint
+make lintf
 ```
 
 ## Build/Complie
