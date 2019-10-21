@@ -4,6 +4,9 @@ import (
 	"time"
 )
 
+// We're deprecating this package to switch using protobuf
+// TODO: Remove this package after it's fully deprecated.
+
 type Node struct {
 	tableName struct{} `sql:"node_metrics,alias:t" pg:",discard_unknown_columns"`
 
