@@ -4,9 +4,13 @@
 package guard
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -247,6 +251,7 @@ func (m *Log) GetChange() []byte {
 //ContractMeta is the information which will not be changed after proposal
 //Contract technically is the contract execution record, it contains the contractMeta and state information
 type ContractMeta struct {
+	//Contract proposed by renter, will not be changed after renter proposed
 	ContractId           []byte                `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
 	RenterAddress        []byte                `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty"`
 	HostAddress          []byte                `protobuf:"bytes,3,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty"`
@@ -406,6 +411,7 @@ func (m *ContractMeta) GetNumPayouts() int32 {
 }
 
 type Contract struct {
+	//the contract executor record, changed frequently after proposal
 	Contract             *ContractMeta          `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
 	State                Contract_ContractState `protobuf:"varint,2,opt,name=state,proto3,enum=guard.Contract_ContractState" json:"state,omitempty"`
 	RenterSignature      []byte                 `protobuf:"bytes,3,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty"`
@@ -509,6 +515,7 @@ func (m *Contract) GetGuardSignature() []byte {
 }
 
 type FileStoreMeta struct {
+	//file store meta prepared by renter, will not changed after proposal
 	RenterAddress        []byte               `protobuf:"bytes,1,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty"`
 	FileHash             []byte               `protobuf:"bytes,2,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
 	FileSize             int64                `protobuf:"varint,3,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
@@ -1375,4 +1382,158 @@ var fileDescriptor_ad5b6eccdc9ebee8 = []byte{
 	0x9a, 0xc5, 0x82, 0x8d, 0xae, 0x91, 0x67, 0x5b, 0x76, 0xfb, 0xfa, 0x56, 0x36, 0x1f, 0x73, 0x11,
 	0x2c, 0xbf, 0x5f, 0xd2, 0x2d, 0x54, 0xe6, 0x8e, 0xa7, 0x7d, 0x7c, 0x87, 0x77, 0x6f, 0xea, 0x98,
 	0xfd, 0x8f, 0xff, 0x17, 0x00, 0x00, 0xff, 0xff, 0xb1, 0xbc, 0x9b, 0xfb, 0xe3, 0x11, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// GuardServiceClient is the client API for GuardService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GuardServiceClient interface {
+	SubmitFileStoreMeta(ctx context.Context, in *FileStoreStatus, opts ...grpc.CallOption) (*Result, error)
+	// rpc health() returns(HealthStatus); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+	SendQuestions(ctx context.Context, in *FileChallengeQuestions, opts ...grpc.CallOption) (*Result, error)
+	CheckFileStoreMeta(ctx context.Context, in *CheckFileStoreMetaRequest, opts ...grpc.CallOption) (*FileStoreStatus, error)
+}
+
+type guardServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewGuardServiceClient(cc *grpc.ClientConn) GuardServiceClient {
+	return &guardServiceClient{cc}
+}
+
+func (c *guardServiceClient) SubmitFileStoreMeta(ctx context.Context, in *FileStoreStatus, opts ...grpc.CallOption) (*Result, error) {
+	out := new(Result)
+	err := c.cc.Invoke(ctx, "/guard.GuardService/SubmitFileStoreMeta", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *guardServiceClient) SendQuestions(ctx context.Context, in *FileChallengeQuestions, opts ...grpc.CallOption) (*Result, error) {
+	out := new(Result)
+	err := c.cc.Invoke(ctx, "/guard.GuardService/SendQuestions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *guardServiceClient) CheckFileStoreMeta(ctx context.Context, in *CheckFileStoreMetaRequest, opts ...grpc.CallOption) (*FileStoreStatus, error) {
+	out := new(FileStoreStatus)
+	err := c.cc.Invoke(ctx, "/guard.GuardService/CheckFileStoreMeta", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GuardServiceServer is the server API for GuardService service.
+type GuardServiceServer interface {
+	SubmitFileStoreMeta(context.Context, *FileStoreStatus) (*Result, error)
+	// rpc health() returns(HealthStatus); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+	SendQuestions(context.Context, *FileChallengeQuestions) (*Result, error)
+	CheckFileStoreMeta(context.Context, *CheckFileStoreMetaRequest) (*FileStoreStatus, error)
+}
+
+// UnimplementedGuardServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedGuardServiceServer struct {
+}
+
+func (*UnimplementedGuardServiceServer) SubmitFileStoreMeta(ctx context.Context, req *FileStoreStatus) (*Result, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitFileStoreMeta not implemented")
+}
+func (*UnimplementedGuardServiceServer) SendQuestions(ctx context.Context, req *FileChallengeQuestions) (*Result, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendQuestions not implemented")
+}
+func (*UnimplementedGuardServiceServer) CheckFileStoreMeta(ctx context.Context, req *CheckFileStoreMetaRequest) (*FileStoreStatus, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckFileStoreMeta not implemented")
+}
+
+func RegisterGuardServiceServer(s *grpc.Server, srv GuardServiceServer) {
+	s.RegisterService(&_GuardService_serviceDesc, srv)
+}
+
+func _GuardService_SubmitFileStoreMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FileStoreStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GuardServiceServer).SubmitFileStoreMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/guard.GuardService/SubmitFileStoreMeta",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GuardServiceServer).SubmitFileStoreMeta(ctx, req.(*FileStoreStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GuardService_SendQuestions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FileChallengeQuestions)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GuardServiceServer).SendQuestions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/guard.GuardService/SendQuestions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GuardServiceServer).SendQuestions(ctx, req.(*FileChallengeQuestions))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GuardService_CheckFileStoreMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckFileStoreMetaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GuardServiceServer).CheckFileStoreMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/guard.GuardService/CheckFileStoreMeta",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GuardServiceServer).CheckFileStoreMeta(ctx, req.(*CheckFileStoreMetaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GuardService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "guard.GuardService",
+	HandlerType: (*GuardServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SubmitFileStoreMeta",
+			Handler:    _GuardService_SubmitFileStoreMeta_Handler,
+		},
+		{
+			MethodName: "SendQuestions",
+			Handler:    _GuardService_SendQuestions_Handler,
+		},
+		{
+			MethodName: "CheckFileStoreMeta",
+			Handler:    _GuardService_CheckFileStoreMeta_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "protos/guard/guard.proto",
 }
