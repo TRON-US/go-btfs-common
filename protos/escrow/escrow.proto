@@ -6,7 +6,7 @@ package btfs;
 service EscrowService{
 	rpc SubmitContracts(EscrowContractRequest) returns (EscrowContractResult) {}
 	rpc PayIn(PayinRquest) returns (PayinResult) {}
-	rpc CheckPayment(ContractID) returns (PayinStatus) {}
+	rpc IsPaid(ContractID) returns (PayinStatus) {}
 	rpc CancelContracts(CancelContractRequest) returns (CancelContractResult) {}
 };
 
@@ -22,6 +22,8 @@ enum Schedule {
 
 message ContractID {
 	bytes contract_id = 1;
+	bytes address = 2;
+	bytes signature = 3;
 }
 
 message EscrowContract {
@@ -31,14 +33,13 @@ message EscrowContract {
 	bytes seller_address = 4;
 	bytes seller_signature = 5; // the seller signature
 	bytes auth_address = 6; // authority who can cancel escrow
-	bytes auth_signature = 7;
-	int64 amount = 8;
-	int64 collateral_amount = 9;
-	int64 withhold_amount = 10; // escrow hold amount till the last layment
-	TokenType token_type = 11; // token type enum
-	Schedule payout_schedule = 12; // schedule enum
-	int32 num_payouts = 13; // numbers of payouts
-	bytes reference = 14; // reference like hash value etc
+	int64 amount = 7;
+	int64 collateral_amount = 8;
+	int64 withhold_amount = 9; // escrow hold amount till the last layment
+	TokenType token_type = 10; // token type enum
+	Schedule payout_schedule = 11; // schedule enum
+	int32 num_payouts = 12; // numbers of payouts
+	bytes reference = 13; // reference like hash value etc
 }
 
 message EscrowContractRequest {
@@ -70,10 +71,11 @@ message PayinRquest {
 
 message PayinResult {
 	bytes payin_id = 1;
-	int64 sequence_id = 2; // ledger sequence id
-	bytes escrow_address = 3;
-	google.protobuf.Timestamp escrow_signed_time = 4;
-	bytes escrow_signature = 5;
+	int64 amount = 2;
+	int64 sequence_id = 3; // ledger sequence id
+	bytes escrow_address = 4;
+	google.protobuf.Timestamp escrow_signed_time = 5;
+	bytes escrow_signature = 6;
 }
 
 message PayinStatus {
