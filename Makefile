@@ -1,9 +1,10 @@
 default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
+			./protos/escrow/escrow.proto \
 # 			./protos/status/status.proto \
 # 			./protos/guard/guard.proto \
- 			./protos/escrow/escrow.proto \
+
 
 install:
 	brew install protobuf
