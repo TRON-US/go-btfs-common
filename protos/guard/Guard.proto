@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  // rpc health() returns(HealthStatus); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+  rpc Health(HealthRequest) returns (HealthStatus); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
@@ -162,6 +162,12 @@ message Result {
   ResponseCode code = 1;
   string message = 2;
   google.protobuf.Timestamp response_time = 3;
+}
+
+message HealthRequest {
+  bytes request_address = 1;
+  google.protobuf.Timestamp curent_time = 2;
+  bytes signature = 3;
 }
 
 message HealthStatus {
