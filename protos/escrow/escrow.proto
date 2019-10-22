@@ -12,9 +12,20 @@ option java_package = "io.btfs.escrow";
 import "google/protobuf/timestamp.proto";
 
 service EscrowService {
+  // buyer submit contracts to escrow after buyer and seller agreed contract
+  // one contract is one buyer to one seller, and is one escrow in escrow service
+  // buyer can submit multiple contracts in one request
+  // return same number of results as request contracts
   rpc SubmitContracts(EscrowContractRequest) returns (EscrowContractResult);
+  // after submit contract, buyer request to pay in
+  // escrow will transfer contract amount from buyer wallet to escrow wallet
   rpc PayIn(PayinRquest) returns (PayinResult);
+  // seller use this to check if a contract is paid in
   rpc IsPaid(ContractID) returns (PayinStatus);
+  // check escrow pay out to seller status of a contract
+  rpc GetPayOutStatus(ContractID) returns (PayoutStatus);
+  // auth request to cancel the contract
+  // escrow will cancel the left payments to seller
   rpc CancelContracts(CancelContractRequest) returns (CancelContractResult);
 }
 
@@ -89,6 +100,33 @@ message PayinResult {
 message PayinStatus {
   bool paid = 1;
   int64 sequence_id = 2;
+}
+
+enum EscrowStatus {
+  INITIATED = 0;
+  ACTIVE = 1;
+  CANCELED = 2;
+  CLOSED = 3;
+}
+
+message PayoutStatus {
+  bytes from_address = 1;
+  bytes to_address = 2;
+  bytes auth_address = 3;
+  EscrowStatus status = 4;
+  int64 amount = 5;
+  int64 collateral = 6;
+  int64 withhold = 7;
+  int64 paid_amount = 8; // amount escrow already paid
+  int32 num_paid = 9; // how many times escrow already paid
+  int64 left_amount = 10;
+  int32 num_left = 11; // how many times left escrow is going to pay
+  int64 next_amount = 12; // next payout amount
+  google.protobuf.Timestamp last_payout_time = 13;
+  google.protobuf.Timestamp next_payout_time = 14;
+  bytes escrow_address = 15;
+  google.protobuf.Timestamp sign_time = 16;
+  bytes escrow_signature = 17;
 }
 
 message CancelContractRequest {
