@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package status;
+
+// golang option
+option go_package = "statuspb";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "StatusProto";
+option java_package = "io.btfs.status";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "protos/node/node.proto";
+
+service Status {
+  rpc UpdateMetrics(node.Node) returns (google.protobuf.Empty);
+  rpc CollectHealth(HealthData) returns (google.protobuf.Empty);
+  rpc CollectError(TestError) returns (google.protobuf.Empty);
+}
+
+message Ip2Location {
+  string ipv4 = 1;
+  string country_short = 2;
+  string country_long = 3;
+  string region = 4;
+  string city = 5;
+  float latitude = 6;
+  float longitude = 7;
+  string zipcode = 8;
+}
+
+message HealthData {
+  string node_id = 1;
+  string btfs_version = 2;
+  string failure_point = 3;
+  google.protobuf.Timestamp time_created = 4;
+}
+
+message TestError {
+  string h_val = 1;
+  string peer_id = 2;
+  string error_status = 3;
+  google.protobuf.Timestamp time_created = 4;
+}
+
+message DataBag {
+  bytes public_key = 1;
+  bytes signature = 2;
+  bytes payload = 3;
+}

@@ -9,12 +9,15 @@ Common packages among various go-btfs projects
 ├── Makefile
 ├── README.md
 ├── go.mod
-├── info
-│   └── node.go (deprecating)
+├── info (deprecating)
+│   └── node.go
 ├── protos
-│   └── node
-│       ├── node.pb.go
-│       └── node.proto
+│   ├── node
+│   │   ├── node.pb.go
+│   │   └── node.proto
+│   └── status
+│       ├── status.pb.go
+│       └── status.proto
 ├── prototool.yaml
 └── tree.txt
 ```
