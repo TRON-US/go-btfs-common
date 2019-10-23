@@ -3,7 +3,7 @@ syntax = "proto3";
 package node;
 
 // golang option
-option go_package = "nodepb";
+option go_package = "github.com/tron-us/go-btfs-common/protos/node";
 // java options
 option java_multiple_files = true;
 option java_outer_classname = "NodeProto";
