@@ -1,9 +1,11 @@
 default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
-# 			./protos/status/status.proto \
+			./protos/status/status.proto \
 # 			./protos/guard/guard.proto \
 # 			./protos/escrow/escrow.proto \
+
+PB_OUT_PATH=$$GOPATH/src
 
 install:
 	brew install protobuf
@@ -17,5 +19,5 @@ build: lintf
 # 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
-	eval protoc --go_out=plugins=grpc:. $$proto ; \
+	eval protoc -I. --go_out=plugins=grpc:$(PB_OUT_PATH) $$proto ; \
 	done
