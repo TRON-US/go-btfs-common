@@ -48,21 +48,25 @@ message ContractID {
 message EscrowContract {
   bytes contract_id = 1; // identity of a contract
   bytes buyer_address = 2;
-  bytes buyer_signature = 3;
-  bytes seller_address = 4;
-  bytes seller_signature = 5; // the seller signature
-  bytes auth_address = 6; // authority who can cancel escrow
-  int64 amount = 7;
-  int64 collateral_amount = 8;
-  int64 withhold_amount = 9; // escrow hold amount till the last layment
-  TokenType token_type = 10; // token type enum
-  Schedule payout_schedule = 11; // schedule enum
-  int32 num_payouts = 12; // numbers of payouts
-  bytes reference = 13; // reference like hash value etc
+  bytes seller_address = 3;
+  bytes auth_address = 4; // authority who can cancel escrow
+  int64 amount = 5;
+  int64 collateral_amount = 6;
+  int64 withhold_amount = 7; // escrow hold amount till the last layment
+  TokenType token_type = 8; // token type enum
+  Schedule payout_schedule = 9; // schedule enum
+  int32 num_payouts = 10; // numbers of payouts
+  bytes reference = 11; // reference like hash value etc
+}
+
+message SignedEscrowContract {
+  EscrowContract contract = 1;
+  bytes buyer_signature = 2;
+  bytes seller_signature = 3;
 }
 
 message EscrowContractRequest {
-  repeated EscrowContract contract = 1;
+  repeated SignedEscrowContract contract = 1;
 }
 
 message Escrow {
