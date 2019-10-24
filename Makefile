@@ -1,11 +1,15 @@
 default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
+
  			./protos/guard/guard.proto \
  			./protos/shared/serverstatus.proto \
+			./protos/escrow/escrow.proto \
+			./protos/ledger/ledger.proto \
 # 			./protos/status/status.proto \
+# 			./protos/guard/guard.proto \
 
-# 			./protos/escrow/escrow.proto \
+
 
 install:
 	brew install protobuf
@@ -18,5 +22,5 @@ lintf:
 build: lintf
 	for proto in  $(PROTO_FILES); \
 	do \
-	eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
+  eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
 	done
