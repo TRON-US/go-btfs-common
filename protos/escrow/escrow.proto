@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package escrow;
+
+// golang option
+option go_package = "escrowpb";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "EscrowProto";
+option java_package = "io.btfs.escrow";
+
+import "google/protobuf/timestamp.proto";
+
+service EscrowService {
+  // buyer submit contracts to escrow after buyer and seller agreed contract
+  // one contract is one buyer to one seller, and is one escrow in escrow service
+  // buyer can submit multiple contracts in one request
+  // return same number of results as request contracts
+  rpc SubmitContracts(EscrowContractRequest) returns (EscrowContractResult);
+  // after submit contract, buyer request to pay in
+  // escrow will transfer contract amount from buyer wallet to escrow wallet
+  rpc PayIn(PayinRquest) returns (PayinResult);
+  // seller use this to check if a contract is paid in
+  rpc IsPaid(ContractID) returns (PayinStatus);
+  // check escrow pay out to seller status of a contract
+  rpc GetPayOutStatus(ContractID) returns (PayoutStatus);
+  // auth request to cancel the contract
+  // escrow will cancel the left payments to seller
+  rpc CancelContracts(CancelContractRequest) returns (CancelContractResult);
+}
+
+enum TokenType {
+  BTT = 0;
+}
+
+enum Schedule {
+  MONTHLY = 0;
+  QUARTERLY = 1;
+  ANNUALLY = 2;
+}
+
+message ContractID {
+  bytes contract_id = 1;
+  bytes address = 2;
+  bytes signature = 3;
+}
+
+message EscrowContract {
+  bytes contract_id = 1; // identity of a contract
+  bytes buyer_address = 2;
+  bytes seller_address = 3;
+  bytes auth_address = 4; // authority who can cancel escrow
+  int64 amount = 5;
+  int64 collateral_amount = 6;
+  int64 withhold_amount = 7; // escrow hold amount till the last layment
+  TokenType token_type = 8; // token type enum
+  Schedule payout_schedule = 9; // schedule enum
+  int32 num_payouts = 10; // numbers of payouts
+  bytes reference = 11; // reference like hash value etc
+}
+
+message SignedEscrowContract {
+  EscrowContract contract = 1;
+  bytes buyer_signature = 2;
+  bytes seller_signature = 3;
+}
+
+message EscrowContractRequest {
+  repeated SignedEscrowContract contract = 1;
+}
+
+message Escrow {
+  bytes contract_id = 1;
+  int64 escrow_id = 2;
+  bytes from_address = 3;
+  bytes to_address = 4;
+  int64 amount = 5;
+  int64 collateral_amount = 6;
+}
+
+message EscrowContractResult {
+  bytes payin_id = 1; // for buyer to pay in a group of escrows
+  repeated Escrow escrow = 2;
+  bytes escrow_address = 3;
+  google.protobuf.Timestamp escrow_signed_time = 4;
+  bytes escrow_signature = 5;
+}
+
+message PayinRquest {
+  bytes payin_id = 1;
+  bytes buyer_address = 2;
+  bytes buyer_signature = 3;
+}
+
+message PayinResult {
+  bytes payin_id = 1;
+  int64 amount = 2;
+  int64 sequence_id = 3; // ledger sequence id
+  bytes escrow_address = 4;
+  google.protobuf.Timestamp escrow_signed_time = 5;
+  bytes escrow_signature = 6;
+}
+
+message PayinStatus {
+  bool paid = 1;
+  int64 sequence_id = 2;
+}
+
+enum EscrowStatus {
+  INITIATED = 0;
+  ACTIVE = 1;
+  CANCELED = 2;
+  CLOSED = 3;
+}
+
+message PayoutStatus {
+  bytes from_address = 1;
+  bytes to_address = 2;
+  bytes auth_address = 3;
+  EscrowStatus status = 4;
+  int64 amount = 5;
+  int64 collateral = 6;
+  int64 withhold = 7;
+  int64 paid_amount = 8; // amount escrow already paid
+  int32 num_paid = 9; // how many times escrow already paid
+  int64 left_amount = 10;
+  int32 num_left = 11; // how many times left escrow is going to pay
+  int64 next_amount = 12; // next payout amount
+  google.protobuf.Timestamp last_payout_time = 13;
+  google.protobuf.Timestamp next_payout_time = 14;
+  bytes escrow_address = 15;
+  google.protobuf.Timestamp sign_time = 16;
+  bytes escrow_signature = 17;
+}
+
+message CancelContractRequest {
+  repeated bytes contract_id = 1;
+  bytes auth_address = 2;
+  bytes auth_signature = 3; // authority signature
+}
+
+message CancelContractResult {
+  message Result {
+    bytes contract_id = 1;
+    int64 escrow_id = 2;
+    bool canceled = 3;
+  }
+  Result result = 1;
+  bytes escrow_address = 2;
+  google.protobuf.Timestamp escrow_signed_time = 3;
+  bytes escrow_signature = 4;
+}
