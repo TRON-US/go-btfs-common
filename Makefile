@@ -22,5 +22,5 @@ lintf:
 build: lintf
 	for proto in  $(PROTO_FILES); \
 	do \
-  eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
+	eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
 	done
