@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package shared;
+
+import "google/protobuf/timestamp.proto";
+
+message StatusRequest {
+  bytes request_address = 1;
+  google.protobuf.Timestamp curent_time = 2;
+  bytes signature = 3;
+}
+
+message StatusReport {
+  bytes peer_id = 1; // peer ID
+  bytes address = 2; // pub key/address
+  bytes service_name = 3; //service name
+  enum HealthStatus {
+    WRONG = 0;
+    RUNNING = 1;
+    BOOTSTRAP = 2; //reserve
+    PARTIAL_STOP = 3; //reserve field, some function cannot work
+  }
+  HealthStatus status = 4; //current status , running, starting, partial stop
+  google.protobuf.Timestamp curent_time = 5; //current time of guard
+  google.protobuf.Timestamp start_time = 6;
+  bytes git_hash = 7; //the git hash of the build related the git repository's branch
+  bytes version = 8; //version we defined for current node
+  bytes db_status_extra = 9; //RESERVED: JSON format structure to store db status information
+  bytes queue_status_extra = 10; //RESERVED: JSON format structure to store the queue information
+  bytes chain_status_extra = 11; //RESERVED: JSON format structre to store the block chain related information
+  bytes cache_status_extra = 12; //RESERVED: JSON format structre to store the cache related information
+  bytes extra = 13; //RESERVED: JSON format structre to store other information
+  bytes signature = 14; //signature
+}

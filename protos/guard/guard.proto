@@ -1,12 +1,16 @@
 syntax = "proto3";
 
+
 package guard;
+option go_package = "github.com/tron-us/go-btfs-common/protos/shared";
 
 import "google/protobuf/timestamp.proto";
 
+import "protos/shared/status.proto";
+
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  //rpc Health(HealthRequest) returns (HealthStatus); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+  //rpc StatusInfo(StatusRequest) returns (StatusReport); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
@@ -162,27 +166,4 @@ message Result {
   ResponseCode code = 1;
   string message = 2;
   google.protobuf.Timestamp response_time = 3;
-}
-
-message HealthRequest {
-  bytes request_address = 1;
-  google.protobuf.Timestamp curent_time = 2;
-  bytes signature = 3;
-}
-
-message HealthStatus {
-  bytes peer_id = 1; // peer ID
-  bytes address = 2; // pub key/address
-  enum HealthStatus {
-    WRONG = 0;
-    RUNNING = 1;
-    BOOTSTRAP = 2; //reserve
-    PARTIAL_STOP = 3; //reserve field, some function cannot work
-  }
-  HealthStatus status = 3; //current status , running, starting, partial stop
-  google.protobuf.Timestamp curent_time = 4; //current time of guard
-  google.protobuf.Timestamp start_time = 5;
-  bytes git_hash = 6; //the git hash of the build related the git repository's branch
-  bytes version = 7; //version we defined for current node
-  bytes signature = 8; //signature
 }

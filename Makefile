@@ -2,6 +2,7 @@ default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
  			./protos/guard/guard.proto \
+ 			./protos/shared/status.proto \
 # 			./protos/status/status.proto \
 
 # 			./protos/escrow/escrow.proto \
