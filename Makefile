@@ -16,7 +16,6 @@ lintf:
 	prototool format -w
 
 build: lintf
-# 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
 	eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
