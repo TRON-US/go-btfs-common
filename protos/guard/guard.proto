@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package guard;
 
-option go_package = "github.com/tron-us/go-btfs-common/protos/shared";
+option go_package = "github.com/tron-us/go-btfs-common/protos/guard";
 
 import "google/protobuf/timestamp.proto";
 import "protos/shared/serverstatus.proto";
