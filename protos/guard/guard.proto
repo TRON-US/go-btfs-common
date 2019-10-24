@@ -1,16 +1,15 @@
 syntax = "proto3";
 
-
 package guard;
+
 option go_package = "github.com/tron-us/go-btfs-common/protos/shared";
 
 import "google/protobuf/timestamp.proto";
-
-import "protos/shared/status.proto";
+import "protos/shared/serverstatus.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  //rpc StatusInfo(StatusRequest) returns (StatusReport); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+  rpc StatusInfo(shared.StatusRequest) returns (shared.StatusReport); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }

@@ -2,7 +2,7 @@ default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
  			./protos/guard/guard.proto \
- 			./protos/shared/status.proto \
+ 			./protos/shared/serverstatus.proto \
 # 			./protos/status/status.proto \
 
 # 			./protos/escrow/escrow.proto \
@@ -19,5 +19,5 @@ build: lintf
 # 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
-	eval protoc --go_out=plugins=grpc:. $$proto ; \
+	eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
 	done
