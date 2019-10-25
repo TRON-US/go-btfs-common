@@ -2,10 +2,13 @@ default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
  			./protos/guard/guard.proto \
- 			./protos/shared/serverstatus.proto \
+ 			./protos/shared/shared.proto \
+			./protos/escrow/escrow.proto \
+			./protos/ledger/ledger.proto \
 # 			./protos/status/status.proto \
+# 			./protos/guard/guard.proto \
 
-# 			./protos/escrow/escrow.proto \
+
 
 install:
 	brew install protobuf
@@ -16,7 +19,6 @@ lintf:
 	prototool format -w
 
 build: lintf
-# 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
 	eval protoc -I. --go_out=plugins=grpc:. $$proto ; \
