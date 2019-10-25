@@ -1,9 +1,11 @@
 default: lintf
 
 PROTO_FILES=./protos/node/node.proto \
+ 			./protos/shared/shared.proto \
 			./protos/status/status.proto \
-# 			./protos/guard/guard.proto \
-# 			./protos/escrow/escrow.proto \
+ 			./protos/guard/guard.proto \
+			./protos/escrow/escrow.proto \
+			./protos/ledger/ledger.proto \
 
 PB_OUT_PATH=$$GOPATH/src
 
@@ -16,7 +18,6 @@ lintf:
 	prototool format -w
 
 build: lintf
-# 	TODO: fix and use prototool all instead
 	for proto in  $(PROTO_FILES); \
 	do \
 	eval protoc -I. --go_out=plugins=grpc:$(PB_OUT_PATH) $$proto ; \
