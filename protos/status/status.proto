@@ -17,6 +17,7 @@ service Status {
   rpc UpdateMetrics(node.Node) returns (google.protobuf.Empty);
   rpc CollectHealth(HealthData) returns (google.protobuf.Empty);
   rpc CollectError(TestError) returns (google.protobuf.Empty);
+  rpc CheckHealth(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
 message Ip2Location {
