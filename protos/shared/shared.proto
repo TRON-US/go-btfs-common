@@ -6,18 +6,18 @@ option go_package = "github.com/tron-us/go-btfs-common/protos/shared";
 
 import "google/protobuf/timestamp.proto";
 
-message StatusRequest {
+message RuntimeInfoRequest {
   bytes request_address = 1;
   google.protobuf.Timestamp curent_time = 2;
   bytes signature = 3;
 }
 
-message StatusReport {
+message RuntimeInfoReport {
   bytes peer_id = 1; // peer ID
   bytes address = 2; // pub key/address
   bytes service_name = 3; //service name
   enum HealthStatus {
-    WRONG = 0;
+    SICK = 0;
     RUNNING = 1;
     BOOTSTRAP = 2; //reserve
     PARTIAL_STOP = 3; //reserve field, some function cannot work
