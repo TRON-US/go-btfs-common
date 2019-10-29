@@ -12,12 +12,13 @@ option java_package = "io.btfs.status";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "protos/node/node.proto";
+import "protos/shared/shared.proto";
 
 service Status {
   rpc UpdateMetrics(node.Node) returns (google.protobuf.Empty);
   rpc CollectHealth(HealthData) returns (google.protobuf.Empty);
   rpc CollectError(TestError) returns (google.protobuf.Empty);
-  rpc CheckHealth(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc CheckRuntime(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport);
 }
 
 message Ip2Location {
@@ -45,7 +46,7 @@ message TestError {
   google.protobuf.Timestamp time_created = 4;
 }
 
-message DataBag {
+message SignedMetrics {
   bytes public_key = 1;
   bytes signature = 2;
   bytes payload = 3;
