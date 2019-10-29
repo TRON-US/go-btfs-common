@@ -10,6 +10,7 @@ option java_outer_classname = "NodeProto";
 option java_package = "io.btfs.node";
 
 import "google/protobuf/timestamp.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 message Node {
   message Settings {
@@ -33,7 +34,9 @@ message Node {
   uint64 storage_price_deal = 12;
   uint64 bandwidth_price_deal = 13;
   Settings settings = 14;
-  google.protobuf.Timestamp time_created = 15;
+  google.protobuf.Timestamp time_created = 15 [
+    (gogoproto.stdtime) = true
+  ];
   double reputation = 16;
   uint64 blocks_up = 17;
   uint64 blocks_down = 18;

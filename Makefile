@@ -8,6 +8,7 @@ PROTO_FILES=./protos/node/node.proto \
 			./protos/ledger/ledger.proto \
 
 PB_OUT_PATH=$$GOPATH/src
+GOGO_PATH=$$GOPATH/src/github.com/gogo/protobuf/protobuf
 
 install:
 	brew install protobuf
@@ -21,4 +22,10 @@ build: lintf
 	for proto in  $(PROTO_FILES); \
 	do \
 	eval protoc -I. --go_out=plugins=grpc:$(PB_OUT_PATH) $$proto ; \
+	done
+
+gogo:
+	for proto in  $(PROTO_FILES); \
+	do \
+	eval protoc -I=. -I=$(PB_OUT_PATH) -I=$(GOGO_PATH) --gofast_out=plugins=grpc:$(PB_OUT_PATH) $$proto ; \
 	done
