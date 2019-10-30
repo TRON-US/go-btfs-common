@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package status;
+
+// golang option
+option go_package = "status";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "StatusProto";
+option java_package = "io.btfs.status";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "protos/shared/shared.proto";
+
+service Status {
+  rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
+  rpc CollectHealth(NodeHealth) returns (google.protobuf.Empty);
+  rpc CollectError(NodeError) returns (google.protobuf.Empty);
+  rpc CheckRuntime(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport);
+}
+
+message SignedMetrics {
+  bytes public_key = 1;
+  bytes signature = 2;
+  bytes payload = 3;
+}
+
+message NodeHealth {
+  string node_id = 1;
+  string btfs_version = 2;
+  string failure_point = 3;
+  google.protobuf.Timestamp time_created = 4 [(gogoproto.stdtime) = true];
+}
+
+message NodeError {
+  string h_val = 1;
+  string peer_id = 2;
+  string error_status = 3;
+  google.protobuf.Timestamp time_created = 4 [(gogoproto.stdtime) = true];
+}
+
+message Ip2Location {
+  string ipv4 = 1;
+  string country_short = 2;
+  string country_long = 3;
+  string region = 4;
+  string city = 5;
+  float latitude = 6;
+  float longitude = 7;
+  string zipcode = 8;
+}
