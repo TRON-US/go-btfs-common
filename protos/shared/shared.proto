@@ -2,8 +2,9 @@ syntax = "proto3";
 
 package shared;
 
-option go_package = "github.com/tron-us/go-btfs-common/protos/shared";
+option go_package = "shared";
 
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
 message RuntimeInfoRequest {
@@ -13,9 +14,9 @@ message RuntimeInfoRequest {
 }
 
 message RuntimeInfoReport {
-  bytes peer_id = 1; // peer ID
-  bytes address = 2; // pub key/address
-  bytes service_name = 3; //service name
+  bytes peer_id = 1;
+  bytes address = 2;
+  bytes service_name = 3;
   enum HealthStatus {
     SICK = 0;
     RUNNING = 1;
@@ -23,14 +24,14 @@ message RuntimeInfoReport {
     PARTIAL_STOP = 3; //reserve field, some function cannot work
   }
   HealthStatus status = 4; //current status , running, starting, partial stop
-  google.protobuf.Timestamp curent_time = 5; //current time of guard
-  google.protobuf.Timestamp start_time = 6;
+  google.protobuf.Timestamp curent_time = 5 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp start_time = 6 [(gogoproto.stdtime) = true];
   bytes git_hash = 7; //the git hash of the build related the git repository's branch
-  bytes version = 8; //version we defined for current node
+  bytes version = 8;
   bytes db_status_extra = 9; //RESERVED: JSON format structure to store db status information
   bytes queue_status_extra = 10; //RESERVED: JSON format structure to store the queue information
   bytes chain_status_extra = 11; //RESERVED: JSON format structre to store the block chain related information
   bytes cache_status_extra = 12; //RESERVED: JSON format structre to store the cache related information
   bytes extra = 13; //RESERVED: JSON format structre to store other information
-  bytes signature = 14; //signature
+  bytes signature = 14;
 }
