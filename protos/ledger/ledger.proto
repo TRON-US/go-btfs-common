@@ -16,6 +16,8 @@ service Channels {
   rpc GetNextClosedChannel(ClosedChannelCursor) returns (ChannelInfo);
   // Create an account and return
   rpc CreateAccount(PublicKey) returns (CreateAccountResult);
+  // Create an account, securely, and return
+  rpc SignedCreateAccount(SignedPublicKey) returns (SignedCreateAccountResult);
   // Update an account pub key (BIP 44 compatible)
   rpc UpdateAccountPubKey(SignedPublicKeyPair) returns (Null);
 }
@@ -24,6 +26,11 @@ message Null {}
 
 message PublicKey {
   bytes key = 1;
+}
+
+message SignedPublicKey {
+  PublicKey key = 1;
+  bytes signature = 2;
 }
 
 message ChannelCommit {
@@ -40,6 +47,10 @@ message SignedChannelCommit {
 
 message CreateAccountResult {
   Account account = 1;
+}
+
+message SignedCreateAccountResult {
+  int64 balance = 1;
 }
 
 message Account {
