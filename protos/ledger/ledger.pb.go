@@ -106,7 +106,6 @@ func (*SignedPublicKey) ProtoMessage()    {}
 func (*SignedPublicKey) Descriptor() ([]byte, []int) {
 	return fileDescriptor_858b35020cfe9185, []int{2}
 }
-
 func (m *SignedPublicKey) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignedPublicKey.Unmarshal(m, b)
 }
@@ -298,7 +297,6 @@ func (*SignedCreateAccountResult) ProtoMessage()    {}
 func (*SignedCreateAccountResult) Descriptor() ([]byte, []int) {
 	return fileDescriptor_858b35020cfe9185, []int{6}
 }
-
 func (m *SignedCreateAccountResult) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignedCreateAccountResult.Unmarshal(m, b)
 }
