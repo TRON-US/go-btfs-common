@@ -8,15 +8,15 @@ import (
 	"time"
 
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
+	"github.com/tron-us/go-common/log"
 
 	"github.com/gogo/protobuf/proto"
-	logging "github.com/ipfs/go-log"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"go.uber.org/zap"
 )
 
-var log = logging.Logger("ledger")
 var (
 	ledgerAddr = "ledger-nginx.bt.co:443"
 	certFile   = `-----BEGIN CERTIFICATE-----
@@ -68,7 +68,7 @@ func LedgerConnection() (*grpc.ClientConn, error) {
 func CloseConnection(conn *grpc.ClientConn) {
 	if conn != nil {
 		if err := conn.Close(); err != nil {
-			log.Error("Failed to close connection: ", err)
+			log.Error("Failed to close connection: ", zap.Error(err))
 		}
 	}
 }
