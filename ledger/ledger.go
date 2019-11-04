@@ -130,13 +130,7 @@ func CreateChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, ch
 	})
 }
 
-func CloseChannel(ctx context.Context, signedChannelState *ledgerPb.SignedChannelState) error {
-	clientConn, err := LedgerConnection(os.Getenv("LEDGER_ADDR"), os.Getenv("LEDGER_CERT"))
-	defer CloseConnection(clientConn)
-	if err != nil {
-		return err
-	}
-	ledgerClient := NewClient(clientConn)
+func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, signedChannelState *ledgerPb.SignedChannelState) error {
 	_, err = ledgerClient.CloseChannel(ctx, signedChannelState)
 	if err != nil {
 		return err
