@@ -15,5 +15,5 @@ build:
 	go mod tidy
 	for dir in $(SRC_DIR); \
 	do \
-	eval go build $$dir; \
+	go build $$dir; \
 	done
