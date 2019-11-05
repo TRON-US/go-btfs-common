@@ -1,7 +1,5 @@
 default: lintf
 
-SRC_DIR=./info ./ledger
-
 install:
 	brew install protobuf
 	brew install prototool
@@ -13,7 +11,4 @@ lintf:
 build:
 	prototool all
 	go mod tidy
-	for dir in $(SRC_DIR); \
-	do \
-	go build $$dir; \
-	done
+	go build ./...

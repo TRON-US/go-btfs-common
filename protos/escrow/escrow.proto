@@ -16,17 +16,17 @@ service EscrowService {
   // one contract is one buyer to one seller, and is one escrow in escrow service
   // buyer can submit multiple contracts in one request
   // return same number of results as request contracts
-  rpc SubmitContracts(EscrowContractRequest) returns (EscrowContractResult);
+  rpc SubmitContracts(EscrowContractRequest) returns (SignedSubmitContractResult);
   // after submit contract, buyer request to pay in
   // escrow will transfer contract amount from buyer wallet to escrow wallet
-  rpc PayIn(PayinRquest) returns (PayinResult);
+  rpc PayIn(SignedPayinRquest) returns (SignedPayinResult);
   // seller use this to check if a contract is paid in
-  rpc IsPaid(ContractID) returns (PayinStatus);
+  rpc IsPaid(SignedContractID) returns (SignedPayinStatus);
   // check escrow pay out to seller status of a contract
-  rpc GetPayOutStatus(ContractID) returns (PayoutStatus);
+  rpc GetPayOutStatus(SignedContractID) returns (SignedPayoutStatus);
   // auth request to cancel the contract
   // escrow will cancel the left payments to seller
-  rpc CancelContracts(CancelContractRequest) returns (CancelContractResult);
+  rpc CancelContracts(SignedCancelRequest) returns (SignedCancelContractResult);
 }
 
 enum TokenType {
@@ -42,7 +42,11 @@ enum Schedule {
 message ContractID {
   bytes contract_id = 1;
   bytes address = 2;
-  bytes signature = 3;
+}
+
+message SignedContractID {
+  ContractID data = 1;
+  bytes signature = 2;
 }
 
 message EscrowContract {
@@ -78,18 +82,26 @@ message Escrow {
   int64 collateral_amount = 6;
 }
 
-message EscrowContractResult {
+message SubmitContractResult {
   bytes payin_id = 1; // for buyer to pay in a group of escrows
   repeated Escrow escrow = 2;
   bytes escrow_address = 3;
   google.protobuf.Timestamp escrow_signed_time = 4;
-  bytes escrow_signature = 5;
+}
+
+message SignedSubmitContractResult {
+  SubmitContractResult result = 1;
+  bytes escrow_signature = 2;
 }
 
 message PayinRquest {
   bytes payin_id = 1;
   bytes buyer_address = 2;
-  bytes buyer_signature = 3;
+}
+
+message SignedPayinRquest {
+  PayinRquest request = 1;
+  bytes buyer_signature = 2;
 }
 
 message PayinResult {
@@ -98,12 +110,23 @@ message PayinResult {
   int64 sequence_id = 3; // ledger sequence id
   bytes escrow_address = 4;
   google.protobuf.Timestamp escrow_signed_time = 5;
-  bytes escrow_signature = 6;
+}
+
+message SignedPayinResult {
+  PayinResult result = 1;
+  bytes escrow_signature = 2;
 }
 
 message PayinStatus {
   bool paid = 1;
   int64 sequence_id = 2;
+  bytes escrow_address = 3;
+  google.protobuf.Timestamp escrow_signed_time = 4;
+}
+
+message SignedPayinStatus {
+  PayinStatus status = 1;
+  bytes escrow_signature = 2;
 }
 
 enum EscrowStatus {
@@ -129,24 +152,33 @@ message PayoutStatus {
   google.protobuf.Timestamp last_payout_time = 13;
   google.protobuf.Timestamp next_payout_time = 14;
   bytes escrow_address = 15;
-  google.protobuf.Timestamp sign_time = 16;
-  bytes escrow_signature = 17;
+  google.protobuf.Timestamp escrow_sign_time = 16;
+}
+
+message SignedPayoutStatus {
+  PayoutStatus status = 1;
+  bytes escrow_signature = 2;
 }
 
 message CancelContractRequest {
   repeated bytes contract_id = 1;
   bytes auth_address = 2;
-  bytes auth_signature = 3; // authority signature
+}
+
+message SignedCancelRequest {
+  CancelContractRequest request = 1;
+  bytes auth_signature = 2; // authority signature
 }
 
 message CancelContractResult {
-  message Result {
-    bytes contract_id = 1;
-    int64 escrow_id = 2;
-    bool canceled = 3;
-  }
-  Result result = 1;
-  bytes escrow_address = 2;
-  google.protobuf.Timestamp escrow_signed_time = 3;
-  bytes escrow_signature = 4;
+  bytes contract_id = 1;
+  int64 escrow_id = 2;
+  bool canceled = 3;
+  bytes escrow_address = 4;
+  google.protobuf.Timestamp escrow_signed_time = 5;
+}
+
+message SignedCancelContractResult {
+  CancelContractResult result = 1;
+  bytes escrow_signature = 2;
 }
