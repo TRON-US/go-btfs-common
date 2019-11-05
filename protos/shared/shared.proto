@@ -7,6 +7,11 @@ option go_package = "shared";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
+
+service RuntimeService {
+  rpc CheckRuntime(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport);
+}
+
 message RuntimeInfoRequest {
   bytes request_address = 1;
   google.protobuf.Timestamp curent_time = 2;
