@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"os"
 	"time"
 
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
@@ -131,7 +130,7 @@ func CreateChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, ch
 }
 
 func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, signedChannelState *ledgerPb.SignedChannelState) error {
-	_, err = ledgerClient.CloseChannel(ctx, signedChannelState)
+	_, err := ledgerClient.CloseChannel(ctx, signedChannelState)
 	if err != nil {
 		return err
 	}
