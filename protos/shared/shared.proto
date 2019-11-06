@@ -7,9 +7,8 @@ option go_package = "shared";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-
 service RuntimeService {
-  rpc CheckRuntime(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport);
+  rpc CheckRuntime(RuntimeInfoRequest) returns (RuntimeInfoReport);
 }
 
 message RuntimeInfoRequest {

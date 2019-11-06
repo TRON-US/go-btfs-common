@@ -18,10 +18,7 @@ const (
 	DBReadConnectionError  = "Cannot connect to the read database!"
 )
 
-type Server struct {
-}
-
-func (s *Server) CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
+func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 
 	report := new(sharedpb.RuntimeInfoReport)
 	report.DbStatusExtra = []byte(DBConnectionHealthy)
