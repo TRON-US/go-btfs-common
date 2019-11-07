@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TestCheckRuntime(t *testing.T) {
+func TestCheckRuntimeFromGuard(t *testing.T) {
 	ctx , cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	shared := new(sharedpb.RuntimeInfoRequest)

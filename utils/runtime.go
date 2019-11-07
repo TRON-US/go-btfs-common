@@ -2,13 +2,10 @@ package utils
 
 import (
 	"context"
-
+	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-common/db/postgres"
 	dbenv "github.com/tron-us/go-common/env/db"
-
-	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-common/log"
-
 	"go.uber.org/zap"
 )
 
@@ -20,15 +17,17 @@ const (
 
 func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 
-	report := new(sharedpb.RuntimeInfoReport)
-	report.DbStatusExtra = []byte(DBConnectionHealthy)
-	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 	// db runtime
+	report := new(sharedpb.RuntimeInfoReport)
+
 	// Check postgres dbWrite
+	report.DbStatusExtra = []byte(DBConnectionHealthy)
+	report.Signature = runtime.Signature
+
 	PGDBWrite := postgres.CreateTGPGDB(dbenv.DBWriteURL)
 	if err := PGDBWrite.Ping(); err != nil {
 		report.DbStatusExtra = []byte(DBWriteConnectionError)
-		report.Status = sharedpb.RuntimeInfoReport_SICK
+		report.Signature = runtime.Signature
 		log.Error(DBWriteConnectionError, zap.Error(err))
 	}
 	// Check postgres dbRead
@@ -38,6 +37,8 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*s
 		report.Status = sharedpb.RuntimeInfoReport_SICK
 		log.Error(DBReadConnectionError, zap.Error(err))
 	}
+	//remaining fields will be populated by the calling service
+
 	// Reserve: only pass fatal error to higher level
 	return report, nil
 }
