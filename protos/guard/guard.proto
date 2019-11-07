@@ -43,8 +43,8 @@ message ContractMeta {
   int32 shard_index = 5; //shard’s sequence of the original file
   int64 shard_file_size = 6; //shard’s file size
   bytes file_hash = 7; //original file's hash, reserved point32 back to FileStoreMeta
-  google.protobuf.Timestamp rent_start = 8; //rent start time
-  google.protobuf.Timestamp rent_end = 9; //rent end time
+  google.protobuf.Timestamp rent_start = 8 [(gogoproto.stdtime) = true]; //rent start time
+  google.protobuf.Timestamp rent_end = 9 [(gogoproto.stdtime) = true]; //rent end time
   bytes guard_address = 10; //renter proposed guard's address
   bytes escrow_address = 11; //renter proposed escrow's address
   int64 price = 12; //the price which agreed by host and rental, on the first phase, it equal to the proposed_price
@@ -73,10 +73,10 @@ message Contract {
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
   bytes host_signature = 4; //host’s signature from the sub contract
-  google.protobuf.Timestamp escrow_signed_time = 5; //contract signed time
+  google.protobuf.Timestamp escrow_signed_time = 5 [(gogoproto.stdtime) = true]; //contract signed time
   bytes escrow_signature = 6; //escrow's signature
   repeated Log change_log = 7; //TBD one field to store the contract change log, need to discuss whether need the field
-  google.protobuf.Timestamp last_modify_time = 8;
+  google.protobuf.Timestamp last_modify_time = 8 [(gogoproto.stdtime) = true];
   bytes guard_signature = 9;
 }
 
@@ -85,8 +85,8 @@ message FileStoreMeta {
   bytes renter_address = 1; // buyer wallet address
   bytes file_hash = 2; // file’s hash
   int64 file_size = 3; // file’s size
-  google.protobuf.Timestamp rent_start = 4; //rent start time
-  google.protobuf.Timestamp rent_end = 5; //rent end time
+  google.protobuf.Timestamp rent_start = 4 [(gogoproto.stdtime) = true]; //rent start time
+  google.protobuf.Timestamp rent_end = 5 [(gogoproto.stdtime) = true]; //rent end time
   int32 check_frequence = 6; // shard check frequence in a year,  1 means check once per year
   int64 guard_fee = 7; // reserve: the fee which guard will charge for supporting
   int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
@@ -110,9 +110,9 @@ message FileStoreStatus {
   MetaState state = 2;
   repeated Contract contracts = 3;
   bytes renter_signature = 4; //renter's signature for FileStoreMeta and all contractMeta
-  google.protobuf.Timestamp guard_receive_time = 5; //guard received time, which used to calculate the timeout for cancel
+  google.protobuf.Timestamp guard_receive_time = 5 [(gogoproto.stdtime) = true]; //guard received time, which used to calculate the timeout for cancel
   repeated Log change_log = 6;
-  google.protobuf.Timestamp curent_time = 7; //the time for generate the status
+  google.protobuf.Timestamp curent_time = 7 [(gogoproto.stdtime) = true]; //the time for generate the status
   bytes guard_signature = 8;
 }
 
@@ -126,11 +126,11 @@ message ChallengeQuestion {
 
 message ProofOfReplicateChallenge {
   ChallengeQuestion question = 1; //of course expect_answer should be clear before send to the host`
-  google.protobuf.Timestamp challenge_time = 2; //challenge time from guard
+  google.protobuf.Timestamp challenge_time = 2 [(gogoproto.stdtime) = true]; //challenge time from guard
   bytes guard_address = 3; //guard's address
   bytes guard_signature = 4; //guard signed for the challenge
   bytes host_answer = 5; //challenge answer
-  google.protobuf.Timestamp host_sign_time = 6; //response time from host
+  google.protobuf.Timestamp host_sign_time = 6 [(gogoproto.stdtime) = true]; //response time from host
   bytes host_signature = 7;
 }
 
@@ -145,7 +145,7 @@ message ChallengeQuestions {
   bytes preparer_address = 3; //challenge questions preparer's address, it is renter address at phase 1
   int32 request_count = 4;
   repeated ChallengeQuestion questions = 5;
-  google.protobuf.Timestamp prepare_time = 6;
+  google.protobuf.Timestamp prepare_time = 6 [(gogoproto.stdtime) = true];
   bytes preparer_signature = 7;
 }
 
@@ -166,7 +166,7 @@ enum ResponseCode {
 message Result {
   ResponseCode code = 1;
   string message = 2;
-  google.protobuf.Timestamp response_time = 3;
+  google.protobuf.Timestamp response_time = 3 [(gogoproto.stdtime) = true];
 }
 
 message Command{
@@ -190,6 +190,6 @@ message Command{
   int32 iVal2 = 6;
   int32 iVal3 = 7;
   bytes cmd = 8;
-  google.protobuf.Timestamp prepare_time = 9;
-  google.protobuf.Timestamp execute_time = 10;
+  google.protobuf.Timestamp prepare_time = 9 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp execute_time = 10 [(gogoproto.stdtime) = true];
 }
