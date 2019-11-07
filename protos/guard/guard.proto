@@ -10,7 +10,7 @@ import "protos/shared/shared.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health , TBD input argument discuss with Weiyu & Jin
+  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health 
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
@@ -48,7 +48,7 @@ message ContractMeta {
   bytes escrow_address = 11; //renter proposed escrow's address
   int64 price = 12; //the price which agreed by host and rental, on the first phase, it equal to the proposed_price
   int64 amount = 13; //the amount which agreed by host and rental, on the first phase, it should be equal file_size*duration*agreed_price
-  int64 collaeteral_amount = 14;
+  int64 collateral_amount = 14;
   enum Schedule {
     MONTHLY = 0;
     QUARTERLY = 1;
@@ -86,7 +86,7 @@ message FileStoreMeta {
   int64 file_size = 3; // file’s size
   google.protobuf.Timestamp rent_start = 4 [(gogoproto.stdtime) = true]; //rent start time
   google.protobuf.Timestamp rent_end = 5 [(gogoproto.stdtime) = true]; //rent end time
-  int32 check_frequence = 6; // shard check frequence in a year,  1 means check once per year
+  int32 check_frequency = 6; // shard check frequency in a year,  1 means check once per year
   int64 guard_fee = 7; // reserve: the fee which guard will charge for supporting
   int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
   int32 shard_count = 9; //shard's count, by default is 30
@@ -167,30 +167,4 @@ message Result {
   ResponseCode code = 1;
   string message = 2;
   google.protobuf.Timestamp response_time = 3 [(gogoproto.stdtime) = true];
-}
-
-message Command {
-  enum CommandType {
-    PREPARE_CHALLENGE = 0;
-    READY_CHALLENGE = 1;
-    DONE_CHALLENGE = 2;
-    START_DOWNLOAD = 3;
-    START_REPAIR = 4;
-    START_UPLOAD = 5;
-    ESTABLISH_CONTRACT = 6;
-    RESERVE1 = 7;
-    RESERVE2 = 8;
-    RESERVE3 = 9;
-  }
-  CommandType type = 1;
-  bytes s_val1 = 2;
-  bytes s_val2 = 3;
-  bytes s_val3 = 4;
-  int32 i_val1 = 5;
-  int32 i_val2 = 6;
-  int32 i_val3 = 7;
-  bytes cmd = 8;
-  bytes reserve = 9;
-  google.protobuf.Timestamp prepare_time = 10 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp execute_time = 11 [(gogoproto.stdtime) = true];
 }
