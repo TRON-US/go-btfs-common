@@ -9,6 +9,7 @@ option java_multiple_files = true;
 option java_outer_classname = "EscrowProto";
 option java_package = "io.btfs.escrow";
 
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
 service EscrowService {
@@ -86,7 +87,7 @@ message SubmitContractResult {
   bytes payin_id = 1; // for buyer to pay in a group of escrows
   repeated Escrow escrow = 2;
   bytes escrow_address = 3;
-  google.protobuf.Timestamp escrow_signed_time = 4;
+  google.protobuf.Timestamp escrow_signed_time = 4 [(gogoproto.stdtime) = true];
 }
 
 message SignedSubmitContractResult {
@@ -109,7 +110,7 @@ message PayinResult {
   int64 amount = 2;
   int64 sequence_id = 3; // ledger sequence id
   bytes escrow_address = 4;
-  google.protobuf.Timestamp escrow_signed_time = 5;
+  google.protobuf.Timestamp escrow_signed_time = 5 [(gogoproto.stdtime) = true];
 }
 
 message SignedPayinResult {
@@ -121,7 +122,7 @@ message PayinStatus {
   bool paid = 1;
   int64 sequence_id = 2;
   bytes escrow_address = 3;
-  google.protobuf.Timestamp escrow_signed_time = 4;
+  google.protobuf.Timestamp escrow_signed_time = 4 [(gogoproto.stdtime) = true];
 }
 
 message SignedPayinStatus {
@@ -149,10 +150,10 @@ message PayoutStatus {
   int64 left_amount = 10;
   int32 num_left = 11; // how many times left escrow is going to pay
   int64 next_amount = 12; // next payout amount
-  google.protobuf.Timestamp last_payout_time = 13;
-  google.protobuf.Timestamp next_payout_time = 14;
+  google.protobuf.Timestamp last_payout_time = 13 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp next_payout_time = 14 [(gogoproto.stdtime) = true];
   bytes escrow_address = 15;
-  google.protobuf.Timestamp escrow_sign_time = 16;
+  google.protobuf.Timestamp escrow_sign_time = 16 [(gogoproto.stdtime) = true];
 }
 
 message SignedPayoutStatus {
@@ -175,7 +176,7 @@ message CancelContractResult {
   int64 escrow_id = 2;
   bool canceled = 3;
   bytes escrow_address = 4;
-  google.protobuf.Timestamp escrow_signed_time = 5;
+  google.protobuf.Timestamp escrow_signed_time = 5 [(gogoproto.stdtime) = true];
 }
 
 message SignedCancelContractResult {
