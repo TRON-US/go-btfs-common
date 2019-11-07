@@ -4,10 +4,9 @@ package guard;
 
 option go_package = "guard";
 
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 import "protos/shared/shared.proto";
-import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
@@ -136,14 +135,14 @@ message ProofOfReplicateChallenge {
 
 message FileChallengeQuestions {
   bytes file_hash = 1;
-  repeated ChallengeQuestions shard_questions = 2;
+  repeated ShardChallengeQuestions shard_questions = 2;
 }
 
-message ChallengeQuestions {
+message ShardChallengeQuestions {
   bytes file_hash = 1; //file's hash
   bytes shard_hash = 2;
   bytes preparer_address = 3; //challenge questions preparer's address, it is renter address at phase 1
-  int32 request_count = 4;
+  int32 question_count = 4;
   repeated ChallengeQuestion questions = 5;
   google.protobuf.Timestamp prepare_time = 6 [(gogoproto.stdtime) = true];
   bytes preparer_signature = 7;
@@ -169,8 +168,8 @@ message Result {
   google.protobuf.Timestamp response_time = 3 [(gogoproto.stdtime) = true];
 }
 
-message Command{
-  enum CommandType{
+message Command {
+  enum CommandType {
     PREPARE_CHALLENGE = 0;
     READY_CHALLENGE = 1;
     DONE_CHALLENGE = 2;
@@ -183,13 +182,14 @@ message Command{
     RESERVE3 = 9;
   }
   CommandType type = 1;
-  bytes sVal1 = 2;
-  bytes sVal2 = 3;
-  bytes sVal3 = 4;
-  int32 iVal1 = 5;
-  int32 iVal2 = 6;
-  int32 iVal3 = 7;
+  bytes s_val1 = 2;
+  bytes s_val2 = 3;
+  bytes s_val3 = 4;
+  int32 i_val1 = 5;
+  int32 i_val2 = 6;
+  int32 i_val3 = 7;
   bytes cmd = 8;
-  google.protobuf.Timestamp prepare_time = 9 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp execute_time = 10 [(gogoproto.stdtime) = true];
+  bytes reserve = 9;
+  google.protobuf.Timestamp prepare_time = 10 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp execute_time = 11 [(gogoproto.stdtime) = true];
 }
