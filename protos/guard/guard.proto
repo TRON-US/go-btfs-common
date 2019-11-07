@@ -152,7 +152,8 @@ message CheckFileStoreMetaRequest {
   bytes file_hash = 1;
   bytes renter_address = 2;
   bytes requester_address = 3;
-  bytes signature = 4; //requester signed
+  google.protobuf.Timestamp request_time = 4 [(gogoproto.stdtime) = true];
+  bytes signature = 5; //requester signed
 }
 
 enum ResponseCode {
