@@ -68,7 +68,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*s
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 
 	// Check database environment variable
-	dbEnv, err := strconv.ParseBool(getEnv("DB_EXISTS", "false"))
+	dbEnv, err := strconv.ParseBool(getEnv("DB_URL", "false"))
 	if err != nil {
 		log.Error(DBEnvironmentError, zap.Error(err))
 	}
@@ -90,7 +90,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*s
 	}
 
 	// Check redis environment variable
-	redisEnv, err := strconv.ParseBool(getEnv("REDIS_EXISTS", "false"))
+	redisEnv, err := strconv.ParseBool(getEnv("REDIS_URL", "false"))
 	if err != nil {
 		log.Error(RedisEnvironmentError, zap.Error(err))
 	}
