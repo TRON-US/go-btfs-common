@@ -13,11 +13,9 @@ import (
 	"go.uber.org/zap"
 )
 
-func CheckRuntime(ctx context.Context, runtime *sharedpb.RuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
+func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
-
-	report.Signature = runtime.Signature
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 
 	// Check database environment variable
