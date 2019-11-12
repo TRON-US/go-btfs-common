@@ -90,7 +90,7 @@ message SubmitContractResult {
   repeated Escrow escrow = 2;
   bytes escrow_address = 3;
   google.protobuf.Timestamp escrow_signed_time = 4 [(gogoproto.stdtime) = true];
-  ledger.SignedChannelState buyer_channel_state = 5; // escrow signed send to buyer to sign
+  ledger.SignedChannelState buyer_channel_state = 5; // escrow signed then send to buyer to sign
 }
 
 message SignedSubmitContractResult {
@@ -124,7 +124,7 @@ message SignedPayinResult {
 
 message PayinStatus {
   bool paid = 1;
-  int64 sequence_id = 2;
+  int64 channel_id = 2; // ledger channel id
   bytes escrow_address = 3;
   google.protobuf.Timestamp escrow_signed_time = 4 [(gogoproto.stdtime) = true];
 }
