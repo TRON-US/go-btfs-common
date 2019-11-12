@@ -39,7 +39,7 @@ func TestCheckRuntimeDBRDFail(t *testing.T) {
 func TestCheckRuntimeRDPassDBFail(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	shared := new(sharedpb.RuntimeInfoRequest)
+	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	os.Setenv("SS_RD_URL", "redis://uchenna:@127.0.0.1:6379/4?pool=25&process=2")
 	os.Unsetenv("SS_DB_URL")
 	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
@@ -51,7 +51,7 @@ func TestCheckRuntimeRDPassDBFail(t *testing.T) {
 func TestCheckRuntimeDBPassRDFail(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	shared := new(sharedpb.RuntimeInfoRequest)
+	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	os.Setenv("SS_DB_URL", "postgres://uchenna:Q@vl321!@localhost:5432/db_status")
 	os.Unsetenv("SS_RD_URL")
 	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
