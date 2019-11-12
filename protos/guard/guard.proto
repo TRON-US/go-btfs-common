@@ -10,7 +10,7 @@ import "protos/shared/shared.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health 
+  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
