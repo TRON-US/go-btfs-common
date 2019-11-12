@@ -8,7 +8,7 @@ import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
 service RuntimeService {
-  rpc CheckRuntime(SignedRuntimeInfoRequest) returns (RuntimeInfoReport);
+  rpc SharedCheckRuntime(SignedRuntimeInfoRequest) returns (RuntimeInfoReport);
 }
 
 message RuntimeInfoRequest {
