@@ -69,11 +69,11 @@ message SignedEscrowContract {
   EscrowContract contract = 1;
   bytes buyer_signature = 2;
   bytes seller_signature = 3;
-  ledger.SignedChannelCommit buyer_channel = 4; // ledger channel commit from buyer to escrow
 }
 
 message EscrowContractRequest {
   repeated SignedEscrowContract contract = 1;
+  ledger.SignedChannelCommit buyer_channel = 4; // ledger channel commit from buyer to escrow
 }
 
 message Escrow {
@@ -106,7 +106,7 @@ message PayinRquest {
 message SignedPayinRquest {
   PayinRquest request = 1;
   bytes buyer_signature = 2;
-  ledger.SignedChannelState buyer_channel_state = 3; // buyer sign ledger channel state
+  ledger.SignedChannelState buyer_channel_state = 3; // buyer signed ledger channel state
 }
 
 message PayinResult {
