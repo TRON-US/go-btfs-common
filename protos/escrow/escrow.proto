@@ -10,6 +10,7 @@ option java_outer_classname = "EscrowProto";
 option java_package = "io.btfs.escrow";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "github.com/tron-us/go-btfs-common/protos/ledger/ledger.proto";
 import "google/protobuf/timestamp.proto";
 
 service EscrowService {
@@ -68,6 +69,7 @@ message SignedEscrowContract {
   EscrowContract contract = 1;
   bytes buyer_signature = 2;
   bytes seller_signature = 3;
+  ledger.SignedChannelCommit buyer_channel = 4; // ledger channel commit from buyer to escrow
 }
 
 message EscrowContractRequest {
@@ -88,6 +90,7 @@ message SubmitContractResult {
   repeated Escrow escrow = 2;
   bytes escrow_address = 3;
   google.protobuf.Timestamp escrow_signed_time = 4 [(gogoproto.stdtime) = true];
+  ledger.SignedChannelState buyer_channel_state = 5; // escrow signed send to buyer to sign
 }
 
 message SignedSubmitContractResult {
@@ -103,12 +106,13 @@ message PayinRquest {
 message SignedPayinRquest {
   PayinRquest request = 1;
   bytes buyer_signature = 2;
+  ledger.SignedChannelState buyer_channel_state = 3; // buyer sign ledger channel state
 }
 
 message PayinResult {
   bytes payin_id = 1;
   int64 amount = 2;
-  int64 sequence_id = 3; // ledger sequence id
+  int64 channel_id = 3; // ledger channel id
   bytes escrow_address = 4;
   google.protobuf.Timestamp escrow_signed_time = 5 [(gogoproto.stdtime) = true];
 }
