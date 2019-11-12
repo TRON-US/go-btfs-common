@@ -10,8 +10,8 @@ option java_outer_classname = "EscrowProto";
 option java_package = "io.btfs.escrow";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-import "github.com/tron-us/go-btfs-common/protos/ledger/ledger.proto";
 import "google/protobuf/timestamp.proto";
+import "protos/ledger/ledger.proto";
 
 service EscrowService {
   // buyer submit contracts to escrow after buyer and seller agreed contract
