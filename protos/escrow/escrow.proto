@@ -10,7 +10,7 @@ option (gogoproto.messagename_all) = true;
 option (gogoproto.sizer_all) = true;
 option (gogoproto.unmarshaler_all) = true;
 // golang option
-option go_package = "escrowpb";
+option go_package = "escrow";
 // java options
 option java_multiple_files = true;
 option java_outer_classname = "EscrowProto";
