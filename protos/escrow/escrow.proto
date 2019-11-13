@@ -173,7 +173,7 @@ message SignedPayoutStatus {
 }
 
 message CancelContractRequest {
-  repeated bytes contract_id = 1;
+  bytes contract_id = 1;
   bytes auth_address = 2;
 }
 
