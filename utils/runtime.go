@@ -21,11 +21,16 @@ var (
 
 func init(){
 	// Check database environment variable
+	prod := env.EnvProd
+	staging := env.EnvStaging
+
 	switch env := env.GetCurrentEnv(); env {
-	case "staging":
+	case prod:
 		runtimeDbURL = "DB_STAGING_URL"
-	case "prod":
+		runtimeRdURL = "RD_STAGING_URL"
+	case staging:
 		runtimeDbURL = "DB_PROD_URL"
+		runtimeRdURL = "RD_PROD_URL"
 	default:
 		runtimeDbURL = "DB_URL"
 		runtimeRdURL = "RD_URL"
