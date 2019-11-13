@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package node;
 
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
 // golang option
 option go_package = "node";
 // java options
