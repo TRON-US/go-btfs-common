@@ -175,6 +175,7 @@ message SignedPayoutStatus {
 message CancelContractRequest {
   bytes contract_id = 1;
   bytes auth_address = 2;
+  google.protobuf.Timestamp auth_signed_time = 3;
 }
 
 message SignedCancelRequest {
