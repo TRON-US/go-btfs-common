@@ -12,14 +12,32 @@ import (
 
 	"go.uber.org/zap"
 )
+var (
+	runtimeDbURL = ""
+	runtimeDbVal = ""
+	runtimeRdURL = ""
+	runtimeRdVal = ""
+)
+
+func init(){
+	// Check database environment variable
+	switch env := env.GetCurrentEnv(); env {
+	case "staging":
+		runtimeDbURL = "DB_STAGING_URL"
+	case "prod":
+		runtimeDbURL = "DB_PROD_URL"
+	default:
+		runtimeDbURL = "DB_URL"
+		runtimeRdURL = "RD_URL"
+	}
+}
 
 func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 
-	// Check database environment variable
-	_, pgURL := env.GetEnv("DB_URL")
+	_, pgURL := env.GetEnv(runtimeDbURL)
 	if pgURL != "" {
 		// Check postgres dbWrite
 		PGDBWrite := postgres.CreateTGPGDB(pgURL)
@@ -42,7 +60,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	}
 
 	// Check redis environment variable
-	_, redisURL := env.GetEnv("RD_URL")
+	_, redisURL := env.GetEnv(runtimeRdURL)
 	if redisURL != "" {
 		err := redis.CheckRedisConnection(redis.CreateTGRDDB(redisURL))
 		if err != nil {
