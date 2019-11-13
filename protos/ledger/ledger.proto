@@ -16,6 +16,8 @@ option java_multiple_files = true;
 option java_outer_classname = "LedgerProto";
 option java_package = "io.btfs.ledger";
 
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
 // Interface exported by the server.
 
 service Channels {
