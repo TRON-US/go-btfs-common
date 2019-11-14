@@ -2,89 +2,55 @@ package utils
 
 import (
 	"context"
-	"github.com/tron-us/go-common/env"
-	"os"
+	"flag"
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-common/constant"
+	"github.com/tron-us/go-common/db"
+
+	"github.com/stretchr/testify/assert"
 )
 
-var (
-	testDbURL = ""
-	testDbVal = ""
-	testRdURL = ""
-	testRdVal = ""
-)
+var pgURLString *string
+var rdURLString *string
 
 func init() {
-	//check the environment
-	if env.IsDev() {
-		//pass db/rd credentials, save them locally
-		testDbURL, testDbVal = env.GetEnv("DB_URL")
-		testRdURL, testRdVal = env.GetEnv("RD_URL")
+	//get db and redis connection strings
+	pgURLString = flag.String("db_url", "xyz", "a string")
+	rdURLString = flag.String("rd_url", "xyz", "a string")
+}
+
+func TestCheckRuntimeDB(t *testing.T) {
+	//setup connection (postgres) object
+	var connection = db.ConnectionUrls{
+		PgURL: *pgURLString,
+		RdURL: "",
 	}
-}
-func initEnvironment(){
-	//initialize environment since some tests clear this information
-	os.Setenv(testDbURL, testDbVal)
-	os.Setenv(testRdURL, testRdVal)
-}
-
-func TestCheckRuntimeDBRD(t *testing.T) {
-	// setup
-	initEnvironment()
-	//check environment
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
-	assert.Equal(t, runtimeInfoReport.Status, sharedpb.RuntimeInfoReport_RUNNING, "CheckRuntime failed DB status check")
-	assert.Equal(t, runtimeInfoReport.DbStatusExtra, []byte(constant.DBConnectionHealthy), "CheckRuntime failed DB status extra check ")
-	assert.Equal(t, runtimeInfoReport.RdStatusExtra, []byte(constant.RDConnectionHealthy), "CheckRuntime failed Redis status extra check ")
+	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
+	assert.Equal(t, runtimeInfoReportPass.DbStatusExtra, []byte(constant.DBConnectionHealthy), "DB is not running")
+	//disable connection string
+	connection.PgURL = ""
+	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
+	assert.Equal(t, runtimeInfoReportFail.DbStatusExtra, []byte(nil), "DB connection is still provided")
 }
-
-func TestCheckRuntimeDBRDFail(t *testing.T) {
-	//setup
-	initEnvironment()
+func TestCheckRuntimeRD(t *testing.T) {
+	//setup connection (redis) object
+	var connection = db.ConnectionUrls{
+		PgURL: "",
+		RdURL: *rdURLString,
+	}
+	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	//unset redis
-	os.Unsetenv(testRdURL)
-	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
-	assert.Equal(t, runtimeInfoReport.Status, sharedpb.RuntimeInfoReport_RUNNING, "CheckRuntime failed DB status check")
-	assert.Equal(t, runtimeInfoReport.DbStatusExtra, []byte(constant.DBConnectionHealthy), "CheckRuntime failed DB status extra check ")
-	assert.Equal(t, runtimeInfoReport.RdStatusExtra, []byte(nil), "CheckRuntime did not fail Redis status extra check ")
-}
-
-func TestCheckRuntimeRDPassDBFail(t *testing.T) {
-	//setup
-	initEnvironment()
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	//unset db
-	os.Unsetenv(testDbURL)
-	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
-	assert.Equal(t, runtimeInfoReport.Status, sharedpb.RuntimeInfoReport_RUNNING, "CheckRuntime failed DB status check")
-	assert.Equal(t, runtimeInfoReport.RdStatusExtra, []byte(constant.RDConnectionHealthy), "CheckRuntime failed Redis status extra check ")
-	assert.Equal(t, runtimeInfoReport.DbStatusExtra, []byte(nil), "CheckRuntime did not fail DB status extra check ")
-}
-
-func TestCheckRuntimeDBFailRDFail(t *testing.T) {
-	//setup
-	initEnvironment()
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	//unset both
-	os.Unsetenv(testRdURL)
-	os.Unsetenv(testDbURL)
-	runtimeInfoReport, _ := CheckRuntime(ctx, shared)
-	assert.Equal(t, runtimeInfoReport.Status, sharedpb.RuntimeInfoReport_RUNNING, "CheckRuntime failed DB status check")
-	assert.Equal(t, runtimeInfoReport.DbStatusExtra, []byte(nil), "CheckRuntime did not fail DB status extra check ")
-	assert.Equal(t, runtimeInfoReport.RdStatusExtra, []byte(nil), "CheckRuntime did not fail Redis status extra check ")
+	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
+	assert.Equal(t, runtimeInfoReportPass.RdStatusExtra, []byte(constant.RDConnectionHealthy), "Redis is running")
+	//disable connection string
+	connection.RdURL = ""
+	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
+	assert.Equal(t, runtimeInfoReportFail.RdStatusExtra, []byte(nil), "Redis connection is still provided")
 }
