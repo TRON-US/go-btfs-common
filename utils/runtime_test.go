@@ -36,7 +36,7 @@ func TestCheckRuntimeDB(t *testing.T) {
 	//disable connection string
 	connection.PgURL = ""
 	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportFail.DbStatusExtra, []byte(nil), "DB connection is still provided")
+	assert.Equal(t, runtimeInfoReportFail.DbStatusExtra, []byte(nil), "DB connection is still provided, error!")
 }
 func TestCheckRuntimeRD(t *testing.T) {
 	//setup connection (redis) object
@@ -48,9 +48,9 @@ func TestCheckRuntimeRD(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportPass.RdStatusExtra, []byte(constant.RDConnectionHealthy), "Redis is running")
+	assert.Equal(t, runtimeInfoReportPass.RdStatusExtra, []byte(constant.RDConnectionHealthy), "Redis is not running")
 	//disable connection string
 	connection.RdURL = ""
 	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportFail.RdStatusExtra, []byte(nil), "Redis connection is still provided")
+	assert.Equal(t, runtimeInfoReportFail.RdStatusExtra, []byte(nil), "Redis connection is still provided, error!")
 }
