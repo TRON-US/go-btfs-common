@@ -43,5 +43,4 @@ message RuntimeInfoReport {
   bytes chain_status_extra = 12; //RESERVED: JSON format structre to store the block chain related information
   bytes cache_status_extra = 13; //RESERVED: JSON format structre to store the cache related information
   bytes extra = 14; //RESERVED: JSON format structre to store other information
-  bytes signature = 15;
 }
