@@ -4,8 +4,8 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/guard"
 	"strconv"
 
-	"github.com/tron-us/go-common/env"
-	"github.com/tron-us/go-common/log"
+	"github.com/tron-us/go-common/v2/env"
+	"github.com/tron-us/go-common/v2/log"
 
 	"go.uber.org/zap"
 )
