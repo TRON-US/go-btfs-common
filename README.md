@@ -17,6 +17,8 @@ Common packages among various go-btfs projects.
 ├── go.sum
 ├── info
 │   └── node.go (deprecating)
+├── ledger
+│   └── ledger.go
 ├── protos
 │   ├── escrow
 │   │   ├── escrow.pb.go

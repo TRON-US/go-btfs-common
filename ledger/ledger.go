@@ -5,19 +5,17 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"os"
 	"time"
 
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
-	"github.com/tron-us/go-common/log"
+	"github.com/tron-us/go-common/v2/log"
 
 	"github.com/gogo/protobuf/proto"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"go.uber.org/zap"
 )
-
 
 func LedgerConnection(ledgerAddr, certFile string) (*grpc.ClientConn, error) {
 	var grpcOption grpc.DialOption
@@ -131,7 +129,7 @@ func CreateChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, ch
 }
 
 func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, signedChannelState *ledgerPb.SignedChannelState) error {
-	_, err = ledgerClient.CloseChannel(ctx, signedChannelState)
+	_, err := ledgerClient.CloseChannel(ctx, signedChannelState)
 	if err != nil {
 		return err
 	}

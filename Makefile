@@ -24,9 +24,11 @@ lintf:
 build:
 	prototool all
 	go mod tidy
+	go build ./...
 
 test:
 	dropdb --if-exists $(TEST_DB_NAME)
 	createdb $(TEST_DB_NAME)
 	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(TEST_RD_URL)
 	dropdb $(TEST_DB_NAME)
+
