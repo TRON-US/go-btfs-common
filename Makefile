@@ -1,13 +1,13 @@
 default: lintf
 
-DB_NAME ?= runtime
-DB_USER ?= `whoami`
-DB_HOSTNAME ?= localhost
-RD_NAME ?= runtime
-RD_USER ?= `whoami`
-RD_HOSTNAME ?= localhost
-DB_URL="postgresql://$(DB_USER)@$(DB_HOSTNAME):5432/$(DB_NAME)"
-RD_URL="redis://$(RD_USER)@$(RD_HOSTNAME):6379/$(RD_NAME)?pool=$(RD_POOL)&process=$(RD_NUM_PROCESSES)"
+TEST_DB_NAME ?= runtime
+TEST_DB_USER ?= `whoami`
+TEST_DB_HOSTNAME ?= localhost
+TEST_DB_URL="postgresql://$(TEST_DB_USER)@$(TEST_DB_HOSTNAME):5432/$(TEST_DB_NAME)"
+TEST_RD_NAME ?= runtime
+TEST_RD_USER ?= `whoami`
+TEST_RD_HOSTNAME ?= localhost
+TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)?pool=$(TEST_RD_POOL)&process=$(TEST_RD_NUM_PROCESSES)"
 
 install:
 	brew install protobuf
@@ -26,7 +26,7 @@ build:
 	go mod tidy
 
 test:
-	dropdb --if-exists $(DB_NAME)
-	createdb $(DB_NAME)
-	go test -v ./... -args -db_url=$(DB_URL) -rd_url=$(RD_URL)
-	dropdb $(DB_NAME)
+	dropdb --if-exists $(TEST_DB_NAME)
+	createdb $(TEST_DB_NAME)
+	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(TEST_RD_URL)
+	dropdb $(TEST_DB_NAME)
