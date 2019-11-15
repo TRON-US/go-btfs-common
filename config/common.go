@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/tron-us/go-btfs-common/protos/guard"
 	"strconv"
 
+	"github.com/tron-us/go-btfs-common/protos/guard"
 	"github.com/tron-us/go-common/v2/env"
 	"github.com/tron-us/go-common/v2/log"
 
