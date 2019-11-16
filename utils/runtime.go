@@ -40,11 +40,15 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 
 	// Check redis environment variable
 	if connection.RdURL != "" {
-		err := redis.CheckRedisConnection(redis.CreateTGRDDB(connection.RdURL))
-		if err != nil {
+		opts, errParse := redis.ParseRedisURL(connection.RdURL)
+		if errParse != nil {
+			log.Error(constant.RDURLParseError, zap.Error(errParse))
+		}
+		errConn := redis.CheckRedisConnection(redis.NewRedisConn(opts))
+		if errConn != nil {
 			report.RdStatusExtra = []byte(constant.RDConnectionError)
 			report.Status = sharedpb.RuntimeInfoReport_SICK
-			log.Error(constant.RDConnectionError, zap.Error(err))
+			log.Error(constant.RDConnectionError, zap.Error(errConn))
 		}
 		// Assume the redis connection is healthy
 		report.RdStatusExtra = []byte(constant.RDConnectionHealthy)
