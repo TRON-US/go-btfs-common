@@ -7,7 +7,7 @@ TEST_DB_URL="postgresql://$(TEST_DB_USER)@$(TEST_DB_HOSTNAME):5432/$(TEST_DB_NAM
 TEST_RD_NAME ?= runtime
 TEST_RD_USER ?= `whoami`
 TEST_RD_HOSTNAME ?= localhost
-TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)?pool=$(TEST_RD_POOL)&process=$(TEST_RD_NUM_PROCESSES)"
+TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)"
 
 install:
 	brew install protobuf

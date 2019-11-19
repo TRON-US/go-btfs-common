@@ -31,7 +31,6 @@ message RuntimeInfoRequest {
 message SignedRuntimeInfoRequest {
   RuntimeInfoRequest req = 1;
   bytes signature = 2;
-  google.protobuf.Timestamp curent_time = 3;
 }
 
 message RuntimeInfoReport {
