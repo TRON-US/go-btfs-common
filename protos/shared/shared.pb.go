@@ -4,12 +4,16 @@
 package shared
 
 import (
+	context "context"
 	fmt "fmt"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	types "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -57,13 +61,12 @@ func (x RuntimeInfoReport_HealthStatus) String() string {
 }
 
 func (RuntimeInfoReport_HealthStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_40efd7a2bcef91b6, []int{1, 0}
+	return fileDescriptor_40efd7a2bcef91b6, []int{2, 0}
 }
 
 type RuntimeInfoRequest struct {
 	RequestAddress       []byte           `protobuf:"bytes,1,opt,name=request_address,json=requestAddress,proto3" json:"request_address,omitempty"`
 	CurentTime           *types.Timestamp `protobuf:"bytes,2,opt,name=curent_time,json=curentTime,proto3" json:"curent_time,omitempty"`
-	Signature            []byte           `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
 	XXX_unrecognized     []byte           `json:"-"`
 	XXX_sizecache        int32            `json:"-"`
@@ -116,15 +119,67 @@ func (m *RuntimeInfoRequest) GetCurentTime() *types.Timestamp {
 	return nil
 }
 
-func (m *RuntimeInfoRequest) GetSignature() []byte {
+func (*RuntimeInfoRequest) XXX_MessageName() string {
+	return "shared.RuntimeInfoRequest"
+}
+
+type SignedRuntimeInfoRequest struct {
+	Req                  *RuntimeInfoRequest `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	Signature            []byte              `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *SignedRuntimeInfoRequest) Reset()         { *m = SignedRuntimeInfoRequest{} }
+func (m *SignedRuntimeInfoRequest) String() string { return proto.CompactTextString(m) }
+func (*SignedRuntimeInfoRequest) ProtoMessage()    {}
+func (*SignedRuntimeInfoRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_40efd7a2bcef91b6, []int{1}
+}
+func (m *SignedRuntimeInfoRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SignedRuntimeInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SignedRuntimeInfoRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SignedRuntimeInfoRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SignedRuntimeInfoRequest.Merge(m, src)
+}
+func (m *SignedRuntimeInfoRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *SignedRuntimeInfoRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SignedRuntimeInfoRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SignedRuntimeInfoRequest proto.InternalMessageInfo
+
+func (m *SignedRuntimeInfoRequest) GetReq() *RuntimeInfoRequest {
+	if m != nil {
+		return m.Req
+	}
+	return nil
+}
+
+func (m *SignedRuntimeInfoRequest) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
 	return nil
 }
 
-func (*RuntimeInfoRequest) XXX_MessageName() string {
-	return "shared.RuntimeInfoRequest"
+func (*SignedRuntimeInfoRequest) XXX_MessageName() string {
+	return "shared.SignedRuntimeInfoRequest"
 }
 
 type RuntimeInfoReport struct {
@@ -137,11 +192,11 @@ type RuntimeInfoReport struct {
 	GitHash              []byte                         `protobuf:"bytes,7,opt,name=git_hash,json=gitHash,proto3" json:"git_hash,omitempty"`
 	Version              []byte                         `protobuf:"bytes,8,opt,name=version,proto3" json:"version,omitempty"`
 	DbStatusExtra        []byte                         `protobuf:"bytes,9,opt,name=db_status_extra,json=dbStatusExtra,proto3" json:"db_status_extra,omitempty"`
-	QueueStatusExtra     []byte                         `protobuf:"bytes,10,opt,name=queue_status_extra,json=queueStatusExtra,proto3" json:"queue_status_extra,omitempty"`
-	ChainStatusExtra     []byte                         `protobuf:"bytes,11,opt,name=chain_status_extra,json=chainStatusExtra,proto3" json:"chain_status_extra,omitempty"`
-	CacheStatusExtra     []byte                         `protobuf:"bytes,12,opt,name=cache_status_extra,json=cacheStatusExtra,proto3" json:"cache_status_extra,omitempty"`
-	Extra                []byte                         `protobuf:"bytes,13,opt,name=extra,proto3" json:"extra,omitempty"`
-	Signature            []byte                         `protobuf:"bytes,14,opt,name=signature,proto3" json:"signature,omitempty"`
+	RdStatusExtra        []byte                         `protobuf:"bytes,10,opt,name=rd_status_extra,json=rdStatusExtra,proto3" json:"rd_status_extra,omitempty"`
+	QueueStatusExtra     []byte                         `protobuf:"bytes,11,opt,name=queue_status_extra,json=queueStatusExtra,proto3" json:"queue_status_extra,omitempty"`
+	ChainStatusExtra     []byte                         `protobuf:"bytes,12,opt,name=chain_status_extra,json=chainStatusExtra,proto3" json:"chain_status_extra,omitempty"`
+	CacheStatusExtra     []byte                         `protobuf:"bytes,13,opt,name=cache_status_extra,json=cacheStatusExtra,proto3" json:"cache_status_extra,omitempty"`
+	Extra                []byte                         `protobuf:"bytes,14,opt,name=extra,proto3" json:"extra,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}                       `json:"-"`
 	XXX_unrecognized     []byte                         `json:"-"`
 	XXX_sizecache        int32                          `json:"-"`
@@ -151,7 +206,7 @@ func (m *RuntimeInfoReport) Reset()         { *m = RuntimeInfoReport{} }
 func (m *RuntimeInfoReport) String() string { return proto.CompactTextString(m) }
 func (*RuntimeInfoReport) ProtoMessage()    {}
 func (*RuntimeInfoReport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_40efd7a2bcef91b6, []int{1}
+	return fileDescriptor_40efd7a2bcef91b6, []int{2}
 }
 func (m *RuntimeInfoReport) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -243,6 +298,13 @@ func (m *RuntimeInfoReport) GetDbStatusExtra() []byte {
 	return nil
 }
 
+func (m *RuntimeInfoReport) GetRdStatusExtra() []byte {
+	if m != nil {
+		return m.RdStatusExtra
+	}
+	return nil
+}
+
 func (m *RuntimeInfoReport) GetQueueStatusExtra() []byte {
 	if m != nil {
 		return m.QueueStatusExtra
@@ -271,13 +333,6 @@ func (m *RuntimeInfoReport) GetExtra() []byte {
 	return nil
 }
 
-func (m *RuntimeInfoReport) GetSignature() []byte {
-	if m != nil {
-		return m.Signature
-	}
-	return nil
-}
-
 func (*RuntimeInfoReport) XXX_MessageName() string {
 	return "shared.RuntimeInfoReport"
 }
@@ -286,6 +341,8 @@ func init() {
 	golang_proto.RegisterEnum("shared.RuntimeInfoReport_HealthStatus", RuntimeInfoReport_HealthStatus_name, RuntimeInfoReport_HealthStatus_value)
 	proto.RegisterType((*RuntimeInfoRequest)(nil), "shared.RuntimeInfoRequest")
 	golang_proto.RegisterType((*RuntimeInfoRequest)(nil), "shared.RuntimeInfoRequest")
+	proto.RegisterType((*SignedRuntimeInfoRequest)(nil), "shared.SignedRuntimeInfoRequest")
+	golang_proto.RegisterType((*SignedRuntimeInfoRequest)(nil), "shared.SignedRuntimeInfoRequest")
 	proto.RegisterType((*RuntimeInfoReport)(nil), "shared.RuntimeInfoReport")
 	golang_proto.RegisterType((*RuntimeInfoReport)(nil), "shared.RuntimeInfoReport")
 }
@@ -294,41 +351,125 @@ func init() { proto.RegisterFile("protos/shared/shared.proto", fileDescriptor_40
 func init() { golang_proto.RegisterFile("protos/shared/shared.proto", fileDescriptor_40efd7a2bcef91b6) }
 
 var fileDescriptor_40efd7a2bcef91b6 = []byte{
-	// 544 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x93, 0xcf, 0x6f, 0xd3, 0x30,
-	0x14, 0xc7, 0xf1, 0x7e, 0xf4, 0xc7, 0x4b, 0xdb, 0x05, 0x0b, 0x89, 0x50, 0xa1, 0xac, 0xec, 0x30,
-	0x7a, 0x80, 0x54, 0x1a, 0x47, 0x24, 0xa6, 0x16, 0x01, 0xab, 0x40, 0x6d, 0x95, 0x96, 0x0b, 0x97,
-	0xc8, 0x69, 0xdc, 0x24, 0xd2, 0x1a, 0x77, 0xb6, 0x33, 0xf1, 0x67, 0xec, 0xb8, 0x3f, 0x87, 0xe3,
-	0x8e, 0xfc, 0x07, 0xa0, 0xf6, 0x1f, 0x41, 0xb1, 0x5d, 0x6d, 0x29, 0x07, 0x38, 0xc5, 0xdf, 0xef,
-	0xfb, 0xf8, 0xbd, 0xe7, 0x67, 0x07, 0xda, 0x2b, 0xce, 0x24, 0x13, 0x3d, 0x91, 0x10, 0x4e, 0x23,
-	0xf3, 0xf1, 0x94, 0x89, 0x2b, 0x5a, 0xb5, 0x5f, 0xc7, 0xa9, 0x4c, 0xf2, 0xd0, 0x9b, 0xb3, 0x65,
-	0x2f, 0x66, 0x31, 0xeb, 0xa9, 0x70, 0x98, 0x2f, 0x94, 0x52, 0x42, 0xad, 0xf4, 0xb6, 0xf6, 0x71,
-	0xcc, 0x58, 0x7c, 0x49, 0xef, 0x29, 0x99, 0x2e, 0xa9, 0x90, 0x64, 0xb9, 0xd2, 0xc0, 0xc9, 0x2d,
-	0x02, 0xec, 0xe7, 0x59, 0x61, 0x0f, 0xb3, 0x05, 0xf3, 0xe9, 0x55, 0x4e, 0x85, 0xc4, 0x2f, 0xe1,
-	0x88, 0xeb, 0x65, 0x40, 0xa2, 0x88, 0x53, 0x21, 0x1c, 0xd4, 0x41, 0xdd, 0x86, 0xdf, 0x32, 0x76,
-	0x5f, 0xbb, 0xf8, 0x2d, 0x58, 0xf3, 0x9c, 0xd3, 0x4c, 0x06, 0x45, 0x0a, 0x67, 0xaf, 0x83, 0xba,
-	0xd6, 0x59, 0xdb, 0xd3, 0x65, 0xbd, 0x6d, 0x59, 0x6f, 0xb6, 0x2d, 0xeb, 0x83, 0xc6, 0x0b, 0x03,
-	0x3f, 0x87, 0xba, 0x48, 0xe3, 0x8c, 0xc8, 0x9c, 0x53, 0x67, 0x5f, 0xe5, 0xbf, 0x37, 0x4e, 0x6e,
-	0x0e, 0xe1, 0x71, 0xa9, 0xb5, 0x15, 0xe3, 0x12, 0x3f, 0x85, 0xea, 0x8a, 0x52, 0x1e, 0xa4, 0x91,
-	0xe9, 0xa8, 0x52, 0xc8, 0x61, 0x84, 0x1d, 0xa8, 0x6e, 0x5b, 0xdd, 0x53, 0x81, 0xad, 0xc4, 0x2f,
-	0xa0, 0x21, 0x28, 0xbf, 0x4e, 0xe7, 0x34, 0xc8, 0xc8, 0x72, 0x5b, 0xc9, 0x32, 0xde, 0x88, 0x2c,
-	0x29, 0x7e, 0x07, 0x15, 0x21, 0x89, 0xcc, 0x85, 0x73, 0xd0, 0x41, 0xdd, 0xd6, 0xd9, 0xa9, 0x67,
-	0xa6, 0xff, 0x57, 0x03, 0xde, 0x05, 0x25, 0x97, 0x32, 0x99, 0x2a, 0xda, 0x37, 0xbb, 0x70, 0xbf,
-	0x3c, 0x86, 0xc3, 0x7f, 0x8d, 0x61, 0x70, 0x70, 0xf3, 0xeb, 0x18, 0x95, 0x86, 0x71, 0x0e, 0x20,
-	0x24, 0xe1, 0x26, 0x43, 0xe5, 0x3f, 0x33, 0xd4, 0xd5, 0x1e, 0x95, 0xe0, 0x19, 0xd4, 0xe2, 0x54,
-	0x06, 0x09, 0x11, 0x89, 0x53, 0xd5, 0x13, 0x88, 0x53, 0x79, 0x41, 0x44, 0x52, 0xcc, 0xe6, 0x9a,
-	0x72, 0x91, 0xb2, 0xcc, 0xa9, 0xe9, 0x88, 0x91, 0xf8, 0x14, 0x8e, 0xa2, 0x30, 0xd0, 0xa7, 0x08,
-	0xe8, 0x77, 0xc9, 0x89, 0x53, 0x57, 0x44, 0x33, 0x0a, 0xf5, 0x19, 0x3f, 0x14, 0x26, 0x7e, 0x05,
-	0xf8, 0x2a, 0xa7, 0x39, 0x2d, 0xa3, 0xa0, 0x50, 0x5b, 0x45, 0x76, 0xe8, 0x79, 0x42, 0xd2, 0xac,
-	0x4c, 0x5b, 0x9a, 0x56, 0x91, 0x5d, 0x9a, 0xcc, 0x93, 0x9d, 0xdc, 0x0d, 0x43, 0x17, 0x91, 0x87,
-	0xf4, 0x13, 0x38, 0xd4, 0x40, 0x53, 0x01, 0x5a, 0x94, 0x9f, 0x52, 0x6b, 0xf7, 0x29, 0x7d, 0x84,
-	0xc6, 0xc3, 0x6b, 0xc3, 0x35, 0x38, 0x98, 0x0e, 0xdf, 0x7f, 0xb6, 0x1f, 0x61, 0x0b, 0xaa, 0xfe,
-	0xd7, 0xd1, 0x68, 0x38, 0xfa, 0x64, 0x23, 0xdc, 0x84, 0xfa, 0x60, 0x3c, 0x9e, 0x4d, 0x67, 0x7e,
-	0x7f, 0x62, 0xef, 0x61, 0x1b, 0x1a, 0x93, 0xbe, 0x3f, 0x1b, 0xf6, 0xbf, 0x04, 0xd3, 0xd9, 0x78,
-	0x62, 0xef, 0x0f, 0xce, 0xef, 0xd6, 0x2e, 0xfa, 0xb9, 0x76, 0xd1, 0xef, 0xb5, 0x8b, 0x6e, 0x37,
-	0x2e, 0xfa, 0xb1, 0x71, 0xd1, 0xdd, 0xc6, 0x45, 0xd0, 0x4a, 0x99, 0x17, 0xca, 0x85, 0x30, 0xef,
-	0x66, 0x60, 0x4d, 0xd5, 0x77, 0x52, 0xdc, 0xdb, 0x04, 0x7d, 0x33, 0xbf, 0x6f, 0x58, 0x51, 0x17,
-	0xf9, 0xe6, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xfe, 0xb9, 0x38, 0xc3, 0xeb, 0x03, 0x00, 0x00,
+	// 603 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x94, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0xc7, 0xd9, 0x7e, 0x24, 0xcd, 0xc4, 0x4d, 0xc3, 0x0a, 0x09, 0x37, 0x42, 0x6e, 0xc8, 0xa1,
+	0xf4, 0x50, 0x5c, 0xa9, 0x1c, 0x91, 0xa8, 0x92, 0x0a, 0x68, 0x54, 0x94, 0x46, 0x76, 0xb8, 0x20,
+	0x21, 0x6b, 0x6d, 0x6f, 0x6c, 0x8b, 0xc6, 0x4e, 0x77, 0xd7, 0x15, 0xe2, 0x29, 0x38, 0x22, 0x9e,
+	0x86, 0x63, 0x8f, 0xbc, 0x01, 0xa8, 0x7d, 0x11, 0xb4, 0x1f, 0x51, 0x93, 0xd0, 0x0a, 0x4e, 0xf6,
+	0xfc, 0xe7, 0x37, 0x9f, 0x99, 0x18, 0x5a, 0x53, 0x56, 0x88, 0x82, 0x1f, 0xf0, 0x94, 0x30, 0x1a,
+	0x9b, 0x87, 0xab, 0x44, 0x5c, 0xd1, 0x56, 0xeb, 0x79, 0x92, 0x89, 0xb4, 0x0c, 0xdd, 0xa8, 0x98,
+	0x1c, 0x24, 0x45, 0x52, 0x1c, 0x28, 0x77, 0x58, 0x8e, 0x95, 0xa5, 0x0c, 0xf5, 0xa6, 0xc3, 0x5a,
+	0x3b, 0x49, 0x51, 0x24, 0xe7, 0xf4, 0x96, 0x12, 0xd9, 0x84, 0x72, 0x41, 0x26, 0x53, 0x0d, 0x74,
+	0xbe, 0x00, 0xf6, 0xca, 0x5c, 0xaa, 0xfd, 0x7c, 0x5c, 0x78, 0xf4, 0xa2, 0xa4, 0x5c, 0xe0, 0x67,
+	0xb0, 0xc5, 0xf4, 0x6b, 0x40, 0xe2, 0x98, 0x51, 0xce, 0x6d, 0xd4, 0x46, 0x7b, 0x96, 0xd7, 0x30,
+	0x72, 0x57, 0xab, 0xf8, 0x25, 0xd4, 0xa3, 0x92, 0xd1, 0x5c, 0x04, 0x32, 0x85, 0xbd, 0xd2, 0x46,
+	0x7b, 0xf5, 0xc3, 0x96, 0xab, 0xab, 0xba, 0xb3, 0xaa, 0xee, 0x68, 0x56, 0xd5, 0x03, 0x8d, 0x4b,
+	0xa1, 0x33, 0x06, 0xdb, 0xcf, 0x92, 0x9c, 0xc6, 0x77, 0x74, 0xb0, 0x0f, 0xab, 0x8c, 0x5e, 0xa8,
+	0xaa, 0x32, 0xa1, 0xd9, 0xc5, 0xdf, 0xa0, 0x27, 0x31, 0xfc, 0x04, 0x6a, 0x3c, 0x4b, 0x72, 0x22,
+	0x4a, 0xa6, 0x9b, 0xb0, 0xbc, 0x5b, 0xa1, 0xf3, 0x7d, 0x1d, 0x1e, 0x2e, 0x44, 0x4e, 0x0b, 0x26,
+	0xf0, 0x63, 0xa8, 0x4e, 0x29, 0x65, 0x41, 0x16, 0x9b, 0xd9, 0x2a, 0xd2, 0xec, 0xc7, 0xd8, 0x86,
+	0xea, 0x6c, 0x68, 0x9d, 0x6a, 0x66, 0xe2, 0xa7, 0x60, 0x71, 0xca, 0x2e, 0xb3, 0x88, 0x06, 0x39,
+	0x99, 0x50, 0x7b, 0x55, 0xb9, 0xeb, 0x46, 0x1b, 0x90, 0x09, 0xc5, 0xaf, 0xa0, 0xc2, 0x05, 0x11,
+	0x25, 0xb7, 0xd7, 0xda, 0x68, 0xaf, 0x71, 0xb8, 0x7b, 0x67, 0xeb, 0xb2, 0x01, 0xf7, 0x84, 0x92,
+	0x73, 0x91, 0xfa, 0x8a, 0xf6, 0x4c, 0x14, 0xee, 0x2e, 0x2e, 0x74, 0xfd, 0x5f, 0x0b, 0xed, 0xad,
+	0x7d, 0xfd, 0xb5, 0x83, 0xe6, 0xd7, 0x8a, 0x8f, 0x00, 0xb8, 0x20, 0xcc, 0x64, 0xa8, 0xfc, 0x67,
+	0x86, 0x9a, 0x8a, 0x51, 0x09, 0xb6, 0x61, 0x23, 0xc9, 0x44, 0x90, 0x12, 0x9e, 0xda, 0x55, 0xbd,
+	0x81, 0x24, 0x13, 0x27, 0x84, 0xa7, 0x72, 0x37, 0x97, 0x94, 0xf1, 0xac, 0xc8, 0xed, 0x0d, 0xed,
+	0x31, 0x26, 0xde, 0x85, 0xad, 0x38, 0x0c, 0xf4, 0x14, 0x01, 0xfd, 0x2c, 0x18, 0xb1, 0x6b, 0x8a,
+	0xd8, 0x8c, 0x43, 0x3d, 0xe3, 0x6b, 0x29, 0x4a, 0x8e, 0xc5, 0x8b, 0x1c, 0x68, 0x8e, 0xc5, 0xf3,
+	0xdc, 0x3e, 0xe0, 0x8b, 0x92, 0x96, 0x74, 0x11, 0xad, 0x2b, 0xb4, 0xa9, 0x3c, 0x4b, 0x74, 0x94,
+	0x92, 0x2c, 0x5f, 0xa4, 0x2d, 0x4d, 0x2b, 0xcf, 0x32, 0x4d, 0xa2, 0x74, 0x29, 0xf7, 0xa6, 0xa1,
+	0xa5, 0x67, 0x9e, 0x7e, 0x04, 0xeb, 0x1a, 0x68, 0x28, 0x40, 0x1b, 0x9d, 0x37, 0x60, 0xcd, 0xff,
+	0x80, 0x78, 0x03, 0xd6, 0xfc, 0xfe, 0xf1, 0x69, 0xf3, 0x01, 0xae, 0x43, 0xd5, 0x7b, 0x3f, 0x18,
+	0xf4, 0x07, 0x6f, 0x9b, 0x08, 0x6f, 0x42, 0xad, 0x77, 0x76, 0x36, 0xf2, 0x47, 0x5e, 0x77, 0xd8,
+	0x5c, 0xc1, 0x4d, 0xb0, 0x86, 0x5d, 0x6f, 0xd4, 0xef, 0xbe, 0x0b, 0xfc, 0xd1, 0xd9, 0xb0, 0xb9,
+	0x7a, 0xf8, 0x11, 0x1a, 0xe6, 0x34, 0x7c, 0x7d, 0x46, 0xf8, 0x14, 0xac, 0xe3, 0x94, 0x46, 0x9f,
+	0x8c, 0x8c, 0xdb, 0xb3, 0x13, 0xba, 0xef, 0xcf, 0xd2, 0xda, 0xbe, 0xf7, 0xc8, 0x7a, 0x47, 0x57,
+	0xd7, 0x0e, 0xfa, 0x79, 0xed, 0xa0, 0xdf, 0xd7, 0x0e, 0xfa, 0x76, 0xe3, 0xa0, 0x1f, 0x37, 0x0e,
+	0xba, 0xba, 0x71, 0x10, 0x34, 0xb2, 0xc2, 0x0d, 0xc5, 0x98, 0x9b, 0xd8, 0x5e, 0xdd, 0x57, 0xcf,
+	0xa1, 0x3c, 0x90, 0x21, 0xfa, 0x60, 0x3e, 0x38, 0x61, 0x45, 0x5d, 0xcc, 0x8b, 0x3f, 0x01, 0x00,
+	0x00, 0xff, 0xff, 0x80, 0xe6, 0x3d, 0x6d, 0x9d, 0x04, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// RuntimeServiceClient is the client API for RuntimeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type RuntimeServiceClient interface {
+	CheckRuntime(ctx context.Context, in *SignedRuntimeInfoRequest, opts ...grpc.CallOption) (*RuntimeInfoReport, error)
+}
+
+type runtimeServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewRuntimeServiceClient(cc *grpc.ClientConn) RuntimeServiceClient {
+	return &runtimeServiceClient{cc}
+}
+
+func (c *runtimeServiceClient) CheckRuntime(ctx context.Context, in *SignedRuntimeInfoRequest, opts ...grpc.CallOption) (*RuntimeInfoReport, error) {
+	out := new(RuntimeInfoReport)
+	err := c.cc.Invoke(ctx, "/shared.RuntimeService/CheckRuntime", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RuntimeServiceServer is the server API for RuntimeService service.
+type RuntimeServiceServer interface {
+	CheckRuntime(context.Context, *SignedRuntimeInfoRequest) (*RuntimeInfoReport, error)
+}
+
+// UnimplementedRuntimeServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedRuntimeServiceServer struct {
+}
+
+func (*UnimplementedRuntimeServiceServer) CheckRuntime(ctx context.Context, req *SignedRuntimeInfoRequest) (*RuntimeInfoReport, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckRuntime not implemented")
+}
+
+func RegisterRuntimeServiceServer(s *grpc.Server, srv RuntimeServiceServer) {
+	s.RegisterService(&_RuntimeService_serviceDesc, srv)
+}
+
+func _RuntimeService_CheckRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignedRuntimeInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuntimeServiceServer).CheckRuntime(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shared.RuntimeService/CheckRuntime",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuntimeServiceServer).CheckRuntime(ctx, req.(*SignedRuntimeInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _RuntimeService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "shared.RuntimeService",
+	HandlerType: (*RuntimeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CheckRuntime",
+			Handler:    _RuntimeService_CheckRuntime_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "protos/shared/shared.proto",
 }
 
 func (m *RuntimeInfoRequest) Marshal() (dAtA []byte, err error) {
@@ -355,13 +496,6 @@ func (m *RuntimeInfoRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.Signature) > 0 {
-		i -= len(m.Signature)
-		copy(dAtA[i:], m.Signature)
-		i = encodeVarintShared(dAtA, i, uint64(len(m.Signature)))
-		i--
-		dAtA[i] = 0x1a
-	}
 	if m.CurentTime != nil {
 		{
 			size, err := m.CurentTime.MarshalToSizedBuffer(dAtA[:i])
@@ -378,6 +512,52 @@ func (m *RuntimeInfoRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.RequestAddress)
 		copy(dAtA[i:], m.RequestAddress)
 		i = encodeVarintShared(dAtA, i, uint64(len(m.RequestAddress)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *SignedRuntimeInfoRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *SignedRuntimeInfoRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SignedRuntimeInfoRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintShared(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Req != nil {
+		{
+			size, err := m.Req.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintShared(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -408,38 +588,38 @@ func (m *RuntimeInfoReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.Signature) > 0 {
-		i -= len(m.Signature)
-		copy(dAtA[i:], m.Signature)
-		i = encodeVarintShared(dAtA, i, uint64(len(m.Signature)))
-		i--
-		dAtA[i] = 0x72
-	}
 	if len(m.Extra) > 0 {
 		i -= len(m.Extra)
 		copy(dAtA[i:], m.Extra)
 		i = encodeVarintShared(dAtA, i, uint64(len(m.Extra)))
 		i--
-		dAtA[i] = 0x6a
+		dAtA[i] = 0x72
 	}
 	if len(m.CacheStatusExtra) > 0 {
 		i -= len(m.CacheStatusExtra)
 		copy(dAtA[i:], m.CacheStatusExtra)
 		i = encodeVarintShared(dAtA, i, uint64(len(m.CacheStatusExtra)))
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x6a
 	}
 	if len(m.ChainStatusExtra) > 0 {
 		i -= len(m.ChainStatusExtra)
 		copy(dAtA[i:], m.ChainStatusExtra)
 		i = encodeVarintShared(dAtA, i, uint64(len(m.ChainStatusExtra)))
 		i--
-		dAtA[i] = 0x5a
+		dAtA[i] = 0x62
 	}
 	if len(m.QueueStatusExtra) > 0 {
 		i -= len(m.QueueStatusExtra)
 		copy(dAtA[i:], m.QueueStatusExtra)
 		i = encodeVarintShared(dAtA, i, uint64(len(m.QueueStatusExtra)))
+		i--
+		dAtA[i] = 0x5a
+	}
+	if len(m.RdStatusExtra) > 0 {
+		i -= len(m.RdStatusExtra)
+		copy(dAtA[i:], m.RdStatusExtra)
+		i = encodeVarintShared(dAtA, i, uint64(len(m.RdStatusExtra)))
 		i--
 		dAtA[i] = 0x52
 	}
@@ -465,22 +645,22 @@ func (m *RuntimeInfoReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x3a
 	}
 	if m.StartTime != nil {
-		n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.StartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.StartTime):])
-		if err2 != nil {
-			return 0, err2
-		}
-		i -= n2
-		i = encodeVarintShared(dAtA, i, uint64(n2))
-		i--
-		dAtA[i] = 0x32
-	}
-	if m.CurentTime != nil {
-		n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.CurentTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.CurentTime):])
+		n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.StartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.StartTime):])
 		if err3 != nil {
 			return 0, err3
 		}
 		i -= n3
 		i = encodeVarintShared(dAtA, i, uint64(n3))
+		i--
+		dAtA[i] = 0x32
+	}
+	if m.CurentTime != nil {
+		n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.CurentTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.CurentTime):])
+		if err4 != nil {
+			return 0, err4
+		}
+		i -= n4
+		i = encodeVarintShared(dAtA, i, uint64(n4))
 		i--
 		dAtA[i] = 0x2a
 	}
@@ -538,6 +718,22 @@ func (m *RuntimeInfoRequest) Size() (n int) {
 		l = m.CurentTime.Size()
 		n += 1 + l + sovShared(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *SignedRuntimeInfoRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Req != nil {
+		l = m.Req.Size()
+		n += 1 + l + sovShared(uint64(l))
+	}
 	l = len(m.Signature)
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
@@ -589,6 +785,10 @@ func (m *RuntimeInfoReport) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
 	}
+	l = len(m.RdStatusExtra)
+	if l > 0 {
+		n += 1 + l + sovShared(uint64(l))
+	}
 	l = len(m.QueueStatusExtra)
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
@@ -602,10 +802,6 @@ func (m *RuntimeInfoReport) Size() (n int) {
 		n += 1 + l + sovShared(uint64(l))
 	}
 	l = len(m.Extra)
-	if l > 0 {
-		n += 1 + l + sovShared(uint64(l))
-	}
-	l = len(m.Signature)
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
 	}
@@ -720,7 +916,97 @@ func (m *RuntimeInfoRequest) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 3:
+		default:
+			iNdEx = preIndex
+			skippy, err := skipShared(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthShared
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthShared
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *SignedRuntimeInfoRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowShared
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: SignedRuntimeInfoRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: SignedRuntimeInfoRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Req", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowShared
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthShared
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthShared
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Req == nil {
+				m.Req = &RuntimeInfoRequest{}
+			}
+			if err := m.Req.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
 			}
@@ -1105,6 +1391,40 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RdStatusExtra", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowShared
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthShared
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthShared
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RdStatusExtra = append(m.RdStatusExtra[:0], dAtA[iNdEx:postIndex]...)
+			if m.RdStatusExtra == nil {
+				m.RdStatusExtra = []byte{}
+			}
+			iNdEx = postIndex
+		case 11:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field QueueStatusExtra", wireType)
 			}
 			var byteLen int
@@ -1137,7 +1457,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				m.QueueStatusExtra = []byte{}
 			}
 			iNdEx = postIndex
-		case 11:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ChainStatusExtra", wireType)
 			}
@@ -1171,7 +1491,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				m.ChainStatusExtra = []byte{}
 			}
 			iNdEx = postIndex
-		case 12:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CacheStatusExtra", wireType)
 			}
@@ -1205,7 +1525,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				m.CacheStatusExtra = []byte{}
 			}
 			iNdEx = postIndex
-		case 13:
+		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Extra", wireType)
 			}
@@ -1237,40 +1557,6 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			m.Extra = append(m.Extra[:0], dAtA[iNdEx:postIndex]...)
 			if m.Extra == nil {
 				m.Extra = []byte{}
-			}
-			iNdEx = postIndex
-		case 14:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowShared
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				byteLen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthShared
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex < 0 {
-				return ErrInvalidLengthShared
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Signature = append(m.Signature[:0], dAtA[iNdEx:postIndex]...)
-			if m.Signature == nil {
-				m.Signature = []byte{}
 			}
 			iNdEx = postIndex
 		default:

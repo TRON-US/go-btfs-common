@@ -19,13 +19,11 @@ option java_package = "io.btfs.status";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "protos/shared/shared.proto";
 
 service Status {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
   rpc CollectHealth(NodeHealth) returns (google.protobuf.Empty);
   rpc CollectError(NodeError) returns (google.protobuf.Empty);
-  rpc CheckRuntime(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport);
 }
 
 message SignedMetrics {

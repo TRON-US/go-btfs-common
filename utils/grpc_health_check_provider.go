@@ -5,12 +5,15 @@ package utils
 //Used for K8S to run grpc-health-probe to verify the health of the service
 // Used by call utils.RegisterHealthCheckService(&grpcServer)
 // Sample code likes below:
-//lis, err := net.Listen("tcp", config.InterceptorPort)
-//if err != nil {
-//log.Panic("Failed to listen:", zap.Error(err))
-//}
-//s := grpc.NewServer()
-//utils.RegisterHealthCheckService(s)
+/*
+	lis, err := net.Listen("tcp", config.InterceptorPort)
+	if err != nil {
+	log.Panic("Failed to listen:", zap.Error(err))
+	}
+	s := grpc.NewServer()
+	utils.RegisterHealthCheckService(s)
+*/
+
 import (
 	"context"
 
