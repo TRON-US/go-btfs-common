@@ -33,17 +33,19 @@ message SignedMetrics {
 }
 
 message NodeHealth {
-  string node_id = 1;
-  string btfs_version = 2;
-  string failure_point = 3;
-  google.protobuf.Timestamp time_created = 4 [(gogoproto.stdtime) = true];
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"health_monitoring,alias:t,discard_unknown_columns\""];
+  string node_id = 2;
+  string btfs_version = 3;
+  string failure_point = 4;
+  google.protobuf.Timestamp time_created = 5 [(gogoproto.stdtime) = true];
 }
 
 message NodeError {
-  string h_val = 1;
-  string peer_id = 2;
-  string error_status = 3;
-  google.protobuf.Timestamp time_created = 4 [(gogoproto.stdtime) = true];
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"test_error,alias:t,discard_unknown_columns\""];
+  string h_val = 2;
+  string peer_id = 3;
+  string error_status = 4;
+  google.protobuf.Timestamp time_created = 5 [(gogoproto.stdtime) = true];
 }
 
 message Ip2Location {
