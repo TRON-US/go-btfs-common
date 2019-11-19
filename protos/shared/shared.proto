@@ -19,10 +19,18 @@ option java_package = "io.btfs.shared";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
+service RuntimeService {
+  rpc CheckRuntime(SignedRuntimeInfoRequest) returns (RuntimeInfoReport);
+}
+
 message RuntimeInfoRequest {
   bytes request_address = 1;
   google.protobuf.Timestamp curent_time = 2;
-  bytes signature = 3;
+}
+
+message SignedRuntimeInfoRequest {
+  RuntimeInfoRequest req = 1;
+  bytes signature = 2;
 }
 
 message RuntimeInfoReport {
@@ -41,9 +49,9 @@ message RuntimeInfoReport {
   bytes git_hash = 7; //the git hash of the build related the git repository's branch
   bytes version = 8;
   bytes db_status_extra = 9; //RESERVED: JSON format structure to store db status information
-  bytes queue_status_extra = 10; //RESERVED: JSON format structure to store the queue information
-  bytes chain_status_extra = 11; //RESERVED: JSON format structre to store the block chain related information
-  bytes cache_status_extra = 12; //RESERVED: JSON format structre to store the cache related information
-  bytes extra = 13; //RESERVED: JSON format structre to store other information
-  bytes signature = 14;
+  bytes rd_status_extra = 10; //RESERVED: JSON format structure to store redis status information
+  bytes queue_status_extra = 11; //RESERVED: JSON format structure to store the queue information
+  bytes chain_status_extra = 12; //RESERVED: JSON format structre to store the block chain related information
+  bytes cache_status_extra = 13; //RESERVED: JSON format structre to store the cache related information
+  bytes extra = 14; //RESERVED: JSON format structre to store other information
 }
