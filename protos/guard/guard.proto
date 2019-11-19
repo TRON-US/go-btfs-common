@@ -98,7 +98,7 @@ message FileStoreMeta {
   int64 file_size = 3; // file’s size
   google.protobuf.Timestamp rent_start = 4 [(gogoproto.stdtime) = true]; //rent start time
   google.protobuf.Timestamp rent_end = 5 [(gogoproto.stdtime) = true]; //rent end time
-  int32 check_frequency = 6; // shard check frequency in a year,  1 means check once per year
+  int32 check_frequency = 6; // shard check frequency in a year,  1 means check once per year, 0 means check 12 per year(1 per month)
   int64 guard_fee = 7; // reserve: the fee which guard will charge for supporting
   int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
   int32 shard_count = 9; //shard's count, by default is 30
