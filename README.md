@@ -43,6 +43,20 @@ Common packages among various go-btfs projects.
 
 ## Install Tools
 
+#### install TRON version(pg support) protobuf
+
+```
+cd github.com/tron-us
+```
+```
+git clone https://github.com/TRON-US/protobuf
+```
+```
+cd protobuf && build
+```
+
+#### other tools
+
 ```
 make install
 ```
