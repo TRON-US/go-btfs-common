@@ -9,6 +9,10 @@ TEST_RD_USER ?= `whoami`
 TEST_RD_HOSTNAME ?= localhost
 TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)"
 
+PG_FIX_CANDIDATES=./protos/node/node.pb.go \
+			./protos/status/status.pb.go \
+			./protos/escrow/escrow.pb.go \
+
 install:
 	brew install protobuf
 	brew install prototool
@@ -23,10 +27,20 @@ lintf:
 	go fmt ./...
 	go mod tidy
 
-build:
+genproto:
 	prototool all
-	go mod tidy
+
+buildgo:
 	go build ./...
+
+pgfix:
+	for pb in  $(PG_FIX_CANDIDATES); \
+	do \
+	sed -i '' -e 's/TableName/tableName/g' $$pb; \
+	sed -i '' -e 's/string[ ]*`protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" /struct{}  `/g' $$pb; \
+	done
+
+build: lintf genproto buildgo pgfix
 
 test:
 	dropdb --if-exists $(TEST_DB_NAME)
