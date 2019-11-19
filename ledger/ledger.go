@@ -135,5 +135,3 @@ func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, sig
 	}
 	return nil
 }
-
-

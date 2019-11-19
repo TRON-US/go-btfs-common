@@ -20,6 +20,8 @@ install:
 lintf:
 	prototool lint ./protos
 	prototool format -w
+	go fmt ./...
+	go mod tidy
 
 build:
 	prototool all
