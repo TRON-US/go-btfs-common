@@ -18,11 +18,9 @@ option java_package = "io.btfs.guard";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
-import "protos/shared/shared.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
@@ -78,7 +76,7 @@ message Contract {
     SIGNED = 1; // the escrow service received the money from renter, the contract was start.
     UPLOADED = 2; //the first challenge was done, which means the shard was in the host, all pending payouts can be issued now
     LOST = 3; // the challenge failed, the following payout should be hold or even stopped
-    CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NOQUESTION, it go to CANCELED status
+    CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NO QUESTION, it go to CANCELED status
     CLOSED = 5; // the all work in such contract was done
   }
   ContractState state = 2;
