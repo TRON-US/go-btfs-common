@@ -16,7 +16,7 @@ option java_multiple_files = true;
 option java_outer_classname = "EscrowProto";
 option java_package = "io.btfs.escrow";
 
-import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 import "protos/ledger/ledger.proto";
 

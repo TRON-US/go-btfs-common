@@ -10,8 +10,8 @@ import (
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
 	"github.com/tron-us/go-common/v2/log"
 
-	"github.com/gogo/protobuf/proto"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
+	"github.com/tron-us/protobuf/proto"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
