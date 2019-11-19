@@ -18,11 +18,9 @@ option java_package = "io.btfs.guard";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
-import "protos/shared/shared.proto";
 
 service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
-  rpc StatusInfo(shared.RuntimeInfoRequest) returns (shared.RuntimeInfoReport); //used for other nodes check guard health
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
 }
@@ -131,7 +129,7 @@ message ChallengeQuestion {
   bytes shard_hash = 1; //shard hash
   bytes host_address = 2; //host's address
   int32 chunk_index = 3; //the chunk's index for calculation
-  int32 random_nonce = 4; //the challenge questions's random nonce
+  bytes random_nonce = 4; //the challenge questions's random nonce
   bytes expect_answer = 5; //the challenge expected answer
 }
 
