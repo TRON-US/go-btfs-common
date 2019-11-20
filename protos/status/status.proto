@@ -37,7 +37,10 @@ message NodeHealth {
   string node_id = 2;
   string btfs_version = 3;
   string failure_point = 4;
-  google.protobuf.Timestamp time_created = 5 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp time_created = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message NodeError {
@@ -45,7 +48,10 @@ message NodeError {
   string h_val = 2;
   string peer_id = 3;
   string error_status = 4;
-  google.protobuf.Timestamp time_created = 5 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp time_created = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message Ip2Location {

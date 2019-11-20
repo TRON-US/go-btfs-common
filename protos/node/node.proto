@@ -42,7 +42,10 @@ message Node {
   uint64 total_download = 12;
   uint64 storage_price_deal = 13;
   uint64 bandwidth_price_deal = 14;
-  Settings settings = 15 [(gogoproto.embed) = true];
+  Settings settings = 15 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
   double reputation = 16;
   uint64 blocks_up = 17;
   uint64 blocks_down = 18;
@@ -51,5 +54,8 @@ message Node {
   string cpu_info = 21;
   string node_ip = 22;
   uint64 peers_connected = 23;
-  google.protobuf.Timestamp time_created = 24 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp time_created = 24 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
