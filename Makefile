@@ -37,7 +37,7 @@ pgfix:
 	for pb in  $(PG_FIX_CANDIDATES); \
 	do \
 	sed -i '' -e 's/TableName/tableName/g' $$pb; \
-	sed -i '' -e 's/string[ ]*`protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" /struct{}  `/g' $$pb; \
+	sed -i '' -e 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
 	done
 
 build: lintf genproto buildgo pgfix
