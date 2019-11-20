@@ -36,8 +36,8 @@ func NewGRPCConn(ctx context.Context, address string, opts ...grpc.DialOption) (
 	if u.schema == "http" {
 		opts = append(opts, grpc.WithInsecure())
 	} else if u.schema == "https" {
-		h2creds := credentials.NewTLS(&tls.Config{NextProtos: []string{"h2"}})
-		opts = append(opts, grpc.WithTransportCredentials(h2creds))
+		c := credentials.NewTLS(&tls.Config{})
+		opts = append(opts, grpc.WithTransportCredentials(c))
 	} else {
 		return nil, errors.New("not supported schema")
 	}
