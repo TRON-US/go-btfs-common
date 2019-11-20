@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"testing"
@@ -25,7 +26,7 @@ func TestNewGRPCConn(t *testing.T) {
 			defer cancelFunc()
 		}
 		if !tt.err && err != nil {
-			t.Errorf(`%v: unexpected error \"%v\"`, tt.in, err)
+			t.Errorf(`%v: unexpected error "%v"`, tt.in, err)
 			continue
 		}
 		if tt.err && err == nil {
@@ -74,7 +75,8 @@ func TestParse(t *testing.T) {
 	for _, tt := range tests {
 		url, err := parse(tt.in)
 		if !tt.err && err != nil {
-			t.Errorf(`%v: unexpected error \"%v\"`, tt.in, err)
+			fmt.Println("abc")
+			t.Errorf(`%v: unexpected error "%v"`, tt.in, err)
 			continue
 		}
 		if tt.err && err == nil {
