@@ -18,7 +18,7 @@ const (
 )
 
 var (
-	domainRegexp = regexp.MustCompile(`^([a-zA-Z0-9-]{1,63}\.)*([a-zA-Z]{1,63})$`)
+	domainRegexp = regexp.MustCompile(`^(localhost)|([a-zA-Z0-9-]{1,63}\.)+([a-zA-Z]{1,63})$`)
 	ipv4Regexp   = regexp.MustCompile(`^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$`)
 )
 
@@ -55,36 +55,35 @@ func parse(rawU string) (*parsedURL, error) {
 	if err != nil {
 		return nil, err
 	}
-	h, p, err := splitHostPort(u)
-	if err != nil {
-		return nil, err
-	}
+	h := u.Hostname()
 	if err := checkHost(h); err != nil {
 		return nil, err
 	}
 	result := new(parsedURL)
 	result.schema = u.Scheme
 	result.host = h
-	result.port, err = getPort(p, u.Scheme)
+	result.port, err = getPort(u)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
 }
 
-func getPort(p string, schema string) (int, error) {
+func getPort(u *url.URL) (int, error) {
+	p := u.Port()
 	if p == "" {
-		switch schema {
+		switch u.Scheme {
 		case "http":
 			p = "80"
 		case "https":
 			p = "443"
 		default:
-			return -1, fmt.Errorf("not support schema: %v", schema)
+			return -1, fmt.Errorf("not support schema: %v", u.Scheme)
 		}
 	}
 	return strconv.Atoi(p)
 }
+
 func checkHost(host string) error {
 	if host == "" {
 		return fmt.Errorf("empty host")
@@ -100,29 +99,4 @@ func checkHost(host string) error {
 	}
 
 	return fmt.Errorf("invalid host")
-}
-
-func splitHostPort(u *url.URL) (host, port string, err error) {
-	if u == nil {
-		return "", "", errors.New("empty url")
-	}
-	host = u.Host
-
-	i := strings.LastIndex(host, ":")
-	if i == -1 {
-		return host, "", nil
-	}
-
-	if i == len(host)-1 {
-		return "", "", errors.New("empty port")
-	}
-
-	port = host[i+1:]
-	host = host[:i]
-
-	if _, err := strconv.Atoi(port); err != nil {
-		return "", "", err
-	}
-
-	return host, port, nil
 }

@@ -2,7 +2,6 @@ package helpers
 
 import (
 	"context"
-	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"testing"
@@ -59,6 +58,8 @@ func TestParse(t *testing.T) {
 		{in: "127.0.0:8080", err: true},
 		{in: "127.0.0", err: true},
 		{in: "127.0.0.0.1", err: true},
+		{in: "ftp://127.0.0.1", err: true},
+		{in: "//localhost", out: &parsedURL{schema: "http", host: "localhost", port: 80}},
 		{in: "localhost", out: &parsedURL{schema: "http", host: "localhost", port: 80}},
 		{in: "localhost:8080", out: &parsedURL{schema: "http", host: "localhost", port: 8080}},
 		{in: "btfs.io", out: &parsedURL{schema: "http", host: "btfs.io", port: 80}},
@@ -75,7 +76,6 @@ func TestParse(t *testing.T) {
 	for _, tt := range tests {
 		url, err := parse(tt.in)
 		if !tt.err && err != nil {
-			fmt.Println("abc")
 			t.Errorf(`%v: unexpected error "%v"`, tt.in, err)
 			continue
 		}
