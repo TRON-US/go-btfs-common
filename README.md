@@ -61,7 +61,7 @@ cd github.com/tron-us
 git clone https://github.com/TRON-US/protobuf
 ```
 ```
-cd protobuf && build
+cd protobuf && make
 ```
 
 #### other tools

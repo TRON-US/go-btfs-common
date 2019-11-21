@@ -13,13 +13,19 @@ PG_FIX_CANDIDATES=./protos/node/node.pb.go \
 			./protos/status/status.pb.go \
 			./protos/escrow/escrow.pb.go \
 
-install:
+install: brew trongogo
+
+brew:
 	brew install protobuf
 	brew install prototool
 	brew install postgresql go
 	brew install redis go
 	brew services start postgresql
 	brew services start redis
+
+trongogo:
+	cd ../ && git clone https://github.com/TRON-US/protobuf
+	cd ../protobuf && make
 
 lintf:
 	prototool lint ./protos
