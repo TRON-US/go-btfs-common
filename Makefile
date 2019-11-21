@@ -24,7 +24,7 @@ brew:
 	brew services start redis
 
 trongogo:
-	cd ../ && git clone https://github.com/TRON-US/protobuf
+	cd ../ && git clone https://github.com/TRON-US/protobuf || true
 	cd ../protobuf && make
 
 lintf:
