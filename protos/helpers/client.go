@@ -39,7 +39,7 @@ func NewGRPCConn(ctx context.Context, address string, opts ...grpc.DialOption) (
 		c := credentials.NewTLS(&tls.Config{})
 		opts = append(opts, grpc.WithTransportCredentials(c))
 	} else {
-		return nil, errors.New("not supported schema")
+		return nil, fmt.Errorf("not supported schema: %v", u.schema)
 	}
 	return grpc.DialContext(ctx, fmt.Sprintf("%s:%d", u.host, u.port), opts...)
 }
@@ -86,7 +86,7 @@ func getPort(u *url.URL) (int, error) {
 
 func checkHost(host string) error {
 	if host == "" {
-		return fmt.Errorf("empty host")
+		return errors.New("empty host")
 	}
 
 	host = strings.ToLower(host)
@@ -98,5 +98,5 @@ func checkHost(host string) error {
 		return nil
 	}
 
-	return fmt.Errorf("invalid host")
+	return fmt.Errorf("invalid host: %v", host)
 }
