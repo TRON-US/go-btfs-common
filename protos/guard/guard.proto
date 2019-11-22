@@ -27,15 +27,9 @@ service GuardService {
 
 message Log {
   google.protobuf.Timestamp change_time = 1;
-  string change_originator = 2;
+  string originator_pid = 2;
   string change = 3;
 }
-
-//below rpc is needed for host by concept, and it work as BTFS
-// service HostService{
-// 	rpc challenge(ProofOfReplicateChallenge) returns (ProofOfReplicateChallenge){} //used for receieve challenge question and return the answer, TBD seems can be removed as the BTFS has embed function , no need for service
-// 	rpc cancelContract(Contract) returns (Result){}  //removed for phase 2
-// }
 
 //the relationship of the objects from Guard's view
 // FileStoreMeta (1:n) Contract (1:n) payout
@@ -142,7 +136,7 @@ message FileStoreStatus {
     (gogoproto.stdtime) = true
   ]; //guard received time, which used to calculate the timeout for cancel
   repeated Log change_log = 6;
-  google.protobuf.Timestamp curent_time = 7 [
+  google.protobuf.Timestamp current_time = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ]; //the time for generate the status
@@ -153,7 +147,7 @@ message ChallengeQuestion {
   string shard_hash = 1; //shard hash
   string host_pid = 2; //host's peerId
   int32 chunk_index = 3; //the chunk's index for calculation
-  string random_nonce = 4; //the challenge questions's random nonce
+  string nonce = 4; //the challenge questions's random nonce
   string expect_answer = 5; //the challenge expected answer
 }
 
