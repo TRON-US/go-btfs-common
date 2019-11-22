@@ -16,7 +16,7 @@ option java_multiple_files = true;
 option java_outer_classname = "SharedProto";
 option java_package = "io.btfs.shared";
 
-import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
 service RuntimeService {
@@ -44,8 +44,14 @@ message RuntimeInfoReport {
     PARTIAL_STOP = 3; //reserve field, some function cannot work
   }
   HealthStatus status = 4; //current status , running, starting, partial stop
-  google.protobuf.Timestamp curent_time = 5 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp start_time = 6 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp curent_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp start_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
   bytes git_hash = 7; //the git hash of the build related the git repository's branch
   bytes version = 8;
   bytes db_status_extra = 9; //RESERVED: JSON format structure to store db status information

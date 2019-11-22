@@ -6,11 +6,11 @@ package node
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
+	_ "github.com/tron-us/protobuf/gogoproto"
+	proto "github.com/tron-us/protobuf/proto"
+	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -31,32 +31,33 @@ var _ = time.Kitchen
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Node struct {
-	NodeId               string         `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
-	BtfsVersion          string         `protobuf:"bytes,2,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty"`
-	UpTime               uint64         `protobuf:"varint,3,opt,name=up_time,json=upTime,proto3" json:"up_time,omitempty"`
-	StorageUsed          uint64         `protobuf:"varint,4,opt,name=storage_used,json=storageUsed,proto3" json:"storage_used,omitempty"`
-	StorageVolumeCap     uint64         `protobuf:"varint,5,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap,omitempty"`
-	MemoryUsed           uint64         `protobuf:"varint,6,opt,name=memory_used,json=memoryUsed,proto3" json:"memory_used,omitempty"`
-	CpuUsed              float64        `protobuf:"fixed64,7,opt,name=cpu_used,json=cpuUsed,proto3" json:"cpu_used,omitempty"`
-	Upload               uint64         `protobuf:"varint,8,opt,name=upload,proto3" json:"upload,omitempty"`
-	Download             uint64         `protobuf:"varint,9,opt,name=download,proto3" json:"download,omitempty"`
-	TotalUpload          uint64         `protobuf:"varint,10,opt,name=total_upload,json=totalUpload,proto3" json:"total_upload,omitempty"`
-	TotalDownload        uint64         `protobuf:"varint,11,opt,name=total_download,json=totalDownload,proto3" json:"total_download,omitempty"`
-	StoragePriceDeal     uint64         `protobuf:"varint,12,opt,name=storage_price_deal,json=storagePriceDeal,proto3" json:"storage_price_deal,omitempty"`
-	BandwidthPriceDeal   uint64         `protobuf:"varint,13,opt,name=bandwidth_price_deal,json=bandwidthPriceDeal,proto3" json:"bandwidth_price_deal,omitempty"`
-	Settings             *Node_Settings `protobuf:"bytes,14,opt,name=settings,proto3" json:"settings,omitempty"`
-	TimeCreated          *time.Time     `protobuf:"bytes,15,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created,omitempty"`
-	Reputation           float64        `protobuf:"fixed64,16,opt,name=reputation,proto3" json:"reputation,omitempty"`
-	BlocksUp             uint64         `protobuf:"varint,17,opt,name=blocks_up,json=blocksUp,proto3" json:"blocks_up,omitempty"`
-	BlocksDown           uint64         `protobuf:"varint,18,opt,name=blocks_down,json=blocksDown,proto3" json:"blocks_down,omitempty"`
-	OsType               string         `protobuf:"bytes,19,opt,name=os_type,json=osType,proto3" json:"os_type,omitempty"`
-	ArchType             string         `protobuf:"bytes,20,opt,name=arch_type,json=archType,proto3" json:"arch_type,omitempty"`
-	CpuInfo              string         `protobuf:"bytes,21,opt,name=cpu_info,json=cpuInfo,proto3" json:"cpu_info,omitempty"`
-	NodeIp               string         `protobuf:"bytes,22,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty"`
-	PeersConnected       uint64         `protobuf:"varint,23,opt,name=peers_connected,json=peersConnected,proto3" json:"peers_connected,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
-	XXX_unrecognized     []byte         `json:"-"`
-	XXX_sizecache        int32          `json:"-"`
+	tableName            string  `pg:"node_metrics,alias:t,discard_unknown_columns"`
+	NodeId               string  `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
+	BtfsVersion          string  `protobuf:"bytes,3,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
+	UpTime               uint64  `protobuf:"varint,4,opt,name=up_time,json=upTime,proto3" json:"up_time,omitempty" pg:"up_time"`
+	StorageUsed          uint64  `protobuf:"varint,5,opt,name=storage_used,json=storageUsed,proto3" json:"storage_used,omitempty" pg:"storage_used"`
+	StorageVolumeCap     uint64  `protobuf:"varint,6,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap,omitempty" pg:"storage_volume_cap"`
+	MemoryUsed           uint64  `protobuf:"varint,7,opt,name=memory_used,json=memoryUsed,proto3" json:"memory_used,omitempty" pg:"memory_used"`
+	CpuUsed              float64 `protobuf:"fixed64,8,opt,name=cpu_used,json=cpuUsed,proto3" json:"cpu_used,omitempty" pg:"cpu_used"`
+	Upload               uint64  `protobuf:"varint,9,opt,name=upload,proto3" json:"upload,omitempty" pg:"upload"`
+	Download             uint64  `protobuf:"varint,10,opt,name=download,proto3" json:"download,omitempty" pg:"download"`
+	TotalUpload          uint64  `protobuf:"varint,11,opt,name=total_upload,json=totalUpload,proto3" json:"total_upload,omitempty" pg:"total_upload"`
+	TotalDownload        uint64  `protobuf:"varint,12,opt,name=total_download,json=totalDownload,proto3" json:"total_download,omitempty" pg:"total_download"`
+	StoragePriceDeal     uint64  `protobuf:"varint,13,opt,name=storage_price_deal,json=storagePriceDeal,proto3" json:"storage_price_deal,omitempty" pg:"storage_price_deal"`
+	BandwidthPriceDeal   uint64  `protobuf:"varint,14,opt,name=bandwidth_price_deal,json=bandwidthPriceDeal,proto3" json:"bandwidth_price_deal,omitempty" pg:"bandwidth_price_deal"`
+	Node_Settings        `protobuf:"bytes,15,opt,name=settings,proto3,embedded=settings" json:"settings" pg:"settings"`
+	Reputation           float64   `protobuf:"fixed64,16,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
+	BlocksUp             uint64    `protobuf:"varint,17,opt,name=blocks_up,json=blocksUp,proto3" json:"blocks_up,omitempty" pg:"blocks_up"`
+	BlocksDown           uint64    `protobuf:"varint,18,opt,name=blocks_down,json=blocksDown,proto3" json:"blocks_down,omitempty" pg:"blocks_down"`
+	OsType               string    `protobuf:"bytes,19,opt,name=os_type,json=osType,proto3" json:"os_type,omitempty" pg:"os_type"`
+	ArchType             string    `protobuf:"bytes,20,opt,name=arch_type,json=archType,proto3" json:"arch_type,omitempty" pg:"arch_type"`
+	CpuInfo              string    `protobuf:"bytes,21,opt,name=cpu_info,json=cpuInfo,proto3" json:"cpu_info,omitempty" pg:"cpu_info"`
+	NodeIp               string    `protobuf:"bytes,22,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty" pg:"node_ip"`
+	PeersConnected       uint64    `protobuf:"varint,23,opt,name=peers_connected,json=peersConnected,proto3" json:"peers_connected,omitempty" pg:"peers_connected"`
+	TimeCreated          time.Time `protobuf:"bytes,24,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
+	XXX_unrecognized     []byte    `json:"-" pg:"-"`
+	XXX_sizecache        int32     `json:"-" pg:"-"`
 }
 
 func (m *Node) Reset()         { *m = Node{} }
@@ -91,6 +92,13 @@ func (m *Node) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Node proto.InternalMessageInfo
+
+func (m *Node) GettableName() string {
+	if m != nil {
+		return m.tableName
+	}
+	return ""
+}
 
 func (m *Node) GetNodeId() string {
 	if m != nil {
@@ -183,20 +191,6 @@ func (m *Node) GetBandwidthPriceDeal() uint64 {
 	return 0
 }
 
-func (m *Node) GetSettings() *Node_Settings {
-	if m != nil {
-		return m.Settings
-	}
-	return nil
-}
-
-func (m *Node) GetTimeCreated() *time.Time {
-	if m != nil {
-		return m.TimeCreated
-	}
-	return nil
-}
-
 func (m *Node) GetReputation() float64 {
 	if m != nil {
 		return m.Reputation
@@ -253,19 +247,26 @@ func (m *Node) GetPeersConnected() uint64 {
 	return 0
 }
 
+func (m *Node) GetTimeCreated() time.Time {
+	if m != nil {
+		return m.TimeCreated
+	}
+	return time.Time{}
+}
+
 func (*Node) XXX_MessageName() string {
 	return "node.Node"
 }
 
 type Node_Settings struct {
-	StoragePriceAsk      uint64   `protobuf:"varint,1,opt,name=storage_price_ask,json=storagePriceAsk,proto3" json:"storage_price_ask,omitempty"`
-	BandwidthPriceAsk    uint64   `protobuf:"varint,2,opt,name=bandwidth_price_ask,json=bandwidthPriceAsk,proto3" json:"bandwidth_price_ask,omitempty"`
-	StorageTimeMin       uint64   `protobuf:"varint,3,opt,name=storage_time_min,json=storageTimeMin,proto3" json:"storage_time_min,omitempty"`
-	BandwidthLimit       float64  `protobuf:"fixed64,4,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty"`
-	CollateralStake      uint64   `protobuf:"varint,5,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	StoragePriceAsk      uint64   `protobuf:"varint,1,opt,name=storage_price_ask,json=storagePriceAsk,proto3" json:"storage_price_ask,omitempty" pg:"storage_price_ask"`
+	BandwidthPriceAsk    uint64   `protobuf:"varint,2,opt,name=bandwidth_price_ask,json=bandwidthPriceAsk,proto3" json:"bandwidth_price_ask,omitempty" pg:"bandwidth_price_ask"`
+	StorageTimeMin       uint64   `protobuf:"varint,3,opt,name=storage_time_min,json=storageTimeMin,proto3" json:"storage_time_min,omitempty" pg:"storage_time_min"`
+	BandwidthLimit       float64  `protobuf:"fixed64,4,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty" pg:"bandwidth_limit"`
+	CollateralStake      uint64   `protobuf:"varint,5,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty" pg:"collateral_stake"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
 }
 
 func (m *Node_Settings) Reset()         { *m = Node_Settings{} }
@@ -350,50 +351,56 @@ func init() { proto.RegisterFile("protos/node/node.proto", fileDescriptor_35f8e1
 func init() { golang_proto.RegisterFile("protos/node/node.proto", fileDescriptor_35f8e1f5ec2240a2) }
 
 var fileDescriptor_35f8e1f5ec2240a2 = []byte{
-	// 682 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x54, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0xd6, 0x96, 0x90, 0x26, 0x9b, 0x34, 0x69, 0xb7, 0xa5, 0x35, 0x41, 0x4a, 0x03, 0x12, 0x22,
-	0x20, 0x70, 0x10, 0x9c, 0x38, 0xd2, 0xf4, 0x52, 0x09, 0x50, 0x95, 0xfe, 0x1c, 0xb8, 0x58, 0x1b,
-	0x7b, 0xe3, 0xae, 0x62, 0x7b, 0x57, 0xde, 0x75, 0xab, 0xbe, 0x05, 0x07, 0x0e, 0x3c, 0x0e, 0xc7,
-	0x1e, 0x79, 0x03, 0x50, 0xcb, 0x83, 0xa0, 0x99, 0xb5, 0x93, 0x94, 0x4b, 0xb4, 0xf3, 0x7d, 0xdf,
-	0x4c, 0x76, 0x67, 0xbe, 0x31, 0xdd, 0xd5, 0xb9, 0xb2, 0xca, 0x8c, 0x32, 0x15, 0x09, 0xfc, 0xf1,
-	0x11, 0x60, 0x35, 0x38, 0xf7, 0xde, 0xc4, 0xd2, 0x5e, 0x14, 0x53, 0x3f, 0x54, 0xe9, 0x28, 0x56,
-	0xb1, 0x1a, 0x21, 0x39, 0x2d, 0x66, 0x18, 0x61, 0x80, 0x27, 0x97, 0xd4, 0xdb, 0x8f, 0x95, 0x8a,
-	0x13, 0xb1, 0x54, 0x59, 0x99, 0x0a, 0x63, 0x79, 0xaa, 0x9d, 0xe0, 0xd9, 0xf7, 0x06, 0xad, 0x7d,
-	0x51, 0x91, 0x60, 0x7b, 0x74, 0x1d, 0xfe, 0x20, 0x90, 0x91, 0x47, 0x06, 0x64, 0xd8, 0x9c, 0xd4,
-	0x21, 0x3c, 0x8a, 0xd8, 0x53, 0xda, 0x9e, 0xda, 0x99, 0x09, 0x2e, 0x45, 0x6e, 0xa4, 0xca, 0xbc,
-	0x35, 0x64, 0x5b, 0x80, 0x9d, 0x3b, 0x08, 0x72, 0x0b, 0x1d, 0x40, 0x69, 0xef, 0xc1, 0x80, 0x0c,
-	0x6b, 0x93, 0x7a, 0xa1, 0x4f, 0x65, 0x2a, 0x20, 0xd7, 0x58, 0x95, 0xf3, 0x58, 0x04, 0x85, 0x11,
-	0x91, 0x57, 0x43, 0xb6, 0x55, 0x62, 0x67, 0x46, 0x44, 0xec, 0x35, 0x65, 0x95, 0xe4, 0x52, 0x25,
-	0x45, 0x2a, 0x82, 0x90, 0x6b, 0xef, 0x21, 0x0a, 0x37, 0x4b, 0xe6, 0x1c, 0x89, 0x31, 0xd7, 0x6c,
-	0x9f, 0xb6, 0x52, 0x91, 0xaa, 0xfc, 0xda, 0xd5, 0xab, 0xa3, 0x8c, 0x3a, 0x08, 0xcb, 0x3d, 0xa6,
-	0x8d, 0x50, 0x17, 0x8e, 0x5d, 0x1f, 0x90, 0x21, 0x99, 0xac, 0x87, 0xba, 0x40, 0x6a, 0x97, 0xd6,
-	0x0b, 0x9d, 0x28, 0x1e, 0x79, 0x8d, 0xea, 0x92, 0x10, 0xb1, 0x1e, 0x6d, 0x44, 0xea, 0x2a, 0x43,
-	0xa6, 0x89, 0xcc, 0x22, 0x86, 0x07, 0x58, 0x65, 0x79, 0x12, 0x94, 0x99, 0xd4, 0x3d, 0x00, 0xb1,
-	0x33, 0x97, 0xfe, 0x9c, 0x76, 0x9c, 0x64, 0x51, 0xa4, 0x85, 0xa2, 0x0d, 0x44, 0x0f, 0xab, 0x4a,
-	0x2b, 0xef, 0xd4, 0xb9, 0x0c, 0x45, 0x10, 0x09, 0x9e, 0x78, 0xed, 0x7b, 0xef, 0x3c, 0x06, 0xe2,
-	0x50, 0xf0, 0x84, 0xbd, 0xa5, 0x3b, 0x53, 0x9e, 0x45, 0x57, 0x32, 0xb2, 0x17, 0xab, 0xfa, 0x0d,
-	0xd4, 0xb3, 0x05, 0xb7, 0xcc, 0x18, 0xd1, 0x86, 0x11, 0xd6, 0xca, 0x2c, 0x36, 0x5e, 0x67, 0x40,
-	0x86, 0xad, 0x77, 0xdb, 0x3e, 0xba, 0x07, 0xa6, 0xeb, 0x9f, 0x94, 0xd4, 0x64, 0x21, 0x62, 0x63,
-	0xda, 0x86, 0x89, 0x05, 0x61, 0x2e, 0xb8, 0x15, 0x91, 0xd7, 0xc5, 0xa4, 0x9e, 0xef, 0x1c, 0xe3,
-	0x57, 0x8e, 0xf1, 0x4f, 0x2b, 0xc7, 0x1c, 0xd4, 0xbe, 0xfd, 0xde, 0x27, 0x93, 0x16, 0x64, 0x8d,
-	0x5d, 0x12, 0xeb, 0x53, 0x9a, 0x0b, 0x5d, 0x58, 0x6e, 0xc1, 0x1a, 0x9b, 0xd8, 0xf0, 0x15, 0x84,
-	0x3d, 0xa1, 0xcd, 0x69, 0xa2, 0xc2, 0xb9, 0x09, 0x0a, 0xed, 0x6d, 0xb9, 0xe6, 0x3a, 0xe0, 0x0c,
-	0x87, 0x59, 0x92, 0xd0, 0x3a, 0x8f, 0xb9, 0x61, 0x3a, 0x08, 0xfa, 0x06, 0xbe, 0x52, 0x26, 0xb0,
-	0xd7, 0x5a, 0x78, 0xdb, 0xce, 0x93, 0xca, 0x9c, 0x5e, 0x6b, 0x01, 0x65, 0x79, 0x1e, 0x5e, 0x38,
-	0x6a, 0x07, 0xa9, 0x06, 0x00, 0x48, 0x96, 0x16, 0x90, 0xd9, 0x4c, 0x79, 0x8f, 0x90, 0x03, 0x0b,
-	0x1c, 0x65, 0x33, 0xb5, 0x34, 0xb9, 0xf6, 0x76, 0x57, 0x4c, 0xae, 0xd9, 0x0b, 0xda, 0xd5, 0x42,
-	0xe4, 0x26, 0x08, 0x55, 0x96, 0x89, 0x10, 0xfa, 0xb1, 0x87, 0xd7, 0xe9, 0x20, 0x3c, 0xae, 0xd0,
-	0xde, 0x5f, 0x42, 0x1b, 0x55, 0x33, 0xd9, 0x2b, 0xba, 0x75, 0x7f, 0xa6, 0xdc, 0xcc, 0x71, 0x7b,
-	0x6a, 0x93, 0xee, 0xea, 0x48, 0x3f, 0x9a, 0x39, 0xf3, 0xe9, 0xf6, 0xff, 0x13, 0x05, 0xf5, 0x1a,
-	0xaa, 0xb7, 0xee, 0x0f, 0x14, 0xf4, 0x43, 0x5a, 0xb9, 0x02, 0x17, 0x2b, 0x48, 0x65, 0x56, 0x2e,
-	0x57, 0xa7, 0xc4, 0x61, 0x30, 0x9f, 0x65, 0x06, 0x77, 0x5f, 0x56, 0x4e, 0x64, 0x2a, 0x2d, 0xee,
-	0x19, 0x99, 0x74, 0x16, 0xf0, 0x27, 0x40, 0xd9, 0x4b, 0xba, 0x19, 0xaa, 0x24, 0xe1, 0x56, 0xe4,
-	0x3c, 0x09, 0x8c, 0xe5, 0x73, 0x51, 0x2e, 0x5a, 0x77, 0x89, 0x9f, 0x00, 0x7c, 0xf0, 0xe1, 0xe6,
-	0xb6, 0x4f, 0x7e, 0xdd, 0xf6, 0xc9, 0x9f, 0xdb, 0x3e, 0xf9, 0x71, 0xd7, 0x27, 0x3f, 0xef, 0xfa,
-	0xe4, 0xe6, 0xae, 0x4f, 0x68, 0x5b, 0x2a, 0x1f, 0x76, 0x1f, 0xcd, 0x75, 0xd0, 0x04, 0x77, 0x1d,
-	0x83, 0x55, 0x8e, 0xc9, 0x57, 0xfc, 0x42, 0x4d, 0xeb, 0xe8, 0x9c, 0xf7, 0xff, 0x02, 0x00, 0x00,
-	0xff, 0xff, 0x22, 0xd5, 0xa2, 0x7c, 0xc8, 0x04, 0x00, 0x00,
+	// 772 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x54, 0x41, 0x6f, 0x23, 0x35,
+	0x14, 0xc6, 0x4b, 0x48, 0x13, 0xa7, 0x9b, 0xb6, 0xee, 0xd2, 0x35, 0x41, 0x4a, 0x4a, 0x25, 0x44,
+	0x40, 0x65, 0xba, 0x80, 0x38, 0xb0, 0x12, 0x07, 0xda, 0x95, 0xd0, 0x4a, 0xb0, 0xaa, 0x66, 0xdb,
+	0x3d, 0x70, 0xb1, 0x9c, 0x19, 0x27, 0xb5, 0x32, 0x63, 0x5b, 0x63, 0xcf, 0x56, 0xfd, 0x17, 0x1c,
+	0xf9, 0x39, 0x1c, 0x7b, 0xdc, 0x5f, 0x50, 0xa0, 0xe5, 0x17, 0x70, 0xea, 0x11, 0xbd, 0xe7, 0x4c,
+	0x92, 0xee, 0x25, 0x1a, 0x7f, 0xdf, 0xf7, 0x5e, 0xfc, 0xde, 0xfb, 0x9e, 0xe9, 0x9e, 0xab, 0x6c,
+	0xb0, 0xfe, 0xc8, 0xd8, 0x5c, 0xe1, 0x4f, 0x82, 0x00, 0x6b, 0xc1, 0xf7, 0xe0, 0xd9, 0x4c, 0x87,
+	0x8b, 0x7a, 0x92, 0x64, 0xb6, 0x3c, 0x0a, 0x95, 0x35, 0x5f, 0xd7, 0xfe, 0x08, 0xf9, 0x49, 0x3d,
+	0x3d, 0x9a, 0xd9, 0x99, 0xc5, 0x03, 0x7e, 0xc5, 0xb8, 0xc1, 0x68, 0x66, 0xed, 0xac, 0x50, 0x2b,
+	0x55, 0xd0, 0xa5, 0xf2, 0x41, 0x96, 0x2e, 0x0a, 0x0e, 0xee, 0x3b, 0xb4, 0xf5, 0xca, 0xe6, 0x8a,
+	0x9d, 0x51, 0x1a, 0xe4, 0xa4, 0x50, 0xc2, 0xc8, 0x52, 0x71, 0xb2, 0x4f, 0xc6, 0xdd, 0xe3, 0xef,
+	0xff, 0xbb, 0x19, 0x7d, 0xe3, 0x66, 0xcf, 0x0f, 0xe0, 0xdf, 0x45, 0xa9, 0x42, 0xa5, 0x33, 0x7f,
+	0x28, 0x0b, 0x2d, 0xfd, 0xf3, 0x70, 0x98, 0x6b, 0x9f, 0xc9, 0x2a, 0x17, 0xb5, 0x99, 0x1b, 0x7b,
+	0x69, 0x44, 0x66, 0x8b, 0xba, 0x34, 0xfe, 0x20, 0xed, 0x62, 0xa2, 0x57, 0xb2, 0x54, 0xec, 0x29,
+	0xdd, 0xc0, 0x58, 0x9d, 0xf3, 0x47, 0x90, 0x32, 0x6d, 0xc3, 0xf1, 0x65, 0xce, 0x3e, 0xa3, 0x9b,
+	0x93, 0x30, 0xf5, 0xe2, 0xad, 0xaa, 0xbc, 0xb6, 0x86, 0x7f, 0x88, 0x6c, 0x0f, 0xb0, 0x37, 0x11,
+	0x82, 0xd8, 0xda, 0x09, 0xb8, 0x30, 0x6f, 0xed, 0x93, 0x71, 0x2b, 0x6d, 0xd7, 0xee, 0x4c, 0x97,
+	0x0a, 0x62, 0x7d, 0xb0, 0x95, 0x9c, 0x29, 0x51, 0x7b, 0x95, 0xf3, 0x8f, 0x90, 0xed, 0x2d, 0xb0,
+	0x73, 0xaf, 0x72, 0x76, 0x48, 0x59, 0x23, 0x79, 0x0b, 0xd7, 0x52, 0x22, 0x93, 0x8e, 0xb7, 0x51,
+	0xb8, 0xbd, 0x60, 0xde, 0x20, 0x71, 0x22, 0x1d, 0x1b, 0xd1, 0x5e, 0xa9, 0x4a, 0x5b, 0x5d, 0xc5,
+	0x7c, 0x1b, 0x28, 0xa3, 0x11, 0xc2, 0x74, 0x9f, 0xd0, 0x4e, 0xe6, 0xea, 0xc8, 0x76, 0xf6, 0xc9,
+	0x98, 0xa4, 0x1b, 0x99, 0xab, 0x91, 0xda, 0xa3, 0xed, 0xda, 0x15, 0x56, 0xe6, 0xbc, 0xdb, 0x5c,
+	0x12, 0x4e, 0x6c, 0x40, 0x3b, 0xb9, 0xbd, 0x34, 0xc8, 0x50, 0x64, 0x96, 0x67, 0x28, 0x20, 0xd8,
+	0x20, 0x0b, 0xb1, 0x88, 0xec, 0xc5, 0x02, 0x10, 0x3b, 0x8f, 0xe1, 0x9f, 0xd3, 0x7e, 0x94, 0x2c,
+	0x93, 0x6c, 0xa2, 0xe8, 0x31, 0xa2, 0x2f, 0x9a, 0x4c, 0x6b, 0x75, 0xba, 0x4a, 0x67, 0x4a, 0xe4,
+	0x4a, 0x16, 0xfc, 0xf1, 0x83, 0x3a, 0x4f, 0x81, 0x78, 0xa1, 0x64, 0xc1, 0x9e, 0xd1, 0x27, 0x13,
+	0x69, 0xf2, 0x4b, 0x9d, 0x87, 0x8b, 0x75, 0x7d, 0x1f, 0xf5, 0x6c, 0xc9, 0xad, 0x22, 0x7e, 0xa0,
+	0x1d, 0xaf, 0x42, 0xd0, 0x66, 0xe6, 0xf9, 0xd6, 0x3e, 0x19, 0xf7, 0xbe, 0xdd, 0x4d, 0xd0, 0x96,
+	0xe0, 0x99, 0xe4, 0xf5, 0x82, 0x3a, 0xee, 0x5c, 0xdf, 0x8c, 0x3e, 0x78, 0x77, 0x33, 0x22, 0xe9,
+	0x52, 0xce, 0x86, 0x94, 0x56, 0xca, 0xd5, 0x41, 0x06, 0x98, 0xef, 0x36, 0x76, 0x6d, 0x0d, 0x61,
+	0x9f, 0xd2, 0xee, 0xa4, 0xb0, 0xd9, 0xdc, 0x8b, 0xda, 0xf1, 0x9d, 0xd8, 0xa1, 0x08, 0x9c, 0xe3,
+	0x44, 0x16, 0x24, 0xd4, 0xcf, 0x59, 0x9c, 0x48, 0x84, 0xa0, 0x78, 0x30, 0x87, 0xf5, 0x22, 0x5c,
+	0x39, 0xc5, 0x77, 0xa3, 0xb1, 0xac, 0x3f, 0xbb, 0x72, 0x0a, 0xd2, 0xca, 0x2a, 0xbb, 0x88, 0xd4,
+	0x13, 0xa4, 0x3a, 0x00, 0x20, 0xb9, 0x98, 0xa3, 0x36, 0x53, 0xcb, 0x3f, 0x46, 0x0e, 0xe6, 0xf8,
+	0xd2, 0x4c, 0xed, 0xca, 0xa9, 0x8e, 0xef, 0xad, 0x39, 0xd5, 0xb1, 0x2f, 0xe8, 0x96, 0x53, 0xaa,
+	0xf2, 0x22, 0xb3, 0xc6, 0xa8, 0x2c, 0xa8, 0x9c, 0x3f, 0xc5, 0xeb, 0xf4, 0x11, 0x3e, 0x69, 0x50,
+	0xf6, 0x33, 0xdd, 0x04, 0xb3, 0x8a, 0xac, 0x52, 0x12, 0x54, 0x1c, 0xfb, 0x35, 0x48, 0xe2, 0x0a,
+	0x26, 0xcd, 0x0a, 0x26, 0x67, 0xcd, 0x0a, 0xc6, 0xb6, 0xfd, 0xfe, 0xd7, 0x88, 0xa4, 0x3d, 0x88,
+	0x3c, 0x89, 0x81, 0x83, 0x7f, 0x09, 0xed, 0x34, 0xad, 0x65, 0x5f, 0xd1, 0x9d, 0x87, 0x13, 0x96,
+	0x7e, 0x8e, 0xeb, 0xd9, 0x4a, 0xb7, 0xd6, 0x07, 0xfc, 0x93, 0x9f, 0xb3, 0x84, 0xee, 0xbe, 0x3f,
+	0x5f, 0x50, 0x3f, 0x42, 0xf5, 0xce, 0xc3, 0xf1, 0x82, 0x7e, 0x4c, 0x1b, 0x8f, 0xe0, 0x9a, 0x89,
+	0x52, 0xc7, 0x45, 0x6c, 0xa5, 0xfd, 0x05, 0x0e, 0x77, 0xfd, 0x55, 0x1b, 0x68, 0xc2, 0x2a, 0x73,
+	0xa1, 0x4b, 0x1d, 0x70, 0x27, 0x49, 0xda, 0x5f, 0xc2, 0xbf, 0x00, 0xca, 0xbe, 0xa4, 0xdb, 0x99,
+	0x2d, 0x0a, 0x19, 0x54, 0x25, 0x0b, 0xe1, 0x83, 0x9c, 0xab, 0xc5, 0x7e, 0x6e, 0xad, 0xf0, 0xd7,
+	0x00, 0x1f, 0xff, 0x78, 0xff, 0xcf, 0x90, 0x5c, 0xdf, 0x0e, 0xc9, 0xbb, 0xdb, 0x21, 0xf9, 0xfb,
+	0x76, 0x48, 0xfe, 0xb8, 0x1b, 0x92, 0x3f, 0xef, 0x86, 0xe4, 0xfa, 0x6e, 0x48, 0xe8, 0xa6, 0xb6,
+	0x09, 0xbc, 0x06, 0x68, 0xb7, 0xe3, 0x2e, 0xf8, 0xed, 0x14, 0x3a, 0x78, 0x4a, 0x7e, 0xc3, 0xc7,
+	0x70, 0xd2, 0xc6, 0x86, 0x7e, 0xf7, 0x7f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x52, 0x46, 0xb3, 0xd8,
+	0x33, 0x05, 0x00, 0x00,
 }
 
 func (m *Node) Marshal() (dAtA []byte, err error) {
@@ -420,6 +427,16 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	if err1 != nil {
+		return 0, err1
+	}
+	i -= n1
+	i = encodeVarintNode(dAtA, i, uint64(n1))
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0xc2
 	if m.PeersConnected != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.PeersConnected))
 		i--
@@ -485,95 +502,90 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x81
 	}
-	if m.TimeCreated != nil {
-		n1, err1 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.TimeCreated, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.TimeCreated):])
-		if err1 != nil {
-			return 0, err1
+	{
+		size, err := m.Node_Settings.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i -= n1
-		i = encodeVarintNode(dAtA, i, uint64(n1))
-		i--
-		dAtA[i] = 0x7a
+		i -= size
+		i = encodeVarintNode(dAtA, i, uint64(size))
 	}
-	if m.Settings != nil {
-		{
-			size, err := m.Settings.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintNode(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x72
-	}
+	i--
+	dAtA[i] = 0x7a
 	if m.BandwidthPriceDeal != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.BandwidthPriceDeal))
 		i--
-		dAtA[i] = 0x68
+		dAtA[i] = 0x70
 	}
 	if m.StoragePriceDeal != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.StoragePriceDeal))
 		i--
-		dAtA[i] = 0x60
+		dAtA[i] = 0x68
 	}
 	if m.TotalDownload != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.TotalDownload))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x60
 	}
 	if m.TotalUpload != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.TotalUpload))
 		i--
-		dAtA[i] = 0x50
+		dAtA[i] = 0x58
 	}
 	if m.Download != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.Download))
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x50
 	}
 	if m.Upload != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.Upload))
 		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x48
 	}
 	if m.CpuUsed != 0 {
 		i -= 8
 		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.CpuUsed))))
 		i--
-		dAtA[i] = 0x39
+		dAtA[i] = 0x41
 	}
 	if m.MemoryUsed != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.MemoryUsed))
 		i--
-		dAtA[i] = 0x30
+		dAtA[i] = 0x38
 	}
 	if m.StorageVolumeCap != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.StorageVolumeCap))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x30
 	}
 	if m.StorageUsed != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.StorageUsed))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x28
 	}
 	if m.UpTime != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.UpTime))
 		i--
-		dAtA[i] = 0x18
+		dAtA[i] = 0x20
 	}
 	if len(m.BtfsVersion) > 0 {
 		i -= len(m.BtfsVersion)
 		copy(dAtA[i:], m.BtfsVersion)
 		i = encodeVarintNode(dAtA, i, uint64(len(m.BtfsVersion)))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x1a
 	}
 	if len(m.NodeId) > 0 {
 		i -= len(m.NodeId)
 		copy(dAtA[i:], m.NodeId)
 		i = encodeVarintNode(dAtA, i, uint64(len(m.NodeId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintNode(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -644,12 +656,144 @@ func encodeVarintNode(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func NewPopulatedNode(r randyNode, easy bool) *Node {
+	this := &Node{}
+	this.tableName = string(randStringNode(r))
+	this.NodeId = string(randStringNode(r))
+	this.BtfsVersion = string(randStringNode(r))
+	this.UpTime = uint64(uint64(r.Uint32()))
+	this.StorageUsed = uint64(uint64(r.Uint32()))
+	this.StorageVolumeCap = uint64(uint64(r.Uint32()))
+	this.MemoryUsed = uint64(uint64(r.Uint32()))
+	this.CpuUsed = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.CpuUsed *= -1
+	}
+	this.Upload = uint64(uint64(r.Uint32()))
+	this.Download = uint64(uint64(r.Uint32()))
+	this.TotalUpload = uint64(uint64(r.Uint32()))
+	this.TotalDownload = uint64(uint64(r.Uint32()))
+	this.StoragePriceDeal = uint64(uint64(r.Uint32()))
+	this.BandwidthPriceDeal = uint64(uint64(r.Uint32()))
+	v1 := NewPopulatedNode_Settings(r, easy)
+	this.Node_Settings = *v1
+	this.Reputation = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.Reputation *= -1
+	}
+	this.BlocksUp = uint64(uint64(r.Uint32()))
+	this.BlocksDown = uint64(uint64(r.Uint32()))
+	this.OsType = string(randStringNode(r))
+	this.ArchType = string(randStringNode(r))
+	this.CpuInfo = string(randStringNode(r))
+	this.NodeIp = string(randStringNode(r))
+	this.PeersConnected = uint64(uint64(r.Uint32()))
+	v2 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	this.TimeCreated = *v2
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNode(r, 25)
+	}
+	return this
+}
+
+func NewPopulatedNode_Settings(r randyNode, easy bool) *Node_Settings {
+	this := &Node_Settings{}
+	this.StoragePriceAsk = uint64(uint64(r.Uint32()))
+	this.BandwidthPriceAsk = uint64(uint64(r.Uint32()))
+	this.StorageTimeMin = uint64(uint64(r.Uint32()))
+	this.BandwidthLimit = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.BandwidthLimit *= -1
+	}
+	this.CollateralStake = uint64(uint64(r.Uint32()))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNode(r, 6)
+	}
+	return this
+}
+
+type randyNode interface {
+	Float32() float32
+	Float64() float64
+	Int63() int64
+	Int31() int32
+	Uint32() uint32
+	Intn(n int) int
+}
+
+func randUTF8RuneNode(r randyNode) rune {
+	ru := r.Intn(62)
+	if ru < 10 {
+		return rune(ru + 48)
+	} else if ru < 36 {
+		return rune(ru + 55)
+	}
+	return rune(ru + 61)
+}
+func randStringNode(r randyNode) string {
+	v3 := r.Intn(100)
+	tmps := make([]rune, v3)
+	for i := 0; i < v3; i++ {
+		tmps[i] = randUTF8RuneNode(r)
+	}
+	return string(tmps)
+}
+func randUnrecognizedNode(r randyNode, maxFieldNumber int) (dAtA []byte) {
+	l := r.Intn(5)
+	for i := 0; i < l; i++ {
+		wire := r.Intn(4)
+		if wire == 3 {
+			wire = 5
+		}
+		fieldNumber := maxFieldNumber + r.Intn(100)
+		dAtA = randFieldNode(dAtA, r, fieldNumber, wire)
+	}
+	return dAtA
+}
+func randFieldNode(dAtA []byte, r randyNode, fieldNumber int, wire int) []byte {
+	key := uint32(fieldNumber)<<3 | uint32(wire)
+	switch wire {
+	case 0:
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
+		v4 := r.Int63()
+		if r.Intn(2) == 0 {
+			v4 *= -1
+		}
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(v4))
+	case 1:
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	case 2:
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
+		ll := r.Intn(100)
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(ll))
+		for j := 0; j < ll; j++ {
+			dAtA = append(dAtA, byte(r.Intn(256)))
+		}
+	default:
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	}
+	return dAtA
+}
+func encodeVarintPopulateNode(dAtA []byte, v uint64) []byte {
+	for v >= 1<<7 {
+		dAtA = append(dAtA, uint8(uint64(v)&0x7f|0x80))
+		v >>= 7
+	}
+	dAtA = append(dAtA, uint8(v))
+	return dAtA
+}
 func (m *Node) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	l = len(m.tableName)
+	if l > 0 {
+		n += 1 + l + sovNode(uint64(l))
+	}
 	l = len(m.NodeId)
 	if l > 0 {
 		n += 1 + l + sovNode(uint64(l))
@@ -691,14 +835,8 @@ func (m *Node) Size() (n int) {
 	if m.BandwidthPriceDeal != 0 {
 		n += 1 + sovNode(uint64(m.BandwidthPriceDeal))
 	}
-	if m.Settings != nil {
-		l = m.Settings.Size()
-		n += 1 + l + sovNode(uint64(l))
-	}
-	if m.TimeCreated != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.TimeCreated)
-		n += 1 + l + sovNode(uint64(l))
-	}
+	l = m.Node_Settings.Size()
+	n += 1 + l + sovNode(uint64(l))
 	if m.Reputation != 0 {
 		n += 10
 	}
@@ -727,6 +865,8 @@ func (m *Node) Size() (n int) {
 	if m.PeersConnected != 0 {
 		n += 2 + sovNode(uint64(m.PeersConnected))
 	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	n += 2 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -797,6 +937,38 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNode
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNode
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.tableName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field NodeId", wireType)
 			}
 			var stringLen uint64
@@ -827,7 +999,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			}
 			m.NodeId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field BtfsVersion", wireType)
 			}
@@ -859,7 +1031,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			}
 			m.BtfsVersion = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpTime", wireType)
 			}
@@ -878,7 +1050,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 4:
+		case 5:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageUsed", wireType)
 			}
@@ -897,7 +1069,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 5:
+		case 6:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageVolumeCap", wireType)
 			}
@@ -916,7 +1088,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 6:
+		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field MemoryUsed", wireType)
 			}
@@ -935,7 +1107,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 7:
+		case 8:
 			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CpuUsed", wireType)
 			}
@@ -946,7 +1118,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
 			iNdEx += 8
 			m.CpuUsed = float64(math.Float64frombits(v))
-		case 8:
+		case 9:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Upload", wireType)
 			}
@@ -965,7 +1137,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 9:
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Download", wireType)
 			}
@@ -984,7 +1156,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 10:
+		case 11:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TotalUpload", wireType)
 			}
@@ -1003,7 +1175,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 11:
+		case 12:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TotalDownload", wireType)
 			}
@@ -1022,7 +1194,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 12:
+		case 13:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StoragePriceDeal", wireType)
 			}
@@ -1041,7 +1213,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 13:
+		case 14:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field BandwidthPriceDeal", wireType)
 			}
@@ -1060,45 +1232,9 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 14:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Settings", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNode
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNode
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthNode
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Settings == nil {
-				m.Settings = &Node_Settings{}
-			}
-			if err := m.Settings.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		case 15:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TimeCreated", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Node_Settings", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1125,10 +1261,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.TimeCreated == nil {
-				m.TimeCreated = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Node_Settings.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1328,6 +1461,39 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		case 24:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimeCreated", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthNode
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthNode
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNode(dAtA[iNdEx:])

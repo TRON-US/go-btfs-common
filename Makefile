@@ -9,7 +9,13 @@ TEST_RD_USER ?= `whoami`
 TEST_RD_HOSTNAME ?= localhost
 TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)"
 
-install:
+PG_FIX_CANDIDATES=./protos/node/node.pb.go \
+			./protos/status/status.pb.go \
+			./protos/escrow/escrow.pb.go \
+
+install: brew trongogo
+
+brew:
 	brew install protobuf
 	brew install prototool
 	brew install postgresql go
@@ -17,14 +23,30 @@ install:
 	brew services start postgresql
 	brew services start redis
 
+trongogo:
+	cd ../ && git clone https://github.com/TRON-US/protobuf || true
+	cd ../protobuf && make
+
 lintf:
 	prototool lint ./protos
 	prototool format -w
-
-build:
-	prototool all
+	go fmt ./...
 	go mod tidy
+
+genproto:
+	prototool all
+
+buildgo:
 	go build ./...
+
+pgfix:
+	for pb in  $(PG_FIX_CANDIDATES); \
+	do \
+	sed -i '' -e 's/TableName/tableName/g' $$pb; \
+	sed -i '' -e 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
+	done
+
+build: lintf genproto buildgo pgfix
 
 test:
 	dropdb --if-exists $(TEST_DB_NAME)

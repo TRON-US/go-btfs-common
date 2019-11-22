@@ -6,11 +6,11 @@ package guard
 import (
 	context "context"
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	types "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
+	_ "github.com/tron-us/protobuf/gogoproto"
+	proto "github.com/tron-us/protobuf/proto"
+	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -167,12 +167,12 @@ func (FileStoreStatus_MetaState) EnumDescriptor() ([]byte, []int) {
 }
 
 type Log struct {
-	ChangeTime           *types.Timestamp `protobuf:"bytes,1,opt,name=change_time,json=changeTime,proto3" json:"change_time,omitempty"`
-	ChangeOriginator     []byte           `protobuf:"bytes,2,opt,name=change_originator,json=changeOriginator,proto3" json:"change_originator,omitempty"`
-	Change               []byte           `protobuf:"bytes,3,opt,name=change,proto3" json:"change,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
-	XXX_unrecognized     []byte           `json:"-"`
-	XXX_sizecache        int32            `json:"-"`
+	ChangeTime           *types.Timestamp `protobuf:"bytes,1,opt,name=change_time,json=changeTime,proto3" json:"change_time,omitempty" pg:"change_time"`
+	ChangeOriginator     []byte           `protobuf:"bytes,2,opt,name=change_originator,json=changeOriginator,proto3" json:"change_originator,omitempty" pg:"change_originator"`
+	Change               []byte           `protobuf:"bytes,3,opt,name=change,proto3" json:"change,omitempty" pg:"change"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-" pg:"-"`
+	XXX_unrecognized     []byte           `json:"-" pg:"-"`
+	XXX_sizecache        int32            `json:"-" pg:"-"`
 }
 
 func (m *Log) Reset()         { *m = Log{} }
@@ -241,25 +241,25 @@ func (*Log) XXX_MessageName() string {
 //Contract technically is the contract execution record, it contains the contractMeta and state information
 type ContractMeta struct {
 	//Contract proposed by renter, will not be changed after renter proposed
-	ContractId           []byte                `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
-	RenterAddress        []byte                `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty"`
-	HostAddress          []byte                `protobuf:"bytes,3,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty"`
-	ShardHash            []byte                `protobuf:"bytes,4,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty"`
-	ShardIndex           int32                 `protobuf:"varint,5,opt,name=shard_index,json=shardIndex,proto3" json:"shard_index,omitempty"`
-	ShardFileSize        int64                 `protobuf:"varint,6,opt,name=shard_file_size,json=shardFileSize,proto3" json:"shard_file_size,omitempty"`
-	FileHash             []byte                `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	RentStart            *time.Time            `protobuf:"bytes,8,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start,omitempty"`
-	RentEnd              *time.Time            `protobuf:"bytes,9,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end,omitempty"`
-	GuardAddress         []byte                `protobuf:"bytes,10,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty"`
-	EscrowAddress        []byte                `protobuf:"bytes,11,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty"`
-	Price                int64                 `protobuf:"varint,12,opt,name=price,proto3" json:"price,omitempty"`
-	Amount               int64                 `protobuf:"varint,13,opt,name=amount,proto3" json:"amount,omitempty"`
-	CollateralAmount     int64                 `protobuf:"varint,14,opt,name=collateral_amount,json=collateralAmount,proto3" json:"collateral_amount,omitempty"`
-	PayoutSchedule       ContractMeta_Schedule `protobuf:"varint,15,opt,name=payout_schedule,json=payoutSchedule,proto3,enum=guard.ContractMeta_Schedule" json:"payout_schedule,omitempty"`
-	NumPayouts           int32                 `protobuf:"varint,16,opt,name=num_payouts,json=numPayouts,proto3" json:"num_payouts,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
-	XXX_unrecognized     []byte                `json:"-"`
-	XXX_sizecache        int32                 `json:"-"`
+	ContractId           []byte                `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty" pg:"contract_id"`
+	RenterAddress        []byte                `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
+	HostAddress          []byte                `protobuf:"bytes,3,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty" pg:"host_address"`
+	ShardHash            []byte                `protobuf:"bytes,4,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	ShardIndex           int32                 `protobuf:"varint,5,opt,name=shard_index,json=shardIndex,proto3" json:"shard_index,omitempty" pg:"shard_index"`
+	ShardFileSize        int64                 `protobuf:"varint,6,opt,name=shard_file_size,json=shardFileSize,proto3" json:"shard_file_size,omitempty" pg:"shard_file_size"`
+	FileHash             []byte                `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	RentStart            time.Time             `protobuf:"bytes,8,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start" pg:"rent_start"`
+	RentEnd              time.Time             `protobuf:"bytes,9,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end" pg:"rent_end"`
+	GuardAddress         []byte                `protobuf:"bytes,10,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
+	EscrowAddress        []byte                `protobuf:"bytes,11,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty" pg:"escrow_address"`
+	Price                int64                 `protobuf:"varint,12,opt,name=price,proto3" json:"price,omitempty" pg:"price"`
+	Amount               int64                 `protobuf:"varint,13,opt,name=amount,proto3" json:"amount,omitempty" pg:"amount"`
+	CollateralAmount     int64                 `protobuf:"varint,14,opt,name=collateral_amount,json=collateralAmount,proto3" json:"collateral_amount,omitempty" pg:"collateral_amount"`
+	PayoutSchedule       ContractMeta_Schedule `protobuf:"varint,15,opt,name=payout_schedule,json=payoutSchedule,proto3,enum=guard.ContractMeta_Schedule" json:"payout_schedule,omitempty" pg:"payout_schedule"`
+	NumPayouts           int32                 `protobuf:"varint,16,opt,name=num_payouts,json=numPayouts,proto3" json:"num_payouts,omitempty" pg:"num_payouts"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-" pg:"-"`
+	XXX_unrecognized     []byte                `json:"-" pg:"-"`
+	XXX_sizecache        int32                 `json:"-" pg:"-"`
 }
 
 func (m *ContractMeta) Reset()         { *m = ContractMeta{} }
@@ -344,18 +344,18 @@ func (m *ContractMeta) GetFileHash() []byte {
 	return nil
 }
 
-func (m *ContractMeta) GetRentStart() *time.Time {
+func (m *ContractMeta) GetRentStart() time.Time {
 	if m != nil {
 		return m.RentStart
 	}
-	return nil
+	return time.Time{}
 }
 
-func (m *ContractMeta) GetRentEnd() *time.Time {
+func (m *ContractMeta) GetRentEnd() time.Time {
 	if m != nil {
 		return m.RentEnd
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *ContractMeta) GetGuardAddress() []byte {
@@ -413,18 +413,18 @@ func (*ContractMeta) XXX_MessageName() string {
 
 type Contract struct {
 	//the contract executor record, changed frequently after proposal
-	Contract             *ContractMeta          `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
-	State                Contract_ContractState `protobuf:"varint,2,opt,name=state,proto3,enum=guard.Contract_ContractState" json:"state,omitempty"`
-	RenterSignature      []byte                 `protobuf:"bytes,3,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty"`
-	HostSignature        []byte                 `protobuf:"bytes,4,opt,name=host_signature,json=hostSignature,proto3" json:"host_signature,omitempty"`
-	EscrowSignedTime     *time.Time             `protobuf:"bytes,5,opt,name=escrow_signed_time,json=escrowSignedTime,proto3,stdtime" json:"escrow_signed_time,omitempty"`
-	EscrowSignature      []byte                 `protobuf:"bytes,6,opt,name=escrow_signature,json=escrowSignature,proto3" json:"escrow_signature,omitempty"`
-	ChangeLog            []*Log                 `protobuf:"bytes,7,rep,name=change_log,json=changeLog,proto3" json:"change_log,omitempty"`
-	LastModifyTime       *time.Time             `protobuf:"bytes,8,opt,name=last_modify_time,json=lastModifyTime,proto3,stdtime" json:"last_modify_time,omitempty"`
-	GuardSignature       []byte                 `protobuf:"bytes,9,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	Contract             *ContractMeta          `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty" pg:"contract"`
+	State                Contract_ContractState `protobuf:"varint,2,opt,name=state,proto3,enum=guard.Contract_ContractState" json:"state,omitempty" pg:"state"`
+	RenterSignature      []byte                 `protobuf:"bytes,3,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty" pg:"renter_signature"`
+	HostSignature        []byte                 `protobuf:"bytes,4,opt,name=host_signature,json=hostSignature,proto3" json:"host_signature,omitempty" pg:"host_signature"`
+	EscrowSignedTime     time.Time              `protobuf:"bytes,5,opt,name=escrow_signed_time,json=escrowSignedTime,proto3,stdtime" json:"escrow_signed_time" pg:"escrow_signed_time"`
+	EscrowSignature      []byte                 `protobuf:"bytes,6,opt,name=escrow_signature,json=escrowSignature,proto3" json:"escrow_signature,omitempty" pg:"escrow_signature"`
+	ChangeLog            []*Log                 `protobuf:"bytes,7,rep,name=change_log,json=changeLog,proto3" json:"change_log,omitempty" pg:"change_log"`
+	LastModifyTime       time.Time              `protobuf:"bytes,8,opt,name=last_modify_time,json=lastModifyTime,proto3,stdtime" json:"last_modify_time" pg:"last_modify_time"`
+	GuardSignature       []byte                 `protobuf:"bytes,9,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty" pg:"guard_signature"`
+	XXX_NoUnkeyedLiteral struct{}               `json:"-" pg:"-"`
+	XXX_unrecognized     []byte                 `json:"-" pg:"-"`
+	XXX_sizecache        int32                  `json:"-" pg:"-"`
 }
 
 func (m *Contract) Reset()         { *m = Contract{} }
@@ -488,11 +488,11 @@ func (m *Contract) GetHostSignature() []byte {
 	return nil
 }
 
-func (m *Contract) GetEscrowSignedTime() *time.Time {
+func (m *Contract) GetEscrowSignedTime() time.Time {
 	if m != nil {
 		return m.EscrowSignedTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *Contract) GetEscrowSignature() []byte {
@@ -509,11 +509,11 @@ func (m *Contract) GetChangeLog() []*Log {
 	return nil
 }
 
-func (m *Contract) GetLastModifyTime() *time.Time {
+func (m *Contract) GetLastModifyTime() time.Time {
 	if m != nil {
 		return m.LastModifyTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *Contract) GetGuardSignature() []byte {
@@ -529,22 +529,22 @@ func (*Contract) XXX_MessageName() string {
 
 type FileStoreMeta struct {
 	//file store meta prepared by renter, will not changed after proposal
-	RenterAddress        []byte     `protobuf:"bytes,1,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty"`
-	FileHash             []byte     `protobuf:"bytes,2,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	FileSize             int64      `protobuf:"varint,3,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
-	RentStart            *time.Time `protobuf:"bytes,4,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start,omitempty"`
-	RentEnd              *time.Time `protobuf:"bytes,5,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end,omitempty"`
-	CheckFrequency       int32      `protobuf:"varint,6,opt,name=check_frequency,json=checkFrequency,proto3" json:"check_frequency,omitempty"`
-	GuardFee             int64      `protobuf:"varint,7,opt,name=guard_fee,json=guardFee,proto3" json:"guard_fee,omitempty"`
-	EscrowFee            int64      `protobuf:"varint,8,opt,name=escrow_fee,json=escrowFee,proto3" json:"escrow_fee,omitempty"`
-	ShardCount           int32      `protobuf:"varint,9,opt,name=shard_count,json=shardCount,proto3" json:"shard_count,omitempty"`
-	MinimumShards        int32      `protobuf:"varint,10,opt,name=minimum_shards,json=minimumShards,proto3" json:"minimum_shards,omitempty"`
-	RecoverThreshold     int32      `protobuf:"varint,11,opt,name=recover_threshold,json=recoverThreshold,proto3" json:"recover_threshold,omitempty"`
-	EscrowAddress        []byte     `protobuf:"bytes,12,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty"`
-	GuardAddress         []byte     `protobuf:"bytes,13,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
+	RenterAddress        []byte    `protobuf:"bytes,1,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
+	FileHash             []byte    `protobuf:"bytes,2,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	FileSize             int64     `protobuf:"varint,3,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
+	RentStart            time.Time `protobuf:"bytes,4,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start" pg:"rent_start"`
+	RentEnd              time.Time `protobuf:"bytes,5,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end" pg:"rent_end"`
+	CheckFrequency       int32     `protobuf:"varint,6,opt,name=check_frequency,json=checkFrequency,proto3" json:"check_frequency,omitempty" pg:"check_frequency"`
+	GuardFee             int64     `protobuf:"varint,7,opt,name=guard_fee,json=guardFee,proto3" json:"guard_fee,omitempty" pg:"guard_fee"`
+	EscrowFee            int64     `protobuf:"varint,8,opt,name=escrow_fee,json=escrowFee,proto3" json:"escrow_fee,omitempty" pg:"escrow_fee"`
+	ShardCount           int32     `protobuf:"varint,9,opt,name=shard_count,json=shardCount,proto3" json:"shard_count,omitempty" pg:"shard_count"`
+	MinimumShards        int32     `protobuf:"varint,10,opt,name=minimum_shards,json=minimumShards,proto3" json:"minimum_shards,omitempty" pg:"minimum_shards"`
+	RecoverThreshold     int32     `protobuf:"varint,11,opt,name=recover_threshold,json=recoverThreshold,proto3" json:"recover_threshold,omitempty" pg:"recover_threshold"`
+	EscrowAddress        []byte    `protobuf:"bytes,12,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty" pg:"escrow_address"`
+	GuardAddress         []byte    `protobuf:"bytes,13,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
+	XXX_unrecognized     []byte    `json:"-" pg:"-"`
+	XXX_sizecache        int32     `json:"-" pg:"-"`
 }
 
 func (m *FileStoreMeta) Reset()         { *m = FileStoreMeta{} }
@@ -601,18 +601,18 @@ func (m *FileStoreMeta) GetFileSize() int64 {
 	return 0
 }
 
-func (m *FileStoreMeta) GetRentStart() *time.Time {
+func (m *FileStoreMeta) GetRentStart() time.Time {
 	if m != nil {
 		return m.RentStart
 	}
-	return nil
+	return time.Time{}
 }
 
-func (m *FileStoreMeta) GetRentEnd() *time.Time {
+func (m *FileStoreMeta) GetRentEnd() time.Time {
 	if m != nil {
 		return m.RentEnd
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *FileStoreMeta) GetCheckFrequency() int32 {
@@ -676,17 +676,17 @@ func (*FileStoreMeta) XXX_MessageName() string {
 }
 
 type FileStoreStatus struct {
-	FileStoreMeta        *FileStoreMeta            `protobuf:"bytes,1,opt,name=file_store_meta,json=fileStoreMeta,proto3" json:"file_store_meta,omitempty"`
-	State                FileStoreStatus_MetaState `protobuf:"varint,2,opt,name=state,proto3,enum=guard.FileStoreStatus_MetaState" json:"state,omitempty"`
-	Contracts            []*Contract               `protobuf:"bytes,3,rep,name=contracts,proto3" json:"contracts,omitempty"`
-	RenterSignature      []byte                    `protobuf:"bytes,4,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty"`
-	GuardReceiveTime     *time.Time                `protobuf:"bytes,5,opt,name=guard_receive_time,json=guardReceiveTime,proto3,stdtime" json:"guard_receive_time,omitempty"`
-	ChangeLog            []*Log                    `protobuf:"bytes,6,rep,name=change_log,json=changeLog,proto3" json:"change_log,omitempty"`
-	CurentTime           *time.Time                `protobuf:"bytes,7,opt,name=curent_time,json=curentTime,proto3,stdtime" json:"curent_time,omitempty"`
-	GuardSignature       []byte                    `protobuf:"bytes,8,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                  `json:"-"`
-	XXX_unrecognized     []byte                    `json:"-"`
-	XXX_sizecache        int32                     `json:"-"`
+	FileStoreMeta        *FileStoreMeta            `protobuf:"bytes,1,opt,name=file_store_meta,json=fileStoreMeta,proto3" json:"file_store_meta,omitempty" pg:"file_store_meta"`
+	State                FileStoreStatus_MetaState `protobuf:"varint,2,opt,name=state,proto3,enum=guard.FileStoreStatus_MetaState" json:"state,omitempty" pg:"state"`
+	Contracts            []*Contract               `protobuf:"bytes,3,rep,name=contracts,proto3" json:"contracts,omitempty" pg:"contracts"`
+	RenterSignature      []byte                    `protobuf:"bytes,4,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty" pg:"renter_signature"`
+	GuardReceiveTime     time.Time                 `protobuf:"bytes,5,opt,name=guard_receive_time,json=guardReceiveTime,proto3,stdtime" json:"guard_receive_time" pg:"guard_receive_time"`
+	ChangeLog            []*Log                    `protobuf:"bytes,6,rep,name=change_log,json=changeLog,proto3" json:"change_log,omitempty" pg:"change_log"`
+	CurentTime           time.Time                 `protobuf:"bytes,7,opt,name=curent_time,json=curentTime,proto3,stdtime" json:"curent_time" pg:"curent_time"`
+	GuardSignature       []byte                    `protobuf:"bytes,8,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty" pg:"guard_signature"`
+	XXX_NoUnkeyedLiteral struct{}                  `json:"-" pg:"-"`
+	XXX_unrecognized     []byte                    `json:"-" pg:"-"`
+	XXX_sizecache        int32                     `json:"-" pg:"-"`
 }
 
 func (m *FileStoreStatus) Reset()         { *m = FileStoreStatus{} }
@@ -750,11 +750,11 @@ func (m *FileStoreStatus) GetRenterSignature() []byte {
 	return nil
 }
 
-func (m *FileStoreStatus) GetGuardReceiveTime() *time.Time {
+func (m *FileStoreStatus) GetGuardReceiveTime() time.Time {
 	if m != nil {
 		return m.GuardReceiveTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *FileStoreStatus) GetChangeLog() []*Log {
@@ -764,11 +764,11 @@ func (m *FileStoreStatus) GetChangeLog() []*Log {
 	return nil
 }
 
-func (m *FileStoreStatus) GetCurentTime() *time.Time {
+func (m *FileStoreStatus) GetCurentTime() time.Time {
 	if m != nil {
 		return m.CurentTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *FileStoreStatus) GetGuardSignature() []byte {
@@ -783,14 +783,14 @@ func (*FileStoreStatus) XXX_MessageName() string {
 }
 
 type ChallengeQuestion struct {
-	ShardHash            []byte   `protobuf:"bytes,1,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty"`
-	HostAddress          []byte   `protobuf:"bytes,2,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty"`
-	ChunkIndex           int32    `protobuf:"varint,3,opt,name=chunk_index,json=chunkIndex,proto3" json:"chunk_index,omitempty"`
-	RandomNonce          []byte   `protobuf:"bytes,4,opt,name=random_nonce,json=randomNonce,proto3" json:"random_nonce,omitempty"`
-	ExpectAnswer         []byte   `protobuf:"bytes,5,opt,name=expect_answer,json=expectAnswer,proto3" json:"expect_answer,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	ShardHash            []byte   `protobuf:"bytes,1,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	HostAddress          []byte   `protobuf:"bytes,2,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty" pg:"host_address"`
+	ChunkIndex           int32    `protobuf:"varint,3,opt,name=chunk_index,json=chunkIndex,proto3" json:"chunk_index,omitempty" pg:"chunk_index"`
+	RandomNonce          []byte   `protobuf:"bytes,4,opt,name=random_nonce,json=randomNonce,proto3" json:"random_nonce,omitempty" pg:"random_nonce"`
+	ExpectAnswer         []byte   `protobuf:"bytes,5,opt,name=expect_answer,json=expectAnswer,proto3" json:"expect_answer,omitempty" pg:"expect_answer"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
 }
 
 func (m *ChallengeQuestion) Reset()         { *m = ChallengeQuestion{} }
@@ -866,16 +866,16 @@ func (*ChallengeQuestion) XXX_MessageName() string {
 }
 
 type ProofOfReplicateChallenge struct {
-	Question             *ChallengeQuestion `protobuf:"bytes,1,opt,name=question,proto3" json:"question,omitempty"`
-	ChallengeTime        *time.Time         `protobuf:"bytes,2,opt,name=challenge_time,json=challengeTime,proto3,stdtime" json:"challenge_time,omitempty"`
-	GuardAddress         []byte             `protobuf:"bytes,3,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty"`
-	GuardSignature       []byte             `protobuf:"bytes,4,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty"`
-	HostAnswer           []byte             `protobuf:"bytes,5,opt,name=host_answer,json=hostAnswer,proto3" json:"host_answer,omitempty"`
-	HostSignTime         *time.Time         `protobuf:"bytes,6,opt,name=host_sign_time,json=hostSignTime,proto3,stdtime" json:"host_sign_time,omitempty"`
-	HostSignature        []byte             `protobuf:"bytes,7,opt,name=host_signature,json=hostSignature,proto3" json:"host_signature,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
-	XXX_unrecognized     []byte             `json:"-"`
-	XXX_sizecache        int32              `json:"-"`
+	Question             *ChallengeQuestion `protobuf:"bytes,1,opt,name=question,proto3" json:"question,omitempty" pg:"question"`
+	ChallengeTime        time.Time          `protobuf:"bytes,2,opt,name=challenge_time,json=challengeTime,proto3,stdtime" json:"challenge_time" pg:"challenge_time"`
+	GuardAddress         []byte             `protobuf:"bytes,3,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
+	GuardSignature       []byte             `protobuf:"bytes,4,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty" pg:"guard_signature"`
+	HostAnswer           []byte             `protobuf:"bytes,5,opt,name=host_answer,json=hostAnswer,proto3" json:"host_answer,omitempty" pg:"host_answer"`
+	HostSignTime         time.Time          `protobuf:"bytes,6,opt,name=host_sign_time,json=hostSignTime,proto3,stdtime" json:"host_sign_time" pg:"host_sign_time"`
+	HostSignature        []byte             `protobuf:"bytes,7,opt,name=host_signature,json=hostSignature,proto3" json:"host_signature,omitempty" pg:"host_signature"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-" pg:"-"`
+	XXX_unrecognized     []byte             `json:"-" pg:"-"`
+	XXX_sizecache        int32              `json:"-" pg:"-"`
 }
 
 func (m *ProofOfReplicateChallenge) Reset()         { *m = ProofOfReplicateChallenge{} }
@@ -918,11 +918,11 @@ func (m *ProofOfReplicateChallenge) GetQuestion() *ChallengeQuestion {
 	return nil
 }
 
-func (m *ProofOfReplicateChallenge) GetChallengeTime() *time.Time {
+func (m *ProofOfReplicateChallenge) GetChallengeTime() time.Time {
 	if m != nil {
 		return m.ChallengeTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *ProofOfReplicateChallenge) GetGuardAddress() []byte {
@@ -946,11 +946,11 @@ func (m *ProofOfReplicateChallenge) GetHostAnswer() []byte {
 	return nil
 }
 
-func (m *ProofOfReplicateChallenge) GetHostSignTime() *time.Time {
+func (m *ProofOfReplicateChallenge) GetHostSignTime() time.Time {
 	if m != nil {
 		return m.HostSignTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *ProofOfReplicateChallenge) GetHostSignature() []byte {
@@ -965,11 +965,11 @@ func (*ProofOfReplicateChallenge) XXX_MessageName() string {
 }
 
 type FileChallengeQuestions struct {
-	FileHash             []byte                     `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	ShardQuestions       []*ShardChallengeQuestions `protobuf:"bytes,2,rep,name=shard_questions,json=shardQuestions,proto3" json:"shard_questions,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
-	XXX_unrecognized     []byte                     `json:"-"`
-	XXX_sizecache        int32                      `json:"-"`
+	FileHash             []byte                     `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	ShardQuestions       []*ShardChallengeQuestions `protobuf:"bytes,2,rep,name=shard_questions,json=shardQuestions,proto3" json:"shard_questions,omitempty" pg:"shard_questions"`
+	XXX_NoUnkeyedLiteral struct{}                   `json:"-" pg:"-"`
+	XXX_unrecognized     []byte                     `json:"-" pg:"-"`
+	XXX_sizecache        int32                      `json:"-" pg:"-"`
 }
 
 func (m *FileChallengeQuestions) Reset()         { *m = FileChallengeQuestions{} }
@@ -1024,16 +1024,16 @@ func (*FileChallengeQuestions) XXX_MessageName() string {
 }
 
 type ShardChallengeQuestions struct {
-	FileHash             []byte               `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	ShardHash            []byte               `protobuf:"bytes,2,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty"`
-	PreparerAddress      []byte               `protobuf:"bytes,3,opt,name=preparer_address,json=preparerAddress,proto3" json:"preparer_address,omitempty"`
-	QuestionCount        int32                `protobuf:"varint,4,opt,name=question_count,json=questionCount,proto3" json:"question_count,omitempty"`
-	Questions            []*ChallengeQuestion `protobuf:"bytes,5,rep,name=questions,proto3" json:"questions,omitempty"`
-	PrepareTime          *time.Time           `protobuf:"bytes,6,opt,name=prepare_time,json=prepareTime,proto3,stdtime" json:"prepare_time,omitempty"`
-	PreparerSignature    []byte               `protobuf:"bytes,7,opt,name=preparer_signature,json=preparerSignature,proto3" json:"preparer_signature,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+	FileHash             []byte               `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	ShardHash            []byte               `protobuf:"bytes,2,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	PreparerAddress      []byte               `protobuf:"bytes,3,opt,name=preparer_address,json=preparerAddress,proto3" json:"preparer_address,omitempty" pg:"preparer_address"`
+	QuestionCount        int32                `protobuf:"varint,4,opt,name=question_count,json=questionCount,proto3" json:"question_count,omitempty" pg:"question_count"`
+	Questions            []*ChallengeQuestion `protobuf:"bytes,5,rep,name=questions,proto3" json:"questions,omitempty" pg:"questions"`
+	PrepareTime          time.Time            `protobuf:"bytes,6,opt,name=prepare_time,json=prepareTime,proto3,stdtime" json:"prepare_time" pg:"prepare_time"`
+	PreparerSignature    []byte               `protobuf:"bytes,7,opt,name=preparer_signature,json=preparerSignature,proto3" json:"preparer_signature,omitempty" pg:"preparer_signature"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-" pg:"-"`
+	XXX_unrecognized     []byte               `json:"-" pg:"-"`
+	XXX_sizecache        int32                `json:"-" pg:"-"`
 }
 
 func (m *ShardChallengeQuestions) Reset()         { *m = ShardChallengeQuestions{} }
@@ -1104,11 +1104,11 @@ func (m *ShardChallengeQuestions) GetQuestions() []*ChallengeQuestion {
 	return nil
 }
 
-func (m *ShardChallengeQuestions) GetPrepareTime() *time.Time {
+func (m *ShardChallengeQuestions) GetPrepareTime() time.Time {
 	if m != nil {
 		return m.PrepareTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *ShardChallengeQuestions) GetPreparerSignature() []byte {
@@ -1123,14 +1123,14 @@ func (*ShardChallengeQuestions) XXX_MessageName() string {
 }
 
 type CheckFileStoreMetaRequest struct {
-	FileHash             []byte     `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	RenterAddress        []byte     `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty"`
-	RequesterAddress     []byte     `protobuf:"bytes,3,opt,name=requester_address,json=requesterAddress,proto3" json:"requester_address,omitempty"`
-	RequestTime          *time.Time `protobuf:"bytes,4,opt,name=request_time,json=requestTime,proto3,stdtime" json:"request_time,omitempty"`
-	Signature            []byte     `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
+	FileHash             []byte    `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	RenterAddress        []byte    `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
+	RequesterAddress     []byte    `protobuf:"bytes,3,opt,name=requester_address,json=requesterAddress,proto3" json:"requester_address,omitempty" pg:"requester_address"`
+	RequestTime          time.Time `protobuf:"bytes,4,opt,name=request_time,json=requestTime,proto3,stdtime" json:"request_time" pg:"request_time"`
+	Signature            []byte    `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
+	XXX_unrecognized     []byte    `json:"-" pg:"-"`
+	XXX_sizecache        int32     `json:"-" pg:"-"`
 }
 
 func (m *CheckFileStoreMetaRequest) Reset()         { *m = CheckFileStoreMetaRequest{} }
@@ -1187,11 +1187,11 @@ func (m *CheckFileStoreMetaRequest) GetRequesterAddress() []byte {
 	return nil
 }
 
-func (m *CheckFileStoreMetaRequest) GetRequestTime() *time.Time {
+func (m *CheckFileStoreMetaRequest) GetRequestTime() time.Time {
 	if m != nil {
 		return m.RequestTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (m *CheckFileStoreMetaRequest) GetSignature() []byte {
@@ -1206,12 +1206,12 @@ func (*CheckFileStoreMetaRequest) XXX_MessageName() string {
 }
 
 type Result struct {
-	Code                 ResponseCode `protobuf:"varint,1,opt,name=code,proto3,enum=guard.ResponseCode" json:"code,omitempty"`
-	Message              string       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	ResponseTime         *time.Time   `protobuf:"bytes,3,opt,name=response_time,json=responseTime,proto3,stdtime" json:"response_time,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
-	XXX_unrecognized     []byte       `json:"-"`
-	XXX_sizecache        int32        `json:"-"`
+	Code                 ResponseCode `protobuf:"varint,1,opt,name=code,proto3,enum=guard.ResponseCode" json:"code,omitempty" pg:"code"`
+	Message              string       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	ResponseTime         time.Time    `protobuf:"bytes,3,opt,name=response_time,json=responseTime,proto3,stdtime" json:"response_time" pg:"response_time"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-" pg:"-"`
+	XXX_unrecognized     []byte       `json:"-" pg:"-"`
+	XXX_sizecache        int32        `json:"-" pg:"-"`
 }
 
 func (m *Result) Reset()         { *m = Result{} }
@@ -1261,11 +1261,11 @@ func (m *Result) GetMessage() string {
 	return ""
 }
 
-func (m *Result) GetResponseTime() *time.Time {
+func (m *Result) GetResponseTime() time.Time {
 	if m != nil {
 		return m.ResponseTime
 	}
-	return nil
+	return time.Time{}
 }
 
 func (*Result) XXX_MessageName() string {
@@ -1308,114 +1308,115 @@ func init() { proto.RegisterFile("protos/guard/guard.proto", fileDescriptor_ad5b
 func init() { golang_proto.RegisterFile("protos/guard/guard.proto", fileDescriptor_ad5b6eccdc9ebee8) }
 
 var fileDescriptor_ad5b6eccdc9ebee8 = []byte{
-	// 1710 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x58, 0xcd, 0x6f, 0xdb, 0xc8,
-	0x15, 0x0f, 0xf5, 0x61, 0x4b, 0x4f, 0xa4, 0xc4, 0xcc, 0xa6, 0x29, 0xe3, 0x6e, 0x1c, 0xaf, 0x8a,
-	0x34, 0x4e, 0x8b, 0x28, 0x80, 0x77, 0xb1, 0x97, 0x4d, 0x51, 0x28, 0x12, 0xed, 0xb8, 0x90, 0x25,
-	0xef, 0x50, 0x06, 0x9a, 0x5e, 0x08, 0x9a, 0x1c, 0x49, 0xc4, 0x4a, 0xa4, 0x96, 0x1f, 0xd9, 0xcd,
-	0x1e, 0x7a, 0xed, 0xb5, 0x28, 0x7a, 0xe8, 0xb9, 0xff, 0x44, 0x6f, 0x45, 0x7b, 0xcb, 0xb1, 0x40,
-	0x8f, 0x3d, 0xb4, 0x48, 0xfe, 0x80, 0x5e, 0x7b, 0x2c, 0xe6, 0xcd, 0x90, 0xfa, 0x74, 0xaa, 0x60,
-	0x2f, 0x86, 0xe6, 0x37, 0xbf, 0xa7, 0x79, 0xf3, 0x3e, 0x7e, 0x6f, 0x64, 0x30, 0xe6, 0x51, 0x98,
-	0x84, 0xf1, 0xd3, 0x71, 0xea, 0x44, 0x9e, 0xf8, 0xdb, 0x42, 0x88, 0x94, 0x71, 0x71, 0xf0, 0x64,
-	0xec, 0x27, 0x93, 0xf4, 0xba, 0xe5, 0x86, 0xb3, 0xa7, 0xe3, 0x70, 0x1c, 0x3e, 0xc5, 0xdd, 0xeb,
-	0x74, 0x84, 0x2b, 0x5c, 0xe0, 0x27, 0x61, 0x75, 0xf0, 0x60, 0x1c, 0x86, 0xe3, 0x29, 0x5b, 0xb0,
-	0x12, 0x7f, 0xc6, 0xe2, 0xc4, 0x99, 0xcd, 0x05, 0xa1, 0xf9, 0x5b, 0x05, 0x8a, 0xbd, 0x70, 0x4c,
-	0xbe, 0x80, 0x9a, 0x3b, 0x71, 0x82, 0x31, 0xb3, 0x39, 0xc3, 0x50, 0x8e, 0x94, 0xe3, 0xda, 0xc9,
-	0x41, 0x4b, 0x98, 0xb7, 0x32, 0xf3, 0xd6, 0x30, 0x33, 0xa7, 0x20, 0xe8, 0x1c, 0x20, 0x3f, 0x83,
-	0xdb, 0xd2, 0x38, 0x8c, 0xfc, 0xb1, 0x1f, 0x38, 0x49, 0x18, 0x19, 0x85, 0x23, 0xe5, 0x58, 0xa5,
-	0xba, 0xd8, 0x18, 0xe4, 0x38, 0xb9, 0x0b, 0x7b, 0x02, 0x33, 0x8a, 0xc8, 0x90, 0xab, 0xe6, 0xdf,
-	0xca, 0xa0, 0x76, 0xc2, 0x20, 0x89, 0x1c, 0x37, 0xb9, 0x60, 0x89, 0x43, 0x1e, 0x40, 0xcd, 0x95,
-	0x6b, 0xdb, 0xf7, 0xd0, 0x25, 0x95, 0x42, 0x06, 0x9d, 0x7b, 0xe4, 0x21, 0xd4, 0x23, 0x16, 0x24,
-	0x2c, 0xb2, 0x1d, 0xcf, 0x8b, 0x58, 0x1c, 0xcb, 0x33, 0x35, 0x81, 0xb6, 0x05, 0x48, 0x3e, 0x01,
-	0x75, 0x12, 0xc6, 0x49, 0x4e, 0x12, 0xc7, 0xd6, 0x38, 0x96, 0x51, 0xee, 0x03, 0xc4, 0x13, 0x27,
-	0xf2, 0xec, 0x89, 0x13, 0x4f, 0x8c, 0x12, 0x12, 0xaa, 0x88, 0xbc, 0x70, 0xe2, 0x09, 0xf7, 0x44,
-	0x6c, 0xfb, 0x81, 0xc7, 0xbe, 0x35, 0xca, 0x47, 0xca, 0x71, 0x99, 0x0a, 0x8b, 0x73, 0x8e, 0x90,
-	0x9f, 0x40, 0x43, 0x10, 0x46, 0xfe, 0x94, 0xd9, 0xb1, 0xff, 0x1d, 0x33, 0xf6, 0x8e, 0x94, 0xe3,
-	0x22, 0xd5, 0x10, 0x3e, 0xf5, 0xa7, 0xcc, 0xf2, 0xbf, 0x63, 0xe4, 0x47, 0x50, 0x45, 0x06, 0x1e,
-	0xb3, 0x8f, 0xc7, 0x54, 0x38, 0x80, 0xa7, 0xfc, 0x02, 0x80, 0x3b, 0x6e, 0xc7, 0x89, 0x13, 0x25,
-	0x46, 0xe5, 0xff, 0x65, 0xe0, 0x79, 0xe9, 0x77, 0xff, 0x7a, 0xa0, 0xd0, 0x2a, 0xb7, 0xb1, 0xb8,
-	0x09, 0xf9, 0x02, 0x2a, 0xf8, 0x05, 0x2c, 0xf0, 0x8c, 0xea, 0x8e, 0xe6, 0xfb, 0xdc, 0xc2, 0x0c,
-	0x3c, 0xf2, 0x63, 0xd0, 0xb0, 0xc2, 0xf2, 0x30, 0x01, 0xba, 0xa7, 0x22, 0x98, 0xc5, 0xe9, 0x21,
-	0xd4, 0x59, 0xec, 0x46, 0xe1, 0x37, 0x39, 0xab, 0x26, 0x22, 0x2e, 0xd0, 0x8c, 0x76, 0x07, 0xca,
-	0xf3, 0xc8, 0x77, 0x99, 0xa1, 0x62, 0x10, 0xc4, 0x82, 0x27, 0xde, 0x99, 0x85, 0x69, 0x90, 0x18,
-	0x1a, 0xc2, 0x72, 0x85, 0xd5, 0x13, 0x4e, 0xa7, 0x4e, 0xc2, 0x22, 0x67, 0x6a, 0x4b, 0x4a, 0x1d,
-	0x29, 0xfa, 0x62, 0xa3, 0x2d, 0xc8, 0x26, 0x34, 0xe6, 0xce, 0xeb, 0x30, 0x4d, 0xec, 0xd8, 0x9d,
-	0x30, 0x2f, 0x9d, 0x32, 0xa3, 0x71, 0xa4, 0x1c, 0xd7, 0x4f, 0x3e, 0x6e, 0x89, 0x6e, 0x59, 0x2e,
-	0xa1, 0x96, 0x25, 0x39, 0xb4, 0x2e, 0x8c, 0xb2, 0x35, 0xcf, 0x68, 0x90, 0xce, 0x6c, 0x81, 0xc6,
-	0x86, 0x2e, 0x32, 0x1a, 0xa4, 0xb3, 0x4b, 0x81, 0x34, 0x3f, 0x83, 0x4a, 0x4e, 0xae, 0xc1, 0xfe,
-	0xc5, 0xa0, 0x3f, 0x7c, 0xd1, 0x7b, 0xa9, 0xdf, 0x22, 0x1a, 0x54, 0xbf, 0xbc, 0x6a, 0xd3, 0xa1,
-	0x49, 0x7b, 0x2f, 0x75, 0x85, 0xa8, 0x50, 0x69, 0xf7, 0xfb, 0x57, 0xed, 0x5e, 0xef, 0xa5, 0x5e,
-	0x68, 0xfe, 0xb9, 0x04, 0x95, 0xcc, 0x01, 0xf2, 0x14, 0x2a, 0x59, 0xb1, 0xca, 0x7e, 0xfa, 0x68,
-	0x8b, 0x8f, 0x34, 0x27, 0x91, 0x4f, 0xa1, 0x1c, 0x27, 0x4e, 0xc2, 0xb0, 0x8c, 0xeb, 0x27, 0xf7,
-	0xd7, 0xd8, 0xf9, 0x07, 0x8b, 0x93, 0xa8, 0xe0, 0x92, 0xc7, 0xa0, 0xcb, 0x26, 0x88, 0xfd, 0x71,
-	0xe0, 0x24, 0x69, 0x94, 0x35, 0x56, 0x43, 0xe0, 0x56, 0x06, 0xf3, 0xec, 0x61, 0x23, 0x2c, 0x88,
-	0xa2, 0xd2, 0x35, 0x8e, 0x2e, 0x68, 0x7d, 0x20, 0x32, 0xc9, 0x9c, 0xc8, 0x3c, 0xa1, 0x08, 0xe5,
-	0x1d, 0x0b, 0x4a, 0x17, 0xb6, 0x16, 0x9a, 0xa2, 0x3a, 0x3c, 0x06, 0x7d, 0xe9, 0xfb, 0xc4, 0xc1,
-	0x7b, 0xc2, 0xc3, 0x05, 0x57, 0x1c, 0xfd, 0x18, 0xa4, 0xac, 0xd8, 0xd3, 0x70, 0x6c, 0xec, 0x1f,
-	0x15, 0x8f, 0x6b, 0x27, 0x20, 0xc3, 0xd0, 0x0b, 0xc7, 0xb4, 0x2a, 0x76, 0xb9, 0x60, 0xfd, 0x12,
-	0xf4, 0xa9, 0x13, 0x27, 0xf6, 0x2c, 0xf4, 0xfc, 0xd1, 0x6b, 0xe1, 0xe3, 0xae, 0x3d, 0x53, 0xe7,
-	0x96, 0x17, 0x68, 0x88, 0x1e, 0x3e, 0x82, 0x86, 0xa8, 0xfd, 0x85, 0x83, 0x55, 0x74, 0xb0, 0x8e,
-	0x70, 0xee, 0x5f, 0xf3, 0x57, 0xa0, 0xad, 0x24, 0x81, 0x54, 0xa1, 0xdc, 0xa5, 0xed, 0xd3, 0xa1,
-	0x7e, 0x8b, 0x00, 0xec, 0x59, 0xe7, 0x67, 0x7d, 0xb3, 0x2b, 0xaa, 0xe2, 0xea, 0xb2, 0x37, 0x68,
-	0x77, 0xcd, 0xae, 0x5e, 0x20, 0x15, 0x28, 0xf5, 0x06, 0xd6, 0x50, 0x2f, 0x72, 0xbc, 0xd3, 0xee,
-	0x77, 0xcc, 0x9e, 0xd9, 0xd5, 0x4b, 0xdc, 0xa2, 0xd3, 0x1b, 0x58, 0x66, 0x57, 0x2f, 0x37, 0xff,
-	0x50, 0x02, 0x0d, 0x65, 0x22, 0x09, 0x23, 0x86, 0xf2, 0xb7, 0xa9, 0x6e, 0xca, 0x36, 0x75, 0x5b,
-	0x91, 0x94, 0xc2, 0x9a, 0xa4, 0x64, 0x9b, 0xa8, 0x48, 0x45, 0x6c, 0x29, 0xdc, 0x44, 0x31, 0x5a,
-	0xd5, 0x9b, 0xd2, 0xf7, 0xd3, 0x9b, 0xf2, 0x87, 0xea, 0xcd, 0x23, 0x68, 0xb8, 0x13, 0xe6, 0x7e,
-	0x65, 0x8f, 0x22, 0xf6, 0x75, 0xca, 0x02, 0xf7, 0x35, 0x16, 0x45, 0x99, 0xd6, 0x11, 0x3e, 0xcd,
-	0x50, 0x7e, 0x07, 0x91, 0x9c, 0x11, 0x63, 0xa8, 0x99, 0x45, 0x5a, 0x41, 0xe0, 0x94, 0x31, 0x2e,
-	0xdc, 0xb2, 0xb6, 0xf8, 0x6e, 0x05, 0x77, 0xab, 0x02, 0xe1, 0xdb, 0xb9, 0x70, 0xbb, 0x28, 0x2a,
-	0xd5, 0x25, 0xe1, 0xee, 0xa0, 0x9c, 0x3c, 0x84, 0xfa, 0xcc, 0x0f, 0xfc, 0x59, 0x3a, 0xb3, 0x11,
-	0x15, 0xb2, 0x57, 0xa6, 0x9a, 0x44, 0x2d, 0x04, 0xb9, 0x44, 0x45, 0xcc, 0x0d, 0x5f, 0xb1, 0xc8,
-	0x4e, 0x26, 0x11, 0x8b, 0x27, 0xe1, 0xd4, 0x43, 0xe9, 0x2b, 0x53, 0x5d, 0x6e, 0x0c, 0x33, 0x7c,
-	0x8b, 0x48, 0xaa, 0xdb, 0x44, 0x72, 0x43, 0x70, 0xb5, 0x4d, 0xc1, 0x6d, 0xfe, 0xa9, 0x04, 0x8d,
-	0xbc, 0x2c, 0x78, 0xc9, 0xa5, 0x31, 0x79, 0x06, 0x0d, 0x91, 0x54, 0x8e, 0xd9, 0x33, 0x96, 0x38,
-	0x52, 0x5e, 0xee, 0xc8, 0x4e, 0x59, 0xa9, 0x23, 0xaa, 0x8d, 0x56, 0xca, 0xea, 0xf3, 0x55, 0x91,
-	0x39, 0x5a, 0xb7, 0x11, 0x87, 0xb4, 0x38, 0x77, 0x45, 0x67, 0x9e, 0x40, 0x35, 0x13, 0x2a, 0x3e,
-	0x42, 0x79, 0x67, 0x36, 0xd6, 0x04, 0x8a, 0x2e, 0x18, 0x5b, 0x65, 0xa9, 0xb4, 0x5d, 0x96, 0xfa,
-	0x40, 0x44, 0x20, 0x22, 0xe6, 0x32, 0xff, 0x15, 0xfb, 0x40, 0xbd, 0x41, 0x5b, 0x2a, 0x4c, 0xa5,
-	0xde, 0x2c, 0x8b, 0xc8, 0xde, 0xfb, 0x44, 0xa4, 0x0d, 0x35, 0x37, 0xc5, 0x1a, 0xc6, 0x33, 0xf7,
-	0x77, 0x3c, 0x13, 0x84, 0xd1, 0x4d, 0xda, 0x51, 0xb9, 0x41, 0x3b, 0xaa, 0x79, 0x50, 0x97, 0x75,
-	0x43, 0x83, 0xaa, 0xd0, 0x8a, 0xf3, 0xfe, 0x99, 0xae, 0xf0, 0x61, 0x43, 0xaf, 0xfa, 0x7d, 0xbe,
-	0x28, 0x10, 0x1d, 0xd4, 0xcb, 0x36, 0x1d, 0x9e, 0xb7, 0x7b, 0xb6, 0x54, 0x90, 0x4c, 0x4b, 0x4a,
-	0xfc, 0x53, 0x77, 0xd0, 0x37, 0xf5, 0x72, 0xf3, 0x2f, 0x0a, 0xdc, 0xee, 0x4c, 0x9c, 0xe9, 0x94,
-	0x05, 0x63, 0xf6, 0x65, 0xca, 0xe2, 0xc4, 0x0f, 0x83, 0xb5, 0x37, 0x8d, 0xb2, 0xfe, 0xa6, 0x59,
-	0x7f, 0x15, 0x15, 0x36, 0x5f, 0x45, 0xfc, 0x01, 0x36, 0x49, 0x83, 0xaf, 0xe4, 0xb3, 0xa7, 0x28,
-	0xba, 0x07, 0x21, 0xf1, 0xec, 0xf9, 0x04, 0xd4, 0xc8, 0x09, 0xbc, 0x70, 0x66, 0x07, 0x61, 0xe0,
-	0x66, 0x09, 0xae, 0x09, 0xac, 0xcf, 0x21, 0x5e, 0xe5, 0xec, 0xdb, 0x39, 0x73, 0x13, 0xdb, 0x09,
-	0xe2, 0x6f, 0x58, 0x84, 0x79, 0x55, 0xa9, 0x2a, 0xc0, 0x36, 0x62, 0xcd, 0xff, 0x16, 0xe0, 0xde,
-	0x65, 0x14, 0x86, 0xa3, 0xc1, 0x88, 0xb2, 0xf9, 0xd4, 0x77, 0x9d, 0x84, 0xe5, 0x17, 0x22, 0x9f,
-	0x41, 0xe5, 0x6b, 0x79, 0x29, 0x59, 0xe8, 0x46, 0x56, 0x78, 0xeb, 0x97, 0xa6, 0x39, 0x93, 0x9c,
-	0x41, 0xdd, 0xcd, 0xb6, 0x45, 0x76, 0x0b, 0x3b, 0x66, 0x57, 0xcb, 0xed, 0x30, 0xc1, 0x1b, 0x7d,
-	0x5a, 0xdc, 0xf2, 0x30, 0xda, 0x52, 0x05, 0xa5, 0x6d, 0x55, 0xc0, 0x63, 0x2a, 0xc2, 0xbe, 0x1c,
-	0x0d, 0xc0, 0xa8, 0x23, 0x42, 0x4e, 0x97, 0x86, 0xb4, 0xf0, 0x7b, 0x6f, 0x47, 0xbf, 0xd5, 0x6c,
-	0x8c, 0xa3, 0xdb, 0x9b, 0xc3, 0x7e, 0x7f, 0xcb, 0xb0, 0x6f, 0xfe, 0x06, 0xee, 0xf2, 0xd6, 0xdf,
-	0x88, 0xe4, 0xda, 0x60, 0x51, 0xd6, 0x06, 0xcb, 0x59, 0xf6, 0xe0, 0xcd, 0xe2, 0xcd, 0x0b, 0x88,
-	0x37, 0xda, 0xa1, 0x4c, 0x0d, 0x0a, 0xe7, 0xe6, 0xb7, 0xd2, 0x3a, 0x9a, 0xe5, 0xeb, 0xe6, 0x3f,
-	0x0a, 0xf0, 0xc3, 0x1b, 0xb8, 0xef, 0xf7, 0x60, 0xb5, 0xbc, 0x0b, 0xeb, 0xe5, 0xfd, 0x18, 0xf4,
-	0x79, 0xc4, 0xe6, 0x4e, 0xb4, 0x34, 0x3f, 0xe5, 0xb3, 0x28, 0xc3, 0x97, 0x1e, 0xb5, 0xd9, 0x2d,
-	0xe4, 0x9c, 0x28, 0x89, 0x19, 0x90, 0xa1, 0x62, 0x54, 0x7c, 0x0e, 0xd5, 0xc5, 0x65, 0xcb, 0x78,
-	0xd9, 0x9b, 0xeb, 0x70, 0x41, 0x25, 0x1d, 0x50, 0xe5, 0x89, 0x1f, 0x96, 0xce, 0x9a, 0xb4, 0xc2,
-	0x6c, 0x3e, 0x01, 0x92, 0x5f, 0x67, 0x3d, 0xa3, 0xb7, 0xb3, 0x9d, 0x45, 0x56, 0xff, 0xa3, 0xc0,
-	0xbd, 0x0e, 0x8e, 0xd1, 0x95, 0x51, 0xc0, 0xd0, 0xab, 0xf7, 0xc7, 0x75, 0xc7, 0x1f, 0x55, 0x38,
-	0x11, 0xf1, 0xeb, 0x36, 0x02, 0xac, 0xe7, 0x1b, 0x19, 0xb9, 0x03, 0xaa, 0xc4, 0x44, 0x08, 0x76,
-	0x7d, 0x6b, 0xd4, 0xa4, 0x15, 0x86, 0xe0, 0x63, 0xa8, 0x2e, 0x6e, 0x5e, 0x96, 0xf9, 0xce, 0x6f,
-	0xfc, 0x7b, 0x05, 0xf6, 0x28, 0x8b, 0xd3, 0x69, 0x42, 0x1e, 0x41, 0xc9, 0x0d, 0x3d, 0xf1, 0x1b,
-	0xb6, 0x9e, 0xbf, 0xb9, 0x29, 0x8b, 0xe7, 0x61, 0x10, 0xb3, 0x4e, 0xe8, 0x31, 0x8a, 0x04, 0x62,
-	0xc0, 0xfe, 0x8c, 0xc5, 0xb1, 0x33, 0x16, 0xda, 0x50, 0xa5, 0xd9, 0x92, 0x98, 0xa0, 0x45, 0x92,
-	0x2f, 0x3c, 0x2e, 0xee, 0xda, 0x83, 0x99, 0x19, 0xdf, 0xf8, 0xa9, 0x0b, 0xea, 0xf2, 0xb1, 0x5c,
-	0xdb, 0xad, 0xab, 0x4e, 0xc7, 0xb4, 0x2c, 0xfd, 0x16, 0x39, 0x80, 0xbb, 0xfc, 0xbd, 0xd8, 0x1e,
-	0x5e, 0x51, 0xd3, 0x3e, 0x1d, 0xd0, 0x8b, 0xf6, 0xd0, 0x36, 0x29, 0x1d, 0x50, 0x5d, 0x21, 0xf7,
-	0xe0, 0x07, 0x9d, 0xc1, 0xc5, 0xe5, 0xd5, 0xd0, 0xb4, 0xdb, 0xdd, 0x2e, 0x35, 0x2d, 0x4b, 0x6e,
-	0x15, 0x48, 0x03, 0x6a, 0x83, 0xe1, 0x0b, 0x93, 0x4a, 0xe0, 0xce, 0xc9, 0x3f, 0x15, 0x50, 0xcf,
-	0x50, 0x64, 0x58, 0xf4, 0x8a, 0xff, 0xce, 0x7a, 0x06, 0x1f, 0x59, 0xe9, 0xf5, 0xcc, 0x4f, 0x56,
-	0xdf, 0x93, 0x77, 0xb7, 0x4f, 0xfa, 0x03, 0x6d, 0x11, 0x20, 0x1e, 0xbd, 0x9f, 0x83, 0x66, 0xb1,
-	0x60, 0xd1, 0xa1, 0xe4, 0xfe, 0x92, 0xdd, 0x66, 0x93, 0xae, 0x9b, 0xf7, 0x81, 0x6c, 0x16, 0x1e,
-	0x39, 0xca, 0x1b, 0xe5, 0x86, 0x9a, 0x3c, 0xb8, 0xc1, 0xbb, 0xe7, 0xcf, 0xde, 0xbc, 0x3d, 0x54,
-	0xfe, 0xfe, 0xf6, 0x50, 0xf9, 0xf7, 0xdb, 0x43, 0xe5, 0x8f, 0xef, 0x0e, 0x95, 0xbf, 0xbe, 0x3b,
-	0x54, 0xde, 0xbc, 0x3b, 0x54, 0x40, 0xf3, 0xc3, 0xd6, 0x75, 0x32, 0x8a, 0x85, 0xe1, 0x73, 0xc0,
-	0x18, 0x5c, 0xf2, 0xc4, 0x5c, 0x2a, 0xbf, 0x16, 0xff, 0x2d, 0xb9, 0xde, 0xc3, 0x44, 0x7d, 0xfa,
-	0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x39, 0x27, 0xca, 0x25, 0x57, 0x11, 0x00, 0x00,
+	// 1721 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x58, 0x4d, 0x73, 0x1b, 0x49,
+	0x19, 0xce, 0xe8, 0xc3, 0x96, 0x5e, 0xcd, 0x48, 0x93, 0xde, 0x10, 0x14, 0xb3, 0x71, 0xb4, 0xa2,
+	0x42, 0x6c, 0xa8, 0xc8, 0x94, 0x77, 0x6b, 0x2f, 0x84, 0xa2, 0x14, 0x49, 0x76, 0x0c, 0xb2, 0xe4,
+	0xed, 0x91, 0xab, 0x08, 0x97, 0xa9, 0xf1, 0xa8, 0x25, 0x4d, 0xad, 0x34, 0xad, 0x9d, 0x8f, 0xec,
+	0x66, 0x0f, 0x14, 0x37, 0xae, 0x9c, 0x28, 0x0e, 0xfc, 0x02, 0x7e, 0x04, 0x70, 0x0c, 0x37, 0x6e,
+	0x1c, 0xa8, 0x02, 0x2a, 0xf9, 0x09, 0xfc, 0x01, 0xaa, 0xdf, 0xee, 0x19, 0x7d, 0x3a, 0xa0, 0xe5,
+	0x92, 0x72, 0x3f, 0xfd, 0xbc, 0xd3, 0x6f, 0xbf, 0x1f, 0x4f, 0xbf, 0x0a, 0x54, 0xe7, 0x01, 0x8f,
+	0x78, 0x78, 0x32, 0x8e, 0x9d, 0x60, 0x28, 0xff, 0x6d, 0x20, 0x44, 0xf2, 0xb8, 0x38, 0xf8, 0xe1,
+	0xd8, 0x8b, 0x26, 0xf1, 0x4d, 0xc3, 0xe5, 0xb3, 0x93, 0x28, 0xe0, 0xfe, 0xd3, 0x38, 0x3c, 0x41,
+	0xc2, 0x4d, 0x3c, 0x3a, 0x19, 0xf3, 0x31, 0xc7, 0x05, 0xfe, 0x25, 0x0d, 0x0f, 0x1e, 0x8d, 0x39,
+	0x1f, 0x4f, 0xd9, 0x82, 0x15, 0x79, 0x33, 0x16, 0x46, 0xce, 0x6c, 0x2e, 0x09, 0xf5, 0x5f, 0x6b,
+	0x90, 0xed, 0xf2, 0x31, 0xf9, 0x11, 0x94, 0xdc, 0x89, 0xe3, 0x8f, 0x99, 0x2d, 0x18, 0x55, 0xad,
+	0xa6, 0x1d, 0x95, 0x4e, 0x0f, 0x1a, 0xd2, 0xbc, 0x91, 0x98, 0x37, 0x06, 0x89, 0x39, 0x05, 0x49,
+	0x17, 0x00, 0xf9, 0x01, 0xdc, 0x55, 0xc6, 0x3c, 0xf0, 0xc6, 0x9e, 0xef, 0x44, 0x3c, 0xa8, 0x66,
+	0x6a, 0xda, 0x91, 0x4e, 0x4d, 0xb9, 0xd1, 0x4f, 0x71, 0x72, 0x1f, 0xf6, 0x24, 0x56, 0xcd, 0x22,
+	0x43, 0xad, 0xea, 0x7f, 0xc9, 0x83, 0xde, 0xe2, 0x7e, 0x14, 0x38, 0x6e, 0x74, 0xc9, 0x22, 0x87,
+	0x3c, 0x82, 0x92, 0xab, 0xd6, 0xb6, 0x37, 0x44, 0x97, 0x74, 0x0a, 0x09, 0x74, 0x31, 0x24, 0x8f,
+	0xa1, 0x1c, 0x30, 0x3f, 0x62, 0x81, 0xed, 0x0c, 0x87, 0x01, 0x0b, 0x43, 0x75, 0xa6, 0x21, 0xd1,
+	0xa6, 0x04, 0xc9, 0x47, 0xa0, 0x4f, 0x78, 0x18, 0xa5, 0x24, 0x79, 0x6c, 0x49, 0x60, 0x09, 0xe5,
+	0x21, 0x40, 0x38, 0x71, 0x82, 0xa1, 0x3d, 0x71, 0xc2, 0x49, 0x35, 0x87, 0x84, 0x22, 0x22, 0x2f,
+	0x9c, 0x70, 0x22, 0x3c, 0x91, 0xdb, 0x9e, 0x3f, 0x64, 0x5f, 0x55, 0xf3, 0x35, 0xed, 0x28, 0x4f,
+	0xa5, 0xc5, 0x85, 0x40, 0xc8, 0xf7, 0xa0, 0x22, 0x09, 0x23, 0x6f, 0xca, 0xec, 0xd0, 0xfb, 0x9a,
+	0x55, 0xf7, 0x6a, 0xda, 0x51, 0x96, 0x1a, 0x08, 0x9f, 0x79, 0x53, 0x66, 0x79, 0x5f, 0x33, 0xf2,
+	0x1d, 0x28, 0x22, 0x03, 0x8f, 0xd9, 0xc7, 0x63, 0x0a, 0x02, 0xc0, 0x53, 0x5a, 0x00, 0xc2, 0x71,
+	0x3b, 0x8c, 0x9c, 0x20, 0xaa, 0x16, 0xfe, 0x5b, 0x06, 0x9e, 0x17, 0xde, 0xfc, 0xe3, 0xd1, 0x9d,
+	0xdf, 0xfc, 0xf3, 0x91, 0x46, 0x8b, 0xc2, 0xce, 0x12, 0x66, 0xe4, 0x27, 0x50, 0xc0, 0x8f, 0x30,
+	0x7f, 0x58, 0x2d, 0xee, 0xf0, 0x89, 0x7d, 0x61, 0xd5, 0xf1, 0x87, 0xe4, 0xbb, 0x60, 0x60, 0xb1,
+	0xa5, 0xe1, 0x02, 0x74, 0x53, 0x47, 0x30, 0x89, 0xd7, 0x63, 0x28, 0xb3, 0xd0, 0x0d, 0xf8, 0x97,
+	0x29, 0xab, 0x24, 0x23, 0x2f, 0xd1, 0x84, 0x76, 0x0f, 0xf2, 0xf3, 0xc0, 0x73, 0x59, 0x55, 0xc7,
+	0x60, 0xc8, 0x85, 0x28, 0x00, 0x67, 0xc6, 0x63, 0x3f, 0xaa, 0x1a, 0x08, 0xab, 0x15, 0x56, 0x11,
+	0x9f, 0x4e, 0x9d, 0x88, 0x05, 0xce, 0xd4, 0x56, 0x94, 0x32, 0x52, 0xcc, 0xc5, 0x46, 0x53, 0x92,
+	0x3b, 0x50, 0x99, 0x3b, 0xaf, 0x79, 0x1c, 0xd9, 0xa1, 0x3b, 0x61, 0xc3, 0x78, 0xca, 0xaa, 0x95,
+	0x9a, 0x76, 0x54, 0x3e, 0xfd, 0xb0, 0x21, 0x1b, 0x67, 0xb9, 0x94, 0x1a, 0x96, 0xe2, 0xd0, 0xb2,
+	0x34, 0x4a, 0xd6, 0x22, 0xb3, 0x7e, 0x3c, 0xb3, 0x25, 0x1a, 0x56, 0x4d, 0x99, 0x59, 0x3f, 0x9e,
+	0x5d, 0x49, 0xa4, 0xfe, 0x09, 0x14, 0x52, 0x72, 0x09, 0xf6, 0x2f, 0xfb, 0xbd, 0xc1, 0x8b, 0xee,
+	0x4b, 0xf3, 0x0e, 0x31, 0xa0, 0xf8, 0xd9, 0x75, 0x93, 0x0e, 0x3a, 0xb4, 0xfb, 0xd2, 0xd4, 0x88,
+	0x0e, 0x85, 0x66, 0xaf, 0x77, 0xdd, 0xec, 0x76, 0x5f, 0x9a, 0x99, 0xfa, 0x9f, 0x72, 0x50, 0x48,
+	0x1c, 0x20, 0x27, 0x50, 0x48, 0x8a, 0x56, 0xf5, 0xd5, 0x07, 0x5b, 0x7c, 0xa4, 0x29, 0x89, 0x7c,
+	0x0c, 0xf9, 0x30, 0x72, 0x22, 0x86, 0xe5, 0x5c, 0x3e, 0x7d, 0xb8, 0xc6, 0x4e, 0xff, 0xb0, 0x04,
+	0x89, 0x4a, 0x2e, 0x39, 0x06, 0x53, 0x35, 0x43, 0xe8, 0x8d, 0x7d, 0x27, 0x8a, 0x83, 0xa4, 0xc1,
+	0x2a, 0x12, 0xb7, 0x12, 0x58, 0x64, 0x0f, 0x1b, 0x62, 0x41, 0x94, 0x15, 0x6f, 0x08, 0x74, 0x41,
+	0xa3, 0x40, 0x54, 0x92, 0x05, 0x91, 0x0d, 0xa5, 0x32, 0xe4, 0x77, 0x28, 0x2a, 0x53, 0xda, 0x5b,
+	0x68, 0x8e, 0x4a, 0x71, 0x0c, 0xe6, 0xd2, 0x37, 0xe5, 0xe1, 0x7b, 0xd2, 0xcb, 0x05, 0x57, 0x1e,
+	0x7f, 0x0c, 0x4a, 0x62, 0xec, 0x29, 0x1f, 0x57, 0xf7, 0x6b, 0xd9, 0xa3, 0xd2, 0x29, 0xa8, 0x50,
+	0x74, 0xf9, 0x98, 0x16, 0xe5, 0xae, 0x10, 0xaf, 0x1e, 0x98, 0x53, 0x27, 0x8c, 0xec, 0x19, 0x1f,
+	0x7a, 0xa3, 0xd7, 0xd2, 0xcf, 0x5d, 0xfa, 0xa7, 0x2c, 0xac, 0x2f, 0xd1, 0x18, 0xbd, 0x7c, 0x02,
+	0x15, 0xd9, 0x03, 0x0b, 0x27, 0x8b, 0xe8, 0x64, 0x19, 0xe1, 0xd4, 0xc7, 0xfa, 0xcf, 0xc1, 0x58,
+	0x49, 0x06, 0x29, 0x42, 0xbe, 0x4d, 0x9b, 0x67, 0x03, 0xf3, 0x0e, 0x01, 0xd8, 0xb3, 0x2e, 0xce,
+	0x7b, 0x9d, 0xb6, 0xac, 0x8e, 0xeb, 0xab, 0x6e, 0xbf, 0xd9, 0xee, 0xb4, 0xcd, 0x0c, 0x29, 0x40,
+	0xae, 0xdb, 0xb7, 0x06, 0x66, 0x56, 0xe0, 0xad, 0x66, 0xaf, 0xd5, 0xe9, 0x76, 0xda, 0x66, 0x4e,
+	0x58, 0xb4, 0xba, 0x7d, 0xab, 0xd3, 0x36, 0xf3, 0xf5, 0xdf, 0xe7, 0xc0, 0x40, 0xd9, 0x88, 0x78,
+	0xc0, 0x50, 0x0e, 0x37, 0xd5, 0x4e, 0xdb, 0xa6, 0x76, 0x2b, 0x12, 0x93, 0x59, 0x93, 0x98, 0x64,
+	0x13, 0x15, 0x2a, 0x8b, 0xad, 0x85, 0x9b, 0x28, 0x4e, 0xab, 0xfa, 0x93, 0xfb, 0xff, 0xf5, 0x27,
+	0xff, 0x4d, 0xf4, 0xe7, 0x09, 0x54, 0xdc, 0x09, 0x73, 0x3f, 0xb7, 0x47, 0x01, 0xfb, 0x22, 0x66,
+	0xbe, 0xfb, 0x1a, 0x0b, 0x24, 0x4f, 0xcb, 0x08, 0x9f, 0x25, 0xa8, 0xb8, 0x8b, 0x4c, 0xd2, 0x88,
+	0x31, 0xd4, 0xd2, 0x2c, 0x2d, 0x20, 0x70, 0xc6, 0x98, 0x10, 0x74, 0x55, 0x67, 0x62, 0xb7, 0x80,
+	0xbb, 0x45, 0x89, 0x88, 0xed, 0x54, 0xd0, 0x5d, 0x14, 0x99, 0xe2, 0x92, 0xa0, 0xb7, 0x50, 0x5e,
+	0x1e, 0x43, 0x79, 0xe6, 0xf9, 0xde, 0x2c, 0x9e, 0xd9, 0x88, 0x4a, 0x19, 0xcc, 0x53, 0x43, 0xa1,
+	0x16, 0x82, 0x42, 0xb2, 0x02, 0xe6, 0xf2, 0x57, 0x2c, 0xb0, 0xa3, 0x49, 0xc0, 0xc2, 0x09, 0x9f,
+	0x0e, 0x51, 0x0a, 0xf3, 0xd4, 0x54, 0x1b, 0x83, 0x04, 0xdf, 0x22, 0x9a, 0xfa, 0x36, 0xd1, 0xdc,
+	0x10, 0x60, 0x63, 0x53, 0x80, 0xeb, 0x7f, 0xc8, 0x41, 0x25, 0x2d, 0x0f, 0x51, 0x7a, 0x71, 0x48,
+	0x9e, 0x41, 0x45, 0x26, 0x57, 0x60, 0xf6, 0x8c, 0x45, 0x8e, 0x92, 0x9b, 0x7b, 0xaa, 0x6b, 0x56,
+	0xea, 0x89, 0x1a, 0xa3, 0x95, 0xf2, 0xfa, 0x74, 0x55, 0x74, 0x6a, 0xeb, 0x36, 0xf2, 0x90, 0x86,
+	0xe0, 0xae, 0xe8, 0xce, 0x53, 0x28, 0x26, 0xc2, 0x25, 0x9e, 0x56, 0xd1, 0xa5, 0x95, 0x35, 0xc1,
+	0xa2, 0x0b, 0xc6, 0x56, 0x99, 0xca, 0x6d, 0x97, 0x29, 0x0a, 0x44, 0x06, 0x22, 0x60, 0x2e, 0xf3,
+	0x5e, 0xb1, 0x6f, 0xa0, 0x3f, 0x68, 0x4f, 0xa5, 0xb9, 0xd2, 0x9f, 0x65, 0x51, 0xd9, 0x7b, 0x9f,
+	0xa8, 0x74, 0xa0, 0xe4, 0xc6, 0x58, 0xcb, 0x78, 0xee, 0xfe, 0x0e, 0xe7, 0x82, 0x34, 0xbc, 0x4d,
+	0x4b, 0x0a, 0xb7, 0x68, 0x49, 0x31, 0x0d, 0xee, 0xb2, 0x8e, 0x18, 0x50, 0x94, 0xda, 0x71, 0xd1,
+	0x3b, 0x37, 0x35, 0xf1, 0x08, 0xd1, 0xeb, 0x5e, 0x4f, 0x2c, 0x32, 0xc4, 0x04, 0xfd, 0xaa, 0x49,
+	0x07, 0x17, 0xcd, 0xae, 0xad, 0x14, 0x25, 0xd1, 0x96, 0x9c, 0xf8, 0xab, 0xdd, 0xef, 0x75, 0xcc,
+	0x7c, 0xfd, 0x8f, 0x1a, 0xdc, 0x6d, 0x4d, 0x9c, 0xe9, 0x94, 0xf9, 0x63, 0xf6, 0x59, 0xcc, 0xc2,
+	0xc8, 0xe3, 0xfe, 0xda, 0xcc, 0xa3, 0xad, 0xcf, 0x3c, 0xeb, 0x53, 0x53, 0x66, 0x73, 0x6a, 0x12,
+	0x03, 0xda, 0x24, 0xf6, 0x3f, 0x57, 0x63, 0x51, 0x56, 0x76, 0x11, 0x42, 0x72, 0x2c, 0xfa, 0x08,
+	0xf4, 0xc0, 0xf1, 0x87, 0x7c, 0x66, 0xfb, 0xdc, 0x77, 0x93, 0x44, 0x97, 0x24, 0xd6, 0x13, 0x90,
+	0xa8, 0x76, 0xf6, 0xd5, 0x9c, 0xb9, 0x91, 0xed, 0xf8, 0xe1, 0x97, 0x2c, 0xc0, 0xfc, 0xea, 0x54,
+	0x97, 0x60, 0x13, 0xb1, 0xfa, 0xaf, 0xb2, 0xf0, 0xe0, 0x2a, 0xe0, 0x7c, 0xd4, 0x1f, 0x51, 0x36,
+	0x9f, 0x7a, 0xae, 0x13, 0xb1, 0xf4, 0x42, 0xe4, 0x13, 0x28, 0x7c, 0xa1, 0x2e, 0xa5, 0x0a, 0xbe,
+	0x9a, 0x14, 0xe0, 0xfa, 0xa5, 0x69, 0xca, 0x24, 0x3f, 0x83, 0xb2, 0x9b, 0x6c, 0xcb, 0x0c, 0x67,
+	0x76, 0xc8, 0xb0, 0x91, 0xda, 0x62, 0x92, 0x37, 0x7a, 0x36, 0xbb, 0x65, 0x68, 0xda, 0x52, 0x09,
+	0xb9, 0x6d, 0x95, 0x20, 0xe2, 0x2a, 0x43, 0xbf, 0x1c, 0x11, 0xc0, 0xc8, 0x23, 0x42, 0x7e, 0xba,
+	0xf4, 0x80, 0x4b, 0xdf, 0xf7, 0x76, 0xf0, 0x5d, 0x4f, 0x9e, 0x79, 0x74, 0x7d, 0x73, 0x18, 0xd8,
+	0xdf, 0x32, 0x0c, 0xd4, 0x7f, 0x09, 0xf7, 0x85, 0x14, 0x6c, 0x44, 0x74, 0xed, 0xc1, 0xd1, 0xd6,
+	0x1e, 0x9c, 0xf3, 0x64, 0x30, 0x4e, 0xe2, 0x2e, 0x0a, 0x49, 0x34, 0xdd, 0xa1, 0x4a, 0x11, 0x0a,
+	0xe9, 0xe6, 0x57, 0x69, 0x19, 0xcd, 0xd2, 0x75, 0xfd, 0x6f, 0x19, 0xf8, 0xf6, 0x2d, 0xdc, 0xf7,
+	0x7b, 0xb0, 0x5a, 0xe6, 0x99, 0xf5, 0x32, 0x3f, 0x06, 0x73, 0x1e, 0xb0, 0xb9, 0x13, 0x2c, 0xbd,
+	0xab, 0x6a, 0x6c, 0x4a, 0xf0, 0xa5, 0xa1, 0x37, 0xb9, 0x85, 0x7a, 0x37, 0x72, 0xf2, 0x4d, 0x48,
+	0x50, 0xf9, 0x74, 0x7c, 0x0a, 0xc5, 0xc5, 0x65, 0xf3, 0x78, 0xd9, 0xdb, 0xeb, 0x71, 0x41, 0x25,
+	0xe7, 0xa0, 0xab, 0x13, 0x77, 0x4f, 0x69, 0x49, 0x59, 0x62, 0x46, 0x9f, 0x02, 0x49, 0xaf, 0xb4,
+	0x9e, 0xd5, 0xbb, 0xc9, 0xce, 0x22, 0xb3, 0xff, 0xd6, 0xe0, 0x41, 0x0b, 0x9f, 0xd6, 0x95, 0xe7,
+	0x81, 0xa1, 0x67, 0xef, 0x8f, 0xed, 0xff, 0xf8, 0x03, 0x0c, 0x5f, 0x49, 0xfc, 0xdc, 0x46, 0x90,
+	0xcd, 0x74, 0x23, 0x21, 0x9f, 0x83, 0xae, 0x30, 0x19, 0x86, 0x5d, 0xe6, 0x90, 0x92, 0xb2, 0xc4,
+	0x30, 0x7c, 0x08, 0xc5, 0xc5, 0xed, 0xf3, 0x2a, 0xef, 0xe9, 0xad, 0x7f, 0xab, 0xc1, 0x1e, 0x65,
+	0x61, 0x3c, 0x8d, 0xc8, 0x13, 0xc8, 0xb9, 0x7c, 0x28, 0x7f, 0xf3, 0x96, 0xd3, 0xd9, 0x9c, 0xb2,
+	0x70, 0xce, 0xfd, 0x90, 0xb5, 0xf8, 0x90, 0x51, 0x24, 0x90, 0x2a, 0xec, 0xcf, 0x58, 0x18, 0x3a,
+	0x63, 0xa9, 0x15, 0x45, 0x9a, 0x2c, 0xc9, 0x05, 0x18, 0x81, 0xe2, 0x4b, 0xaf, 0xb3, 0xbb, 0xf4,
+	0x63, 0x62, 0x2a, 0x36, 0xbf, 0xef, 0x82, 0xbe, 0x7c, 0xb4, 0xd0, 0x7b, 0xeb, 0xba, 0xd5, 0xea,
+	0x58, 0x96, 0x79, 0x87, 0x1c, 0xc0, 0x7d, 0x31, 0x53, 0x36, 0x07, 0xd7, 0xb4, 0x63, 0x9f, 0xf5,
+	0xe9, 0x65, 0x73, 0x60, 0x77, 0x28, 0xed, 0x53, 0x53, 0x23, 0x0f, 0xe0, 0x5b, 0xad, 0xfe, 0xe5,
+	0xd5, 0xf5, 0xa0, 0x63, 0x37, 0xdb, 0x6d, 0xda, 0xb1, 0x2c, 0xb5, 0x95, 0x21, 0x15, 0x28, 0xf5,
+	0x07, 0x2f, 0x3a, 0x54, 0x01, 0xf7, 0x4e, 0xff, 0xae, 0x81, 0x7e, 0x8e, 0xa2, 0xc3, 0x82, 0x57,
+	0xe2, 0x37, 0xd9, 0x33, 0xf8, 0xc0, 0x8a, 0x6f, 0x66, 0x5e, 0xb4, 0x3a, 0x73, 0xde, 0xdf, 0x3e,
+	0x05, 0x1c, 0x18, 0x8b, 0x20, 0x89, 0x08, 0xfe, 0x18, 0x0c, 0x8b, 0xf9, 0x8b, 0x6e, 0x25, 0x0f,
+	0x97, 0xec, 0x36, 0x1b, 0x76, 0xdd, 0xbc, 0x07, 0x64, 0xb3, 0x00, 0x49, 0x2d, 0x6d, 0x9a, 0x5b,
+	0x6a, 0xf3, 0xe0, 0x16, 0xef, 0x9e, 0x3f, 0x7b, 0xf3, 0xf6, 0x50, 0xfb, 0xeb, 0xdb, 0x43, 0xed,
+	0x5f, 0x6f, 0x0f, 0xb5, 0xdf, 0xbd, 0x3b, 0xd4, 0xfe, 0xfc, 0xee, 0x50, 0x7b, 0xf3, 0xee, 0x50,
+	0x03, 0xc3, 0xe3, 0x8d, 0x9b, 0x68, 0x14, 0x4a, 0xc3, 0xe7, 0x80, 0x31, 0xb8, 0x12, 0xc9, 0xb9,
+	0xd2, 0x7e, 0x21, 0xff, 0x93, 0xe5, 0x66, 0x0f, 0x93, 0xf5, 0xf1, 0x7f, 0x02, 0x00, 0x00, 0xff,
+	0xff, 0xff, 0xcf, 0x94, 0xc7, 0x8e, 0x11, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1688,26 +1689,22 @@ func (m *ContractMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
-	if m.RentEnd != nil {
-		n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.RentEnd, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentEnd):])
-		if err2 != nil {
-			return 0, err2
-		}
-		i -= n2
-		i = encodeVarintGuard(dAtA, i, uint64(n2))
-		i--
-		dAtA[i] = 0x4a
+	n2, err2 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RentEnd, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentEnd):])
+	if err2 != nil {
+		return 0, err2
 	}
-	if m.RentStart != nil {
-		n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.RentStart, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentStart):])
-		if err3 != nil {
-			return 0, err3
-		}
-		i -= n3
-		i = encodeVarintGuard(dAtA, i, uint64(n3))
-		i--
-		dAtA[i] = 0x42
+	i -= n2
+	i = encodeVarintGuard(dAtA, i, uint64(n2))
+	i--
+	dAtA[i] = 0x4a
+	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RentStart, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentStart):])
+	if err3 != nil {
+		return 0, err3
 	}
+	i -= n3
+	i = encodeVarintGuard(dAtA, i, uint64(n3))
+	i--
+	dAtA[i] = 0x42
 	if len(m.FileHash) > 0 {
 		i -= len(m.FileHash)
 		copy(dAtA[i:], m.FileHash)
@@ -1787,16 +1784,14 @@ func (m *Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x4a
 	}
-	if m.LastModifyTime != nil {
-		n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.LastModifyTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastModifyTime):])
-		if err4 != nil {
-			return 0, err4
-		}
-		i -= n4
-		i = encodeVarintGuard(dAtA, i, uint64(n4))
-		i--
-		dAtA[i] = 0x42
+	n4, err4 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
+	if err4 != nil {
+		return 0, err4
 	}
+	i -= n4
+	i = encodeVarintGuard(dAtA, i, uint64(n4))
+	i--
+	dAtA[i] = 0x42
 	if len(m.ChangeLog) > 0 {
 		for iNdEx := len(m.ChangeLog) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -1818,16 +1813,14 @@ func (m *Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x32
 	}
-	if m.EscrowSignedTime != nil {
-		n5, err5 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.EscrowSignedTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.EscrowSignedTime):])
-		if err5 != nil {
-			return 0, err5
-		}
-		i -= n5
-		i = encodeVarintGuard(dAtA, i, uint64(n5))
-		i--
-		dAtA[i] = 0x2a
+	n5, err5 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	if err5 != nil {
+		return 0, err5
 	}
+	i -= n5
+	i = encodeVarintGuard(dAtA, i, uint64(n5))
+	i--
+	dAtA[i] = 0x2a
 	if len(m.HostSignature) > 0 {
 		i -= len(m.HostSignature)
 		copy(dAtA[i:], m.HostSignature)
@@ -1930,26 +1923,22 @@ func (m *FileStoreMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x30
 	}
-	if m.RentEnd != nil {
-		n7, err7 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.RentEnd, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentEnd):])
-		if err7 != nil {
-			return 0, err7
-		}
-		i -= n7
-		i = encodeVarintGuard(dAtA, i, uint64(n7))
-		i--
-		dAtA[i] = 0x2a
+	n7, err7 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RentEnd, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentEnd):])
+	if err7 != nil {
+		return 0, err7
 	}
-	if m.RentStart != nil {
-		n8, err8 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.RentStart, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentStart):])
-		if err8 != nil {
-			return 0, err8
-		}
-		i -= n8
-		i = encodeVarintGuard(dAtA, i, uint64(n8))
-		i--
-		dAtA[i] = 0x22
+	i -= n7
+	i = encodeVarintGuard(dAtA, i, uint64(n7))
+	i--
+	dAtA[i] = 0x2a
+	n8, err8 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RentStart, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentStart):])
+	if err8 != nil {
+		return 0, err8
 	}
+	i -= n8
+	i = encodeVarintGuard(dAtA, i, uint64(n8))
+	i--
+	dAtA[i] = 0x22
 	if m.FileSize != 0 {
 		i = encodeVarintGuard(dAtA, i, uint64(m.FileSize))
 		i--
@@ -2003,16 +1992,14 @@ func (m *FileStoreStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x42
 	}
-	if m.CurentTime != nil {
-		n9, err9 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.CurentTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.CurentTime):])
-		if err9 != nil {
-			return 0, err9
-		}
-		i -= n9
-		i = encodeVarintGuard(dAtA, i, uint64(n9))
-		i--
-		dAtA[i] = 0x3a
+	n9, err9 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime):])
+	if err9 != nil {
+		return 0, err9
 	}
+	i -= n9
+	i = encodeVarintGuard(dAtA, i, uint64(n9))
+	i--
+	dAtA[i] = 0x3a
 	if len(m.ChangeLog) > 0 {
 		for iNdEx := len(m.ChangeLog) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2027,16 +2014,14 @@ func (m *FileStoreStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x32
 		}
 	}
-	if m.GuardReceiveTime != nil {
-		n10, err10 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.GuardReceiveTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.GuardReceiveTime):])
-		if err10 != nil {
-			return 0, err10
-		}
-		i -= n10
-		i = encodeVarintGuard(dAtA, i, uint64(n10))
-		i--
-		dAtA[i] = 0x2a
+	n10, err10 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.GuardReceiveTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.GuardReceiveTime):])
+	if err10 != nil {
+		return 0, err10
 	}
+	i -= n10
+	i = encodeVarintGuard(dAtA, i, uint64(n10))
+	i--
+	dAtA[i] = 0x2a
 	if len(m.RenterSignature) > 0 {
 		i -= len(m.RenterSignature)
 		copy(dAtA[i:], m.RenterSignature)
@@ -2169,16 +2154,14 @@ func (m *ProofOfReplicateChallenge) MarshalToSizedBuffer(dAtA []byte) (int, erro
 		i--
 		dAtA[i] = 0x3a
 	}
-	if m.HostSignTime != nil {
-		n12, err12 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.HostSignTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.HostSignTime):])
-		if err12 != nil {
-			return 0, err12
-		}
-		i -= n12
-		i = encodeVarintGuard(dAtA, i, uint64(n12))
-		i--
-		dAtA[i] = 0x32
+	n12, err12 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.HostSignTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.HostSignTime):])
+	if err12 != nil {
+		return 0, err12
 	}
+	i -= n12
+	i = encodeVarintGuard(dAtA, i, uint64(n12))
+	i--
+	dAtA[i] = 0x32
 	if len(m.HostAnswer) > 0 {
 		i -= len(m.HostAnswer)
 		copy(dAtA[i:], m.HostAnswer)
@@ -2200,16 +2183,14 @@ func (m *ProofOfReplicateChallenge) MarshalToSizedBuffer(dAtA []byte) (int, erro
 		i--
 		dAtA[i] = 0x1a
 	}
-	if m.ChallengeTime != nil {
-		n13, err13 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ChallengeTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ChallengeTime):])
-		if err13 != nil {
-			return 0, err13
-		}
-		i -= n13
-		i = encodeVarintGuard(dAtA, i, uint64(n13))
-		i--
-		dAtA[i] = 0x12
+	n13, err13 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.ChallengeTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.ChallengeTime):])
+	if err13 != nil {
+		return 0, err13
 	}
+	i -= n13
+	i = encodeVarintGuard(dAtA, i, uint64(n13))
+	i--
+	dAtA[i] = 0x12
 	if m.Question != nil {
 		{
 			size, err := m.Question.MarshalToSizedBuffer(dAtA[:i])
@@ -2304,16 +2285,14 @@ func (m *ShardChallengeQuestions) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		i--
 		dAtA[i] = 0x3a
 	}
-	if m.PrepareTime != nil {
-		n15, err15 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.PrepareTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.PrepareTime):])
-		if err15 != nil {
-			return 0, err15
-		}
-		i -= n15
-		i = encodeVarintGuard(dAtA, i, uint64(n15))
-		i--
-		dAtA[i] = 0x32
+	n15, err15 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.PrepareTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.PrepareTime):])
+	if err15 != nil {
+		return 0, err15
 	}
+	i -= n15
+	i = encodeVarintGuard(dAtA, i, uint64(n15))
+	i--
+	dAtA[i] = 0x32
 	if len(m.Questions) > 0 {
 		for iNdEx := len(m.Questions) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2388,16 +2367,14 @@ func (m *CheckFileStoreMetaRequest) MarshalToSizedBuffer(dAtA []byte) (int, erro
 		i--
 		dAtA[i] = 0x2a
 	}
-	if m.RequestTime != nil {
-		n16, err16 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.RequestTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.RequestTime):])
-		if err16 != nil {
-			return 0, err16
-		}
-		i -= n16
-		i = encodeVarintGuard(dAtA, i, uint64(n16))
-		i--
-		dAtA[i] = 0x22
+	n16, err16 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RequestTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RequestTime):])
+	if err16 != nil {
+		return 0, err16
 	}
+	i -= n16
+	i = encodeVarintGuard(dAtA, i, uint64(n16))
+	i--
+	dAtA[i] = 0x22
 	if len(m.RequesterAddress) > 0 {
 		i -= len(m.RequesterAddress)
 		copy(dAtA[i:], m.RequesterAddress)
@@ -2446,16 +2423,14 @@ func (m *Result) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.ResponseTime != nil {
-		n17, err17 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ResponseTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ResponseTime):])
-		if err17 != nil {
-			return 0, err17
-		}
-		i -= n17
-		i = encodeVarintGuard(dAtA, i, uint64(n17))
-		i--
-		dAtA[i] = 0x1a
+	n17, err17 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.ResponseTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime):])
+	if err17 != nil {
+		return 0, err17
 	}
+	i -= n17
+	i = encodeVarintGuard(dAtA, i, uint64(n17))
+	i--
+	dAtA[i] = 0x1a
 	if len(m.Message) > 0 {
 		i -= len(m.Message)
 		copy(dAtA[i:], m.Message)
@@ -2538,14 +2513,10 @@ func (m *ContractMeta) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.RentStart != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentStart)
-		n += 1 + l + sovGuard(uint64(l))
-	}
-	if m.RentEnd != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentEnd)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentStart)
+	n += 1 + l + sovGuard(uint64(l))
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentEnd)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.GuardAddress)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2596,10 +2567,8 @@ func (m *Contract) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.EscrowSignedTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.EscrowSignedTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.EscrowSignature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2610,10 +2579,8 @@ func (m *Contract) Size() (n int) {
 			n += 1 + l + sovGuard(uint64(l))
 		}
 	}
-	if m.LastModifyTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastModifyTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.GuardSignature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2641,14 +2608,10 @@ func (m *FileStoreMeta) Size() (n int) {
 	if m.FileSize != 0 {
 		n += 1 + sovGuard(uint64(m.FileSize))
 	}
-	if m.RentStart != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentStart)
-		n += 1 + l + sovGuard(uint64(l))
-	}
-	if m.RentEnd != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.RentEnd)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentStart)
+	n += 1 + l + sovGuard(uint64(l))
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentEnd)
+	n += 1 + l + sovGuard(uint64(l))
 	if m.CheckFrequency != 0 {
 		n += 1 + sovGuard(uint64(m.CheckFrequency))
 	}
@@ -2704,20 +2667,16 @@ func (m *FileStoreStatus) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.GuardReceiveTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.GuardReceiveTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.GuardReceiveTime)
+	n += 1 + l + sovGuard(uint64(l))
 	if len(m.ChangeLog) > 0 {
 		for _, e := range m.ChangeLog {
 			l = e.Size()
 			n += 1 + l + sovGuard(uint64(l))
 		}
 	}
-	if m.CurentTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.CurentTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.GuardSignature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2769,10 +2728,8 @@ func (m *ProofOfReplicateChallenge) Size() (n int) {
 		l = m.Question.Size()
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.ChallengeTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ChallengeTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ChallengeTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.GuardAddress)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2785,10 +2742,8 @@ func (m *ProofOfReplicateChallenge) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.HostSignTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.HostSignTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.HostSignTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.HostSignature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2848,10 +2803,8 @@ func (m *ShardChallengeQuestions) Size() (n int) {
 			n += 1 + l + sovGuard(uint64(l))
 		}
 	}
-	if m.PrepareTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.PrepareTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.PrepareTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.PreparerSignature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2880,10 +2833,8 @@ func (m *CheckFileStoreMetaRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.RequestTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.RequestTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RequestTime)
+	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.Signature)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
@@ -2907,10 +2858,8 @@ func (m *Result) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	if m.ResponseTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ResponseTime)
-		n += 1 + l + sovGuard(uint64(l))
-	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime)
+	n += 1 + l + sovGuard(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -3347,10 +3296,7 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RentStart == nil {
-				m.RentStart = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.RentStart, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RentStart, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3383,10 +3329,7 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RentEnd == nil {
-				m.RentEnd = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.RentEnd, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RentEnd, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3759,10 +3702,7 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.EscrowSignedTime == nil {
-				m.EscrowSignedTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3863,10 +3803,7 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.LastModifyTime == nil {
-				m.LastModifyTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4074,10 +4011,7 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RentStart == nil {
-				m.RentStart = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.RentStart, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RentStart, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4110,10 +4044,7 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RentEnd == nil {
-				m.RentEnd = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.RentEnd, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RentEnd, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4505,10 +4436,7 @@ func (m *FileStoreStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.GuardReceiveTime == nil {
-				m.GuardReceiveTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.GuardReceiveTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.GuardReceiveTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4575,10 +4503,7 @@ func (m *FileStoreStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CurentTime == nil {
-				m.CurentTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4944,10 +4869,7 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.ChallengeTime == nil {
-				m.ChallengeTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ChallengeTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.ChallengeTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5082,10 +5004,7 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.HostSignTime == nil {
-				m.HostSignTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.HostSignTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.HostSignTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5483,10 +5402,7 @@ func (m *ShardChallengeQuestions) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.PrepareTime == nil {
-				m.PrepareTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.PrepareTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.PrepareTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5709,10 +5625,7 @@ func (m *CheckFileStoreMetaRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RequestTime == nil {
-				m.RequestTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.RequestTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RequestTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5884,10 +5797,7 @@ func (m *Result) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.ResponseTime == nil {
-				m.ResponseTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ResponseTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.ResponseTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
