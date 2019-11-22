@@ -168,8 +168,8 @@ func (FileStoreStatus_MetaState) EnumDescriptor() ([]byte, []int) {
 
 type Log struct {
 	ChangeTime           *types.Timestamp `protobuf:"bytes,1,opt,name=change_time,json=changeTime,proto3" json:"change_time,omitempty" pg:"change_time"`
-	ChangeOriginator     []byte           `protobuf:"bytes,2,opt,name=change_originator,json=changeOriginator,proto3" json:"change_originator,omitempty" pg:"change_originator"`
-	Change               []byte           `protobuf:"bytes,3,opt,name=change,proto3" json:"change,omitempty" pg:"change"`
+	OriginatorPid        string           `protobuf:"bytes,2,opt,name=originator_pid,json=originatorPid,proto3" json:"originator_pid,omitempty" pg:"originator_pid"`
+	Change               string           `protobuf:"bytes,3,opt,name=change,proto3" json:"change,omitempty" pg:"change"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-" pg:"-"`
 	XXX_unrecognized     []byte           `json:"-" pg:"-"`
 	XXX_sizecache        int32            `json:"-" pg:"-"`
@@ -215,18 +215,18 @@ func (m *Log) GetChangeTime() *types.Timestamp {
 	return nil
 }
 
-func (m *Log) GetChangeOriginator() []byte {
+func (m *Log) GetOriginatorPid() string {
 	if m != nil {
-		return m.ChangeOriginator
+		return m.OriginatorPid
 	}
-	return nil
+	return ""
 }
 
-func (m *Log) GetChange() []byte {
+func (m *Log) GetChange() string {
 	if m != nil {
 		return m.Change
 	}
-	return nil
+	return ""
 }
 
 func (*Log) XXX_MessageName() string {
@@ -241,17 +241,17 @@ func (*Log) XXX_MessageName() string {
 //Contract technically is the contract execution record, it contains the contractMeta and state information
 type ContractMeta struct {
 	//Contract proposed by renter, will not be changed after renter proposed
-	ContractId           []byte                `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty" pg:"contract_id"`
-	RenterAddress        []byte                `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
-	HostAddress          []byte                `protobuf:"bytes,3,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty" pg:"host_address"`
-	ShardHash            []byte                `protobuf:"bytes,4,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	ContractId           string                `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty" pg:"contract_id"`
+	RenterPid            string                `protobuf:"bytes,2,opt,name=renter_pid,json=renterPid,proto3" json:"renter_pid,omitempty" pg:"renter_pid"`
+	HostPid              string                `protobuf:"bytes,3,opt,name=host_pid,json=hostPid,proto3" json:"host_pid,omitempty" pg:"host_pid"`
+	ShardHash            string                `protobuf:"bytes,4,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
 	ShardIndex           int32                 `protobuf:"varint,5,opt,name=shard_index,json=shardIndex,proto3" json:"shard_index,omitempty" pg:"shard_index"`
 	ShardFileSize        int64                 `protobuf:"varint,6,opt,name=shard_file_size,json=shardFileSize,proto3" json:"shard_file_size,omitempty" pg:"shard_file_size"`
-	FileHash             []byte                `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	FileHash             string                `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
 	RentStart            time.Time             `protobuf:"bytes,8,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start" pg:"rent_start"`
 	RentEnd              time.Time             `protobuf:"bytes,9,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end" pg:"rent_end"`
-	GuardAddress         []byte                `protobuf:"bytes,10,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
-	EscrowAddress        []byte                `protobuf:"bytes,11,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty" pg:"escrow_address"`
+	GuardPid             string                `protobuf:"bytes,10,opt,name=guard_pid,json=guardPid,proto3" json:"guard_pid,omitempty" pg:"guard_pid"`
+	EscrowPid            string                `protobuf:"bytes,11,opt,name=escrow_pid,json=escrowPid,proto3" json:"escrow_pid,omitempty" pg:"escrow_pid"`
 	Price                int64                 `protobuf:"varint,12,opt,name=price,proto3" json:"price,omitempty" pg:"price"`
 	Amount               int64                 `protobuf:"varint,13,opt,name=amount,proto3" json:"amount,omitempty" pg:"amount"`
 	CollateralAmount     int64                 `protobuf:"varint,14,opt,name=collateral_amount,json=collateralAmount,proto3" json:"collateral_amount,omitempty" pg:"collateral_amount"`
@@ -295,32 +295,32 @@ func (m *ContractMeta) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ContractMeta proto.InternalMessageInfo
 
-func (m *ContractMeta) GetContractId() []byte {
+func (m *ContractMeta) GetContractId() string {
 	if m != nil {
 		return m.ContractId
 	}
-	return nil
+	return ""
 }
 
-func (m *ContractMeta) GetRenterAddress() []byte {
+func (m *ContractMeta) GetRenterPid() string {
 	if m != nil {
-		return m.RenterAddress
+		return m.RenterPid
 	}
-	return nil
+	return ""
 }
 
-func (m *ContractMeta) GetHostAddress() []byte {
+func (m *ContractMeta) GetHostPid() string {
 	if m != nil {
-		return m.HostAddress
+		return m.HostPid
 	}
-	return nil
+	return ""
 }
 
-func (m *ContractMeta) GetShardHash() []byte {
+func (m *ContractMeta) GetShardHash() string {
 	if m != nil {
 		return m.ShardHash
 	}
-	return nil
+	return ""
 }
 
 func (m *ContractMeta) GetShardIndex() int32 {
@@ -337,11 +337,11 @@ func (m *ContractMeta) GetShardFileSize() int64 {
 	return 0
 }
 
-func (m *ContractMeta) GetFileHash() []byte {
+func (m *ContractMeta) GetFileHash() string {
 	if m != nil {
 		return m.FileHash
 	}
-	return nil
+	return ""
 }
 
 func (m *ContractMeta) GetRentStart() time.Time {
@@ -358,18 +358,18 @@ func (m *ContractMeta) GetRentEnd() time.Time {
 	return time.Time{}
 }
 
-func (m *ContractMeta) GetGuardAddress() []byte {
+func (m *ContractMeta) GetGuardPid() string {
 	if m != nil {
-		return m.GuardAddress
+		return m.GuardPid
 	}
-	return nil
+	return ""
 }
 
-func (m *ContractMeta) GetEscrowAddress() []byte {
+func (m *ContractMeta) GetEscrowPid() string {
 	if m != nil {
-		return m.EscrowAddress
+		return m.EscrowPid
 	}
-	return nil
+	return ""
 }
 
 func (m *ContractMeta) GetPrice() int64 {
@@ -529,8 +529,8 @@ func (*Contract) XXX_MessageName() string {
 
 type FileStoreMeta struct {
 	//file store meta prepared by renter, will not changed after proposal
-	RenterAddress        []byte    `protobuf:"bytes,1,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
-	FileHash             []byte    `protobuf:"bytes,2,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	RenterPid            string    `protobuf:"bytes,1,opt,name=renter_pid,json=renterPid,proto3" json:"renter_pid,omitempty" pg:"renter_pid"`
+	FileHash             string    `protobuf:"bytes,2,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
 	FileSize             int64     `protobuf:"varint,3,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
 	RentStart            time.Time `protobuf:"bytes,4,opt,name=rent_start,json=rentStart,proto3,stdtime" json:"rent_start" pg:"rent_start"`
 	RentEnd              time.Time `protobuf:"bytes,5,opt,name=rent_end,json=rentEnd,proto3,stdtime" json:"rent_end" pg:"rent_end"`
@@ -540,8 +540,8 @@ type FileStoreMeta struct {
 	ShardCount           int32     `protobuf:"varint,9,opt,name=shard_count,json=shardCount,proto3" json:"shard_count,omitempty" pg:"shard_count"`
 	MinimumShards        int32     `protobuf:"varint,10,opt,name=minimum_shards,json=minimumShards,proto3" json:"minimum_shards,omitempty" pg:"minimum_shards"`
 	RecoverThreshold     int32     `protobuf:"varint,11,opt,name=recover_threshold,json=recoverThreshold,proto3" json:"recover_threshold,omitempty" pg:"recover_threshold"`
-	EscrowAddress        []byte    `protobuf:"bytes,12,opt,name=escrow_address,json=escrowAddress,proto3" json:"escrow_address,omitempty" pg:"escrow_address"`
-	GuardAddress         []byte    `protobuf:"bytes,13,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
+	EscrowPid            string    `protobuf:"bytes,12,opt,name=escrow_pid,json=escrowPid,proto3" json:"escrow_pid,omitempty" pg:"escrow_pid"`
+	GuardPid             string    `protobuf:"bytes,13,opt,name=guard_pid,json=guardPid,proto3" json:"guard_pid,omitempty" pg:"guard_pid"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
 	XXX_unrecognized     []byte    `json:"-" pg:"-"`
 	XXX_sizecache        int32     `json:"-" pg:"-"`
@@ -580,18 +580,18 @@ func (m *FileStoreMeta) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_FileStoreMeta proto.InternalMessageInfo
 
-func (m *FileStoreMeta) GetRenterAddress() []byte {
+func (m *FileStoreMeta) GetRenterPid() string {
 	if m != nil {
-		return m.RenterAddress
+		return m.RenterPid
 	}
-	return nil
+	return ""
 }
 
-func (m *FileStoreMeta) GetFileHash() []byte {
+func (m *FileStoreMeta) GetFileHash() string {
 	if m != nil {
 		return m.FileHash
 	}
-	return nil
+	return ""
 }
 
 func (m *FileStoreMeta) GetFileSize() int64 {
@@ -657,18 +657,18 @@ func (m *FileStoreMeta) GetRecoverThreshold() int32 {
 	return 0
 }
 
-func (m *FileStoreMeta) GetEscrowAddress() []byte {
+func (m *FileStoreMeta) GetEscrowPid() string {
 	if m != nil {
-		return m.EscrowAddress
+		return m.EscrowPid
 	}
-	return nil
+	return ""
 }
 
-func (m *FileStoreMeta) GetGuardAddress() []byte {
+func (m *FileStoreMeta) GetGuardPid() string {
 	if m != nil {
-		return m.GuardAddress
+		return m.GuardPid
 	}
-	return nil
+	return ""
 }
 
 func (*FileStoreMeta) XXX_MessageName() string {
@@ -682,7 +682,7 @@ type FileStoreStatus struct {
 	RenterSignature      []byte                    `protobuf:"bytes,4,opt,name=renter_signature,json=renterSignature,proto3" json:"renter_signature,omitempty" pg:"renter_signature"`
 	GuardReceiveTime     time.Time                 `protobuf:"bytes,5,opt,name=guard_receive_time,json=guardReceiveTime,proto3,stdtime" json:"guard_receive_time" pg:"guard_receive_time"`
 	ChangeLog            []*Log                    `protobuf:"bytes,6,rep,name=change_log,json=changeLog,proto3" json:"change_log,omitempty" pg:"change_log"`
-	CurentTime           time.Time                 `protobuf:"bytes,7,opt,name=curent_time,json=curentTime,proto3,stdtime" json:"curent_time" pg:"curent_time"`
+	CurrentTime          time.Time                 `protobuf:"bytes,7,opt,name=current_time,json=currentTime,proto3,stdtime" json:"current_time" pg:"current_time"`
 	GuardSignature       []byte                    `protobuf:"bytes,8,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty" pg:"guard_signature"`
 	XXX_NoUnkeyedLiteral struct{}                  `json:"-" pg:"-"`
 	XXX_unrecognized     []byte                    `json:"-" pg:"-"`
@@ -764,9 +764,9 @@ func (m *FileStoreStatus) GetChangeLog() []*Log {
 	return nil
 }
 
-func (m *FileStoreStatus) GetCurentTime() time.Time {
+func (m *FileStoreStatus) GetCurrentTime() time.Time {
 	if m != nil {
-		return m.CurentTime
+		return m.CurrentTime
 	}
 	return time.Time{}
 }
@@ -783,11 +783,11 @@ func (*FileStoreStatus) XXX_MessageName() string {
 }
 
 type ChallengeQuestion struct {
-	ShardHash            []byte   `protobuf:"bytes,1,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
-	HostAddress          []byte   `protobuf:"bytes,2,opt,name=host_address,json=hostAddress,proto3" json:"host_address,omitempty" pg:"host_address"`
+	ShardHash            string   `protobuf:"bytes,1,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	HostPid              string   `protobuf:"bytes,2,opt,name=host_pid,json=hostPid,proto3" json:"host_pid,omitempty" pg:"host_pid"`
 	ChunkIndex           int32    `protobuf:"varint,3,opt,name=chunk_index,json=chunkIndex,proto3" json:"chunk_index,omitempty" pg:"chunk_index"`
-	RandomNonce          []byte   `protobuf:"bytes,4,opt,name=random_nonce,json=randomNonce,proto3" json:"random_nonce,omitempty" pg:"random_nonce"`
-	ExpectAnswer         []byte   `protobuf:"bytes,5,opt,name=expect_answer,json=expectAnswer,proto3" json:"expect_answer,omitempty" pg:"expect_answer"`
+	Nonce                string   `protobuf:"bytes,4,opt,name=nonce,proto3" json:"nonce,omitempty" pg:"nonce"`
+	ExpectAnswer         string   `protobuf:"bytes,5,opt,name=expect_answer,json=expectAnswer,proto3" json:"expect_answer,omitempty" pg:"expect_answer"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -826,18 +826,18 @@ func (m *ChallengeQuestion) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ChallengeQuestion proto.InternalMessageInfo
 
-func (m *ChallengeQuestion) GetShardHash() []byte {
+func (m *ChallengeQuestion) GetShardHash() string {
 	if m != nil {
 		return m.ShardHash
 	}
-	return nil
+	return ""
 }
 
-func (m *ChallengeQuestion) GetHostAddress() []byte {
+func (m *ChallengeQuestion) GetHostPid() string {
 	if m != nil {
-		return m.HostAddress
+		return m.HostPid
 	}
-	return nil
+	return ""
 }
 
 func (m *ChallengeQuestion) GetChunkIndex() int32 {
@@ -847,18 +847,18 @@ func (m *ChallengeQuestion) GetChunkIndex() int32 {
 	return 0
 }
 
-func (m *ChallengeQuestion) GetRandomNonce() []byte {
+func (m *ChallengeQuestion) GetNonce() string {
 	if m != nil {
-		return m.RandomNonce
+		return m.Nonce
 	}
-	return nil
+	return ""
 }
 
-func (m *ChallengeQuestion) GetExpectAnswer() []byte {
+func (m *ChallengeQuestion) GetExpectAnswer() string {
 	if m != nil {
 		return m.ExpectAnswer
 	}
-	return nil
+	return ""
 }
 
 func (*ChallengeQuestion) XXX_MessageName() string {
@@ -868,9 +868,9 @@ func (*ChallengeQuestion) XXX_MessageName() string {
 type ProofOfReplicateChallenge struct {
 	Question             *ChallengeQuestion `protobuf:"bytes,1,opt,name=question,proto3" json:"question,omitempty" pg:"question"`
 	ChallengeTime        time.Time          `protobuf:"bytes,2,opt,name=challenge_time,json=challengeTime,proto3,stdtime" json:"challenge_time" pg:"challenge_time"`
-	GuardAddress         []byte             `protobuf:"bytes,3,opt,name=guard_address,json=guardAddress,proto3" json:"guard_address,omitempty" pg:"guard_address"`
+	GuardPid             string             `protobuf:"bytes,3,opt,name=guard_pid,json=guardPid,proto3" json:"guard_pid,omitempty" pg:"guard_pid"`
 	GuardSignature       []byte             `protobuf:"bytes,4,opt,name=guard_signature,json=guardSignature,proto3" json:"guard_signature,omitempty" pg:"guard_signature"`
-	HostAnswer           []byte             `protobuf:"bytes,5,opt,name=host_answer,json=hostAnswer,proto3" json:"host_answer,omitempty" pg:"host_answer"`
+	HostAnswer           string             `protobuf:"bytes,5,opt,name=host_answer,json=hostAnswer,proto3" json:"host_answer,omitempty" pg:"host_answer"`
 	HostSignTime         time.Time          `protobuf:"bytes,6,opt,name=host_sign_time,json=hostSignTime,proto3,stdtime" json:"host_sign_time" pg:"host_sign_time"`
 	HostSignature        []byte             `protobuf:"bytes,7,opt,name=host_signature,json=hostSignature,proto3" json:"host_signature,omitempty" pg:"host_signature"`
 	XXX_NoUnkeyedLiteral struct{}           `json:"-" pg:"-"`
@@ -925,11 +925,11 @@ func (m *ProofOfReplicateChallenge) GetChallengeTime() time.Time {
 	return time.Time{}
 }
 
-func (m *ProofOfReplicateChallenge) GetGuardAddress() []byte {
+func (m *ProofOfReplicateChallenge) GetGuardPid() string {
 	if m != nil {
-		return m.GuardAddress
+		return m.GuardPid
 	}
-	return nil
+	return ""
 }
 
 func (m *ProofOfReplicateChallenge) GetGuardSignature() []byte {
@@ -939,11 +939,11 @@ func (m *ProofOfReplicateChallenge) GetGuardSignature() []byte {
 	return nil
 }
 
-func (m *ProofOfReplicateChallenge) GetHostAnswer() []byte {
+func (m *ProofOfReplicateChallenge) GetHostAnswer() string {
 	if m != nil {
 		return m.HostAnswer
 	}
-	return nil
+	return ""
 }
 
 func (m *ProofOfReplicateChallenge) GetHostSignTime() time.Time {
@@ -965,7 +965,7 @@ func (*ProofOfReplicateChallenge) XXX_MessageName() string {
 }
 
 type FileChallengeQuestions struct {
-	FileHash             []byte                     `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	FileHash             string                     `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
 	ShardQuestions       []*ShardChallengeQuestions `protobuf:"bytes,2,rep,name=shard_questions,json=shardQuestions,proto3" json:"shard_questions,omitempty" pg:"shard_questions"`
 	XXX_NoUnkeyedLiteral struct{}                   `json:"-" pg:"-"`
 	XXX_unrecognized     []byte                     `json:"-" pg:"-"`
@@ -1005,11 +1005,11 @@ func (m *FileChallengeQuestions) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_FileChallengeQuestions proto.InternalMessageInfo
 
-func (m *FileChallengeQuestions) GetFileHash() []byte {
+func (m *FileChallengeQuestions) GetFileHash() string {
 	if m != nil {
 		return m.FileHash
 	}
-	return nil
+	return ""
 }
 
 func (m *FileChallengeQuestions) GetShardQuestions() []*ShardChallengeQuestions {
@@ -1024,9 +1024,9 @@ func (*FileChallengeQuestions) XXX_MessageName() string {
 }
 
 type ShardChallengeQuestions struct {
-	FileHash             []byte               `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
-	ShardHash            []byte               `protobuf:"bytes,2,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
-	PreparerAddress      []byte               `protobuf:"bytes,3,opt,name=preparer_address,json=preparerAddress,proto3" json:"preparer_address,omitempty" pg:"preparer_address"`
+	FileHash             string               `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	ShardHash            string               `protobuf:"bytes,2,opt,name=shard_hash,json=shardHash,proto3" json:"shard_hash,omitempty" pg:"shard_hash"`
+	PreparerPid          string               `protobuf:"bytes,3,opt,name=preparer_pid,json=preparerPid,proto3" json:"preparer_pid,omitempty" pg:"preparer_pid"`
 	QuestionCount        int32                `protobuf:"varint,4,opt,name=question_count,json=questionCount,proto3" json:"question_count,omitempty" pg:"question_count"`
 	Questions            []*ChallengeQuestion `protobuf:"bytes,5,rep,name=questions,proto3" json:"questions,omitempty" pg:"questions"`
 	PrepareTime          time.Time            `protobuf:"bytes,6,opt,name=prepare_time,json=prepareTime,proto3,stdtime" json:"prepare_time" pg:"prepare_time"`
@@ -1069,25 +1069,25 @@ func (m *ShardChallengeQuestions) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ShardChallengeQuestions proto.InternalMessageInfo
 
-func (m *ShardChallengeQuestions) GetFileHash() []byte {
+func (m *ShardChallengeQuestions) GetFileHash() string {
 	if m != nil {
 		return m.FileHash
 	}
-	return nil
+	return ""
 }
 
-func (m *ShardChallengeQuestions) GetShardHash() []byte {
+func (m *ShardChallengeQuestions) GetShardHash() string {
 	if m != nil {
 		return m.ShardHash
 	}
-	return nil
+	return ""
 }
 
-func (m *ShardChallengeQuestions) GetPreparerAddress() []byte {
+func (m *ShardChallengeQuestions) GetPreparerPid() string {
 	if m != nil {
-		return m.PreparerAddress
+		return m.PreparerPid
 	}
-	return nil
+	return ""
 }
 
 func (m *ShardChallengeQuestions) GetQuestionCount() int32 {
@@ -1123,9 +1123,9 @@ func (*ShardChallengeQuestions) XXX_MessageName() string {
 }
 
 type CheckFileStoreMetaRequest struct {
-	FileHash             []byte    `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
-	RenterAddress        []byte    `protobuf:"bytes,2,opt,name=renter_address,json=renterAddress,proto3" json:"renter_address,omitempty" pg:"renter_address"`
-	RequesterAddress     []byte    `protobuf:"bytes,3,opt,name=requester_address,json=requesterAddress,proto3" json:"requester_address,omitempty" pg:"requester_address"`
+	FileHash             string    `protobuf:"bytes,1,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	RenterPid            string    `protobuf:"bytes,2,opt,name=renter_pid,json=renterPid,proto3" json:"renter_pid,omitempty" pg:"renter_pid"`
+	RequesterPid         string    `protobuf:"bytes,3,opt,name=requester_pid,json=requesterPid,proto3" json:"requester_pid,omitempty" pg:"requester_pid"`
 	RequestTime          time.Time `protobuf:"bytes,4,opt,name=request_time,json=requestTime,proto3,stdtime" json:"request_time" pg:"request_time"`
 	Signature            []byte    `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
@@ -1166,25 +1166,25 @@ func (m *CheckFileStoreMetaRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_CheckFileStoreMetaRequest proto.InternalMessageInfo
 
-func (m *CheckFileStoreMetaRequest) GetFileHash() []byte {
+func (m *CheckFileStoreMetaRequest) GetFileHash() string {
 	if m != nil {
 		return m.FileHash
 	}
-	return nil
+	return ""
 }
 
-func (m *CheckFileStoreMetaRequest) GetRenterAddress() []byte {
+func (m *CheckFileStoreMetaRequest) GetRenterPid() string {
 	if m != nil {
-		return m.RenterAddress
+		return m.RenterPid
 	}
-	return nil
+	return ""
 }
 
-func (m *CheckFileStoreMetaRequest) GetRequesterAddress() []byte {
+func (m *CheckFileStoreMetaRequest) GetRequesterPid() string {
 	if m != nil {
-		return m.RequesterAddress
+		return m.RequesterPid
 	}
-	return nil
+	return ""
 }
 
 func (m *CheckFileStoreMetaRequest) GetRequestTime() time.Time {
@@ -1308,115 +1308,114 @@ func init() { proto.RegisterFile("protos/guard/guard.proto", fileDescriptor_ad5b
 func init() { golang_proto.RegisterFile("protos/guard/guard.proto", fileDescriptor_ad5b6eccdc9ebee8) }
 
 var fileDescriptor_ad5b6eccdc9ebee8 = []byte{
-	// 1721 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x58, 0x4d, 0x73, 0x1b, 0x49,
-	0x19, 0xce, 0xe8, 0xc3, 0x96, 0x5e, 0xcd, 0x48, 0x93, 0xde, 0x10, 0x14, 0xb3, 0x71, 0xb4, 0xa2,
-	0x42, 0x6c, 0xa8, 0xc8, 0x94, 0x77, 0x6b, 0x2f, 0x84, 0xa2, 0x14, 0x49, 0x76, 0x0c, 0xb2, 0xe4,
-	0xed, 0x91, 0xab, 0x08, 0x97, 0xa9, 0xf1, 0xa8, 0x25, 0x4d, 0xad, 0x34, 0xad, 0x9d, 0x8f, 0xec,
-	0x66, 0x0f, 0x14, 0x37, 0xae, 0x9c, 0x28, 0x0e, 0xfc, 0x02, 0x7e, 0x04, 0x70, 0x0c, 0x37, 0x6e,
-	0x1c, 0xa8, 0x02, 0x2a, 0xf9, 0x09, 0xfc, 0x01, 0xaa, 0xdf, 0xee, 0x19, 0x7d, 0x3a, 0xa0, 0xe5,
-	0x92, 0x72, 0x3f, 0xfd, 0xbc, 0xd3, 0x6f, 0xbf, 0x1f, 0x4f, 0xbf, 0x0a, 0x54, 0xe7, 0x01, 0x8f,
-	0x78, 0x78, 0x32, 0x8e, 0x9d, 0x60, 0x28, 0xff, 0x6d, 0x20, 0x44, 0xf2, 0xb8, 0x38, 0xf8, 0xe1,
-	0xd8, 0x8b, 0x26, 0xf1, 0x4d, 0xc3, 0xe5, 0xb3, 0x93, 0x28, 0xe0, 0xfe, 0xd3, 0x38, 0x3c, 0x41,
-	0xc2, 0x4d, 0x3c, 0x3a, 0x19, 0xf3, 0x31, 0xc7, 0x05, 0xfe, 0x25, 0x0d, 0x0f, 0x1e, 0x8d, 0x39,
-	0x1f, 0x4f, 0xd9, 0x82, 0x15, 0x79, 0x33, 0x16, 0x46, 0xce, 0x6c, 0x2e, 0x09, 0xf5, 0x5f, 0x6b,
-	0x90, 0xed, 0xf2, 0x31, 0xf9, 0x11, 0x94, 0xdc, 0x89, 0xe3, 0x8f, 0x99, 0x2d, 0x18, 0x55, 0xad,
-	0xa6, 0x1d, 0x95, 0x4e, 0x0f, 0x1a, 0xd2, 0xbc, 0x91, 0x98, 0x37, 0x06, 0x89, 0x39, 0x05, 0x49,
-	0x17, 0x00, 0xf9, 0x01, 0xdc, 0x55, 0xc6, 0x3c, 0xf0, 0xc6, 0x9e, 0xef, 0x44, 0x3c, 0xa8, 0x66,
-	0x6a, 0xda, 0x91, 0x4e, 0x4d, 0xb9, 0xd1, 0x4f, 0x71, 0x72, 0x1f, 0xf6, 0x24, 0x56, 0xcd, 0x22,
-	0x43, 0xad, 0xea, 0x7f, 0xc9, 0x83, 0xde, 0xe2, 0x7e, 0x14, 0x38, 0x6e, 0x74, 0xc9, 0x22, 0x87,
-	0x3c, 0x82, 0x92, 0xab, 0xd6, 0xb6, 0x37, 0x44, 0x97, 0x74, 0x0a, 0x09, 0x74, 0x31, 0x24, 0x8f,
-	0xa1, 0x1c, 0x30, 0x3f, 0x62, 0x81, 0xed, 0x0c, 0x87, 0x01, 0x0b, 0x43, 0x75, 0xa6, 0x21, 0xd1,
-	0xa6, 0x04, 0xc9, 0x47, 0xa0, 0x4f, 0x78, 0x18, 0xa5, 0x24, 0x79, 0x6c, 0x49, 0x60, 0x09, 0xe5,
-	0x21, 0x40, 0x38, 0x71, 0x82, 0xa1, 0x3d, 0x71, 0xc2, 0x49, 0x35, 0x87, 0x84, 0x22, 0x22, 0x2f,
-	0x9c, 0x70, 0x22, 0x3c, 0x91, 0xdb, 0x9e, 0x3f, 0x64, 0x5f, 0x55, 0xf3, 0x35, 0xed, 0x28, 0x4f,
-	0xa5, 0xc5, 0x85, 0x40, 0xc8, 0xf7, 0xa0, 0x22, 0x09, 0x23, 0x6f, 0xca, 0xec, 0xd0, 0xfb, 0x9a,
-	0x55, 0xf7, 0x6a, 0xda, 0x51, 0x96, 0x1a, 0x08, 0x9f, 0x79, 0x53, 0x66, 0x79, 0x5f, 0x33, 0xf2,
-	0x1d, 0x28, 0x22, 0x03, 0x8f, 0xd9, 0xc7, 0x63, 0x0a, 0x02, 0xc0, 0x53, 0x5a, 0x00, 0xc2, 0x71,
-	0x3b, 0x8c, 0x9c, 0x20, 0xaa, 0x16, 0xfe, 0x5b, 0x06, 0x9e, 0x17, 0xde, 0xfc, 0xe3, 0xd1, 0x9d,
-	0xdf, 0xfc, 0xf3, 0x91, 0x46, 0x8b, 0xc2, 0xce, 0x12, 0x66, 0xe4, 0x27, 0x50, 0xc0, 0x8f, 0x30,
-	0x7f, 0x58, 0x2d, 0xee, 0xf0, 0x89, 0x7d, 0x61, 0xd5, 0xf1, 0x87, 0xe4, 0xbb, 0x60, 0x60, 0xb1,
-	0xa5, 0xe1, 0x02, 0x74, 0x53, 0x47, 0x30, 0x89, 0xd7, 0x63, 0x28, 0xb3, 0xd0, 0x0d, 0xf8, 0x97,
-	0x29, 0xab, 0x24, 0x23, 0x2f, 0xd1, 0x84, 0x76, 0x0f, 0xf2, 0xf3, 0xc0, 0x73, 0x59, 0x55, 0xc7,
-	0x60, 0xc8, 0x85, 0x28, 0x00, 0x67, 0xc6, 0x63, 0x3f, 0xaa, 0x1a, 0x08, 0xab, 0x15, 0x56, 0x11,
-	0x9f, 0x4e, 0x9d, 0x88, 0x05, 0xce, 0xd4, 0x56, 0x94, 0x32, 0x52, 0xcc, 0xc5, 0x46, 0x53, 0x92,
-	0x3b, 0x50, 0x99, 0x3b, 0xaf, 0x79, 0x1c, 0xd9, 0xa1, 0x3b, 0x61, 0xc3, 0x78, 0xca, 0xaa, 0x95,
-	0x9a, 0x76, 0x54, 0x3e, 0xfd, 0xb0, 0x21, 0x1b, 0x67, 0xb9, 0x94, 0x1a, 0x96, 0xe2, 0xd0, 0xb2,
-	0x34, 0x4a, 0xd6, 0x22, 0xb3, 0x7e, 0x3c, 0xb3, 0x25, 0x1a, 0x56, 0x4d, 0x99, 0x59, 0x3f, 0x9e,
-	0x5d, 0x49, 0xa4, 0xfe, 0x09, 0x14, 0x52, 0x72, 0x09, 0xf6, 0x2f, 0xfb, 0xbd, 0xc1, 0x8b, 0xee,
-	0x4b, 0xf3, 0x0e, 0x31, 0xa0, 0xf8, 0xd9, 0x75, 0x93, 0x0e, 0x3a, 0xb4, 0xfb, 0xd2, 0xd4, 0x88,
-	0x0e, 0x85, 0x66, 0xaf, 0x77, 0xdd, 0xec, 0x76, 0x5f, 0x9a, 0x99, 0xfa, 0x9f, 0x72, 0x50, 0x48,
-	0x1c, 0x20, 0x27, 0x50, 0x48, 0x8a, 0x56, 0xf5, 0xd5, 0x07, 0x5b, 0x7c, 0xa4, 0x29, 0x89, 0x7c,
-	0x0c, 0xf9, 0x30, 0x72, 0x22, 0x86, 0xe5, 0x5c, 0x3e, 0x7d, 0xb8, 0xc6, 0x4e, 0xff, 0xb0, 0x04,
-	0x89, 0x4a, 0x2e, 0x39, 0x06, 0x53, 0x35, 0x43, 0xe8, 0x8d, 0x7d, 0x27, 0x8a, 0x83, 0xa4, 0xc1,
-	0x2a, 0x12, 0xb7, 0x12, 0x58, 0x64, 0x0f, 0x1b, 0x62, 0x41, 0x94, 0x15, 0x6f, 0x08, 0x74, 0x41,
-	0xa3, 0x40, 0x54, 0x92, 0x05, 0x91, 0x0d, 0xa5, 0x32, 0xe4, 0x77, 0x28, 0x2a, 0x53, 0xda, 0x5b,
-	0x68, 0x8e, 0x4a, 0x71, 0x0c, 0xe6, 0xd2, 0x37, 0xe5, 0xe1, 0x7b, 0xd2, 0xcb, 0x05, 0x57, 0x1e,
-	0x7f, 0x0c, 0x4a, 0x62, 0xec, 0x29, 0x1f, 0x57, 0xf7, 0x6b, 0xd9, 0xa3, 0xd2, 0x29, 0xa8, 0x50,
-	0x74, 0xf9, 0x98, 0x16, 0xe5, 0xae, 0x10, 0xaf, 0x1e, 0x98, 0x53, 0x27, 0x8c, 0xec, 0x19, 0x1f,
-	0x7a, 0xa3, 0xd7, 0xd2, 0xcf, 0x5d, 0xfa, 0xa7, 0x2c, 0xac, 0x2f, 0xd1, 0x18, 0xbd, 0x7c, 0x02,
-	0x15, 0xd9, 0x03, 0x0b, 0x27, 0x8b, 0xe8, 0x64, 0x19, 0xe1, 0xd4, 0xc7, 0xfa, 0xcf, 0xc1, 0x58,
-	0x49, 0x06, 0x29, 0x42, 0xbe, 0x4d, 0x9b, 0x67, 0x03, 0xf3, 0x0e, 0x01, 0xd8, 0xb3, 0x2e, 0xce,
-	0x7b, 0x9d, 0xb6, 0xac, 0x8e, 0xeb, 0xab, 0x6e, 0xbf, 0xd9, 0xee, 0xb4, 0xcd, 0x0c, 0x29, 0x40,
-	0xae, 0xdb, 0xb7, 0x06, 0x66, 0x56, 0xe0, 0xad, 0x66, 0xaf, 0xd5, 0xe9, 0x76, 0xda, 0x66, 0x4e,
-	0x58, 0xb4, 0xba, 0x7d, 0xab, 0xd3, 0x36, 0xf3, 0xf5, 0xdf, 0xe7, 0xc0, 0x40, 0xd9, 0x88, 0x78,
-	0xc0, 0x50, 0x0e, 0x37, 0xd5, 0x4e, 0xdb, 0xa6, 0x76, 0x2b, 0x12, 0x93, 0x59, 0x93, 0x98, 0x64,
-	0x13, 0x15, 0x2a, 0x8b, 0xad, 0x85, 0x9b, 0x28, 0x4e, 0xab, 0xfa, 0x93, 0xfb, 0xff, 0xf5, 0x27,
-	0xff, 0x4d, 0xf4, 0xe7, 0x09, 0x54, 0xdc, 0x09, 0x73, 0x3f, 0xb7, 0x47, 0x01, 0xfb, 0x22, 0x66,
-	0xbe, 0xfb, 0x1a, 0x0b, 0x24, 0x4f, 0xcb, 0x08, 0x9f, 0x25, 0xa8, 0xb8, 0x8b, 0x4c, 0xd2, 0x88,
-	0x31, 0xd4, 0xd2, 0x2c, 0x2d, 0x20, 0x70, 0xc6, 0x98, 0x10, 0x74, 0x55, 0x67, 0x62, 0xb7, 0x80,
-	0xbb, 0x45, 0x89, 0x88, 0xed, 0x54, 0xd0, 0x5d, 0x14, 0x99, 0xe2, 0x92, 0xa0, 0xb7, 0x50, 0x5e,
-	0x1e, 0x43, 0x79, 0xe6, 0xf9, 0xde, 0x2c, 0x9e, 0xd9, 0x88, 0x4a, 0x19, 0xcc, 0x53, 0x43, 0xa1,
-	0x16, 0x82, 0x42, 0xb2, 0x02, 0xe6, 0xf2, 0x57, 0x2c, 0xb0, 0xa3, 0x49, 0xc0, 0xc2, 0x09, 0x9f,
-	0x0e, 0x51, 0x0a, 0xf3, 0xd4, 0x54, 0x1b, 0x83, 0x04, 0xdf, 0x22, 0x9a, 0xfa, 0x36, 0xd1, 0xdc,
-	0x10, 0x60, 0x63, 0x53, 0x80, 0xeb, 0x7f, 0xc8, 0x41, 0x25, 0x2d, 0x0f, 0x51, 0x7a, 0x71, 0x48,
-	0x9e, 0x41, 0x45, 0x26, 0x57, 0x60, 0xf6, 0x8c, 0x45, 0x8e, 0x92, 0x9b, 0x7b, 0xaa, 0x6b, 0x56,
-	0xea, 0x89, 0x1a, 0xa3, 0x95, 0xf2, 0xfa, 0x74, 0x55, 0x74, 0x6a, 0xeb, 0x36, 0xf2, 0x90, 0x86,
-	0xe0, 0xae, 0xe8, 0xce, 0x53, 0x28, 0x26, 0xc2, 0x25, 0x9e, 0x56, 0xd1, 0xa5, 0x95, 0x35, 0xc1,
-	0xa2, 0x0b, 0xc6, 0x56, 0x99, 0xca, 0x6d, 0x97, 0x29, 0x0a, 0x44, 0x06, 0x22, 0x60, 0x2e, 0xf3,
-	0x5e, 0xb1, 0x6f, 0xa0, 0x3f, 0x68, 0x4f, 0xa5, 0xb9, 0xd2, 0x9f, 0x65, 0x51, 0xd9, 0x7b, 0x9f,
-	0xa8, 0x74, 0xa0, 0xe4, 0xc6, 0x58, 0xcb, 0x78, 0xee, 0xfe, 0x0e, 0xe7, 0x82, 0x34, 0xbc, 0x4d,
-	0x4b, 0x0a, 0xb7, 0x68, 0x49, 0x31, 0x0d, 0xee, 0xb2, 0x8e, 0x18, 0x50, 0x94, 0xda, 0x71, 0xd1,
-	0x3b, 0x37, 0x35, 0xf1, 0x08, 0xd1, 0xeb, 0x5e, 0x4f, 0x2c, 0x32, 0xc4, 0x04, 0xfd, 0xaa, 0x49,
-	0x07, 0x17, 0xcd, 0xae, 0xad, 0x14, 0x25, 0xd1, 0x96, 0x9c, 0xf8, 0xab, 0xdd, 0xef, 0x75, 0xcc,
-	0x7c, 0xfd, 0x8f, 0x1a, 0xdc, 0x6d, 0x4d, 0x9c, 0xe9, 0x94, 0xf9, 0x63, 0xf6, 0x59, 0xcc, 0xc2,
-	0xc8, 0xe3, 0xfe, 0xda, 0xcc, 0xa3, 0xad, 0xcf, 0x3c, 0xeb, 0x53, 0x53, 0x66, 0x73, 0x6a, 0x12,
-	0x03, 0xda, 0x24, 0xf6, 0x3f, 0x57, 0x63, 0x51, 0x56, 0x76, 0x11, 0x42, 0x72, 0x2c, 0xfa, 0x08,
-	0xf4, 0xc0, 0xf1, 0x87, 0x7c, 0x66, 0xfb, 0xdc, 0x77, 0x93, 0x44, 0x97, 0x24, 0xd6, 0x13, 0x90,
-	0xa8, 0x76, 0xf6, 0xd5, 0x9c, 0xb9, 0x91, 0xed, 0xf8, 0xe1, 0x97, 0x2c, 0xc0, 0xfc, 0xea, 0x54,
-	0x97, 0x60, 0x13, 0xb1, 0xfa, 0xaf, 0xb2, 0xf0, 0xe0, 0x2a, 0xe0, 0x7c, 0xd4, 0x1f, 0x51, 0x36,
-	0x9f, 0x7a, 0xae, 0x13, 0xb1, 0xf4, 0x42, 0xe4, 0x13, 0x28, 0x7c, 0xa1, 0x2e, 0xa5, 0x0a, 0xbe,
-	0x9a, 0x14, 0xe0, 0xfa, 0xa5, 0x69, 0xca, 0x24, 0x3f, 0x83, 0xb2, 0x9b, 0x6c, 0xcb, 0x0c, 0x67,
-	0x76, 0xc8, 0xb0, 0x91, 0xda, 0x62, 0x92, 0x37, 0x7a, 0x36, 0xbb, 0x65, 0x68, 0xda, 0x52, 0x09,
-	0xb9, 0x6d, 0x95, 0x20, 0xe2, 0x2a, 0x43, 0xbf, 0x1c, 0x11, 0xc0, 0xc8, 0x23, 0x42, 0x7e, 0xba,
-	0xf4, 0x80, 0x4b, 0xdf, 0xf7, 0x76, 0xf0, 0x5d, 0x4f, 0x9e, 0x79, 0x74, 0x7d, 0x73, 0x18, 0xd8,
-	0xdf, 0x32, 0x0c, 0xd4, 0x7f, 0x09, 0xf7, 0x85, 0x14, 0x6c, 0x44, 0x74, 0xed, 0xc1, 0xd1, 0xd6,
-	0x1e, 0x9c, 0xf3, 0x64, 0x30, 0x4e, 0xe2, 0x2e, 0x0a, 0x49, 0x34, 0xdd, 0xa1, 0x4a, 0x11, 0x0a,
-	0xe9, 0xe6, 0x57, 0x69, 0x19, 0xcd, 0xd2, 0x75, 0xfd, 0x6f, 0x19, 0xf8, 0xf6, 0x2d, 0xdc, 0xf7,
-	0x7b, 0xb0, 0x5a, 0xe6, 0x99, 0xf5, 0x32, 0x3f, 0x06, 0x73, 0x1e, 0xb0, 0xb9, 0x13, 0x2c, 0xbd,
-	0xab, 0x6a, 0x6c, 0x4a, 0xf0, 0xa5, 0xa1, 0x37, 0xb9, 0x85, 0x7a, 0x37, 0x72, 0xf2, 0x4d, 0x48,
-	0x50, 0xf9, 0x74, 0x7c, 0x0a, 0xc5, 0xc5, 0x65, 0xf3, 0x78, 0xd9, 0xdb, 0xeb, 0x71, 0x41, 0x25,
-	0xe7, 0xa0, 0xab, 0x13, 0x77, 0x4f, 0x69, 0x49, 0x59, 0x62, 0x46, 0x9f, 0x02, 0x49, 0xaf, 0xb4,
-	0x9e, 0xd5, 0xbb, 0xc9, 0xce, 0x22, 0xb3, 0xff, 0xd6, 0xe0, 0x41, 0x0b, 0x9f, 0xd6, 0x95, 0xe7,
-	0x81, 0xa1, 0x67, 0xef, 0x8f, 0xed, 0xff, 0xf8, 0x03, 0x0c, 0x5f, 0x49, 0xfc, 0xdc, 0x46, 0x90,
-	0xcd, 0x74, 0x23, 0x21, 0x9f, 0x83, 0xae, 0x30, 0x19, 0x86, 0x5d, 0xe6, 0x90, 0x92, 0xb2, 0xc4,
-	0x30, 0x7c, 0x08, 0xc5, 0xc5, 0xed, 0xf3, 0x2a, 0xef, 0xe9, 0xad, 0x7f, 0xab, 0xc1, 0x1e, 0x65,
-	0x61, 0x3c, 0x8d, 0xc8, 0x13, 0xc8, 0xb9, 0x7c, 0x28, 0x7f, 0xf3, 0x96, 0xd3, 0xd9, 0x9c, 0xb2,
-	0x70, 0xce, 0xfd, 0x90, 0xb5, 0xf8, 0x90, 0x51, 0x24, 0x90, 0x2a, 0xec, 0xcf, 0x58, 0x18, 0x3a,
-	0x63, 0xa9, 0x15, 0x45, 0x9a, 0x2c, 0xc9, 0x05, 0x18, 0x81, 0xe2, 0x4b, 0xaf, 0xb3, 0xbb, 0xf4,
-	0x63, 0x62, 0x2a, 0x36, 0xbf, 0xef, 0x82, 0xbe, 0x7c, 0xb4, 0xd0, 0x7b, 0xeb, 0xba, 0xd5, 0xea,
-	0x58, 0x96, 0x79, 0x87, 0x1c, 0xc0, 0x7d, 0x31, 0x53, 0x36, 0x07, 0xd7, 0xb4, 0x63, 0x9f, 0xf5,
-	0xe9, 0x65, 0x73, 0x60, 0x77, 0x28, 0xed, 0x53, 0x53, 0x23, 0x0f, 0xe0, 0x5b, 0xad, 0xfe, 0xe5,
-	0xd5, 0xf5, 0xa0, 0x63, 0x37, 0xdb, 0x6d, 0xda, 0xb1, 0x2c, 0xb5, 0x95, 0x21, 0x15, 0x28, 0xf5,
-	0x07, 0x2f, 0x3a, 0x54, 0x01, 0xf7, 0x4e, 0xff, 0xae, 0x81, 0x7e, 0x8e, 0xa2, 0xc3, 0x82, 0x57,
-	0xe2, 0x37, 0xd9, 0x33, 0xf8, 0xc0, 0x8a, 0x6f, 0x66, 0x5e, 0xb4, 0x3a, 0x73, 0xde, 0xdf, 0x3e,
-	0x05, 0x1c, 0x18, 0x8b, 0x20, 0x89, 0x08, 0xfe, 0x18, 0x0c, 0x8b, 0xf9, 0x8b, 0x6e, 0x25, 0x0f,
-	0x97, 0xec, 0x36, 0x1b, 0x76, 0xdd, 0xbc, 0x07, 0x64, 0xb3, 0x00, 0x49, 0x2d, 0x6d, 0x9a, 0x5b,
-	0x6a, 0xf3, 0xe0, 0x16, 0xef, 0x9e, 0x3f, 0x7b, 0xf3, 0xf6, 0x50, 0xfb, 0xeb, 0xdb, 0x43, 0xed,
-	0x5f, 0x6f, 0x0f, 0xb5, 0xdf, 0xbd, 0x3b, 0xd4, 0xfe, 0xfc, 0xee, 0x50, 0x7b, 0xf3, 0xee, 0x50,
-	0x03, 0xc3, 0xe3, 0x8d, 0x9b, 0x68, 0x14, 0x4a, 0xc3, 0xe7, 0x80, 0x31, 0xb8, 0x12, 0xc9, 0xb9,
-	0xd2, 0x7e, 0x21, 0xff, 0x93, 0xe5, 0x66, 0x0f, 0x93, 0xf5, 0xf1, 0x7f, 0x02, 0x00, 0x00, 0xff,
-	0xff, 0xff, 0xcf, 0x94, 0xc7, 0x8e, 0x11, 0x00, 0x00,
+	// 1700 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x58, 0x4f, 0x6f, 0xdb, 0xc8,
+	0x15, 0x0f, 0x25, 0xd1, 0x16, 0x9f, 0x44, 0x89, 0x99, 0x4d, 0x53, 0xc6, 0xdd, 0x38, 0xae, 0x16,
+	0x69, 0x9c, 0x16, 0x91, 0x0b, 0xef, 0x62, 0x2f, 0x4d, 0x51, 0x28, 0x92, 0xec, 0xb8, 0x95, 0x25,
+	0xef, 0x50, 0x06, 0x9a, 0x5e, 0x08, 0x9a, 0x1a, 0x49, 0xc4, 0x4a, 0xa4, 0x96, 0x7f, 0xb2, 0x9b,
+	0x3d, 0x14, 0x28, 0xd0, 0x0f, 0xd0, 0x53, 0xd1, 0xaf, 0xb0, 0x40, 0xbf, 0x43, 0x7b, 0xcc, 0xad,
+	0xbd, 0x17, 0x68, 0x8b, 0xe4, 0x4b, 0xf4, 0x58, 0xcc, 0x9b, 0xa1, 0x28, 0x32, 0x76, 0x16, 0xda,
+	0xbd, 0x04, 0x9e, 0xdf, 0xfb, 0x3d, 0xce, 0x9b, 0xf7, 0xe7, 0x37, 0xa3, 0x80, 0xb9, 0x0a, 0x83,
+	0x38, 0x88, 0x8e, 0x66, 0x89, 0x13, 0x4e, 0xc4, 0xbf, 0x6d, 0x84, 0x88, 0x8a, 0x8b, 0xbd, 0x9f,
+	0xcf, 0xbc, 0x78, 0x9e, 0x5c, 0xb5, 0xdd, 0x60, 0x79, 0x14, 0x87, 0x81, 0xff, 0x24, 0x89, 0x8e,
+	0x90, 0x70, 0x95, 0x4c, 0x8f, 0x66, 0xc1, 0x2c, 0xc0, 0x05, 0xfe, 0x25, 0x1c, 0xf7, 0x1e, 0xcc,
+	0x82, 0x60, 0xb6, 0x60, 0x19, 0x2b, 0xf6, 0x96, 0x2c, 0x8a, 0x9d, 0xe5, 0x4a, 0x10, 0x5a, 0x7f,
+	0x50, 0xa0, 0x3c, 0x08, 0x66, 0xe4, 0x17, 0x50, 0x73, 0xe7, 0x8e, 0x3f, 0x63, 0x36, 0x67, 0x98,
+	0xca, 0x81, 0x72, 0x58, 0x3b, 0xde, 0x6b, 0x0b, 0xf7, 0x76, 0xea, 0xde, 0x1e, 0xa7, 0xee, 0x14,
+	0x04, 0x9d, 0x03, 0xe4, 0x21, 0x34, 0x82, 0xd0, 0x9b, 0x79, 0xbe, 0x13, 0x07, 0xa1, 0xbd, 0xf2,
+	0x26, 0x66, 0xe9, 0x40, 0x39, 0xd4, 0xa8, 0x9e, 0xa1, 0x17, 0xde, 0x84, 0xdc, 0x85, 0x1d, 0xe1,
+	0x64, 0x96, 0xd1, 0x2c, 0x57, 0xad, 0x6f, 0x54, 0xa8, 0x77, 0x03, 0x3f, 0x0e, 0x1d, 0x37, 0x3e,
+	0x67, 0xb1, 0x43, 0x1e, 0x40, 0xcd, 0x95, 0x6b, 0xdb, 0x9b, 0x60, 0x30, 0x1a, 0x85, 0x14, 0x3a,
+	0x9b, 0x90, 0xfb, 0x00, 0x21, 0xf3, 0x63, 0xb6, 0xb9, 0x99, 0x26, 0x10, 0xbe, 0xd1, 0x3d, 0xa8,
+	0xce, 0x83, 0x28, 0x46, 0xa3, 0xd8, 0x6a, 0x97, 0xaf, 0xb9, 0xe9, 0x3e, 0x40, 0x34, 0x77, 0xc2,
+	0x89, 0x3d, 0x77, 0xa2, 0xb9, 0x59, 0x11, 0x9e, 0x88, 0x3c, 0x77, 0xa2, 0x39, 0xdf, 0x59, 0x98,
+	0x3d, 0x7f, 0xc2, 0xbe, 0x32, 0xd5, 0x03, 0xe5, 0x50, 0xa5, 0xc2, 0xe3, 0x8c, 0x23, 0xe4, 0x27,
+	0xd0, 0x14, 0x84, 0xa9, 0xb7, 0x60, 0x76, 0xe4, 0x7d, 0xcd, 0xcc, 0x9d, 0x03, 0xe5, 0xb0, 0x4c,
+	0x75, 0x84, 0x4f, 0xbc, 0x05, 0xb3, 0xbc, 0xaf, 0x19, 0xf9, 0x11, 0x68, 0xc8, 0xc0, 0x6d, 0x76,
+	0x71, 0x9b, 0x2a, 0x07, 0x70, 0x97, 0xae, 0x08, 0xdf, 0x8e, 0x62, 0x27, 0x8c, 0xcd, 0xea, 0xb7,
+	0xe5, 0xfa, 0x59, 0xf5, 0xf5, 0xbf, 0x1f, 0xdc, 0xfa, 0xd3, 0x7f, 0x1e, 0x28, 0xe2, 0x90, 0x16,
+	0x77, 0x23, 0xbf, 0x82, 0x2a, 0x7e, 0x84, 0xf9, 0x13, 0x53, 0xdb, 0xe2, 0x13, 0xbb, 0xdc, 0xab,
+	0xef, 0x4f, 0x78, 0x88, 0xd8, 0x56, 0x98, 0x26, 0x10, 0x21, 0x22, 0x20, 0xf3, 0xc4, 0x22, 0x37,
+	0x0c, 0xbe, 0x44, 0x6b, 0x4d, 0xe4, 0x49, 0x20, 0xdc, 0x7c, 0x07, 0xd4, 0x55, 0xe8, 0xb9, 0xcc,
+	0xac, 0xe3, 0xe1, 0xc5, 0x82, 0x17, 0xd8, 0x59, 0x06, 0x89, 0x1f, 0x9b, 0x3a, 0xc2, 0x72, 0x45,
+	0x7e, 0x06, 0xb7, 0xdd, 0x60, 0xb1, 0x70, 0x62, 0x16, 0x3a, 0x0b, 0x5b, 0x52, 0x1a, 0x48, 0x31,
+	0x32, 0x43, 0x47, 0x90, 0xfb, 0xd0, 0x5c, 0x39, 0xaf, 0x82, 0x24, 0xb6, 0x23, 0x77, 0xce, 0x26,
+	0xc9, 0x82, 0x99, 0xcd, 0x03, 0xe5, 0xb0, 0x71, 0xfc, 0x61, 0x5b, 0x8c, 0xc4, 0x66, 0xab, 0xb4,
+	0x2d, 0xc9, 0xa1, 0x0d, 0xe1, 0x94, 0xae, 0x79, 0x25, 0xfd, 0x64, 0x69, 0x0b, 0x34, 0x32, 0x0d,
+	0x51, 0x49, 0x3f, 0x59, 0x5e, 0x08, 0xa4, 0xf5, 0x09, 0x54, 0xd7, 0xe4, 0x1a, 0xec, 0x9e, 0x8f,
+	0x86, 0xe3, 0xe7, 0x83, 0x17, 0xc6, 0x2d, 0xa2, 0x83, 0xf6, 0xd9, 0x65, 0x87, 0x8e, 0xfb, 0x74,
+	0xf0, 0xc2, 0x50, 0x48, 0x1d, 0xaa, 0x9d, 0xe1, 0xf0, 0xb2, 0x33, 0x18, 0xbc, 0x30, 0x4a, 0xad,
+	0xbf, 0x55, 0xa0, 0x9a, 0x06, 0x40, 0x8e, 0xa0, 0x9a, 0x36, 0xa5, 0x9c, 0x98, 0x0f, 0xae, 0x89,
+	0x91, 0xae, 0x49, 0xe4, 0x63, 0x50, 0xa3, 0xd8, 0x89, 0x19, 0xb6, 0x6c, 0xe3, 0xf8, 0x7e, 0x81,
+	0xbd, 0xfe, 0xc3, 0xe2, 0x24, 0x2a, 0xb8, 0xe4, 0x31, 0x18, 0xb2, 0xd9, 0x23, 0x6f, 0xe6, 0x3b,
+	0x71, 0x12, 0x8a, 0x01, 0xaa, 0xd3, 0xa6, 0xc0, 0xad, 0x14, 0xe6, 0x83, 0x88, 0x8d, 0x9f, 0x11,
+	0x2b, 0x48, 0xd4, 0x39, 0x9a, 0xd1, 0x28, 0x10, 0x59, 0x5c, 0x4e, 0x64, 0x13, 0x31, 0xf3, 0xea,
+	0x16, 0x4d, 0x64, 0x08, 0x7f, 0x0b, 0xdd, 0x51, 0x03, 0x1e, 0x83, 0xb1, 0xf1, 0x4d, 0xb1, 0xf9,
+	0x8e, 0x88, 0x32, 0xe3, 0x8a, 0xed, 0x1f, 0x83, 0x14, 0x0f, 0x7b, 0x11, 0xcc, 0xcc, 0xdd, 0x83,
+	0xf2, 0x61, 0xed, 0x18, 0x64, 0x2a, 0x06, 0xc1, 0x8c, 0x6a, 0xc2, 0xca, 0x65, 0x69, 0x08, 0xc6,
+	0xc2, 0x89, 0x62, 0x7b, 0x19, 0x4c, 0xbc, 0xe9, 0x2b, 0x11, 0xe7, 0x36, 0xf3, 0xd2, 0xe0, 0xde,
+	0xe7, 0xe8, 0x8c, 0x51, 0x3e, 0x82, 0xa6, 0xe8, 0xf9, 0x2c, 0x48, 0x0d, 0x83, 0x6c, 0x20, 0xbc,
+	0x8e, 0xb1, 0xf5, 0x5b, 0xd0, 0x73, 0xc5, 0x20, 0x1a, 0xa8, 0x3d, 0xda, 0x39, 0x19, 0x1b, 0xb7,
+	0x08, 0xc0, 0x8e, 0x75, 0x76, 0x3a, 0xec, 0xf7, 0x44, 0x77, 0x5c, 0x5e, 0x0c, 0x46, 0x9d, 0x5e,
+	0xbf, 0x67, 0x94, 0x48, 0x15, 0x2a, 0x83, 0x91, 0x35, 0x36, 0xca, 0x1c, 0xef, 0x76, 0x86, 0xdd,
+	0xfe, 0xa0, 0xdf, 0x33, 0x2a, 0xdc, 0xa3, 0x3b, 0x18, 0x59, 0xfd, 0x9e, 0xa1, 0xb6, 0xfe, 0x58,
+	0x01, 0x1d, 0x65, 0x22, 0x0e, 0x42, 0x86, 0x72, 0x97, 0x57, 0x33, 0xa5, 0xa8, 0x66, 0x39, 0x29,
+	0x29, 0x15, 0xa4, 0x24, 0x35, 0xa2, 0x12, 0x95, 0x71, 0xa4, 0xd0, 0x88, 0x22, 0x94, 0xd7, 0x99,
+	0xca, 0xf7, 0xd7, 0x19, 0xf5, 0xbb, 0xe8, 0xcc, 0x23, 0x68, 0xba, 0x73, 0xe6, 0x7e, 0x6e, 0x4f,
+	0x43, 0xf6, 0x45, 0xc2, 0x7c, 0xf7, 0x15, 0x36, 0x86, 0x4a, 0x1b, 0x08, 0x9f, 0xa4, 0x68, 0x26,
+	0x48, 0x53, 0xc6, 0x50, 0x33, 0xcb, 0x52, 0x90, 0x4e, 0x18, 0xdb, 0x10, 0x24, 0x6e, 0xad, 0xa2,
+	0x55, 0x0a, 0x12, 0x37, 0xaf, 0x85, 0xdb, 0x45, 0x71, 0xd1, 0x36, 0x84, 0xbb, 0x8b, 0xb2, 0xf2,
+	0x10, 0x1a, 0x4b, 0xcf, 0xf7, 0x96, 0xc9, 0xd2, 0x46, 0x34, 0x42, 0xc9, 0x53, 0xa9, 0x2e, 0x51,
+	0x0b, 0x41, 0x2e, 0x55, 0x21, 0x73, 0x83, 0x97, 0x2c, 0xb4, 0xe3, 0x79, 0xc8, 0xa2, 0x79, 0xb0,
+	0x10, 0xf2, 0xa7, 0x52, 0x43, 0x1a, 0xc6, 0x29, 0x5e, 0x10, 0xc9, 0x7a, 0x51, 0x24, 0x73, 0x02,
+	0xab, 0xe7, 0x05, 0xb6, 0xf5, 0xd7, 0x0a, 0x34, 0xd7, 0x6d, 0xc0, 0x5b, 0x2c, 0x89, 0xc8, 0x53,
+	0x68, 0x8a, 0x62, 0x72, 0xcc, 0x5e, 0xb2, 0xd8, 0x91, 0xb2, 0x72, 0x47, 0x4e, 0x47, 0xae, 0x6f,
+	0xa8, 0x3e, 0xcd, 0xb5, 0xd1, 0xa7, 0x79, 0x71, 0x39, 0x28, 0xfa, 0x88, 0x4d, 0xda, 0x9c, 0x9b,
+	0xd3, 0x97, 0x27, 0xa0, 0xa5, 0x02, 0x15, 0x99, 0x65, 0x9c, 0xc6, 0x66, 0x41, 0x98, 0x68, 0xc6,
+	0xb8, 0x56, 0x8e, 0x2a, 0xd7, 0xcb, 0x11, 0x05, 0x22, 0x12, 0x10, 0x32, 0x97, 0x79, 0x2f, 0xd9,
+	0x77, 0xd0, 0x19, 0xf4, 0xa7, 0xc2, 0x5d, 0xea, 0xcc, 0xa6, 0x78, 0xec, 0xbc, 0x4f, 0x3c, 0x4e,
+	0xa1, 0xee, 0x26, 0x21, 0x36, 0x2f, 0x6e, 0xbc, 0xbb, 0xc5, 0xc6, 0x35, 0xe9, 0x79, 0x93, 0x6a,
+	0x54, 0x6f, 0x50, 0x0d, 0x6d, 0x9d, 0xde, 0x4d, 0xc5, 0xd0, 0x41, 0x13, 0x2a, 0x71, 0x36, 0x3c,
+	0x35, 0x14, 0x7e, 0xdd, 0xd0, 0xcb, 0xe1, 0x90, 0x2f, 0x4a, 0xc4, 0x80, 0xfa, 0x45, 0x87, 0x8e,
+	0xcf, 0x3a, 0x03, 0x5b, 0x6a, 0x47, 0xaa, 0x22, 0x15, 0xfe, 0x57, 0x6f, 0x34, 0xec, 0x1b, 0x6a,
+	0xeb, 0x1b, 0x05, 0x6e, 0x77, 0xe7, 0xce, 0x62, 0xc1, 0xfc, 0x19, 0xfb, 0x2c, 0x61, 0x51, 0xec,
+	0x05, 0x7e, 0xe1, 0x35, 0xa3, 0x14, 0x5f, 0x33, 0x9b, 0xef, 0xa0, 0x52, 0xfe, 0x1d, 0xc4, 0x9f,
+	0x58, 0xf3, 0xc4, 0xff, 0x5c, 0x3e, 0x74, 0xca, 0x62, 0x5e, 0x10, 0x12, 0x0f, 0x9d, 0x3b, 0xa0,
+	0xfa, 0x81, 0xef, 0x32, 0xf9, 0x46, 0x12, 0x0b, 0xf2, 0x11, 0xe8, 0xec, 0xab, 0x15, 0x73, 0x63,
+	0xdb, 0xf1, 0xa3, 0x2f, 0x59, 0x88, 0xc5, 0xd4, 0x68, 0x5d, 0x80, 0x1d, 0xc4, 0x5a, 0xff, 0x2b,
+	0xc1, 0xbd, 0x8b, 0x30, 0x08, 0xa6, 0xa3, 0x29, 0x65, 0xab, 0x85, 0xe7, 0x3a, 0x31, 0x5b, 0xc7,
+	0x4e, 0x3e, 0x81, 0xea, 0x17, 0x32, 0x7e, 0xd9, 0xdd, 0x66, 0xda, 0x6d, 0xc5, 0xf3, 0xd1, 0x35,
+	0x93, 0xfc, 0x06, 0x1a, 0x6e, 0x6a, 0x16, 0xd5, 0x2c, 0x6d, 0x51, 0x4d, 0x7d, 0xed, 0x8b, 0xf5,
+	0xcc, 0x0d, 0x66, 0xb9, 0xf0, 0xf2, 0xb9, 0xa6, 0xd8, 0x95, 0xeb, 0x8a, 0xcd, 0x53, 0x88, 0xd9,
+	0xcd, 0x65, 0x02, 0x38, 0x24, 0xf2, 0x40, 0x7e, 0xbd, 0x71, 0x1b, 0x8b, 0x98, 0x77, 0xb6, 0x88,
+	0xb9, 0x9e, 0xde, 0xd9, 0xe9, 0x13, 0xbb, 0x70, 0xb3, 0xef, 0x5e, 0x73, 0xb3, 0xb7, 0x7e, 0x0f,
+	0x77, 0xf9, 0xbc, 0xbf, 0x93, 0xc9, 0x28, 0x7f, 0x8b, 0x28, 0x85, 0x5b, 0xe4, 0x34, 0x7d, 0xd5,
+	0xa6, 0xf9, 0x8e, 0xcc, 0x12, 0x4e, 0xd6, 0xbe, 0x2c, 0x0d, 0xaa, 0xe3, 0xbb, 0x5f, 0xa5, 0x0d,
+	0x74, 0x5b, 0xaf, 0x5b, 0xff, 0x28, 0xc1, 0x0f, 0x6f, 0xe0, 0xbe, 0x3f, 0x82, 0x7c, 0x27, 0x97,
+	0x8a, 0x9d, 0xfc, 0x63, 0xa8, 0xaf, 0x42, 0xb6, 0x72, 0x42, 0x79, 0x49, 0x8a, 0xa2, 0xd5, 0x52,
+	0x8c, 0xd7, 0xed, 0x21, 0x34, 0xd2, 0xe8, 0xe5, 0x25, 0x50, 0x11, 0x02, 0x9f, 0xa2, 0xe2, 0x1e,
+	0xf8, 0x14, 0xb4, 0xec, 0x90, 0x2a, 0x1e, 0xf2, 0xe6, 0xfe, 0xcb, 0xa8, 0x5c, 0x4c, 0xe4, 0x6e,
+	0xdb, 0x97, 0x32, 0x8d, 0x13, 0x2b, 0xf9, 0x04, 0xc8, 0xfa, 0x28, 0xc5, 0x6a, 0xde, 0x4e, 0x2d,
+	0x59, 0x45, 0xdf, 0x2a, 0x70, 0xaf, 0x8b, 0xf7, 0x64, 0x4e, 0xfb, 0x19, 0x46, 0xf6, 0xad, 0x39,
+	0x7d, 0xdf, 0xaf, 0xa4, 0x8f, 0x40, 0x0f, 0xc5, 0x67, 0x72, 0x49, 0xad, 0xaf, 0x41, 0x4e, 0x3a,
+	0x85, 0x74, 0x2d, 0x8e, 0xbd, 0xcd, 0x23, 0xa2, 0x26, 0x3d, 0xf1, 0xd8, 0x1f, 0x82, 0x96, 0x9d,
+	0x56, 0xc5, 0xd3, 0x66, 0x40, 0xeb, 0xcf, 0x0a, 0xec, 0x50, 0x16, 0x25, 0x8b, 0x98, 0x3c, 0x82,
+	0x8a, 0x1b, 0x4c, 0xc4, 0x4f, 0xd0, 0xc6, 0xfa, 0x41, 0x4d, 0x59, 0xb4, 0x0a, 0xfc, 0x88, 0x75,
+	0x83, 0x09, 0xa3, 0x48, 0x20, 0x26, 0xec, 0x2e, 0x59, 0x14, 0x39, 0x33, 0x96, 0x8a, 0x9b, 0x5c,
+	0x92, 0x33, 0x7e, 0x32, 0xc1, 0x17, 0x51, 0x97, 0xb7, 0x99, 0xbb, 0xd4, 0x95, 0x1b, 0x7f, 0xea,
+	0x42, 0x7d, 0x73, 0x6b, 0x2e, 0xdd, 0xd6, 0x65, 0xb7, 0xdb, 0xb7, 0x2c, 0xe3, 0x16, 0xd9, 0x83,
+	0xbb, 0xfc, 0x21, 0xd8, 0x19, 0x5f, 0xd2, 0xbe, 0x7d, 0x32, 0xa2, 0xe7, 0x9d, 0xb1, 0xdd, 0xa7,
+	0x74, 0x44, 0x0d, 0x85, 0xdc, 0x83, 0x1f, 0x74, 0x47, 0xe7, 0x17, 0x97, 0xe3, 0xbe, 0xdd, 0xe9,
+	0xf5, 0x68, 0xdf, 0xb2, 0xa4, 0xa9, 0x44, 0x9a, 0x50, 0x1b, 0x8d, 0x9f, 0xf7, 0xa9, 0x04, 0xee,
+	0x1c, 0xff, 0x4b, 0x81, 0xfa, 0x29, 0x8a, 0x0b, 0x0b, 0x5f, 0xf2, 0x1f, 0x52, 0x4f, 0xe1, 0x03,
+	0x2b, 0xb9, 0x5a, 0x7a, 0x71, 0xfe, 0xa1, 0x78, 0xf7, 0xfa, 0x2b, 0x7d, 0x4f, 0xcf, 0x92, 0xc4,
+	0x33, 0xf8, 0x4b, 0xd0, 0x2d, 0xe6, 0x67, 0x53, 0x49, 0xee, 0x6f, 0xf8, 0xbd, 0x3b, 0x98, 0x45,
+	0xf7, 0x21, 0x90, 0x77, 0x1b, 0x8e, 0x1c, 0xac, 0x87, 0xe4, 0x86, 0x5e, 0xdc, 0xbb, 0x21, 0xba,
+	0x67, 0x4f, 0x5f, 0xbf, 0xd9, 0x57, 0xfe, 0xf9, 0x66, 0x5f, 0xf9, 0xef, 0x9b, 0x7d, 0xe5, 0x2f,
+	0x6f, 0xf7, 0x95, 0xbf, 0xbf, 0xdd, 0x57, 0x5e, 0xbf, 0xdd, 0x57, 0x40, 0xf7, 0x82, 0xf6, 0x55,
+	0x3c, 0x8d, 0x84, 0xe3, 0x33, 0xc0, 0x1c, 0x5c, 0xf0, 0xe2, 0x5c, 0x28, 0xbf, 0x13, 0xff, 0xe7,
+	0x71, 0xb5, 0x83, 0xc5, 0xfa, 0xf8, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0xda, 0xd2, 0x86, 0xb9,
+	0x1d, 0x11, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1602,10 +1601,10 @@ func (m *Log) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.ChangeOriginator) > 0 {
-		i -= len(m.ChangeOriginator)
-		copy(dAtA[i:], m.ChangeOriginator)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.ChangeOriginator)))
+	if len(m.OriginatorPid) > 0 {
+		i -= len(m.OriginatorPid)
+		copy(dAtA[i:], m.OriginatorPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.OriginatorPid)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1675,17 +1674,17 @@ func (m *ContractMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x60
 	}
-	if len(m.EscrowAddress) > 0 {
-		i -= len(m.EscrowAddress)
-		copy(dAtA[i:], m.EscrowAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.EscrowAddress)))
+	if len(m.EscrowPid) > 0 {
+		i -= len(m.EscrowPid)
+		copy(dAtA[i:], m.EscrowPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.EscrowPid)))
 		i--
 		dAtA[i] = 0x5a
 	}
-	if len(m.GuardAddress) > 0 {
-		i -= len(m.GuardAddress)
-		copy(dAtA[i:], m.GuardAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardAddress)))
+	if len(m.GuardPid) > 0 {
+		i -= len(m.GuardPid)
+		copy(dAtA[i:], m.GuardPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardPid)))
 		i--
 		dAtA[i] = 0x52
 	}
@@ -1729,17 +1728,17 @@ func (m *ContractMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.HostAddress) > 0 {
-		i -= len(m.HostAddress)
-		copy(dAtA[i:], m.HostAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.HostAddress)))
+	if len(m.HostPid) > 0 {
+		i -= len(m.HostPid)
+		copy(dAtA[i:], m.HostPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.HostPid)))
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.RenterAddress) > 0 {
-		i -= len(m.RenterAddress)
-		copy(dAtA[i:], m.RenterAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterAddress)))
+	if len(m.RenterPid) > 0 {
+		i -= len(m.RenterPid)
+		copy(dAtA[i:], m.RenterPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterPid)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1879,17 +1878,17 @@ func (m *FileStoreMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.GuardAddress) > 0 {
-		i -= len(m.GuardAddress)
-		copy(dAtA[i:], m.GuardAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardAddress)))
+	if len(m.GuardPid) > 0 {
+		i -= len(m.GuardPid)
+		copy(dAtA[i:], m.GuardPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardPid)))
 		i--
 		dAtA[i] = 0x6a
 	}
-	if len(m.EscrowAddress) > 0 {
-		i -= len(m.EscrowAddress)
-		copy(dAtA[i:], m.EscrowAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.EscrowAddress)))
+	if len(m.EscrowPid) > 0 {
+		i -= len(m.EscrowPid)
+		copy(dAtA[i:], m.EscrowPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.EscrowPid)))
 		i--
 		dAtA[i] = 0x62
 	}
@@ -1951,10 +1950,10 @@ func (m *FileStoreMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.RenterAddress) > 0 {
-		i -= len(m.RenterAddress)
-		copy(dAtA[i:], m.RenterAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterAddress)))
+	if len(m.RenterPid) > 0 {
+		i -= len(m.RenterPid)
+		copy(dAtA[i:], m.RenterPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterPid)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1992,7 +1991,7 @@ func (m *FileStoreStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x42
 	}
-	n9, err9 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime):])
+	n9, err9 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.CurrentTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurrentTime):])
 	if err9 != nil {
 		return 0, err9
 	}
@@ -2094,10 +2093,10 @@ func (m *ChallengeQuestion) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	if len(m.RandomNonce) > 0 {
-		i -= len(m.RandomNonce)
-		copy(dAtA[i:], m.RandomNonce)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.RandomNonce)))
+	if len(m.Nonce) > 0 {
+		i -= len(m.Nonce)
+		copy(dAtA[i:], m.Nonce)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.Nonce)))
 		i--
 		dAtA[i] = 0x22
 	}
@@ -2106,10 +2105,10 @@ func (m *ChallengeQuestion) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.HostAddress) > 0 {
-		i -= len(m.HostAddress)
-		copy(dAtA[i:], m.HostAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.HostAddress)))
+	if len(m.HostPid) > 0 {
+		i -= len(m.HostPid)
+		copy(dAtA[i:], m.HostPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.HostPid)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -2176,10 +2175,10 @@ func (m *ProofOfReplicateChallenge) MarshalToSizedBuffer(dAtA []byte) (int, erro
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.GuardAddress) > 0 {
-		i -= len(m.GuardAddress)
-		copy(dAtA[i:], m.GuardAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardAddress)))
+	if len(m.GuardPid) > 0 {
+		i -= len(m.GuardPid)
+		copy(dAtA[i:], m.GuardPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.GuardPid)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -2312,10 +2311,10 @@ func (m *ShardChallengeQuestions) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		i--
 		dAtA[i] = 0x20
 	}
-	if len(m.PreparerAddress) > 0 {
-		i -= len(m.PreparerAddress)
-		copy(dAtA[i:], m.PreparerAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.PreparerAddress)))
+	if len(m.PreparerPid) > 0 {
+		i -= len(m.PreparerPid)
+		copy(dAtA[i:], m.PreparerPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.PreparerPid)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -2375,17 +2374,17 @@ func (m *CheckFileStoreMetaRequest) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	i = encodeVarintGuard(dAtA, i, uint64(n16))
 	i--
 	dAtA[i] = 0x22
-	if len(m.RequesterAddress) > 0 {
-		i -= len(m.RequesterAddress)
-		copy(dAtA[i:], m.RequesterAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.RequesterAddress)))
+	if len(m.RequesterPid) > 0 {
+		i -= len(m.RequesterPid)
+		copy(dAtA[i:], m.RequesterPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.RequesterPid)))
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.RenterAddress) > 0 {
-		i -= len(m.RenterAddress)
-		copy(dAtA[i:], m.RenterAddress)
-		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterAddress)))
+	if len(m.RenterPid) > 0 {
+		i -= len(m.RenterPid)
+		copy(dAtA[i:], m.RenterPid)
+		i = encodeVarintGuard(dAtA, i, uint64(len(m.RenterPid)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -2467,7 +2466,7 @@ func (m *Log) Size() (n int) {
 		l = m.ChangeTime.Size()
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.ChangeOriginator)
+	l = len(m.OriginatorPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2491,11 +2490,11 @@ func (m *ContractMeta) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.RenterAddress)
+	l = len(m.RenterPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.HostAddress)
+	l = len(m.HostPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2517,11 +2516,11 @@ func (m *ContractMeta) Size() (n int) {
 	n += 1 + l + sovGuard(uint64(l))
 	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RentEnd)
 	n += 1 + l + sovGuard(uint64(l))
-	l = len(m.GuardAddress)
+	l = len(m.GuardPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.EscrowAddress)
+	l = len(m.EscrowPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2597,7 +2596,7 @@ func (m *FileStoreMeta) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.RenterAddress)
+	l = len(m.RenterPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2630,11 +2629,11 @@ func (m *FileStoreMeta) Size() (n int) {
 	if m.RecoverThreshold != 0 {
 		n += 1 + sovGuard(uint64(m.RecoverThreshold))
 	}
-	l = len(m.EscrowAddress)
+	l = len(m.EscrowPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.GuardAddress)
+	l = len(m.GuardPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2675,7 +2674,7 @@ func (m *FileStoreStatus) Size() (n int) {
 			n += 1 + l + sovGuard(uint64(l))
 		}
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime)
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurrentTime)
 	n += 1 + l + sovGuard(uint64(l))
 	l = len(m.GuardSignature)
 	if l > 0 {
@@ -2697,14 +2696,14 @@ func (m *ChallengeQuestion) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.HostAddress)
+	l = len(m.HostPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
 	if m.ChunkIndex != 0 {
 		n += 1 + sovGuard(uint64(m.ChunkIndex))
 	}
-	l = len(m.RandomNonce)
+	l = len(m.Nonce)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2730,7 +2729,7 @@ func (m *ProofOfReplicateChallenge) Size() (n int) {
 	}
 	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ChallengeTime)
 	n += 1 + l + sovGuard(uint64(l))
-	l = len(m.GuardAddress)
+	l = len(m.GuardPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2790,7 +2789,7 @@ func (m *ShardChallengeQuestions) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.PreparerAddress)
+	l = len(m.PreparerPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2825,11 +2824,11 @@ func (m *CheckFileStoreMetaRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.RenterAddress)
+	l = len(m.RenterPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
-	l = len(m.RequesterAddress)
+	l = len(m.RequesterPid)
 	if l > 0 {
 		n += 1 + l + sovGuard(uint64(l))
 	}
@@ -2939,9 +2938,9 @@ func (m *Log) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ChangeOriginator", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field OriginatorPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -2951,31 +2950,29 @@ func (m *Log) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ChangeOriginator = append(m.ChangeOriginator[:0], dAtA[iNdEx:postIndex]...)
-			if m.ChangeOriginator == nil {
-				m.ChangeOriginator = []byte{}
-			}
+			m.OriginatorPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Change", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -2985,25 +2982,23 @@ func (m *Log) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Change = append(m.Change[:0], dAtA[iNdEx:postIndex]...)
-			if m.Change == nil {
-				m.Change = []byte{}
-			}
+			m.Change = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -3063,7 +3058,7 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ContractId", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3073,31 +3068,29 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ContractId = append(m.ContractId[:0], dAtA[iNdEx:postIndex]...)
-			if m.ContractId == nil {
-				m.ContractId = []byte{}
-			}
+			m.ContractId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RenterAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RenterPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3107,31 +3100,29 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RenterAddress = append(m.RenterAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.RenterAddress == nil {
-				m.RenterAddress = []byte{}
-			}
+			m.RenterPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HostAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HostPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3141,31 +3132,29 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HostAddress = append(m.HostAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.HostAddress == nil {
-				m.HostAddress = []byte{}
-			}
+			m.HostPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ShardHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3175,25 +3164,23 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ShardHash = append(m.ShardHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.ShardHash == nil {
-				m.ShardHash = []byte{}
-			}
+			m.ShardHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
 			if wireType != 0 {
@@ -3237,7 +3224,7 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3247,25 +3234,23 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FileHash = append(m.FileHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.FileHash == nil {
-				m.FileHash = []byte{}
-			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
@@ -3335,9 +3320,9 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GuardAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GuardPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3347,31 +3332,29 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.GuardAddress = append(m.GuardAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.GuardAddress == nil {
-				m.GuardAddress = []byte{}
-			}
+			m.GuardPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 11:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EscrowAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EscrowPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3381,25 +3364,23 @@ func (m *ContractMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.EscrowAddress = append(m.EscrowAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.EscrowAddress == nil {
-				m.EscrowAddress = []byte{}
-			}
+			m.EscrowPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 12:
 			if wireType != 0 {
@@ -3897,9 +3878,9 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RenterAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RenterPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3909,31 +3890,29 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RenterAddress = append(m.RenterAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.RenterAddress == nil {
-				m.RenterAddress = []byte{}
-			}
+			m.RenterPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -3943,25 +3922,23 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FileHash = append(m.FileHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.FileHash == nil {
-				m.FileHash = []byte{}
-			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 0 {
@@ -4164,9 +4141,9 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 			}
 		case 12:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EscrowAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EscrowPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4176,31 +4153,29 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.EscrowAddress = append(m.EscrowAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.EscrowAddress == nil {
-				m.EscrowAddress = []byte{}
-			}
+			m.EscrowPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 13:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GuardAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GuardPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4210,25 +4185,23 @@ func (m *FileStoreMeta) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.GuardAddress = append(m.GuardAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.GuardAddress == nil {
-				m.GuardAddress = []byte{}
-			}
+			m.GuardPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -4476,7 +4449,7 @@ func (m *FileStoreStatus) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CurentTime", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field CurrentTime", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -4503,7 +4476,7 @@ func (m *FileStoreStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.CurrentTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4599,7 +4572,7 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ShardHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4609,31 +4582,29 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ShardHash = append(m.ShardHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.ShardHash == nil {
-				m.ShardHash = []byte{}
-			}
+			m.ShardHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HostAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HostPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4643,25 +4614,23 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HostAddress = append(m.HostAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.HostAddress == nil {
-				m.HostAddress = []byte{}
-			}
+			m.HostPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 0 {
@@ -4684,9 +4653,9 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 			}
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RandomNonce", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Nonce", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4696,31 +4665,29 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RandomNonce = append(m.RandomNonce[:0], dAtA[iNdEx:postIndex]...)
-			if m.RandomNonce == nil {
-				m.RandomNonce = []byte{}
-			}
+			m.Nonce = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ExpectAnswer", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4730,25 +4697,23 @@ func (m *ChallengeQuestion) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ExpectAnswer = append(m.ExpectAnswer[:0], dAtA[iNdEx:postIndex]...)
-			if m.ExpectAnswer == nil {
-				m.ExpectAnswer = []byte{}
-			}
+			m.ExpectAnswer = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -4875,9 +4840,9 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GuardAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GuardPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4887,25 +4852,23 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.GuardAddress = append(m.GuardAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.GuardAddress == nil {
-				m.GuardAddress = []byte{}
-			}
+			m.GuardPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
@@ -4945,7 +4908,7 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field HostAnswer", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -4955,25 +4918,23 @@ func (m *ProofOfReplicateChallenge) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HostAnswer = append(m.HostAnswer[:0], dAtA[iNdEx:postIndex]...)
-			if m.HostAnswer == nil {
-				m.HostAnswer = []byte{}
-			}
+			m.HostAnswer = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
@@ -5100,7 +5061,7 @@ func (m *FileChallengeQuestions) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5110,25 +5071,23 @@ func (m *FileChallengeQuestions) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FileHash = append(m.FileHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.FileHash == nil {
-				m.FileHash = []byte{}
-			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -5222,7 +5181,7 @@ func (m *ShardChallengeQuestions) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5232,31 +5191,29 @@ func (m *ShardChallengeQuestions) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FileHash = append(m.FileHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.FileHash == nil {
-				m.FileHash = []byte{}
-			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ShardHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5266,31 +5223,29 @@ func (m *ShardChallengeQuestions) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ShardHash = append(m.ShardHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.ShardHash == nil {
-				m.ShardHash = []byte{}
-			}
+			m.ShardHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PreparerAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field PreparerPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5300,25 +5255,23 @@ func (m *ShardChallengeQuestions) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PreparerAddress = append(m.PreparerAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.PreparerAddress == nil {
-				m.PreparerAddress = []byte{}
-			}
+			m.PreparerPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 0 {
@@ -5498,7 +5451,7 @@ func (m *CheckFileStoreMetaRequest) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5508,31 +5461,29 @@ func (m *CheckFileStoreMetaRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FileHash = append(m.FileHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.FileHash == nil {
-				m.FileHash = []byte{}
-			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RenterAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RenterPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5542,31 +5493,29 @@ func (m *CheckFileStoreMetaRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RenterAddress = append(m.RenterAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.RenterAddress == nil {
-				m.RenterAddress = []byte{}
-			}
+			m.RenterPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RequesterAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RequesterPid", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowGuard
@@ -5576,25 +5525,23 @@ func (m *CheckFileStoreMetaRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthGuard
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGuard
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RequesterAddress = append(m.RequesterAddress[:0], dAtA[iNdEx:postIndex]...)
-			if m.RequesterAddress == nil {
-				m.RequesterAddress = []byte{}
-			}
+			m.RequesterPid = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
