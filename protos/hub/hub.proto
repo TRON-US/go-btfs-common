@@ -42,7 +42,10 @@ enum ResponseCode {
 message SettingsResp {
   ResponseCode code = 1;
   string message = 2;
-  google.protobuf.Timestamp response_time = 3 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
   SettingsData settings_data = 4;
 }
 
@@ -65,7 +68,10 @@ message HostsResp {
   HostsData hosts = 3;
   int32 resp_size = 4;
   string mode = 5;
-  google.protobuf.Timestamp response_time = 6 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp response_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message HostsData {
@@ -74,8 +80,14 @@ message HostsData {
 
 message Host {
   string node_id = 1;
-  google.protobuf.Timestamp time_create = 2 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp time_update = 3 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp time_create = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp time_update = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
   string node_ip = 4;
   string region = 5;
   string btfs_version = 6;
