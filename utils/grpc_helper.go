@@ -6,20 +6,30 @@ import (
 	"errors"
 	"fmt"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
 	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
 	defaultSchema = "http"
+	defaultName   = "default"
 )
 
 var (
 	domainRegexp = regexp.MustCompile(`^(localhost)|([a-zA-Z0-9-]{1,63}\.)+([a-zA-Z]{1,63})$`)
 	ipv4Regexp   = regexp.MustCompile(`^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$`)
+	dialTimeouts = map[string]time.Duration{
+		GUARD:         30 * time.Second,
+		ESCROW:        30 * time.Second,
+		HUB:           30 * time.Second,
+		STATUS_SERVER: 30 * time.Second,
+		defaultName:   30 * time.Second,
+	}
 )
 
 type parsedURL struct {
@@ -28,11 +38,34 @@ type parsedURL struct {
 	port   int
 }
 
-func NewGRPCConn(ctx context.Context, address string, opts ...grpc.DialOption) (*grpc.ClientConn, error) {
+// WithContextTimeout get grpc connection with a default timeout
+func GRPCWithContextTimeout(ctx context.Context, address string, f func(ctx context.Context,
+	conn *grpc.ClientConn) error) error {
+	en := WhoAmI()
+	if en == "" {
+		en = defaultName
+	}
+	newCtx, cancel := context.WithTimeout(ctx, dialTimeouts[en])
+	conn, err := newGRPCConn(newCtx, address)
+	if err != nil {
+		return err
+	}
+	if conn == nil || conn.GetState() != connectivity.Ready {
+		return errors.New("failed to get connection")
+	}
+	if cancel != nil {
+		defer cancel()
+	}
+	return f(ctx, conn)
+}
+
+func newGRPCConn(ctx context.Context, address string) (*grpc.ClientConn, error) {
 	u, err := parse(address)
 	if err != nil {
 		return nil, err
 	}
+	opts := make([]grpc.DialOption, 0)
+	opts = append(opts, grpc.WithBlock())
 	if u.schema == "http" {
 		opts = append(opts, grpc.WithInsecure())
 	} else if u.schema == "https" {
