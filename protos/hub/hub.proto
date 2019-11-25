@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package hub;
+
+// gogo plugin toggles
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.messagename_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+// golang option
+option go_package = "hub";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "HubProto";
+option java_package = "io.btfs.hub";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+service Settings {
+  rpc GetSettings(SettingsReq) returns (SettingsResp);
+}
+
+service Hosts {
+  rpc GetHosts(HostsReq) returns (HostsResp);
+}
+
+message SettingsReq {
+  string id = 1;
+  int32 resp_size = 2;
+}
+
+enum ResponseCode {
+  SUCCESS = 0;
+  SIGNATURE_FORMAT_ERROR = 1;
+  COMPUTE_ADDRESS_ERROR = 2;
+  OTHER_ERROR = 20;
+}
+
+message SettingsResp {
+  ResponseCode code = 1;
+  string message = 2;
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  SettingsData settings_data = 4;
+}
+
+message SettingsData {
+  double storage_price_ask = 1;
+  double bandwidth_price_ask = 2;
+  double storage_time_min = 3;
+  double bandwidth_limit = 4;
+  double collateral_stake = 5;
+}
+
+message HostsReq {
+  string id = 1;
+  int32 resp_size = 2;
+}
+
+message HostsResp {
+  ResponseCode code = 1;
+  string message = 2;
+  HostsData hosts = 3;
+  int32 resp_size = 4;
+  string mode = 5;
+  google.protobuf.Timestamp response_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message HostsData {
+  repeated Host hosts = 1;
+}
+
+message Host {
+  string node_id = 1;
+  google.protobuf.Timestamp time_create = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp time_update = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string node_ip = 4;
+  string region = 5;
+  string btfs_version = 6;
+  float score = 7;
+  int64 heart_beats = 8;
+  float uptime = 9;
+  int64 age = 10;
+  float reputation = 11;
+  float upload_avg = 12;
+  float upload_var = 13;
+  float download_avg = 14;
+  float download_var = 15;
+  Location location = 16;
+  StorageInfo storage_info = 17;
+  BandwidthInfo bandwidth_info = 18;
+  CollateralInfo collateral_info = 19;
+}
+
+message Location {
+  double lat = 1;
+  double lon = 2;
+}
+
+message StorageInfo {
+  float storage_cap = 1;
+  float storage_left = 2;
+  int64 storage_min_time = 3;
+  float storage_ask_price = 4;
+  float storage_price_est = 5;
+}
+
+message BandwidthInfo {
+  float bandwidth_limit = 1;
+  float bandwidth_ask_price = 2;
+  float bandwidth_price_est = 3;
+}
+
+message CollateralInfo {
+  float collateral_stake = 1;
+  float collateral_lost = 2;
+  float collateral_burn = 3;
+}
