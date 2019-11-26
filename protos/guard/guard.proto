@@ -142,7 +142,7 @@ message FileStoreStatus {
     CANCELED = 6; //reserved for the cancel contract
   }
   MetaState state = 2;
-  repeated Contract contracts = 3 [(gogoproto.nullable) = false];
+  repeated Contract contracts = 3;
   bytes renter_signature = 4; //rental's signature for the first full file status with contracts
   google.protobuf.Timestamp guard_receive_time = 5 [
     (gogoproto.nullable) = false,
@@ -194,7 +194,7 @@ message ProofOfReplicateChallenge {
 
 message FileChallengeQuestions {
   string file_hash = 1;
-  repeated ShardChallengeQuestions shard_questions = 2 [(gogoproto.nullable) = false];
+  repeated ShardChallengeQuestions shard_questions = 2;
 }
 
 message ShardChallengeQuestions {
@@ -202,7 +202,7 @@ message ShardChallengeQuestions {
   string shard_hash = 2;
   string preparer_pid = 3; //challenge questions preparer's peerId, it is renter peerId at phase 1
   int32 question_count = 4;
-  repeated ChallengeQuestion questions = 5 [(gogoproto.nullable) = false];
+  repeated ChallengeQuestion questions = 5;
   google.protobuf.Timestamp prepare_time = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
