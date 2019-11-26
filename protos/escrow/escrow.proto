@@ -285,6 +285,7 @@ message PayoutItem {
   int64 amount = 5;
   int32 index = 6;
   bool paid = 7;
+  string reference = 8;
 }
 
 message PayoutResult {
