@@ -26,7 +26,10 @@ service GuardService {
 }
 
 message Log {
-  google.protobuf.Timestamp change_time = 1;
+  google.protobuf.Timestamp change_time = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
   string originator_pid = 2;
   string change = 3;
 }
@@ -70,7 +73,10 @@ message ContractMeta {
 
 message Contract {
   //the contract executor record, changed frequently after proposal
-  ContractMeta contract = 1;
+  ContractMeta contract = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
   enum ContractState {
     DRAFT = 0; //the contract was draft, but the escrow service did not received the money
     SIGNED = 1; // the escrow service received the money from renter, the contract was start.
@@ -122,7 +128,10 @@ message FileStoreMeta {
 }
 
 message FileStoreStatus {
-  FileStoreMeta file_store_meta = 1;
+  FileStoreMeta file_store_meta = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
   enum MetaState {
     DRAFT = 0; //the proposal was submit by renter
     UPLOADING = 1; //all related contracts were signed, and renter is uploading shards and questions
@@ -133,7 +142,7 @@ message FileStoreStatus {
     CANCELED = 6; //reserved for the cancel contract
   }
   MetaState state = 2;
-  repeated Contract contracts = 3;
+  repeated Contract contracts = 3 [(gogoproto.nullable) = false];
   bytes renter_signature = 4; //rental's signature for the first full file status with contracts
   google.protobuf.Timestamp guard_receive_time = 5 [
     (gogoproto.nullable) = false,
@@ -165,7 +174,10 @@ message ChallengeQuestion {
 }
 
 message ProofOfReplicateChallenge {
-  ChallengeQuestion question = 1; //of course expect_answer should be clear before send to the host`
+  ChallengeQuestion question = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ]; //of course expect_answer should be clear before send to the host`
   google.protobuf.Timestamp challenge_time = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -182,7 +194,7 @@ message ProofOfReplicateChallenge {
 
 message FileChallengeQuestions {
   string file_hash = 1;
-  repeated ShardChallengeQuestions shard_questions = 2;
+  repeated ShardChallengeQuestions shard_questions = 2 [(gogoproto.nullable) = false];
 }
 
 message ShardChallengeQuestions {
@@ -190,7 +202,7 @@ message ShardChallengeQuestions {
   string shard_hash = 2;
   string preparer_pid = 3; //challenge questions preparer's peerId, it is renter peerId at phase 1
   int32 question_count = 4;
-  repeated ChallengeQuestion questions = 5;
+  repeated ChallengeQuestion questions = 5 [(gogoproto.nullable) = false];
   google.protobuf.Timestamp prepare_time = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
