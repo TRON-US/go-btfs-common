@@ -53,7 +53,7 @@ func GRPCWithContextTimeout(ctx context.Context, address string, f func(ctx cont
 	if conn == nil || conn.GetState() != connectivity.Ready {
 		return errors.New("failed to get connection")
 	}
-	conn.Close()
+	defer conn.Close()
 	if cancel != nil {
 		defer cancel()
 	}
