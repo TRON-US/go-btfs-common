@@ -17,12 +17,7 @@ PG_FIX_CANDIDATES=./protos/node/node.pb.go \
 install: brew trongogo
 
 brew:
-	brew install protobuf
-	brew install prototool
-	brew install postgresql go
-	brew install redis go
-	brew services start postgresql
-	brew services start redis
+	brew install go protobuf prototool postgresql redis
 
 trongogo:
 	cd ../ && git clone https://github.com/TRON-US/protobuf || true
@@ -50,8 +45,12 @@ pgfix:
 build: lintf genproto buildgo pgfix
 
 test:
+	brew services start postgresql
+	brew services start redis
 	dropdb --if-exists $(TEST_DB_NAME)
 	createdb $(TEST_DB_NAME)
 	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(TEST_RD_URL)
 	dropdb $(TEST_DB_NAME)
+	brew services stop postgresql
+	brew services stop redis
 

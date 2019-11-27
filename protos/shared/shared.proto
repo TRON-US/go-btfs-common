@@ -25,7 +25,10 @@ service RuntimeService {
 
 message RuntimeInfoRequest {
   bytes request_address = 1;
-  google.protobuf.Timestamp curent_time = 2;
+  google.protobuf.Timestamp curent_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message SignedRuntimeInfoRequest {
