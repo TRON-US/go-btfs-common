@@ -12,6 +12,7 @@ TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)"
 PG_FIX_CANDIDATES=./protos/node/node.pb.go \
 			./protos/status/status.pb.go \
 			./protos/escrow/escrow.pb.go \
+			./protos/guard/guard.pb.go \
 
 install: brew trongogo
 

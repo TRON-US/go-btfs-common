@@ -26,7 +26,10 @@ service GuardService {
 }
 
 message Log {
-  google.protobuf.Timestamp change_time = 1;
+  google.protobuf.Timestamp change_time = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
   string originator_pid = 2;
   string change = 3;
 }
@@ -70,14 +73,18 @@ message ContractMeta {
 
 message Contract {
   //the contract executor record, changed frequently after proposal
-  ContractMeta contract = 1;
+  ContractMeta contract = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
   enum ContractState {
     DRAFT = 0; //the contract was draft, but the escrow service did not received the money
     SIGNED = 1; // the escrow service received the money from renter, the contract was start.
     UPLOADED = 2; //the first challenge was done, which means the shard was in the host, all pending payouts can be issued now
     LOST = 3; // the challenge failed, the following payout should be hold or even stopped
-    CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NOQUESTION, it go to CANCELED status
+    CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NO QUESTION, it go to CANCELED status
     CLOSED = 5; // the all work in such contract was done
+    RENEWED = 6; // the contract got renewed
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
@@ -93,6 +100,8 @@ message Contract {
     (gogoproto.stdtime) = true
   ];
   bytes guard_signature = 9;
+  string preparer_pid = 10; //while the contract got renewed, some stakeholder take renter's place to prepare such contract
+  bytes preparer_signature = 11;
 }
 
 message FileStoreMeta {
@@ -119,7 +128,10 @@ message FileStoreMeta {
 }
 
 message FileStoreStatus {
-  FileStoreMeta file_store_meta = 1;
+  FileStoreMeta file_store_meta = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
   enum MetaState {
     DRAFT = 0; //the proposal was submit by renter
     UPLOADING = 1; //all related contracts were signed, and renter is uploading shards and questions
@@ -127,10 +139,11 @@ message FileStoreStatus {
     PARTIAL_LOST = 3; //some shards were lost, but the whole file is safe
     LOST = 4; //some shards were lost and the whole file cannot be recovered now
     DONE = 5; //all contracts were done
+    CANCELED = 6; //reserved for the cancel contract
   }
   MetaState state = 2;
   repeated Contract contracts = 3;
-  bytes renter_signature = 4; //renter's signature for FileStoreMeta and all contractMeta
+  bytes renter_signature = 4; //rental's signature for the first full file status with contracts
   google.protobuf.Timestamp guard_receive_time = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -141,6 +154,15 @@ message FileStoreStatus {
     (gogoproto.stdtime) = true
   ]; //the time for generate the status
   bytes guard_signature = 8;
+  enum RentalState {
+    NEW = 0; //the rental was first initialized
+    PARTIAL_NEW = 1; //part of the file status was new, indicate that some contracts were rebuild
+    EXPIRED = 2; //the file rental was expired, indicate that all shards can be removed from host
+    RENEW = 3; //the contract got renewed
+  }
+  RentalState rental_state = 9;
+  string preparer_pid = 10; //the stakeholder who prepared such file, if the file is NEW state, the preparer is rental
+  bytes preparer_signature = 11; //preparer's signature for FileStoreMeta
 }
 
 message ChallengeQuestion {
@@ -152,7 +174,10 @@ message ChallengeQuestion {
 }
 
 message ProofOfReplicateChallenge {
-  ChallengeQuestion question = 1; //of course expect_answer should be clear before send to the host`
+  ChallengeQuestion question = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ]; //of course expect_answer should be clear before send to the host`
   google.protobuf.Timestamp challenge_time = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
