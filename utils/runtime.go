@@ -7,18 +7,9 @@ import (
 	"github.com/tron-us/go-common/v2/db"
 	"github.com/tron-us/go-common/v2/db/postgres"
 	"github.com/tron-us/go-common/v2/db/redis"
-	"github.com/tron-us/go-common/v2/env"
 	"github.com/tron-us/go-common/v2/log"
 
 	"go.uber.org/zap"
-)
-
-const (
-	WHOAMI_ENV_NAME = "WHOAMI"
-	GUARD           = "GUARD"
-	ESCROW          = "ESCROW"
-	HUB             = "HUB"
-	STATUS_SERVER   = "STATUS_SERVER"
 )
 
 func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
@@ -67,9 +58,4 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
 	return report, nil
-}
-
-func WhoAmI() string {
-	_, en := env.GetEnv(WHOAMI_ENV_NAME)
-	return en
 }

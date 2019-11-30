@@ -16,14 +16,11 @@ option java_multiple_files = true;
 option java_outer_classname = "HubProto";
 option java_package = "io.btfs.hub";
 
-import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-service Settings {
+service HubQuery {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
-}
-
-service Hosts {
   rpc GetHosts(HostsReq) returns (HostsResp);
 }
 
@@ -95,15 +92,15 @@ message Host {
   int64 heart_beats = 8;
   float uptime = 9;
   int64 age = 10;
-  float reputation = 11;
-  float upload_avg = 12;
-  float upload_var = 13;
-  float download_avg = 14;
-  float download_var = 15;
-  Location location = 16;
-  StorageInfo storage_info = 17;
-  BandwidthInfo bandwidth_info = 18;
-  CollateralInfo collateral_info = 19;
+  double reputation = 11;
+  double upload_avg = 12;
+  uint64 upload_var = 13;
+  double download_avg = 14;
+  uint64 download_var = 15;
+  Location location = 16 [(gogoproto.nullable) = false];
+  StorageInfo storage_info = 17 [(gogoproto.nullable) = false];
+  BandwidthInfo bandwidth_info = 18 [(gogoproto.nullable) = false];
+  CollateralInfo collateral_info = 19 [(gogoproto.nullable) = false];
 }
 
 message Location {
@@ -112,21 +109,21 @@ message Location {
 }
 
 message StorageInfo {
-  float storage_cap = 1;
-  float storage_left = 2;
-  int64 storage_min_time = 3;
-  float storage_ask_price = 4;
-  float storage_price_est = 5;
+  uint64 storage_cap = 1;
+  uint64 storage_left = 2;
+  uint64 storage_min_time = 3;
+  uint64 storage_ask_price = 4;
+  uint64 storage_price_est = 5;
 }
 
 message BandwidthInfo {
-  float bandwidth_limit = 1;
-  float bandwidth_ask_price = 2;
-  float bandwidth_price_est = 3;
+  double bandwidth_limit = 1;
+  uint64 bandwidth_ask_price = 2;
+  uint64 bandwidth_price_est = 3;
 }
 
 message CollateralInfo {
-  float collateral_stake = 1;
-  float collateral_lost = 2;
-  float collateral_burn = 3;
+  uint64 collateral_stake = 1;
+  uint64 collateral_lost = 2;
+  uint64 collateral_burn = 3;
 }

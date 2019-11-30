@@ -7,9 +7,9 @@ import (
 	context "context"
 	encoding_binary "encoding/binary"
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
-	_ "github.com/tron-us/protobuf/gogoproto"
 	proto "github.com/tron-us/protobuf/proto"
 	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
@@ -484,28 +484,28 @@ func (*HostsData) XXX_MessageName() string {
 }
 
 type Host struct {
-	NodeId               string          `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
-	TimeCreate           time.Time       `protobuf:"bytes,2,opt,name=time_create,json=timeCreate,proto3,stdtime" json:"time_create" pg:"time_create"`
-	TimeUpdate           time.Time       `protobuf:"bytes,3,opt,name=time_update,json=timeUpdate,proto3,stdtime" json:"time_update" pg:"time_update"`
-	NodeIp               string          `protobuf:"bytes,4,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty" pg:"node_ip"`
-	Region               string          `protobuf:"bytes,5,opt,name=region,proto3" json:"region,omitempty" pg:"region"`
-	BtfsVersion          string          `protobuf:"bytes,6,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
-	Score                float32         `protobuf:"fixed32,7,opt,name=score,proto3" json:"score,omitempty" pg:"score"`
-	HeartBeats           int64           `protobuf:"varint,8,opt,name=heart_beats,json=heartBeats,proto3" json:"heart_beats,omitempty" pg:"heart_beats"`
-	Uptime               float32         `protobuf:"fixed32,9,opt,name=uptime,proto3" json:"uptime,omitempty" pg:"uptime"`
-	Age                  int64           `protobuf:"varint,10,opt,name=age,proto3" json:"age,omitempty" pg:"age"`
-	Reputation           float32         `protobuf:"fixed32,11,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
-	UploadAvg            float32         `protobuf:"fixed32,12,opt,name=upload_avg,json=uploadAvg,proto3" json:"upload_avg,omitempty" pg:"upload_avg"`
-	UploadVar            float32         `protobuf:"fixed32,13,opt,name=upload_var,json=uploadVar,proto3" json:"upload_var,omitempty" pg:"upload_var"`
-	DownloadAvg          float32         `protobuf:"fixed32,14,opt,name=download_avg,json=downloadAvg,proto3" json:"download_avg,omitempty" pg:"download_avg"`
-	DownloadVar          float32         `protobuf:"fixed32,15,opt,name=download_var,json=downloadVar,proto3" json:"download_var,omitempty" pg:"download_var"`
-	Location             *Location       `protobuf:"bytes,16,opt,name=location,proto3" json:"location,omitempty" pg:"location"`
-	StorageInfo          *StorageInfo    `protobuf:"bytes,17,opt,name=storage_info,json=storageInfo,proto3" json:"storage_info,omitempty" pg:"storage_info"`
-	BandwidthInfo        *BandwidthInfo  `protobuf:"bytes,18,opt,name=bandwidth_info,json=bandwidthInfo,proto3" json:"bandwidth_info,omitempty" pg:"bandwidth_info"`
-	CollateralInfo       *CollateralInfo `protobuf:"bytes,19,opt,name=collateral_info,json=collateralInfo,proto3" json:"collateral_info,omitempty" pg:"collateral_info"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-" pg:"-"`
-	XXX_unrecognized     []byte          `json:"-" pg:"-"`
-	XXX_sizecache        int32           `json:"-" pg:"-"`
+	NodeId               string         `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
+	TimeCreate           time.Time      `protobuf:"bytes,2,opt,name=time_create,json=timeCreate,proto3,stdtime" json:"time_create" pg:"time_create"`
+	TimeUpdate           time.Time      `protobuf:"bytes,3,opt,name=time_update,json=timeUpdate,proto3,stdtime" json:"time_update" pg:"time_update"`
+	NodeIp               string         `protobuf:"bytes,4,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty" pg:"node_ip"`
+	Region               string         `protobuf:"bytes,5,opt,name=region,proto3" json:"region,omitempty" pg:"region"`
+	BtfsVersion          string         `protobuf:"bytes,6,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
+	Score                float32        `protobuf:"fixed32,7,opt,name=score,proto3" json:"score,omitempty" pg:"score"`
+	HeartBeats           int64          `protobuf:"varint,8,opt,name=heart_beats,json=heartBeats,proto3" json:"heart_beats,omitempty" pg:"heart_beats"`
+	Uptime               float32        `protobuf:"fixed32,9,opt,name=uptime,proto3" json:"uptime,omitempty" pg:"uptime"`
+	Age                  int64          `protobuf:"varint,10,opt,name=age,proto3" json:"age,omitempty" pg:"age"`
+	Reputation           float64        `protobuf:"fixed64,11,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
+	UploadAvg            float64        `protobuf:"fixed64,12,opt,name=upload_avg,json=uploadAvg,proto3" json:"upload_avg,omitempty" pg:"upload_avg"`
+	UploadVar            uint64         `protobuf:"varint,13,opt,name=upload_var,json=uploadVar,proto3" json:"upload_var,omitempty" pg:"upload_var"`
+	DownloadAvg          float64        `protobuf:"fixed64,14,opt,name=download_avg,json=downloadAvg,proto3" json:"download_avg,omitempty" pg:"download_avg"`
+	DownloadVar          uint64         `protobuf:"varint,15,opt,name=download_var,json=downloadVar,proto3" json:"download_var,omitempty" pg:"download_var"`
+	Location             Location       `protobuf:"bytes,16,opt,name=location,proto3" json:"location" pg:"location"`
+	StorageInfo          StorageInfo    `protobuf:"bytes,17,opt,name=storage_info,json=storageInfo,proto3" json:"storage_info" pg:"storage_info"`
+	BandwidthInfo        BandwidthInfo  `protobuf:"bytes,18,opt,name=bandwidth_info,json=bandwidthInfo,proto3" json:"bandwidth_info" pg:"bandwidth_info"`
+	CollateralInfo       CollateralInfo `protobuf:"bytes,19,opt,name=collateral_info,json=collateralInfo,proto3" json:"collateral_info" pg:"collateral_info"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-" pg:"-"`
+	XXX_unrecognized     []byte         `json:"-" pg:"-"`
+	XXX_sizecache        int32          `json:"-" pg:"-"`
 }
 
 func (m *Host) Reset()         { *m = Host{} }
@@ -611,67 +611,67 @@ func (m *Host) GetAge() int64 {
 	return 0
 }
 
-func (m *Host) GetReputation() float32 {
+func (m *Host) GetReputation() float64 {
 	if m != nil {
 		return m.Reputation
 	}
 	return 0
 }
 
-func (m *Host) GetUploadAvg() float32 {
+func (m *Host) GetUploadAvg() float64 {
 	if m != nil {
 		return m.UploadAvg
 	}
 	return 0
 }
 
-func (m *Host) GetUploadVar() float32 {
+func (m *Host) GetUploadVar() uint64 {
 	if m != nil {
 		return m.UploadVar
 	}
 	return 0
 }
 
-func (m *Host) GetDownloadAvg() float32 {
+func (m *Host) GetDownloadAvg() float64 {
 	if m != nil {
 		return m.DownloadAvg
 	}
 	return 0
 }
 
-func (m *Host) GetDownloadVar() float32 {
+func (m *Host) GetDownloadVar() uint64 {
 	if m != nil {
 		return m.DownloadVar
 	}
 	return 0
 }
 
-func (m *Host) GetLocation() *Location {
+func (m *Host) GetLocation() Location {
 	if m != nil {
 		return m.Location
 	}
-	return nil
+	return Location{}
 }
 
-func (m *Host) GetStorageInfo() *StorageInfo {
+func (m *Host) GetStorageInfo() StorageInfo {
 	if m != nil {
 		return m.StorageInfo
 	}
-	return nil
+	return StorageInfo{}
 }
 
-func (m *Host) GetBandwidthInfo() *BandwidthInfo {
+func (m *Host) GetBandwidthInfo() BandwidthInfo {
 	if m != nil {
 		return m.BandwidthInfo
 	}
-	return nil
+	return BandwidthInfo{}
 }
 
-func (m *Host) GetCollateralInfo() *CollateralInfo {
+func (m *Host) GetCollateralInfo() CollateralInfo {
 	if m != nil {
 		return m.CollateralInfo
 	}
-	return nil
+	return CollateralInfo{}
 }
 
 func (*Host) XXX_MessageName() string {
@@ -738,11 +738,11 @@ func (*Location) XXX_MessageName() string {
 }
 
 type StorageInfo struct {
-	StorageCap           float32  `protobuf:"fixed32,1,opt,name=storage_cap,json=storageCap,proto3" json:"storage_cap,omitempty" pg:"storage_cap"`
-	StorageLeft          float32  `protobuf:"fixed32,2,opt,name=storage_left,json=storageLeft,proto3" json:"storage_left,omitempty" pg:"storage_left"`
-	StorageMinTime       int64    `protobuf:"varint,3,opt,name=storage_min_time,json=storageMinTime,proto3" json:"storage_min_time,omitempty" pg:"storage_min_time"`
-	StorageAskPrice      float32  `protobuf:"fixed32,4,opt,name=storage_ask_price,json=storageAskPrice,proto3" json:"storage_ask_price,omitempty" pg:"storage_ask_price"`
-	StoragePriceEst      float32  `protobuf:"fixed32,5,opt,name=storage_price_est,json=storagePriceEst,proto3" json:"storage_price_est,omitempty" pg:"storage_price_est"`
+	StorageCap           uint64   `protobuf:"varint,1,opt,name=storage_cap,json=storageCap,proto3" json:"storage_cap,omitempty" pg:"storage_cap"`
+	StorageLeft          uint64   `protobuf:"varint,2,opt,name=storage_left,json=storageLeft,proto3" json:"storage_left,omitempty" pg:"storage_left"`
+	StorageMinTime       uint64   `protobuf:"varint,3,opt,name=storage_min_time,json=storageMinTime,proto3" json:"storage_min_time,omitempty" pg:"storage_min_time"`
+	StorageAskPrice      uint64   `protobuf:"varint,4,opt,name=storage_ask_price,json=storageAskPrice,proto3" json:"storage_ask_price,omitempty" pg:"storage_ask_price"`
+	StoragePriceEst      uint64   `protobuf:"varint,5,opt,name=storage_price_est,json=storagePriceEst,proto3" json:"storage_price_est,omitempty" pg:"storage_price_est"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -781,35 +781,35 @@ func (m *StorageInfo) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_StorageInfo proto.InternalMessageInfo
 
-func (m *StorageInfo) GetStorageCap() float32 {
+func (m *StorageInfo) GetStorageCap() uint64 {
 	if m != nil {
 		return m.StorageCap
 	}
 	return 0
 }
 
-func (m *StorageInfo) GetStorageLeft() float32 {
+func (m *StorageInfo) GetStorageLeft() uint64 {
 	if m != nil {
 		return m.StorageLeft
 	}
 	return 0
 }
 
-func (m *StorageInfo) GetStorageMinTime() int64 {
+func (m *StorageInfo) GetStorageMinTime() uint64 {
 	if m != nil {
 		return m.StorageMinTime
 	}
 	return 0
 }
 
-func (m *StorageInfo) GetStorageAskPrice() float32 {
+func (m *StorageInfo) GetStorageAskPrice() uint64 {
 	if m != nil {
 		return m.StorageAskPrice
 	}
 	return 0
 }
 
-func (m *StorageInfo) GetStoragePriceEst() float32 {
+func (m *StorageInfo) GetStoragePriceEst() uint64 {
 	if m != nil {
 		return m.StoragePriceEst
 	}
@@ -821,9 +821,9 @@ func (*StorageInfo) XXX_MessageName() string {
 }
 
 type BandwidthInfo struct {
-	BandwidthLimit       float32  `protobuf:"fixed32,1,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty" pg:"bandwidth_limit"`
-	BandwidthAskPrice    float32  `protobuf:"fixed32,2,opt,name=bandwidth_ask_price,json=bandwidthAskPrice,proto3" json:"bandwidth_ask_price,omitempty" pg:"bandwidth_ask_price"`
-	BandwidthPriceEst    float32  `protobuf:"fixed32,3,opt,name=bandwidth_price_est,json=bandwidthPriceEst,proto3" json:"bandwidth_price_est,omitempty" pg:"bandwidth_price_est"`
+	BandwidthLimit       float64  `protobuf:"fixed64,1,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty" pg:"bandwidth_limit"`
+	BandwidthAskPrice    uint64   `protobuf:"varint,2,opt,name=bandwidth_ask_price,json=bandwidthAskPrice,proto3" json:"bandwidth_ask_price,omitempty" pg:"bandwidth_ask_price"`
+	BandwidthPriceEst    uint64   `protobuf:"varint,3,opt,name=bandwidth_price_est,json=bandwidthPriceEst,proto3" json:"bandwidth_price_est,omitempty" pg:"bandwidth_price_est"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -862,21 +862,21 @@ func (m *BandwidthInfo) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_BandwidthInfo proto.InternalMessageInfo
 
-func (m *BandwidthInfo) GetBandwidthLimit() float32 {
+func (m *BandwidthInfo) GetBandwidthLimit() float64 {
 	if m != nil {
 		return m.BandwidthLimit
 	}
 	return 0
 }
 
-func (m *BandwidthInfo) GetBandwidthAskPrice() float32 {
+func (m *BandwidthInfo) GetBandwidthAskPrice() uint64 {
 	if m != nil {
 		return m.BandwidthAskPrice
 	}
 	return 0
 }
 
-func (m *BandwidthInfo) GetBandwidthPriceEst() float32 {
+func (m *BandwidthInfo) GetBandwidthPriceEst() uint64 {
 	if m != nil {
 		return m.BandwidthPriceEst
 	}
@@ -888,9 +888,9 @@ func (*BandwidthInfo) XXX_MessageName() string {
 }
 
 type CollateralInfo struct {
-	CollateralStake      float32  `protobuf:"fixed32,1,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty" pg:"collateral_stake"`
-	CollateralLost       float32  `protobuf:"fixed32,2,opt,name=collateral_lost,json=collateralLost,proto3" json:"collateral_lost,omitempty" pg:"collateral_lost"`
-	CollateralBurn       float32  `protobuf:"fixed32,3,opt,name=collateral_burn,json=collateralBurn,proto3" json:"collateral_burn,omitempty" pg:"collateral_burn"`
+	CollateralStake      uint64   `protobuf:"varint,1,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty" pg:"collateral_stake"`
+	CollateralLost       uint64   `protobuf:"varint,2,opt,name=collateral_lost,json=collateralLost,proto3" json:"collateral_lost,omitempty" pg:"collateral_lost"`
+	CollateralBurn       uint64   `protobuf:"varint,3,opt,name=collateral_burn,json=collateralBurn,proto3" json:"collateral_burn,omitempty" pg:"collateral_burn"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -929,21 +929,21 @@ func (m *CollateralInfo) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_CollateralInfo proto.InternalMessageInfo
 
-func (m *CollateralInfo) GetCollateralStake() float32 {
+func (m *CollateralInfo) GetCollateralStake() uint64 {
 	if m != nil {
 		return m.CollateralStake
 	}
 	return 0
 }
 
-func (m *CollateralInfo) GetCollateralLost() float32 {
+func (m *CollateralInfo) GetCollateralLost() uint64 {
 	if m != nil {
 		return m.CollateralLost
 	}
 	return 0
 }
 
-func (m *CollateralInfo) GetCollateralBurn() float32 {
+func (m *CollateralInfo) GetCollateralBurn() uint64 {
 	if m != nil {
 		return m.CollateralBurn
 	}
@@ -984,77 +984,78 @@ func init() { proto.RegisterFile("protos/hub/hub.proto", fileDescriptor_c704b599
 func init() { golang_proto.RegisterFile("protos/hub/hub.proto", fileDescriptor_c704b5990190a69f) }
 
 var fileDescriptor_c704b5990190a69f = []byte{
-	// 1118 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0x4f, 0x6f, 0x5b, 0x45,
-	0x10, 0xef, 0xda, 0x71, 0x62, 0xcf, 0xb3, 0x1d, 0x67, 0x5b, 0x8a, 0x09, 0xc2, 0x31, 0x16, 0x08,
-	0xb7, 0x02, 0x07, 0xb9, 0x52, 0x11, 0x08, 0x21, 0xd9, 0xae, 0x49, 0x22, 0x25, 0x24, 0x5a, 0x27,
-	0x3d, 0x70, 0x79, 0x5a, 0xfb, 0xad, 0x9d, 0xa7, 0xd8, 0x6f, 0x5f, 0xdf, 0xae, 0x53, 0xa9, 0xdf,
-	0x01, 0x89, 0x63, 0x3f, 0x0e, 0xc7, 0x1c, 0x11, 0xdc, 0x29, 0x4a, 0x2e, 0x9c, 0xf8, 0x0c, 0x68,
-	0xe7, 0xfd, 0x75, 0x9a, 0x03, 0x45, 0x1c, 0x22, 0xed, 0xfc, 0x66, 0x7e, 0x93, 0xdf, 0xec, 0xec,
-	0x9b, 0x31, 0x3c, 0xf0, 0x03, 0xa9, 0xa5, 0xda, 0x3d, 0x5f, 0x8e, 0xcd, 0x5f, 0x07, 0x4d, 0x9a,
-	0x3f, 0x5f, 0x8e, 0xb7, 0xbf, 0x9c, 0xb9, 0xda, 0x40, 0x13, 0xb9, 0xd8, 0xd5, 0x81, 0xf4, 0xbe,
-	0x58, 0xaa, 0x5d, 0x74, 0x8f, 0x97, 0xd3, 0xdd, 0x99, 0x9c, 0x49, 0x34, 0xf0, 0x14, 0xd2, 0xb6,
-	0x77, 0x66, 0x52, 0xce, 0xe6, 0x22, 0x8d, 0xd2, 0xee, 0x42, 0x28, 0xcd, 0x17, 0x7e, 0x18, 0xd0,
-	0xfa, 0x06, 0xac, 0x91, 0xd0, 0xda, 0xf5, 0x66, 0x8a, 0x89, 0x17, 0xb4, 0x0a, 0x39, 0xd7, 0xa9,
-	0x93, 0x26, 0x69, 0x97, 0x58, 0xce, 0x75, 0xe8, 0x87, 0x50, 0x0a, 0x84, 0xf2, 0x6d, 0xe5, 0xbe,
-	0x12, 0xf5, 0x5c, 0x93, 0xb4, 0x0b, 0xac, 0x68, 0x80, 0x91, 0xfb, 0x4a, 0xb4, 0x7e, 0x23, 0x50,
-	0x4e, 0xc9, 0xca, 0xa7, 0x9f, 0xc2, 0xda, 0x44, 0x3a, 0x02, 0xf9, 0xd5, 0xee, 0x56, 0xc7, 0x68,
-	0x35, 0x0e, 0xe9, 0x29, 0x31, 0x90, 0x8e, 0x60, 0xe8, 0xa6, 0x75, 0xd8, 0x58, 0x08, 0xa5, 0xf8,
-	0x2c, 0x4c, 0x59, 0x62, 0xb1, 0x49, 0x0f, 0xa0, 0x12, 0x44, 0xf1, 0xb6, 0x51, 0x5a, 0xcf, 0x37,
-	0x49, 0xdb, 0xea, 0x6e, 0x77, 0xc2, 0x32, 0x3a, 0x71, 0x19, 0x9d, 0xd3, 0xb8, 0x8c, 0x7e, 0xf1,
-	0xea, 0x8f, 0x9d, 0x7b, 0x3f, 0xbf, 0xd9, 0x21, 0xac, 0x1c, 0x53, 0x8d, 0x93, 0x3e, 0x85, 0x8a,
-	0x8a, 0xb4, 0xd9, 0x0e, 0xd7, 0xbc, 0xbe, 0x86, 0xa9, 0x42, 0x51, 0xb1, 0xea, 0x67, 0x5c, 0x73,
-	0x56, 0x56, 0x19, 0xab, 0xf5, 0x57, 0xa6, 0x28, 0x03, 0xd0, 0xc7, 0xb0, 0xa5, 0xb4, 0x0c, 0xf8,
-	0x4c, 0xd8, 0x7e, 0xe0, 0x4e, 0x84, 0xcd, 0xd5, 0x05, 0x56, 0x48, 0xd8, 0x66, 0xe4, 0x38, 0x31,
-	0x78, 0x4f, 0x5d, 0xd0, 0x0e, 0xdc, 0x1f, 0x73, 0xcf, 0x79, 0xe9, 0x3a, 0xfa, 0x3c, 0x13, 0x9d,
-	0xc3, 0xe8, 0xad, 0xc4, 0x95, 0xc4, 0xb7, 0xa1, 0x16, 0xe7, 0x36, 0xe5, 0xda, 0x0b, 0xd7, 0xc3,
-	0x92, 0x09, 0xab, 0x46, 0xb8, 0xa9, 0xe5, 0xc8, 0xf5, 0xe8, 0x67, 0xb0, 0x99, 0x66, 0x9e, 0xbb,
-	0x0b, 0x57, 0x63, 0x41, 0x84, 0x55, 0x13, 0xf8, 0xd0, 0xa0, 0xf4, 0x11, 0xd4, 0x26, 0x72, 0x3e,
-	0xe7, 0x5a, 0x04, 0x7c, 0x6e, 0x2b, 0xcd, 0x2f, 0x44, 0xbd, 0x10, 0xaa, 0x4d, 0xf1, 0x91, 0x81,
-	0x5b, 0x5f, 0x41, 0x71, 0x5f, 0x2a, 0xfd, 0xee, 0x8d, 0xff, 0x9b, 0x40, 0x29, 0x62, 0xfe, 0x1f,
-	0x5d, 0xff, 0x04, 0x0a, 0xe7, 0x26, 0x5b, 0xd4, 0xed, 0x2a, 0x66, 0xc0, 0xfc, 0xd8, 0x9f, 0xd0,
-	0xb9, 0xaa, 0x68, 0x6d, 0x55, 0x11, 0xa5, 0xb0, 0xb6, 0x30, 0x1a, 0x0a, 0x98, 0x19, 0xcf, 0x6f,
-	0x3f, 0xa6, 0xf5, 0xff, 0xfa, 0x98, 0x5a, 0x9f, 0x47, 0xf5, 0xe2, 0x83, 0xd8, 0x89, 0xe5, 0x92,
-	0x66, 0xbe, 0x6d, 0x75, 0x4b, 0x89, 0xdc, 0x48, 0x69, 0xeb, 0x4d, 0x01, 0xd6, 0x8c, 0x4d, 0xdf,
-	0x87, 0x0d, 0x4f, 0x3a, 0xc2, 0x4e, 0x6e, 0x76, 0xdd, 0x98, 0x07, 0x0e, 0x1d, 0x82, 0x85, 0xfd,
-	0x9e, 0x04, 0x82, 0xeb, 0xf0, 0x3e, 0xfe, 0xad, 0x30, 0x30, 0xc4, 0x01, 0xf2, 0x92, 0x34, 0x4b,
-	0xdf, 0x31, 0x69, 0xf2, 0xef, 0x9a, 0xe6, 0x0c, 0x79, 0xa9, 0x4c, 0x1f, 0xef, 0x35, 0x96, 0xe9,
-	0xd3, 0x87, 0xb0, 0x1e, 0x88, 0x99, 0x2b, 0xbd, 0xe8, 0x5e, 0x23, 0x8b, 0x7e, 0x0c, 0xe5, 0xb1,
-	0x9e, 0x2a, 0xfb, 0x52, 0x04, 0xca, 0x78, 0xd7, 0xd1, 0x6b, 0x19, 0xec, 0x79, 0x08, 0xd1, 0x07,
-	0x50, 0x50, 0x13, 0x19, 0x88, 0xfa, 0x46, 0x93, 0xb4, 0x73, 0x2c, 0x34, 0xe8, 0x0e, 0x58, 0xe7,
-	0x82, 0x07, 0xda, 0x1e, 0x0b, 0xae, 0x55, 0xbd, 0xd8, 0x24, 0xed, 0x3c, 0x03, 0x84, 0xfa, 0x06,
-	0x31, 0xff, 0x71, 0xe9, 0x63, 0xb3, 0x4a, 0xc8, 0x8b, 0x2c, 0x5a, 0x83, 0xbc, 0x79, 0x38, 0x80,
-	0x04, 0x73, 0xa4, 0x0d, 0x80, 0x40, 0xf8, 0x4b, 0xcd, 0xb5, 0x51, 0x60, 0x61, 0x74, 0x06, 0xa1,
-	0x1f, 0x01, 0x2c, 0xfd, 0xb9, 0xe4, 0x8e, 0xcd, 0x2f, 0x67, 0xf5, 0x32, 0xfa, 0x4b, 0x21, 0xd2,
-	0xbb, 0x9c, 0x65, 0xdc, 0x97, 0x3c, 0xa8, 0x57, 0xb2, 0xee, 0xe7, 0x3c, 0x30, 0x15, 0x3a, 0xf2,
-	0xa5, 0x97, 0xf0, 0xab, 0x18, 0x60, 0xc5, 0x98, 0xc9, 0x90, 0x0d, 0x31, 0x39, 0x36, 0x57, 0x43,
-	0x4c, 0x96, 0x47, 0x50, 0x9c, 0xcb, 0x49, 0xa8, 0xb0, 0x86, 0xcd, 0xa9, 0xe0, 0x63, 0x39, 0x8c,
-	0x40, 0x96, 0xb8, 0xe9, 0x13, 0x28, 0xc7, 0x93, 0xc0, 0xf5, 0xa6, 0xb2, 0xbe, 0x85, 0xe1, 0xb5,
-	0x70, 0x5a, 0x85, 0x8e, 0x03, 0x6f, 0x2a, 0x99, 0xa5, 0x52, 0x83, 0x7e, 0x0d, 0xe9, 0xd7, 0x1f,
-	0xd2, 0x28, 0xd2, 0x28, 0xd2, 0xfa, 0xb1, 0x0b, 0x89, 0x95, 0x71, 0xd6, 0xa4, 0xdf, 0x42, 0x66,
-	0x1c, 0x84, 0xdc, 0xfb, 0xc8, 0xbd, 0x8f, 0xdc, 0x41, 0xe2, 0x43, 0x72, 0x75, 0xb2, 0x62, 0xb7,
-	0x3a, 0x50, 0x8c, 0x6b, 0x30, 0xad, 0x99, 0x73, 0x1d, 0x4d, 0x44, 0x73, 0x44, 0x44, 0x7a, 0xd1,
-	0xd4, 0x33, 0xc7, 0xd6, 0xef, 0x04, 0xac, 0x4c, 0x15, 0xe6, 0x1d, 0xc4, 0xd5, 0x4e, 0xb8, 0x8f,
-	0xdc, 0x1c, 0x83, 0x08, 0x1a, 0x70, 0xdf, 0x5c, 0x6e, 0x1c, 0x30, 0x17, 0x53, 0x8d, 0xb9, 0x72,
-	0x49, 0xf1, 0x87, 0x62, 0xaa, 0xb3, 0xb3, 0x73, 0xe1, 0x7a, 0xe9, 0xba, 0xc8, 0x27, 0xb3, 0xf3,
-	0xc8, 0xf5, 0x70, 0x15, 0x64, 0x26, 0x38, 0x57, 0x17, 0xe1, 0x5c, 0xc6, 0x97, 0x9e, 0x4b, 0x26,
-	0x78, 0x4f, 0x5d, 0xe0, 0x50, 0x7e, 0x7b, 0xda, 0x0b, 0xa5, 0xf1, 0xf5, 0xe7, 0x56, 0xa7, 0xfd,
-	0x50, 0xe9, 0xd6, 0x6b, 0x02, 0x95, 0x95, 0x4b, 0xbe, 0x6b, 0x4a, 0x87, 0xb5, 0xdd, 0x9e, 0xd2,
-	0x2b, 0x8b, 0x22, 0x15, 0x15, 0x96, 0x99, 0x2e, 0x8a, 0x44, 0xd6, 0x1d, 0x8b, 0xc5, 0x08, 0xcb,
-	0xdf, 0x8a, 0x4f, 0xa4, 0xfd, 0x44, 0xa0, 0xba, 0xda, 0xc3, 0x3b, 0x17, 0x43, 0x28, 0xee, 0xf6,
-	0x62, 0x30, 0x65, 0x64, 0x42, 0xe7, 0x52, 0xc5, 0x0d, 0xc8, 0xbc, 0x83, 0x43, 0x33, 0xe0, 0x56,
-	0x03, 0xc7, 0xcb, 0xc0, 0x8b, 0x24, 0x65, 0x02, 0xfb, 0xcb, 0xc0, 0x7b, 0x3c, 0x81, 0x72, 0x76,
-	0x25, 0x50, 0x0b, 0x36, 0x46, 0x67, 0x83, 0xc1, 0x70, 0x34, 0xaa, 0xdd, 0xa3, 0xdb, 0xf0, 0x70,
-	0x74, 0xb0, 0xf7, 0x43, 0xef, 0xf4, 0x8c, 0x0d, 0xed, 0xef, 0x8f, 0xd9, 0x51, 0xef, 0xd4, 0x1e,
-	0x32, 0x76, 0xcc, 0x6a, 0x84, 0x7e, 0x00, 0xef, 0x0d, 0x8e, 0x8f, 0x4e, 0xce, 0x4e, 0x87, 0x76,
-	0xef, 0xd9, 0x33, 0x36, 0x1c, 0x8d, 0x22, 0x57, 0x8e, 0x6e, 0x82, 0x75, 0x7c, 0xba, 0x3f, 0x64,
-	0x11, 0xf0, 0xa0, 0xfb, 0x1d, 0x14, 0xe3, 0xcd, 0x4d, 0xbb, 0x60, 0xed, 0x09, 0x9d, 0x98, 0xb5,
-	0x95, 0xb5, 0xcf, 0xc4, 0x8b, 0xed, 0xad, 0x5b, 0x88, 0xf2, 0xbb, 0x5d, 0x28, 0xe0, 0x94, 0x37,
-	0xdf, 0xed, 0x9e, 0xd0, 0xe1, 0xb9, 0x92, 0x6e, 0x23, 0x43, 0xab, 0x66, 0x4d, 0xe5, 0xf7, 0x9f,
-	0x5e, 0x5d, 0x37, 0xc8, 0xaf, 0xd7, 0x0d, 0xf2, 0xe7, 0x75, 0x83, 0xbc, 0xbe, 0x69, 0x90, 0x5f,
-	0x6e, 0x1a, 0xe4, 0xea, 0xa6, 0x41, 0xc0, 0x72, 0x65, 0xc7, 0x4c, 0x44, 0x43, 0xe8, 0x17, 0xf7,
-	0x97, 0xe3, 0x13, 0x33, 0x8f, 0x4f, 0xc8, 0x8f, 0xe6, 0xa7, 0xdc, 0x78, 0x1d, 0xa7, 0xf3, 0x93,
-	0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x96, 0x3e, 0x26, 0x7e, 0xee, 0x09, 0x00, 0x00,
+	// 1126 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0x4f, 0x6f, 0x23, 0xc5,
+	0x13, 0xdd, 0xb6, 0xc7, 0x89, 0x5d, 0x63, 0x3b, 0x4e, 0xef, 0xfe, 0xf6, 0x67, 0x82, 0x70, 0x8c,
+	0x05, 0xc2, 0xbb, 0x02, 0x47, 0x0a, 0xd2, 0x22, 0xb8, 0x20, 0xdb, 0x31, 0x49, 0xa4, 0x84, 0x84,
+	0x71, 0xb2, 0x07, 0x2e, 0xa3, 0xb6, 0xa7, 0xed, 0x8c, 0x62, 0x4f, 0xcf, 0x4e, 0xf7, 0x64, 0xc5,
+	0x7e, 0x07, 0x24, 0x8e, 0xfb, 0x71, 0x38, 0xe6, 0x88, 0xe0, 0x0e, 0x28, 0xb9, 0x70, 0xe2, 0xca,
+	0x15, 0x75, 0xcd, 0x5f, 0x67, 0x73, 0x60, 0x11, 0x87, 0x48, 0x5d, 0xaf, 0xaa, 0x5e, 0x5e, 0x75,
+	0xb5, 0xab, 0x06, 0x1e, 0xf9, 0x81, 0x50, 0x42, 0xee, 0x5c, 0x84, 0x13, 0xfd, 0xd7, 0x43, 0x93,
+	0x16, 0x2f, 0xc2, 0xc9, 0xd6, 0x27, 0x73, 0x57, 0x69, 0x68, 0x2a, 0x96, 0x3b, 0x73, 0x31, 0x17,
+	0x3b, 0xe8, 0x9b, 0x84, 0x33, 0xb4, 0xd0, 0xc0, 0x53, 0x94, 0xb3, 0xb5, 0x3d, 0x17, 0x62, 0xbe,
+	0xe0, 0x59, 0x94, 0x72, 0x97, 0x5c, 0x2a, 0xb6, 0xf4, 0xa3, 0x80, 0xce, 0x17, 0x60, 0x8e, 0xb9,
+	0x52, 0xae, 0x37, 0x97, 0x16, 0x7f, 0x41, 0xeb, 0x50, 0x70, 0x9d, 0x26, 0x69, 0x93, 0x6e, 0xc5,
+	0x2a, 0xb8, 0x0e, 0x7d, 0x17, 0x2a, 0x01, 0x97, 0xbe, 0x2d, 0xdd, 0x57, 0xbc, 0x59, 0x68, 0x93,
+	0x6e, 0xc9, 0x2a, 0x6b, 0x60, 0xec, 0xbe, 0xe2, 0x9d, 0x9f, 0x09, 0x54, 0xb3, 0x64, 0xe9, 0xd3,
+	0x0f, 0xc1, 0x98, 0x0a, 0x87, 0x63, 0x7e, 0x7d, 0x77, 0xb3, 0xa7, 0x85, 0x6a, 0x87, 0xf0, 0x24,
+	0x1f, 0x0a, 0x87, 0x5b, 0xe8, 0xa6, 0x4d, 0x58, 0x5f, 0x72, 0x29, 0xd9, 0x3c, 0xa2, 0xac, 0x58,
+	0x89, 0x49, 0x0f, 0xa1, 0x16, 0xc4, 0xf1, 0xb6, 0x56, 0xda, 0x2c, 0xb6, 0x49, 0xd7, 0xdc, 0xdd,
+	0xea, 0x45, 0x65, 0xf4, 0x92, 0x32, 0x7a, 0x67, 0x49, 0x19, 0x83, 0xf2, 0xf5, 0xaf, 0xdb, 0x0f,
+	0x7e, 0xf8, 0x6d, 0x9b, 0x58, 0xd5, 0x24, 0x55, 0x3b, 0xe9, 0x33, 0xa8, 0xc9, 0x58, 0x9b, 0xed,
+	0x30, 0xc5, 0x9a, 0x06, 0x52, 0x45, 0xa2, 0x12, 0xd5, 0x7b, 0x4c, 0x31, 0xab, 0x2a, 0x73, 0x56,
+	0xe7, 0x8f, 0x5c, 0x51, 0x1a, 0xa0, 0x4f, 0x61, 0x53, 0x2a, 0x11, 0xb0, 0x39, 0xb7, 0xfd, 0xc0,
+	0x9d, 0x72, 0x9b, 0xc9, 0x4b, 0xac, 0x90, 0x58, 0x1b, 0xb1, 0xe3, 0x54, 0xe3, 0x7d, 0x79, 0x49,
+	0x7b, 0xf0, 0x70, 0xc2, 0x3c, 0xe7, 0xa5, 0xeb, 0xa8, 0x8b, 0x5c, 0x74, 0x01, 0xa3, 0x37, 0x53,
+	0x57, 0x1a, 0xdf, 0x85, 0x46, 0xc2, 0xad, 0xcb, 0xb5, 0x97, 0xae, 0x87, 0x25, 0x13, 0xab, 0x1e,
+	0xe3, 0xba, 0x96, 0x63, 0xd7, 0xa3, 0x1f, 0xc1, 0x46, 0xc6, 0xbc, 0x70, 0x97, 0xae, 0xc2, 0x82,
+	0x88, 0x55, 0x4f, 0xe1, 0x23, 0x8d, 0xd2, 0x27, 0xd0, 0x98, 0x8a, 0xc5, 0x82, 0x29, 0x1e, 0xb0,
+	0x85, 0x2d, 0x15, 0xbb, 0xe4, 0xcd, 0x52, 0xa4, 0x36, 0xc3, 0xc7, 0x1a, 0xee, 0x7c, 0x06, 0xe5,
+	0x03, 0x21, 0xd5, 0xdb, 0x37, 0xfe, 0x4f, 0x02, 0x95, 0x38, 0xf3, 0xbf, 0xe8, 0xfa, 0x07, 0x50,
+	0xba, 0xd0, 0x6c, 0x71, 0xb7, 0xeb, 0xc8, 0x80, 0xfc, 0xd8, 0x9f, 0xc8, 0xb9, 0xaa, 0xc8, 0x58,
+	0x55, 0x44, 0x29, 0x18, 0x4b, 0xad, 0xa1, 0x84, 0xcc, 0x78, 0x7e, 0xf3, 0x31, 0xad, 0xfd, 0xdb,
+	0xc7, 0xd4, 0xf9, 0x38, 0xae, 0x17, 0x1f, 0xc4, 0x76, 0x22, 0x97, 0xb4, 0x8b, 0x5d, 0x73, 0xb7,
+	0x92, 0xca, 0x8d, 0x95, 0x76, 0xfe, 0x2a, 0x81, 0xa1, 0x6d, 0xfa, 0x7f, 0x58, 0xf7, 0x84, 0xc3,
+	0xed, 0xf4, 0x66, 0xd7, 0xb4, 0x79, 0xe8, 0xd0, 0x11, 0x98, 0xd8, 0xef, 0x69, 0xc0, 0x99, 0x8a,
+	0xee, 0xe3, 0x9f, 0x0a, 0x03, 0x9d, 0x38, 0xc4, 0xbc, 0x94, 0x26, 0xf4, 0x1d, 0x4d, 0x53, 0x7c,
+	0x5b, 0x9a, 0x73, 0xcc, 0xcb, 0x64, 0xfa, 0x78, 0xaf, 0x89, 0x4c, 0x9f, 0x3e, 0x86, 0xb5, 0x80,
+	0xcf, 0x5d, 0xe1, 0xc5, 0xf7, 0x1a, 0x5b, 0xf4, 0x7d, 0xa8, 0x4e, 0xd4, 0x4c, 0xda, 0x57, 0x3c,
+	0x90, 0xda, 0xbb, 0x86, 0x5e, 0x53, 0x63, 0xcf, 0x23, 0x88, 0x3e, 0x82, 0x92, 0x9c, 0x8a, 0x80,
+	0x37, 0xd7, 0xdb, 0xa4, 0x5b, 0xb0, 0x22, 0x83, 0x6e, 0x83, 0x79, 0xc1, 0x59, 0xa0, 0xec, 0x09,
+	0x67, 0x4a, 0x36, 0xcb, 0x6d, 0xd2, 0x2d, 0x5a, 0x80, 0xd0, 0x40, 0x23, 0xfa, 0x3f, 0x86, 0x3e,
+	0x36, 0xab, 0x82, 0x79, 0xb1, 0x45, 0x1b, 0x50, 0xd4, 0x0f, 0x07, 0x30, 0x41, 0x1f, 0x69, 0x0b,
+	0x20, 0xe0, 0x7e, 0xa8, 0x98, 0xd2, 0x0a, 0x4c, 0x7c, 0xe1, 0x39, 0x84, 0xbe, 0x07, 0x10, 0xfa,
+	0x0b, 0xc1, 0x1c, 0x9b, 0x5d, 0xcd, 0x9b, 0x55, 0xf4, 0x57, 0x22, 0xa4, 0x7f, 0x35, 0xcf, 0xb9,
+	0xaf, 0x58, 0xd0, 0xac, 0xb5, 0x49, 0xd7, 0x48, 0xdc, 0xcf, 0x59, 0xa0, 0x2b, 0x74, 0xc4, 0x4b,
+	0x2f, 0xcd, 0xaf, 0x63, 0xbe, 0x99, 0x60, 0x9a, 0x21, 0x1f, 0xa2, 0x39, 0x36, 0x90, 0x23, 0x0d,
+	0xd1, 0x2c, 0x3b, 0x50, 0x5e, 0x88, 0x69, 0xa4, 0xb0, 0x81, 0xcd, 0xa9, 0xe1, 0x63, 0x39, 0x8a,
+	0xc1, 0x81, 0xa1, 0xfb, 0x61, 0xa5, 0x41, 0xf4, 0x73, 0xa8, 0x26, 0xf3, 0xc0, 0xf5, 0x66, 0xa2,
+	0xb9, 0x89, 0x49, 0x8d, 0x68, 0x66, 0x45, 0x8e, 0x43, 0x6f, 0x26, 0xe2, 0x3c, 0x53, 0x66, 0x10,
+	0xfd, 0x12, 0xb2, 0x49, 0x10, 0x25, 0x53, 0x4c, 0xa6, 0x98, 0x3c, 0x48, 0x5c, 0xb9, 0xf4, 0xda,
+	0x24, 0x0f, 0xd2, 0x01, 0xe4, 0x06, 0x44, 0xc4, 0xf0, 0x10, 0x19, 0x1e, 0x22, 0xc3, 0x30, 0xf5,
+	0xe5, 0x28, 0xea, 0xd3, 0x15, 0xb4, 0xd3, 0x83, 0x72, 0x52, 0x9b, 0x6e, 0xd9, 0x82, 0xa9, 0x78,
+	0x52, 0xea, 0x23, 0x22, 0xc2, 0x8b, 0xa7, 0xa1, 0x3e, 0x76, 0x7e, 0x21, 0x60, 0xe6, 0xea, 0xd2,
+	0xef, 0x23, 0xa9, 0x7f, 0xca, 0x7c, 0xcc, 0x35, 0x2c, 0x88, 0xa1, 0x21, 0xf3, 0xf5, 0xa5, 0x27,
+	0x01, 0x0b, 0x3e, 0x53, 0xc8, 0x65, 0xa4, 0x17, 0x71, 0xc4, 0x67, 0x2a, 0x3f, 0x53, 0x97, 0xae,
+	0x97, 0xad, 0x11, 0x23, 0x9d, 0xa9, 0xc7, 0xae, 0x87, 0x2b, 0x22, 0x37, 0xd9, 0x99, 0xbc, 0x8c,
+	0xe6, 0x35, 0xfe, 0x02, 0x8c, 0x74, 0xb2, 0xf7, 0xe5, 0x25, 0x0e, 0xeb, 0x37, 0xb7, 0x00, 0x97,
+	0x0a, 0x7f, 0x15, 0xc6, 0xea, 0x16, 0x18, 0x49, 0xd5, 0x79, 0x4d, 0xa0, 0xb6, 0x72, 0xe1, 0xf7,
+	0x4d, 0x6f, 0x72, 0xef, 0xf4, 0x5e, 0x59, 0x20, 0x99, 0xa8, 0xa8, 0xcc, 0x6c, 0x81, 0xa4, 0xb2,
+	0xee, 0x59, 0x38, 0x5a, 0x58, 0xf1, 0x4e, 0x7c, 0x2a, 0xed, 0x7b, 0x02, 0xf5, 0xd5, 0x4e, 0xde,
+	0xbb, 0x30, 0xa2, 0x8b, 0xbf, 0xbb, 0x30, 0x74, 0x19, 0xb9, 0xd0, 0x85, 0x90, 0x49, 0x03, 0x72,
+	0xef, 0xe0, 0x48, 0x0f, 0xbe, 0xd5, 0xc0, 0x49, 0x18, 0x78, 0x49, 0x0b, 0x32, 0x78, 0x10, 0x06,
+	0xde, 0xd3, 0x29, 0x54, 0xf3, 0xab, 0x82, 0x9a, 0xb0, 0x3e, 0x3e, 0x1f, 0x0e, 0x47, 0xe3, 0x71,
+	0xe3, 0x01, 0xdd, 0x82, 0xc7, 0xe3, 0xc3, 0xfd, 0xaf, 0xfb, 0x67, 0xe7, 0xd6, 0xc8, 0xfe, 0xea,
+	0xc4, 0x3a, 0xee, 0x9f, 0xd9, 0x23, 0xcb, 0x3a, 0xb1, 0x1a, 0x84, 0xbe, 0x03, 0xff, 0x1b, 0x9e,
+	0x1c, 0x9f, 0x9e, 0x9f, 0x8d, 0xec, 0xfe, 0xde, 0x9e, 0x35, 0x1a, 0x8f, 0x63, 0x57, 0x81, 0x6e,
+	0x80, 0x79, 0x72, 0x76, 0x30, 0xb2, 0x62, 0xe0, 0xd1, 0xae, 0x0b, 0xe5, 0x83, 0x70, 0xf2, 0x4d,
+	0xc8, 0x83, 0xef, 0xe8, 0x2e, 0x98, 0xfb, 0x5c, 0x25, 0x0b, 0x9e, 0x36, 0x56, 0x3e, 0x07, 0x2c,
+	0xfe, 0x62, 0x6b, 0xf3, 0x0e, 0x22, 0x7d, 0xfa, 0x04, 0xca, 0xfb, 0x5c, 0xe1, 0x02, 0xa0, 0xb5,
+	0x6c, 0x39, 0xe9, 0xe8, 0x7a, 0xde, 0x94, 0xfe, 0xe0, 0xd9, 0xf5, 0x4d, 0x8b, 0xfc, 0x74, 0xd3,
+	0x22, 0xbf, 0xdf, 0xb4, 0xc8, 0xeb, 0xdb, 0x16, 0xf9, 0xf1, 0xb6, 0x45, 0xae, 0x6f, 0x5b, 0x04,
+	0x4c, 0x57, 0xf4, 0xf4, 0x80, 0xd4, 0x09, 0x03, 0xad, 0xe7, 0x54, 0x8f, 0xe7, 0x53, 0xf2, 0xad,
+	0xfe, 0xac, 0x9b, 0xac, 0xe1, 0xb0, 0xfe, 0xf4, 0xef, 0x00, 0x00, 0x00, 0xff, 0xff, 0x1c, 0xb8,
+	0x3b, 0xd3, 0xfa, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1065,144 +1066,108 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// SettingsClient is the client API for Settings service.
+// HubQueryClient is the client API for HubQuery service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type SettingsClient interface {
+type HubQueryClient interface {
 	GetSettings(ctx context.Context, in *SettingsReq, opts ...grpc.CallOption) (*SettingsResp, error)
+	GetHosts(ctx context.Context, in *HostsReq, opts ...grpc.CallOption) (*HostsResp, error)
 }
 
-type settingsClient struct {
+type hubQueryClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewSettingsClient(cc *grpc.ClientConn) SettingsClient {
-	return &settingsClient{cc}
+func NewHubQueryClient(cc *grpc.ClientConn) HubQueryClient {
+	return &hubQueryClient{cc}
 }
 
-func (c *settingsClient) GetSettings(ctx context.Context, in *SettingsReq, opts ...grpc.CallOption) (*SettingsResp, error) {
+func (c *hubQueryClient) GetSettings(ctx context.Context, in *SettingsReq, opts ...grpc.CallOption) (*SettingsResp, error) {
 	out := new(SettingsResp)
-	err := c.cc.Invoke(ctx, "/hub.Settings/GetSettings", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/hub.HubQuery/GetSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SettingsServer is the server API for Settings service.
-type SettingsServer interface {
+func (c *hubQueryClient) GetHosts(ctx context.Context, in *HostsReq, opts ...grpc.CallOption) (*HostsResp, error) {
+	out := new(HostsResp)
+	err := c.cc.Invoke(ctx, "/hub.HubQuery/GetHosts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// HubQueryServer is the server API for HubQuery service.
+type HubQueryServer interface {
 	GetSettings(context.Context, *SettingsReq) (*SettingsResp, error)
+	GetHosts(context.Context, *HostsReq) (*HostsResp, error)
 }
 
-// UnimplementedSettingsServer can be embedded to have forward compatible implementations.
-type UnimplementedSettingsServer struct {
+// UnimplementedHubQueryServer can be embedded to have forward compatible implementations.
+type UnimplementedHubQueryServer struct {
 }
 
-func (*UnimplementedSettingsServer) GetSettings(ctx context.Context, req *SettingsReq) (*SettingsResp, error) {
+func (*UnimplementedHubQueryServer) GetSettings(ctx context.Context, req *SettingsReq) (*SettingsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
 }
-
-func RegisterSettingsServer(s *grpc.Server, srv SettingsServer) {
-	s.RegisterService(&_Settings_serviceDesc, srv)
+func (*UnimplementedHubQueryServer) GetHosts(ctx context.Context, req *HostsReq) (*HostsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHosts not implemented")
 }
 
-func _Settings_GetSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func RegisterHubQueryServer(s *grpc.Server, srv HubQueryServer) {
+	s.RegisterService(&_HubQuery_serviceDesc, srv)
+}
+
+func _HubQuery_GetSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SettingsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SettingsServer).GetSettings(ctx, in)
+		return srv.(HubQueryServer).GetSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/hub.Settings/GetSettings",
+		FullMethod: "/hub.HubQuery/GetSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SettingsServer).GetSettings(ctx, req.(*SettingsReq))
+		return srv.(HubQueryServer).GetSettings(ctx, req.(*SettingsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Settings_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "hub.Settings",
-	HandlerType: (*SettingsServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetSettings",
-			Handler:    _Settings_GetSettings_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/hub/hub.proto",
-}
-
-// HostsClient is the client API for Hosts service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type HostsClient interface {
-	GetHosts(ctx context.Context, in *HostsReq, opts ...grpc.CallOption) (*HostsResp, error)
-}
-
-type hostsClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewHostsClient(cc *grpc.ClientConn) HostsClient {
-	return &hostsClient{cc}
-}
-
-func (c *hostsClient) GetHosts(ctx context.Context, in *HostsReq, opts ...grpc.CallOption) (*HostsResp, error) {
-	out := new(HostsResp)
-	err := c.cc.Invoke(ctx, "/hub.Hosts/GetHosts", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// HostsServer is the server API for Hosts service.
-type HostsServer interface {
-	GetHosts(context.Context, *HostsReq) (*HostsResp, error)
-}
-
-// UnimplementedHostsServer can be embedded to have forward compatible implementations.
-type UnimplementedHostsServer struct {
-}
-
-func (*UnimplementedHostsServer) GetHosts(ctx context.Context, req *HostsReq) (*HostsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetHosts not implemented")
-}
-
-func RegisterHostsServer(s *grpc.Server, srv HostsServer) {
-	s.RegisterService(&_Hosts_serviceDesc, srv)
-}
-
-func _Hosts_GetHosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _HubQuery_GetHosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(HostsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HostsServer).GetHosts(ctx, in)
+		return srv.(HubQueryServer).GetHosts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/hub.Hosts/GetHosts",
+		FullMethod: "/hub.HubQuery/GetHosts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HostsServer).GetHosts(ctx, req.(*HostsReq))
+		return srv.(HubQueryServer).GetHosts(ctx, req.(*HostsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Hosts_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "hub.Hosts",
-	HandlerType: (*HostsServer)(nil),
+var _HubQuery_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "hub.HubQuery",
+	HandlerType: (*HubQueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetSettings",
+			Handler:    _HubQuery_GetSettings_Handler,
+		},
+		{
 			MethodName: "GetHosts",
-			Handler:    _Hosts_GetHosts_Handler,
+			Handler:    _HubQuery_GetHosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1539,91 +1504,81 @@ func (m *Host) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.CollateralInfo != nil {
-		{
-			size, err := m.CollateralInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintHub(dAtA, i, uint64(size))
+	{
+		size, err := m.CollateralInfo.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x9a
+		i -= size
+		i = encodeVarintHub(dAtA, i, uint64(size))
 	}
-	if m.BandwidthInfo != nil {
-		{
-			size, err := m.BandwidthInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintHub(dAtA, i, uint64(size))
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0x9a
+	{
+		size, err := m.BandwidthInfo.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x92
+		i -= size
+		i = encodeVarintHub(dAtA, i, uint64(size))
 	}
-	if m.StorageInfo != nil {
-		{
-			size, err := m.StorageInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintHub(dAtA, i, uint64(size))
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0x92
+	{
+		size, err := m.StorageInfo.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x8a
+		i -= size
+		i = encodeVarintHub(dAtA, i, uint64(size))
 	}
-	if m.Location != nil {
-		{
-			size, err := m.Location.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintHub(dAtA, i, uint64(size))
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0x8a
+	{
+		size, err := m.Location.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x82
+		i -= size
+		i = encodeVarintHub(dAtA, i, uint64(size))
 	}
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0x82
 	if m.DownloadVar != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.DownloadVar))))
+		i = encodeVarintHub(dAtA, i, uint64(m.DownloadVar))
 		i--
-		dAtA[i] = 0x7d
+		dAtA[i] = 0x78
 	}
 	if m.DownloadAvg != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.DownloadAvg))))
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.DownloadAvg))))
 		i--
-		dAtA[i] = 0x75
+		dAtA[i] = 0x71
 	}
 	if m.UploadVar != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.UploadVar))))
+		i = encodeVarintHub(dAtA, i, uint64(m.UploadVar))
 		i--
-		dAtA[i] = 0x6d
+		dAtA[i] = 0x68
 	}
 	if m.UploadAvg != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.UploadAvg))))
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.UploadAvg))))
 		i--
-		dAtA[i] = 0x65
+		dAtA[i] = 0x61
 	}
 	if m.Reputation != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.Reputation))))
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Reputation))))
 		i--
-		dAtA[i] = 0x5d
+		dAtA[i] = 0x59
 	}
 	if m.Age != 0 {
 		i = encodeVarintHub(dAtA, i, uint64(m.Age))
@@ -1758,16 +1713,14 @@ func (m *StorageInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.StoragePriceEst != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.StoragePriceEst))))
+		i = encodeVarintHub(dAtA, i, uint64(m.StoragePriceEst))
 		i--
-		dAtA[i] = 0x2d
+		dAtA[i] = 0x28
 	}
 	if m.StorageAskPrice != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.StorageAskPrice))))
+		i = encodeVarintHub(dAtA, i, uint64(m.StorageAskPrice))
 		i--
-		dAtA[i] = 0x25
+		dAtA[i] = 0x20
 	}
 	if m.StorageMinTime != 0 {
 		i = encodeVarintHub(dAtA, i, uint64(m.StorageMinTime))
@@ -1775,16 +1728,14 @@ func (m *StorageInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x18
 	}
 	if m.StorageLeft != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.StorageLeft))))
+		i = encodeVarintHub(dAtA, i, uint64(m.StorageLeft))
 		i--
-		dAtA[i] = 0x15
+		dAtA[i] = 0x10
 	}
 	if m.StorageCap != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.StorageCap))))
+		i = encodeVarintHub(dAtA, i, uint64(m.StorageCap))
 		i--
-		dAtA[i] = 0xd
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -1814,22 +1765,20 @@ func (m *BandwidthInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.BandwidthPriceEst != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.BandwidthPriceEst))))
+		i = encodeVarintHub(dAtA, i, uint64(m.BandwidthPriceEst))
 		i--
-		dAtA[i] = 0x1d
+		dAtA[i] = 0x18
 	}
 	if m.BandwidthAskPrice != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.BandwidthAskPrice))))
+		i = encodeVarintHub(dAtA, i, uint64(m.BandwidthAskPrice))
 		i--
-		dAtA[i] = 0x15
+		dAtA[i] = 0x10
 	}
 	if m.BandwidthLimit != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.BandwidthLimit))))
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.BandwidthLimit))))
 		i--
-		dAtA[i] = 0xd
+		dAtA[i] = 0x9
 	}
 	return len(dAtA) - i, nil
 }
@@ -1859,22 +1808,19 @@ func (m *CollateralInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.CollateralBurn != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.CollateralBurn))))
+		i = encodeVarintHub(dAtA, i, uint64(m.CollateralBurn))
 		i--
-		dAtA[i] = 0x1d
+		dAtA[i] = 0x18
 	}
 	if m.CollateralLost != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.CollateralLost))))
+		i = encodeVarintHub(dAtA, i, uint64(m.CollateralLost))
 		i--
-		dAtA[i] = 0x15
+		dAtA[i] = 0x10
 	}
 	if m.CollateralStake != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.CollateralStake))))
+		i = encodeVarintHub(dAtA, i, uint64(m.CollateralStake))
 		i--
-		dAtA[i] = 0xd
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -2069,36 +2015,28 @@ func (m *Host) Size() (n int) {
 		n += 1 + sovHub(uint64(m.Age))
 	}
 	if m.Reputation != 0 {
-		n += 5
+		n += 9
 	}
 	if m.UploadAvg != 0 {
-		n += 5
+		n += 9
 	}
 	if m.UploadVar != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.UploadVar))
 	}
 	if m.DownloadAvg != 0 {
-		n += 5
+		n += 9
 	}
 	if m.DownloadVar != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.DownloadVar))
 	}
-	if m.Location != nil {
-		l = m.Location.Size()
-		n += 2 + l + sovHub(uint64(l))
-	}
-	if m.StorageInfo != nil {
-		l = m.StorageInfo.Size()
-		n += 2 + l + sovHub(uint64(l))
-	}
-	if m.BandwidthInfo != nil {
-		l = m.BandwidthInfo.Size()
-		n += 2 + l + sovHub(uint64(l))
-	}
-	if m.CollateralInfo != nil {
-		l = m.CollateralInfo.Size()
-		n += 2 + l + sovHub(uint64(l))
-	}
+	l = m.Location.Size()
+	n += 2 + l + sovHub(uint64(l))
+	l = m.StorageInfo.Size()
+	n += 2 + l + sovHub(uint64(l))
+	l = m.BandwidthInfo.Size()
+	n += 2 + l + sovHub(uint64(l))
+	l = m.CollateralInfo.Size()
+	n += 2 + l + sovHub(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -2130,19 +2068,19 @@ func (m *StorageInfo) Size() (n int) {
 	var l int
 	_ = l
 	if m.StorageCap != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.StorageCap))
 	}
 	if m.StorageLeft != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.StorageLeft))
 	}
 	if m.StorageMinTime != 0 {
 		n += 1 + sovHub(uint64(m.StorageMinTime))
 	}
 	if m.StorageAskPrice != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.StorageAskPrice))
 	}
 	if m.StoragePriceEst != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.StoragePriceEst))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2157,13 +2095,13 @@ func (m *BandwidthInfo) Size() (n int) {
 	var l int
 	_ = l
 	if m.BandwidthLimit != 0 {
-		n += 5
+		n += 9
 	}
 	if m.BandwidthAskPrice != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.BandwidthAskPrice))
 	}
 	if m.BandwidthPriceEst != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.BandwidthPriceEst))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2178,13 +2116,13 @@ func (m *CollateralInfo) Size() (n int) {
 	var l int
 	_ = l
 	if m.CollateralStake != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.CollateralStake))
 	}
 	if m.CollateralLost != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.CollateralLost))
 	}
 	if m.CollateralBurn != 0 {
-		n += 5
+		n += 1 + sovHub(uint64(m.CollateralBurn))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -3288,60 +3226,76 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 11:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Reputation", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.Reputation = float32(math.Float32frombits(v))
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Reputation = float64(math.Float64frombits(v))
 		case 12:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UploadAvg", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.UploadAvg = float32(math.Float32frombits(v))
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.UploadAvg = float64(math.Float64frombits(v))
 		case 13:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UploadVar", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.UploadVar = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.UploadVar |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.UploadVar = float32(math.Float32frombits(v))
 		case 14:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DownloadAvg", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.DownloadAvg = float32(math.Float32frombits(v))
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.DownloadAvg = float64(math.Float64frombits(v))
 		case 15:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DownloadVar", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.DownloadVar = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.DownloadVar |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.DownloadVar = float32(math.Float32frombits(v))
 		case 16:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Location", wireType)
@@ -3370,9 +3324,6 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
-			}
-			if m.Location == nil {
-				m.Location = &Location{}
 			}
 			if err := m.Location.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -3407,9 +3358,6 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.StorageInfo == nil {
-				m.StorageInfo = &StorageInfo{}
-			}
 			if err := m.StorageInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -3443,9 +3391,6 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.BandwidthInfo == nil {
-				m.BandwidthInfo = &BandwidthInfo{}
-			}
 			if err := m.BandwidthInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -3478,9 +3423,6 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
-			}
-			if m.CollateralInfo == nil {
-				m.CollateralInfo = &CollateralInfo{}
 			}
 			if err := m.CollateralInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -3617,27 +3559,43 @@ func (m *StorageInfo) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageCap", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.StorageCap = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StorageCap |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.StorageCap = float32(math.Float32frombits(v))
 		case 2:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageLeft", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.StorageLeft = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StorageLeft |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.StorageLeft = float32(math.Float32frombits(v))
 		case 3:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageMinTime", wireType)
@@ -3652,33 +3610,49 @@ func (m *StorageInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.StorageMinTime |= int64(b&0x7F) << shift
+				m.StorageMinTime |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 4:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StorageAskPrice", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.StorageAskPrice = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StorageAskPrice |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.StorageAskPrice = float32(math.Float32frombits(v))
 		case 5:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StoragePriceEst", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.StoragePriceEst = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StoragePriceEst |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.StoragePriceEst = float32(math.Float32frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHub(dAtA[iNdEx:])
@@ -3734,38 +3708,54 @@ func (m *BandwidthInfo) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field BandwidthLimit", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.BandwidthLimit = float32(math.Float32frombits(v))
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.BandwidthLimit = float64(math.Float64frombits(v))
 		case 2:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field BandwidthAskPrice", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.BandwidthAskPrice = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.BandwidthAskPrice |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.BandwidthAskPrice = float32(math.Float32frombits(v))
 		case 3:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field BandwidthPriceEst", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.BandwidthPriceEst = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.BandwidthPriceEst |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.BandwidthPriceEst = float32(math.Float32frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHub(dAtA[iNdEx:])
@@ -3821,38 +3811,62 @@ func (m *CollateralInfo) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CollateralStake", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.CollateralStake = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CollateralStake |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.CollateralStake = float32(math.Float32frombits(v))
 		case 2:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CollateralLost", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.CollateralLost = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CollateralLost |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.CollateralLost = float32(math.Float32frombits(v))
 		case 3:
-			if wireType != 5 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CollateralBurn", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
+			m.CollateralBurn = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHub
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CollateralBurn |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.CollateralBurn = float32(math.Float32frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHub(dAtA[iNdEx:])

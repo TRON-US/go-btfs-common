@@ -1,10 +1,14 @@
-package utils
+package grpc
 
 import (
 	"context"
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"github.com/tron-us/go-btfs-common/protos/escrow"
+	"github.com/tron-us/go-btfs-common/protos/guard"
+	"github.com/tron-us/go-btfs-common/protos/hub"
+	"github.com/tron-us/go-btfs-common/protos/status"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
@@ -16,57 +20,67 @@ import (
 )
 
 const (
-	defaultSchema = "http"
-	defaultName   = "default"
+	defaultSchema  = "http"
+	defaultTimeout = 30 * time.Second
 )
 
 var (
 	domainRegexp = regexp.MustCompile(`^(localhost)|([a-zA-Z0-9-]{1,63}\.)+([a-zA-Z]{1,63})$`)
 	ipv4Regexp   = regexp.MustCompile(`^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$`)
-	dialTimeouts = map[string]time.Duration{
-		GUARD:         30 * time.Second,
-		ESCROW:        30 * time.Second,
-		HUB:           30 * time.Second,
-		STATUS_SERVER: 30 * time.Second,
-		defaultName:   30 * time.Second,
-	}
 )
 
-type parsedURL struct {
-	schema string
-	host   string
-	port   int
-}
-
-// WithContextTimeout get grpc connection with a default timeout
-func GRPCWithContextTimeout(ctx context.Context, address string, f func(ctx context.Context,
-	conn *grpc.ClientConn) error) error {
-	en := WhoAmI()
-	if en == "" {
-		en = defaultName
+func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error {
+	newCtx, cancel := context.WithTimeout(ctx, g.timeout)
+	if cancel != nil {
+		defer cancel()
 	}
-	newCtx, cancel := context.WithTimeout(ctx, dialTimeouts[en])
-	conn, err := newGRPCConn(newCtx, address)
+	conn, err := newGRPCConn(newCtx, g.addr)
+	if conn != nil {
+		defer conn.Close()
+	}
 	if err != nil {
 		return err
 	}
 	if conn == nil || conn.GetState() != connectivity.Ready {
 		return errors.New("failed to get connection")
 	}
-	defer conn.Close()
-	if cancel != nil {
-		defer cancel()
+	switch f.(type) {
+	case func(client status.StatusClient) error:
+		return f.(func(client status.StatusClient) error)(status.NewStatusClient(conn))
+	case func(client hub.HubQueryClient) error:
+		return f.(func(client hub.HubQueryClient) error)(hub.NewHubQueryClient(conn))
+	case func(client guard.GuardServiceClient) error:
+		return f.(func(client guard.GuardServiceClient) error)(guard.NewGuardServiceClient(conn))
+	case func(client escrow.EscrowServiceClient) error:
+		return f.(func(client escrow.EscrowServiceClient) error)(escrow.NewEscrowServiceClient(conn))
+	default:
+		return fmt.Errorf("illegal function: %T", f)
 	}
-	return f(ctx, conn)
 }
 
-func newGRPCConn(ctx context.Context, address string) (*grpc.ClientConn, error) {
-	u, err := parse(address)
+type ClientBuilder struct {
+	addr    string
+	timeout time.Duration
+}
+
+func (b *ClientBuilder) Timeout(to time.Duration) *ClientBuilder {
+	b.timeout = to
+	return b
+}
+
+func builder(address string) *ClientBuilder {
+	return &ClientBuilder{
+		addr:    address,
+		timeout: defaultTimeout,
+	}
+}
+
+func newGRPCConn(ctx context.Context, addr string) (*grpc.ClientConn, error) {
+	u, err := parse(addr)
 	if err != nil {
 		return nil, err
 	}
-	opts := make([]grpc.DialOption, 0)
-	opts = append(opts, grpc.WithBlock())
+	opts := []grpc.DialOption{grpc.WithBlock()}
 	if u.schema == "http" {
 		opts = append(opts, grpc.WithInsecure())
 	} else if u.schema == "https" {
@@ -122,15 +136,18 @@ func checkHost(host string) error {
 	if host == "" {
 		return errors.New("empty host")
 	}
-
 	host = strings.ToLower(host)
 	if domainRegexp.MatchString(host) {
 		return nil
 	}
-
 	if ipv4Regexp.MatchString(host) {
 		return nil
 	}
-
 	return fmt.Errorf("invalid host: %v", host)
+}
+
+type parsedURL struct {
+	schema string
+	host   string
+	port   int
 }

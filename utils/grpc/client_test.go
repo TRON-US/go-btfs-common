@@ -1,41 +1,11 @@
-package utils
+package grpc
 
 import (
 	"context"
-	"errors"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"testing"
 	"time"
 )
-
-func TestGRPCWithContextTimeout(t *testing.T) {
-	f := func(ctx context.Context, conn *grpc.ClientConn) error {
-		return nil
-	}
-	tests := []struct {
-		addr string
-		f    func(ctx context.Context, conn *grpc.ClientConn) error
-		err  bool
-	}{
-		{addr: "ftp://db-grpc-dev.btfs.io", f: f, err: true},
-		{addr: "http://db-grpc-dev.btfs.io:443", f: f, err: true},
-		{addr: "https://db-grpc-dev.btfs.io", f: func(ctx context.Context, conn *grpc.ClientConn) error {
-			return errors.New("just an error")
-		}, err: true},
-		{addr: "https://db-grpc-dev.btfs.io", f: f, err: false},
-	}
-	for _, tt := range tests {
-		err := GRPCWithContextTimeout(context.Background(), tt.addr, tt.f)
-		if !tt.err && err != nil {
-			t.Errorf(`%v, %T: unexpected error "%v"`, tt.addr, tt.f, err)
-			continue
-		}
-		if tt.err && err == nil {
-			t.Errorf(`%v, %T: expected error`, tt.addr, tt.f)
-		}
-	}
-}
 
 func TestNewGRPCConn(t *testing.T) {
 	tests := []struct {
