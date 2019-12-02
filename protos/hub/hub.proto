@@ -16,14 +16,11 @@ option java_multiple_files = true;
 option java_outer_classname = "HubProto";
 option java_package = "io.btfs.hub";
 
-import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-service Settings {
+service HubQuery {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
-}
-
-service Hosts {
   rpc GetHosts(HostsReq) returns (HostsResp);
 }
 
@@ -80,11 +77,11 @@ message HostsData {
 
 message Host {
   string node_id = 1;
-  google.protobuf.Timestamp time_create = 2 [
+  google.protobuf.Timestamp create_timestamp = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  google.protobuf.Timestamp time_update = 3 [
+  google.protobuf.Timestamp update_timestamp = 3 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
@@ -96,37 +93,25 @@ message Host {
   float uptime = 9;
   int64 age = 10;
   float reputation = 11;
-  float upload_avg = 12;
-  float upload_var = 13;
-  float download_avg = 14;
-  float download_var = 15;
-  Location location = 16;
-  StorageInfo storage_info = 17;
-  BandwidthInfo bandwidth_info = 18;
-  CollateralInfo collateral_info = 19;
+  float upload_average = 12;
+  float upload_variance = 13;
+  float download_average = 14;
+  float download_variance = 15;
+  Location location = 16 [(gogoproto.nullable) = false];
+  float storage_volume_cap = 17;
+  float storage_volume_left = 18;
+  uint64 storage_time_min = 19;
+  float storage_price_ask = 20;
+  float storage_price_est = 21;
+  double bandwidth_limit = 22;
+  float bandwidth_price_ask = 23;
+  float bandwidth_price_est = 24;
+  uint64 collateral_stake = 25;
+  uint64 collateral_lost = 26;
+  uint64 collateral_burn = 27;
 }
 
 message Location {
   double lat = 1;
   double lon = 2;
-}
-
-message StorageInfo {
-  float storage_cap = 1;
-  float storage_left = 2;
-  int64 storage_min_time = 3;
-  float storage_ask_price = 4;
-  float storage_price_est = 5;
-}
-
-message BandwidthInfo {
-  float bandwidth_limit = 1;
-  float bandwidth_ask_price = 2;
-  float bandwidth_price_est = 3;
-}
-
-message CollateralInfo {
-  float collateral_stake = 1;
-  float collateral_lost = 2;
-  float collateral_burn = 3;
 }
