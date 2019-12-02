@@ -43,4 +43,7 @@ COPY . $SRC_DIR
 WORKDIR $SRC_DIR
 
 # need to run trongogo before make build
-CMD make trongogo build
+RUN make trongogo build
+
+# by default check protos dir for diffs
+CMD make test_git_diff_protos 

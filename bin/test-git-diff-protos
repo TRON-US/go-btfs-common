@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+git --no-pager diff protos/ >> diffs.txt
+if [ -n "$(cat diffs.txt)" ]; then
+	echo "The following protos have changed."
+	echo "-----------------------------------"
+	cat diffs.txt
+	echo "-----------------------------------"
+	echo "Please regenerate code so protos are consistent with Master."
+	rm -f diffs.txt
+	exit 1
+fi
+rm -f diffs.txt
+

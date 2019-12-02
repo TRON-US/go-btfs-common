@@ -40,8 +40,8 @@ pgfix:
 ifeq ($(UNAME), Linux)
 	for pb in  $(PG_FIX_CANDIDATES); \
 	do \
-	sed -ne 's/TableName/tableName/g' $$pb; \
-	sed -ne 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
+	sed -in 's/TableName/tableName/g' $$pb; \
+	sed -in 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
 	done
 endif 
 ifeq ($(UNAME), Darwin)
@@ -64,3 +64,6 @@ test:
 	brew services stop postgresql
 	brew services stop redis
 
+test_git_diff_protos: 
+	bin/test-git-diff-protos
+.PHONY: test_git_dif_protos
