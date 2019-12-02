@@ -45,14 +45,14 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return errors.New("failed to get connection")
 	}
 	switch f.(type) {
-	case func(client status.StatusClient) error:
-		return f.(func(client status.StatusClient) error)(status.NewStatusClient(conn))
-	case func(client hub.HubQueryClient) error:
-		return f.(func(client hub.HubQueryClient) error)(hub.NewHubQueryClient(conn))
-	case func(client guard.GuardServiceClient) error:
-		return f.(func(client guard.GuardServiceClient) error)(guard.NewGuardServiceClient(conn))
-	case func(client escrow.EscrowServiceClient) error:
-		return f.(func(client escrow.EscrowServiceClient) error)(escrow.NewEscrowServiceClient(conn))
+	case func(context.Context, status.StatusClient) error:
+		return f.(func(context.Context, status.StatusClient) error)(ctx, status.NewStatusClient(conn))
+	case func(context.Context, hub.HubQueryClient) error:
+		return f.(func(context.Context, hub.HubQueryClient) error)(ctx, hub.NewHubQueryClient(conn))
+	case func(context.Context, guard.GuardServiceClient) error:
+		return f.(func(context.Context, guard.GuardServiceClient) error)(ctx, guard.NewGuardServiceClient(conn))
+	case func(context.Context, escrow.EscrowServiceClient) error:
+		return f.(func(context.Context, escrow.EscrowServiceClient) error)(ctx, escrow.NewEscrowServiceClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
@@ -68,8 +68,8 @@ func (b *ClientBuilder) Timeout(to time.Duration) *ClientBuilder {
 	return b
 }
 
-func builder(address string) *ClientBuilder {
-	return &ClientBuilder{
+func builder(address string) ClientBuilder {
+	return ClientBuilder{
 		addr:    address,
 		timeout: defaultTimeout,
 	}

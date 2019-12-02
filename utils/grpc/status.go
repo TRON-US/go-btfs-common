@@ -5,14 +5,14 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/status"
 )
 
-func StatusClient(addr string) *ClientBuilder {
-	return builder(addr)
+func StatusClient(addr string) *StatusClientBuilder {
+	return &StatusClientBuilder{builder(addr)}
 }
 
 type StatusClientBuilder struct {
 	ClientBuilder
 }
 
-func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(client status.StatusClient) error) error {
+func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context, client status.StatusClient) error) error {
 	return g.doWithContext(ctx, f)
 }

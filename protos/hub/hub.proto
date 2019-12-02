@@ -77,11 +77,11 @@ message HostsData {
 
 message Host {
   string node_id = 1;
-  google.protobuf.Timestamp time_create = 2 [
+  google.protobuf.Timestamp create_timestamp = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  google.protobuf.Timestamp time_update = 3 [
+  google.protobuf.Timestamp update_timestamp = 3 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
@@ -92,38 +92,26 @@ message Host {
   int64 heart_beats = 8;
   float uptime = 9;
   int64 age = 10;
-  double reputation = 11;
-  double upload_avg = 12;
-  uint64 upload_var = 13;
-  double download_avg = 14;
-  uint64 download_var = 15;
+  float reputation = 11;
+  float upload_average = 12;
+  float upload_variance = 13;
+  float download_average = 14;
+  float download_variance = 15;
   Location location = 16 [(gogoproto.nullable) = false];
-  StorageInfo storage_info = 17 [(gogoproto.nullable) = false];
-  BandwidthInfo bandwidth_info = 18 [(gogoproto.nullable) = false];
-  CollateralInfo collateral_info = 19 [(gogoproto.nullable) = false];
+  float storage_volume_cap = 17;
+  float storage_volume_left = 18;
+  uint64 storage_time_min = 19;
+  float storage_price_ask = 20;
+  float storage_price_est = 21;
+  double bandwidth_limit = 22;
+  float bandwidth_price_ask = 23;
+  float bandwidth_price_est = 24;
+  uint64 collateral_stake = 25;
+  uint64 collateral_lost = 26;
+  uint64 collateral_burn = 27;
 }
 
 message Location {
   double lat = 1;
   double lon = 2;
-}
-
-message StorageInfo {
-  uint64 storage_cap = 1;
-  uint64 storage_left = 2;
-  uint64 storage_min_time = 3;
-  uint64 storage_ask_price = 4;
-  uint64 storage_price_est = 5;
-}
-
-message BandwidthInfo {
-  double bandwidth_limit = 1;
-  uint64 bandwidth_ask_price = 2;
-  uint64 bandwidth_price_est = 3;
-}
-
-message CollateralInfo {
-  uint64 collateral_stake = 1;
-  uint64 collateral_lost = 2;
-  uint64 collateral_burn = 3;
 }
