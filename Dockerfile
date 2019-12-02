@@ -1,15 +1,13 @@
 FROM golang:1.13-stretch
 
 MAINTAINER TRON-US <support@tron.network>
-# Dockerfile.unit_testing will build an image to run the go unit tests.
-# Use the regular Dockerfile to run a btfs daemon instead
+# Dockerfile will build an image to run make build.
 
 #ENV PATH="/go/bin:${PATH}"
 
 ENV PROTOC_VERSION=3.10.0
 ENV GOLANG_PROTOBUF_VERSION=1.3.2
 ENV PROTOTOOL_VERSION=1.9.0
-
 
 # Install patch
 RUN apt-get update && apt-get install -y patch
@@ -44,5 +42,5 @@ COPY . $SRC_DIR
 #WORKDIR /go-btfs-common
 WORKDIR $SRC_DIR
 
-# by default lets run the go fmt, tidy and unit tests
+# need to run trongogo before make build
 CMD make trongogo build

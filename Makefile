@@ -1,3 +1,4 @@
+UNAME := $(shell uname)
 default: lintf
 
 TEST_DB_NAME ?= runtime
@@ -41,11 +42,20 @@ buildgo:
 	go build ./...
 
 pgfix:
+ifeq ($(UNAME), Linux)
+	for pb in  $(PG_FIX_CANDIDATES); \
+	do \
+	sed -ne 's/TableName/tableName/g' $$pb; \
+	sed -ne 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
+	done
+endif 
+ifeq ($(UNAME), Darwin)
 	for pb in  $(PG_FIX_CANDIDATES); \
 	do \
 	sed -i '' -e 's/TableName/tableName/g' $$pb; \
 	sed -i '' -e 's/protobuf:"bytes,[0-9]*,opt,name=table_name,json=tableName,proto[0-9]*" json:"table_name,omitempty" pg:"table_name" //g' $$pb; \
 	done
+endif 
 
 build: lintf genproto buildgo pgfix
 
