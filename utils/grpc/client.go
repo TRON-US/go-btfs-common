@@ -5,18 +5,20 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/tron-us/go-btfs-common/protos/escrow"
-	"github.com/tron-us/go-btfs-common/protos/guard"
-	"github.com/tron-us/go-btfs-common/protos/hub"
-	"github.com/tron-us/go-btfs-common/protos/status"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/connectivity"
-	"google.golang.org/grpc/credentials"
 	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/tron-us/go-btfs-common/protos/escrow"
+	"github.com/tron-us/go-btfs-common/protos/guard"
+	"github.com/tron-us/go-btfs-common/protos/hub"
+	"github.com/tron-us/go-btfs-common/protos/status"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/connectivity"
+	"google.golang.org/grpc/credentials"
 )
 
 const (
@@ -44,15 +46,15 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 	if conn == nil || conn.GetState() != connectivity.Ready {
 		return errors.New("failed to get connection")
 	}
-	switch f.(type) {
+	switch v := f.(type) {
 	case func(context.Context, status.StatusClient) error:
-		return f.(func(context.Context, status.StatusClient) error)(ctx, status.NewStatusClient(conn))
+		return v(ctx, status.NewStatusClient(conn))
 	case func(context.Context, hub.HubQueryClient) error:
-		return f.(func(context.Context, hub.HubQueryClient) error)(ctx, hub.NewHubQueryClient(conn))
+		return v(ctx, hub.NewHubQueryClient(conn))
 	case func(context.Context, guard.GuardServiceClient) error:
-		return f.(func(context.Context, guard.GuardServiceClient) error)(ctx, guard.NewGuardServiceClient(conn))
+		return v(ctx, guard.NewGuardServiceClient(conn))
 	case func(context.Context, escrow.EscrowServiceClient) error:
-		return f.(func(context.Context, escrow.EscrowServiceClient) error)(ctx, escrow.NewEscrowServiceClient(conn))
+		return v(ctx, escrow.NewEscrowServiceClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
