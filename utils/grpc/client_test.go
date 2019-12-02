@@ -1,8 +1,7 @@
-package utils
+package grpc
 
 import (
 	"context"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"testing"
 	"time"
@@ -20,7 +19,7 @@ func TestNewGRPCConn(t *testing.T) {
 	}
 	for _, tt := range tests {
 		ctx, cancelFunc := context.WithTimeout(context.Background(), 2*time.Second)
-		conn, err := NewGRPCConn(ctx, tt.in, grpc.WithBlock())
+		conn, err := newGRPCConn(ctx, tt.in)
 		if cancelFunc != nil {
 			defer cancelFunc()
 		}
