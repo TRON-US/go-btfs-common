@@ -23,9 +23,9 @@ func TestSignVerify(t *testing.T) {
 		t.Error("get raw public key from privKey failed")
 		return
 	}
-	pubKey, err := ToPubKey(rawPubKey)
+	pubKey, err := ToPubKeyRaw(rawPubKey)
 	if err != nil {
-		t.Error("ToPubKey failed")
+		t.Error("ToPubKeyRaw failed")
 		return
 	}
 
