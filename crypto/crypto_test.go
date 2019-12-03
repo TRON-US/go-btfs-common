@@ -8,6 +8,7 @@ import (
 
 const (
 	KeyString = "CAISIJFNZZd5ZSvi9OlJP/mz/vvUobvlrr2//QN4DzX/EShP"
+	EncryptKey = "Tron2theMoon1234"
 )
 
 func TestSignVerify(t *testing.T) {
@@ -42,5 +43,15 @@ func TestSignVerify(t *testing.T) {
 	ret, err := Verify(pubKey, message, sign)
 	if err != nil || !ret {
 		t.Error("Verify with public key failed")
+	}
+}
+
+func TestEncryptDecrypt(t *testing.T) {
+	origin := "Hello World"
+	key := []byte(EncryptKey)
+	encryptMsg, _ := Encrypt(key, []byte(origin))
+	msg, _ := Decrypt(key, []byte(encryptMsg))
+	if string(msg) != origin {
+		t.Errorf("Decrypt failed")
 	}
 }
