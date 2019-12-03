@@ -19,6 +19,7 @@ import (
 
 	"google.golang.org/grpc"
 	he "google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/reflection"
 )
 
 type GrpcHealthServer struct{}
@@ -33,4 +34,5 @@ func (s *GrpcHealthServer) Watch(*he.HealthCheckRequest, he.Health_WatchServer) 
 
 func RegisterHealthCheckService(s *grpc.Server) {
 	he.RegisterHealthServer(s, new(GrpcHealthServer))
+	reflection.Register(s)
 }
