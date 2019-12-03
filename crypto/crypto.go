@@ -144,7 +144,7 @@ func Decrypt(key, text []byte) ([]byte, error) {
 	return unpadMsg, nil
 }
 
-func getPubKeyFromPeerId(pid string) (ic.PubKey, error) {
+func GetPubKeyFromPeerId(pid string) (ic.PubKey, error) {
 	peerId, err := peer.IDB58Decode(pid)
 	if err != nil {
 		return nil, err
