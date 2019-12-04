@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	KeyString = "CAISIJFNZZd5ZSvi9OlJP/mz/vvUobvlrr2//QN4DzX/EShP"
+	KeyString  = "CAISIJFNZZd5ZSvi9OlJP/mz/vvUobvlrr2//QN4DzX/EShP"
 	EncryptKey = "Tron2theMoon1234"
 )
 

@@ -155,4 +155,3 @@ func GetPubKeyFromPeerId(pid string) (ic.PubKey, error) {
 	}
 	return pubKey, nil
 }
-

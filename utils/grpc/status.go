@@ -13,6 +13,7 @@ type StatusClientBuilder struct {
 	ClientBuilder
 }
 
-func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context, client status.StatusClient) error) error {
+func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context,
+	client status.StatusServiceClient) error) error {
 	return g.doWithContext(ctx, f)
 }
