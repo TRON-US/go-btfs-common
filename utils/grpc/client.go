@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -58,6 +59,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return v(ctx, escrowpb.NewEscrowServiceClient(conn))
 	case func(ctx context.Context, client sharedpb.RuntimeServiceClient) error:
 		return v(ctx, sharedpb.NewRuntimeServiceClient(conn))
+	case func(ctx context.Context, client grpc_health_v1.HealthClient) error:
+		return v(ctx, grpc_health_v1.NewHealthClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
