@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"google.golang.org/grpc/health/grpc_health_v1"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -21,6 +20,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
 const (
