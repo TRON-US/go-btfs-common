@@ -49,8 +49,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 	switch v := f.(type) {
 	case func(context.Context, status.StatusClient) error:
 		return v(ctx, status.NewStatusServiceClient(conn))
-	case func(context.Context, hub.HubQueryClient) error:
-		return v(ctx, hub.NewHubQueryClient(conn))
+	case func(context.Context, hub.HubQueryServiceClient) error:
+		return v(ctx, hub.NewHubQueryServiceClient(conn))
 	case func(context.Context, guard.GuardServiceClient) error:
 		return v(ctx, guard.NewGuardServiceClient(conn))
 	case func(context.Context, escrow.EscrowServiceClient) error:
