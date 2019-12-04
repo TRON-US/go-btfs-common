@@ -49,7 +49,7 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return errors.New("failed to get connection")
 	}
 	switch v := f.(type) {
-	case func(context.Context, statuspb.StatusClient) error:
+	case func(context.Context, statuspb.StatusServiceClient) error:
 		return v(ctx, statuspb.NewStatusServiceClient(conn))
 	case func(context.Context, hubpb.HubQueryServiceClient) error:
 		return v(ctx, hubpb.NewHubQueryServiceClient(conn))
