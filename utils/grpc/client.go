@@ -11,10 +11,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tron-us/go-btfs-common/protos/escrow"
-	"github.com/tron-us/go-btfs-common/protos/guard"
-	"github.com/tron-us/go-btfs-common/protos/hub"
-	"github.com/tron-us/go-btfs-common/protos/status"
+	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
+	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
+	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
+	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
@@ -47,14 +48,16 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return errors.New("failed to get connection")
 	}
 	switch v := f.(type) {
-	case func(context.Context, status.StatusClient) error:
-		return v(ctx, status.NewStatusServiceClient(conn))
-	case func(context.Context, hub.HubQueryServiceClient) error:
-		return v(ctx, hub.NewHubQueryServiceClient(conn))
-	case func(context.Context, guard.GuardServiceClient) error:
-		return v(ctx, guard.NewGuardServiceClient(conn))
-	case func(context.Context, escrow.EscrowServiceClient) error:
-		return v(ctx, escrow.NewEscrowServiceClient(conn))
+	case func(context.Context, statuspb.StatusClient) error:
+		return v(ctx, statuspb.NewStatusServiceClient(conn))
+	case func(context.Context, hubpb.HubQueryServiceClient) error:
+		return v(ctx, hubpb.NewHubQueryServiceClient(conn))
+	case func(context.Context, guardpb.GuardServiceClient) error:
+		return v(ctx, guardpb.NewGuardServiceClient(conn))
+	case func(context.Context, escrowpb.EscrowServiceClient) error:
+		return v(ctx, escrowpb.NewEscrowServiceClient(conn))
+	case func(ctx context.Context, client sharedpb.RuntimeServiceClient) error:
+		return v(ctx, sharedpb.NewRuntimeServiceClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
