@@ -31,7 +31,7 @@ var _ = time.Kitchen
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Node struct {
-	TableName            string  `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name" pg:"node_metrics,alias:t,discard_unknown_columns"`
+	tableName            string  `pg:"node_metrics,alias:t,discard_unknown_columns"`
 	NodeId               string  `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
 	BtfsVersion          string  `protobuf:"bytes,3,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
 	UpTime               uint64  `protobuf:"varint,4,opt,name=up_time,json=upTime,proto3" json:"up_time,omitempty" pg:"up_time"`
@@ -93,9 +93,9 @@ func (m *Node) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Node proto.InternalMessageInfo
 
-func (m *Node) GetTableName() string {
+func (m *Node) GettableName() string {
 	if m != nil {
-		return m.TableName
+		return m.tableName
 	}
 	return ""
 }
@@ -582,10 +582,10 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.TableName) > 0 {
-		i -= len(m.TableName)
-		copy(dAtA[i:], m.TableName)
-		i = encodeVarintNode(dAtA, i, uint64(len(m.TableName)))
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintNode(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -658,7 +658,7 @@ func encodeVarintNode(dAtA []byte, offset int, v uint64) int {
 }
 func NewPopulatedNode(r randyNode, easy bool) *Node {
 	this := &Node{}
-	this.TableName = string(randStringNode(r))
+	this.tableName = string(randStringNode(r))
 	this.NodeId = string(randStringNode(r))
 	this.BtfsVersion = string(randStringNode(r))
 	this.UpTime = uint64(uint64(r.Uint32()))
@@ -790,7 +790,7 @@ func (m *Node) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TableName)
+	l = len(m.tableName)
 	if l > 0 {
 		n += 1 + l + sovNode(uint64(l))
 	}
@@ -937,7 +937,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TableName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -965,7 +965,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.TableName = string(dAtA[iNdEx:postIndex])
+			m.tableName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
