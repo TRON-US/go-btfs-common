@@ -85,3 +85,18 @@ make lintf
 ```
 make build
 ```
+
+## Use docker container to run 'git diff protos/'
+
+```
+$ docker build -f Dockerfile -t "go-btfs-common" .
+$ docker run -i go-btfs-common
+```
+
+## Run interactive bash inside docker container for diagnosis
+
+```
+$ docker build -f Dockerfile -t "go-btfs-common" .
+$ docker run -it go-btfs-common /bin/bash
+```
+
