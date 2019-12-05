@@ -42,7 +42,7 @@ func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledger
 	}, err
 }
 
-func NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerPb.ChannelState {
+func NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerpb.ChannelState {
 	return &ledgerpb.ChannelState{
 		Id:       id,
 		Sequence: sequence,
@@ -71,7 +71,7 @@ func ImportAccount(ctx context.Context, pubKey ic.PubKey, ledgerClient ledgerpb.
 	return res.GetAccount(), nil
 }
 
-func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey, ledgerClient ledgerpb.ChannelsClient) (*ledgerPb.SignedCreateAccountResult, error) {
+func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey, ledgerClient ledgerpb.ChannelsClient) (*ledgerpb.SignedCreateAccountResult, error) {
 	pubKeyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
