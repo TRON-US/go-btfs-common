@@ -26,6 +26,12 @@ service Status {
   rpc CollectError(NodeError) returns (google.protobuf.Empty);
 }
 
+service StatusService {
+  rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
+  rpc CollectHealth(NodeHealth) returns (google.protobuf.Empty);
+  rpc CollectError(NodeError) returns (google.protobuf.Empty);
+}
+
 message SignedMetrics {
   bytes public_key = 1;
   bytes signature = 2;
