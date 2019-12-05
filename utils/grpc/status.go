@@ -2,7 +2,8 @@ package grpc
 
 import (
 	"context"
-	"github.com/tron-us/go-btfs-common/protos/status"
+
+	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 )
 
 func StatusClient(addr string) *StatusClientBuilder {
@@ -13,6 +14,7 @@ type StatusClientBuilder struct {
 	ClientBuilder
 }
 
-func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context, client status.StatusClient) error) error {
+func (g *StatusClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context,
+	client statuspb.StatusServiceClient) error) error {
 	return g.doWithContext(ctx, f)
 }

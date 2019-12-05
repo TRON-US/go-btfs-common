@@ -11,14 +11,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tron-us/go-btfs-common/protos/escrow"
-	"github.com/tron-us/go-btfs-common/protos/guard"
-	"github.com/tron-us/go-btfs-common/protos/hub"
-	"github.com/tron-us/go-btfs-common/protos/status"
+	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
+	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
+	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
+	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
 const (
@@ -47,14 +49,18 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return errors.New("failed to get connection")
 	}
 	switch v := f.(type) {
-	case func(context.Context, status.StatusClient) error:
-		return v(ctx, status.NewStatusClient(conn))
-	case func(context.Context, hub.HubQueryClient) error:
-		return v(ctx, hub.NewHubQueryClient(conn))
-	case func(context.Context, guard.GuardServiceClient) error:
-		return v(ctx, guard.NewGuardServiceClient(conn))
-	case func(context.Context, escrow.EscrowServiceClient) error:
-		return v(ctx, escrow.NewEscrowServiceClient(conn))
+	case func(context.Context, statuspb.StatusServiceClient) error:
+		return v(ctx, statuspb.NewStatusServiceClient(conn))
+	case func(context.Context, hubpb.HubQueryServiceClient) error:
+		return v(ctx, hubpb.NewHubQueryServiceClient(conn))
+	case func(context.Context, guardpb.GuardServiceClient) error:
+		return v(ctx, guardpb.NewGuardServiceClient(conn))
+	case func(context.Context, escrowpb.EscrowServiceClient) error:
+		return v(ctx, escrowpb.NewEscrowServiceClient(conn))
+	case func(ctx context.Context, client sharedpb.RuntimeServiceClient) error:
+		return v(ctx, sharedpb.NewRuntimeServiceClient(conn))
+	case func(ctx context.Context, client grpc_health_v1.HealthClient) error:
+		return v(ctx, grpc_health_v1.NewHealthClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}

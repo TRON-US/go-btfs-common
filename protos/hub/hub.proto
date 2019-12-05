@@ -19,7 +19,7 @@ option java_package = "io.btfs.hub";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-service HubQuery {
+service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
 }

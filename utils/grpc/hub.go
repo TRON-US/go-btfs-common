@@ -2,7 +2,8 @@ package grpc
 
 import (
 	"context"
-	"github.com/tron-us/go-btfs-common/protos/hub"
+
+	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 )
 
 func HubQueryClient(addr string) *HubQueryClientBuilder {
@@ -13,6 +14,7 @@ type HubQueryClientBuilder struct {
 	ClientBuilder
 }
 
-func (g *HubQueryClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context, client hub.HubQueryClient) error) error {
+func (g *HubQueryClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context,
+	client hubpb.HubQueryServiceClient) error) error {
 	return g.doWithContext(ctx, f)
 }
