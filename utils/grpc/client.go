@@ -14,6 +14,7 @@ import (
 	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
 	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 
@@ -61,6 +62,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return v(ctx, sharedpb.NewRuntimeServiceClient(conn))
 	case func(ctx context.Context, client grpc_health_v1.HealthClient) error:
 		return v(ctx, grpc_health_v1.NewHealthClient(conn))
+	case func(ctx context.Context, client ledgerpb.ChannelsServiceClient) error:
+		return v(ctx, ledgerpb.NewChannelsServiceClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
