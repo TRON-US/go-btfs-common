@@ -14,6 +14,6 @@ type LedgerClientBuilder struct {
 }
 
 func (g *LedgerClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context,
-	client ledgerpb.ChannelsServiceClient) error) error {
+	client ledgerpb.ChannelsClient) error) error {
 	return g.doWithContext(ctx, f)
 }

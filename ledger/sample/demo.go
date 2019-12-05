@@ -19,7 +19,7 @@ const (
 
 func main() {
 	err := grpc.LedgerClient("https://ledger-dev.bt.co:443").WithContext(context.Background(),
-		func(ctx context.Context, ledgerClient ledgerpb.ChannelsServiceClient) error {
+		func(ctx context.Context, ledgerClient ledgerpb.ChannelsClient) error {
 			// create payer Account
 			payerPrivKey, err := crypto.ToPrivKey(PayerPrivKeyString)
 			if err != nil {
@@ -87,4 +87,3 @@ func main() {
 		log.Panic(err.Error())
 	}
 }
-

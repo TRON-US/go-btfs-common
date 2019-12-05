@@ -20,7 +20,7 @@ import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 
 // Interface exported by the server.
 
-service ChannelsService {
+service Channels {
   // Creates a channel on the ledger and returns the ID of the ledger
   rpc CreateChannel(SignedChannelCommit) returns (ChannelID);
   // Retrieves the state of a channel on the ledger.

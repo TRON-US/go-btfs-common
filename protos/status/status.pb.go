@@ -102,7 +102,7 @@ func (*SignedMetrics) XXX_MessageName() string {
 }
 
 type NodeHealth struct {
-	TableName            string    `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name" pg:"health_monitoring,alias:t,discard_unknown_columns"`
+	tableName            string    `pg:"health_monitoring,alias:t,discard_unknown_columns"`
 	NodeId               string    `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
 	BtfsVersion          string    `protobuf:"bytes,3,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
 	FailurePoint         string    `protobuf:"bytes,4,opt,name=failure_point,json=failurePoint,proto3" json:"failure_point,omitempty" pg:"failure_point"`
@@ -145,9 +145,9 @@ func (m *NodeHealth) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_NodeHealth proto.InternalMessageInfo
 
-func (m *NodeHealth) GetTableName() string {
+func (m *NodeHealth) GettableName() string {
 	if m != nil {
-		return m.TableName
+		return m.tableName
 	}
 	return ""
 }
@@ -185,7 +185,7 @@ func (*NodeHealth) XXX_MessageName() string {
 }
 
 type NodeError struct {
-	TableName            string    `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name" pg:"test_error,alias:t,discard_unknown_columns"`
+	tableName            string    `pg:"test_error,alias:t,discard_unknown_columns"`
 	HVal                 string    `protobuf:"bytes,2,opt,name=h_val,json=hVal,proto3" json:"h_val,omitempty" pg:"h_val"`
 	PeerId               string    `protobuf:"bytes,3,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty" pg:"peer_id"`
 	ErrorStatus          string    `protobuf:"bytes,4,opt,name=error_status,json=errorStatus,proto3" json:"error_status,omitempty" pg:"error_status"`
@@ -228,9 +228,9 @@ func (m *NodeError) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_NodeError proto.InternalMessageInfo
 
-func (m *NodeError) GetTableName() string {
+func (m *NodeError) GettableName() string {
 	if m != nil {
-		return m.TableName
+		return m.tableName
 	}
 	return ""
 }
@@ -833,10 +833,10 @@ func (m *NodeHealth) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.TableName) > 0 {
-		i -= len(m.TableName)
-		copy(dAtA[i:], m.TableName)
-		i = encodeVarintStatus(dAtA, i, uint64(len(m.TableName)))
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintStatus(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -896,10 +896,10 @@ func (m *NodeError) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.TableName) > 0 {
-		i -= len(m.TableName)
-		copy(dAtA[i:], m.TableName)
-		i = encodeVarintStatus(dAtA, i, uint64(len(m.TableName)))
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintStatus(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1028,7 +1028,7 @@ func (m *NodeHealth) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TableName)
+	l = len(m.tableName)
 	if l > 0 {
 		n += 1 + l + sovStatus(uint64(l))
 	}
@@ -1058,7 +1058,7 @@ func (m *NodeError) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TableName)
+	l = len(m.tableName)
 	if l > 0 {
 		n += 1 + l + sovStatus(uint64(l))
 	}
@@ -1317,7 +1317,7 @@ func (m *NodeHealth) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TableName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1345,7 +1345,7 @@ func (m *NodeHealth) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.TableName = string(dAtA[iNdEx:postIndex])
+			m.tableName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1532,7 +1532,7 @@ func (m *NodeError) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TableName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1560,7 +1560,7 @@ func (m *NodeError) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.TableName = string(dAtA[iNdEx:postIndex])
+			m.tableName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {

@@ -2,46 +2,16 @@ package ledger
 
 import (
 	"context"
-	"crypto/tls"
-	"fmt"
 	"time"
 
-	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
-	"github.com/tron-us/go-common/v2/log"
-
 	ic "github.com/libp2p/go-libp2p-core/crypto"
+	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
 	"github.com/tron-us/protobuf/proto"
-	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
-func LedgerConnection(ledgerAddr, certFile string) (*grpc.ClientConn, error) {
-	var grpcOption grpc.DialOption
-	if certFile == "wi" {
-		grpcOption = grpc.WithInsecure()
-	} else {
-		credential := credentials.NewTLS(&tls.Config{})
-		grpcOption = grpc.WithTransportCredentials(credential)
-	}
-	conn, err := grpc.Dial(ledgerAddr, grpcOption, grpc.WithBlock())
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println("state:", conn.GetState())
-	return conn, nil
-}
-
-func CloseConnection(conn *grpc.ClientConn) {
-	if conn != nil {
-		if err := conn.Close(); err != nil {
-			log.Error("Failed to close connection: ", zap.Error(err))
-		}
-	}
-}
-
-func NewClient(conn *grpc.ClientConn) ledgerPb.ChannelsServiceClient {
-	return ledgerPb.NewChannelsServiceClient(conn)
+func NewClient(conn *grpc.ClientConn) ledgerPb.ChannelsClient {
+	return ledgerPb.NewChannelsClient(conn)
 }
 
 func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerPb.Account, error) {
@@ -89,7 +59,7 @@ func NewSignedChannelState(channelState *ledgerPb.ChannelState, fromSig []byte, 
 	}
 }
 
-func ImportAccount(ctx context.Context, pubKey ic.PubKey, ledgerClient ledgerPb.ChannelsServiceClient) (*ledgerPb.Account, error) {
+func ImportAccount(ctx context.Context, pubKey ic.PubKey, ledgerClient ledgerPb.ChannelsClient) (*ledgerPb.Account, error) {
 	keyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
@@ -101,7 +71,7 @@ func ImportAccount(ctx context.Context, pubKey ic.PubKey, ledgerClient ledgerPb.
 	return res.GetAccount(), nil
 }
 
-func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey, ledgerClient ledgerPb.ChannelsServiceClient) (*ledgerPb.SignedCreateAccountResult, error) {
+func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey, ledgerClient ledgerPb.ChannelsClient) (*ledgerPb.SignedCreateAccountResult, error) {
 	pubKeyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
@@ -116,14 +86,14 @@ func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubK
 	return ledgerClient.SignedCreateAccount(ctx, signedPubkey)
 }
 
-func CreateChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsServiceClient, channelCommit *ledgerPb.ChannelCommit, sig []byte) (*ledgerPb.ChannelID, error) {
+func CreateChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, channelCommit *ledgerPb.ChannelCommit, sig []byte) (*ledgerPb.ChannelID, error) {
 	return ledgerClient.CreateChannel(ctx, &ledgerPb.SignedChannelCommit{
 		Channel:   channelCommit,
 		Signature: sig,
 	})
 }
 
-func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsServiceClient, signedChannelState *ledgerPb.SignedChannelState) error {
+func CloseChannel(ctx context.Context, ledgerClient ledgerPb.ChannelsClient, signedChannelState *ledgerPb.SignedChannelState) error {
 	_, err := ledgerClient.CloseChannel(ctx, signedChannelState)
 	if err != nil {
 		return err
