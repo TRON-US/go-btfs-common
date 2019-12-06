@@ -28,7 +28,7 @@ service EscrowService {
   rpc SubmitContracts(EscrowContractRequest) returns (SignedSubmitContractResult);
   // after submit contract, buyer request to pay in
   // escrow will transfer contract amount from buyer wallet to escrow wallet
-  rpc PayIn(SignedPayinRquest) returns (SignedPayinResult);
+  rpc PayIn(SignedPayinRequest) returns (SignedPayinResult);
   // seller use this to check if a contract is paid in
   rpc IsPaid(SignedContractID) returns (SignedPayinStatus);
   // check escrow pay out to seller status of a contract
@@ -39,7 +39,7 @@ service EscrowService {
   // seller query what new payments to receive
   rpc MyPayment(SignedPayoutAddress) returns (SignedPaymentResult);
   // seller request escrow to payout to seller
-  rpc PayOut(SignedPayoutRquest) returns (SignedPayoutResult);
+  rpc PayOut(SignedPayoutRequest) returns (SignedPayoutResult);
 }
 
 enum TokenType {
@@ -84,7 +84,7 @@ message SignedEscrowContract {
 
 message EscrowContractRequest {
   repeated SignedEscrowContract contract = 1;
-  ledger.SignedChannelCommit buyer_channel = 4; // ledger channel commit from buyer to escrow
+  ledger.SignedChannelCommit buyer_channel = 2; // ledger channel commit from buyer to escrow
 }
 
 message Escrow {
@@ -112,14 +112,14 @@ message SignedSubmitContractResult {
   bytes escrow_signature = 2;
 }
 
-message PayinRquest {
+message PayinRequest {
   string payin_id = 1;
   bytes buyer_address = 2;
   ledger.SignedChannelState buyer_channel_state = 3; // buyer signed ledger channel state
 }
 
-message SignedPayinRquest {
-  PayinRquest request = 1;
+message SignedPayinRequest {
+  PayinRequest request = 1;
   bytes buyer_signature = 2;
 }
 
@@ -263,7 +263,7 @@ message SignedPaymentResult {
   bytes escrow_signature = 2;
 }
 
-message PayoutRquest {
+message PayoutRequest {
   repeated Payment payment = 1;
   bytes seller_address = 2;
   google.protobuf.Timestamp seller_signed_time = 3 [
@@ -272,8 +272,8 @@ message PayoutRquest {
   ];
 }
 
-message SignedPayoutRquest {
-  PayoutRquest request = 1;
+message SignedPayoutRequest {
+  PayoutRequest request = 1;
   bytes seller_signature = 2;
 }
 
