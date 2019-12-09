@@ -11,7 +11,15 @@ import (
 	ic "github.com/libp2p/go-libp2p-core/crypto"
 )
 
-func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
+type Client struct {
+	addr string
+}
+
+func NewClient(addr string) *Client {
+	return &Client{addr: addr}
+}
+
+func (c *Client) NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 	addr, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
@@ -22,7 +30,7 @@ func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 	}, nil
 }
 
-func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
+func (c *Client) NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
 	fromAddr, err := fromKey.Raw()
 	if err != nil {
 		return nil, err
@@ -39,7 +47,7 @@ func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledger
 	}, err
 }
 
-func NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerpb.ChannelState {
+func (c *Client) NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerpb.ChannelState {
 	return &ledgerpb.ChannelState{
 		Id:       id,
 		Sequence: sequence,
@@ -48,7 +56,7 @@ func NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledger
 	}
 }
 
-func NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, toSig []byte) *ledgerpb.SignedChannelState {
+func (c *Client) NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, toSig []byte) *ledgerpb.SignedChannelState {
 	return &ledgerpb.SignedChannelState{
 		Channel:       channelState,
 		FromSignature: fromSig,
@@ -56,13 +64,13 @@ func NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, 
 	}
 }
 
-func ImportAccount(ctx context.Context, pubKey ic.PubKey, addr string) (*ledgerpb.Account, error) {
+func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb.Account, error) {
 	keyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
 	}
 	var res *ledgerpb.CreateAccountResult
-	err = grpc.LedgerClient(addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
+	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
 		res, err = client.CreateAccount(ctx, &ledgerpb.PublicKey{Key: keyBytes})
 		return err
 	})
@@ -72,7 +80,7 @@ func ImportAccount(ctx context.Context, pubKey ic.PubKey, addr string) (*ledgerp
 	return res.GetAccount(), nil
 }
 
-func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey, addr string) (*ledgerpb.SignedCreateAccountResult, error) {
+func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey) (*ledgerpb.SignedCreateAccountResult, error) {
 	pubKeyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
@@ -89,7 +97,7 @@ func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubK
 	signedPubkey := &ledgerpb.SignedPublicKey{Key: singedPubKey, Signature: signature}
 
 	var result *ledgerpb.SignedCreateAccountResult
-	err = grpc.LedgerClient(addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
+	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
 		result, err = client.SignedCreateAccount(ctx, signedPubkey)
 		return err
 	})
@@ -99,12 +107,12 @@ func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubK
 	return result, nil
 }
 
-func CreateChannel(ctx context.Context, addr string, channelCommit *ledgerpb.ChannelCommit, sig []byte) (*ledgerpb.ChannelID, error) {
+func (c *Client) CreateChannel(ctx context.Context, channelCommit *ledgerpb.ChannelCommit, sig []byte) (*ledgerpb.ChannelID, error) {
 	var (
 		channelId *ledgerpb.ChannelID
 		err       error
 	)
-	err = grpc.LedgerClient(addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
+	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
 		channelId, err = client.CreateChannel(ctx, &ledgerpb.SignedChannelCommit{
 			Channel:   channelCommit,
 			Signature: sig,
@@ -114,8 +122,8 @@ func CreateChannel(ctx context.Context, addr string, channelCommit *ledgerpb.Cha
 	return channelId, err
 }
 
-func CloseChannel(ctx context.Context, addr string, signedChannelState *ledgerpb.SignedChannelState) error {
-	return grpc.LedgerClient(addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
+func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.SignedChannelState) error {
+	return grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
 		_, err := client.CloseChannel(ctx, signedChannelState)
 		return err
 	})

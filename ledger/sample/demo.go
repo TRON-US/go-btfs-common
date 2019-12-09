@@ -16,7 +16,7 @@ const (
 
 func main() {
 	ctx := context.Background()
-	addr := "https://ledger-dev.bt.co:443"
+	c := ledger.NewClient("https://ledger-dev.bt.co:443")
 
 	// create payer Account
 	payerPrivKey, err := crypto.ToPrivKey(PayerPrivKeyString)
@@ -24,7 +24,7 @@ func main() {
 		log.Panic("can not convert to private key", zap.Error(err))
 	}
 	payerPubKey := payerPrivKey.GetPublic()
-	_, err = ledger.ImportSignedAccount(ctx, payerPrivKey, payerPubKey, addr)
+	_, err = c.ImportSignedAccount(ctx, payerPrivKey, payerPubKey)
 	if err != nil {
 		log.Panic("can not create account on ledger", zap.Error(err))
 	}
@@ -34,13 +34,13 @@ func main() {
 		log.Panic("can not convert to private key", zap.Error(err))
 	}
 	recvPubKey := recvPrivKey.GetPublic()
-	_, err = ledger.ImportSignedAccount(ctx, recvPrivKey, recvPubKey, addr)
+	_, err = c.ImportSignedAccount(ctx, recvPrivKey, recvPubKey)
 	if err != nil {
 		log.Panic("can not create account on ledger", zap.Error(err))
 	}
 	// prepare channel commit
 	amount := int64(1)
-	channelCommit, err := ledger.NewChannelCommit(payerPubKey, recvPubKey, amount)
+	channelCommit, err := c.NewChannelCommit(payerPubKey, recvPubKey, amount)
 	if err != nil {
 		log.Panic("can not create channel commit", zap.Error(err))
 	}
@@ -50,20 +50,20 @@ func main() {
 		log.Panic("fail to sign channel commit", zap.Error(err))
 	}
 	// create channel: payer start the channel
-	channelID, err := ledger.CreateChannel(ctx, addr, channelCommit, fromSig)
+	channelID, err := c.CreateChannel(ctx, channelCommit, fromSig)
 	if err != nil {
 		log.Panic("fail to create channel", zap.Error(err))
 	}
 	// channel state: transfer money from -> to
-	fromAcc, err := ledger.NewAccount(payerPubKey, 0)
+	fromAcc, err := c.NewAccount(payerPubKey, 0)
 	if err != nil {
 		log.Panic("wrong account on channel", zap.Error(err))
 	}
-	toAcc, err := ledger.NewAccount(recvPubKey, amount)
+	toAcc, err := c.NewAccount(recvPubKey, amount)
 	if err != nil {
 		log.Panic("wrong account on channel", zap.Error(err))
 	}
-	channelState := ledger.NewChannelState(channelID, 1, fromAcc, toAcc)
+	channelState := c.NewChannelState(channelID, 1, fromAcc, toAcc)
 	// need permission from both account, get signature from both
 	fromSigState, err := crypto.Sign(payerPrivKey, channelState)
 	if err != nil {
@@ -73,9 +73,9 @@ func main() {
 	if err != nil {
 		log.Panic("error when signing the channel state", zap.Error(err))
 	}
-	signedChannelState := ledger.NewSignedChannelState(channelState, fromSigState, toSigState)
+	signedChannelState := c.NewSignedChannelState(channelState, fromSigState, toSigState)
 	// close channel
-	err = ledger.CloseChannel(ctx, addr, signedChannelState)
+	err = c.CloseChannel(ctx, signedChannelState)
 	if err != nil {
 		log.Panic("fail to close channel", zap.Error(err))
 	}
