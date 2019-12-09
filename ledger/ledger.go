@@ -79,6 +79,9 @@ func ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubK
 	}
 	singedPubKey := &ledgerpb.PublicKey{Key: pubKeyBytes}
 	sigBytes, err := proto.Marshal(singedPubKey)
+	if err != nil {
+		return nil, err
+	}
 	signature, err := privKey.Sign(sigBytes)
 	if err != nil {
 		return nil, err
