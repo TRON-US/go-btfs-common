@@ -79,7 +79,4 @@ func main() {
 	if err != nil {
 		log.Panic("fail to close channel", zap.Error(err))
 	}
-	if err != nil {
-		log.Panic(err.Error())
-	}
 }
