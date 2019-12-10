@@ -19,7 +19,7 @@ func NewClient(addr string) *Client {
 	return &Client{addr: addr}
 }
 
-func (c *Client) NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
+func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 	addr, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (c *Client) NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, 
 	}, nil
 }
 
-func (c *Client) NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
+func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
 	fromAddr, err := fromKey.Raw()
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (c *Client) NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int
 	}, err
 }
 
-func (c *Client) NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerpb.ChannelState {
+func NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAccount *ledgerpb.Account, toAccount *ledgerpb.Account) *ledgerpb.ChannelState {
 	return &ledgerpb.ChannelState{
 		Id:       id,
 		Sequence: sequence,
@@ -56,7 +56,7 @@ func (c *Client) NewChannelState(id *ledgerpb.ChannelID, sequence int64, fromAcc
 	}
 }
 
-func (c *Client) NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, toSig []byte) *ledgerpb.SignedChannelState {
+func NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, toSig []byte) *ledgerpb.SignedChannelState {
 	return &ledgerpb.SignedChannelState{
 		Channel:       channelState,
 		FromSignature: fromSig,
