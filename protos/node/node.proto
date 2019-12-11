@@ -58,4 +58,5 @@ message Node {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  string h_val = 25;
 }
