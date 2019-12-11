@@ -59,14 +59,3 @@ message NodeError {
     (gogoproto.stdtime) = true
   ];
 }
-
-message Ip2Location {
-  string ipv4 = 1;
-  string country_short = 2;
-  string country_long = 3;
-  string region = 4;
-  string city = 5;
-  float latitude = 6;
-  float longitude = 7;
-  string zipcode = 8;
-}
