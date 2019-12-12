@@ -69,4 +69,5 @@ message Node {
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
   ];
+  uint64 id = 27;
 }
