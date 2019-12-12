@@ -28,6 +28,12 @@ message Node {
     double bandwidth_limit = 4;
     uint64 collateral_stake = 5;
   }
+  message Geo {
+    string country_short = 1;
+    string region = 2;
+    float latitude = 3;
+    float longitude = 4;
+  }
   string table_name = 1 [(gogoproto.moretags) = "pg:\"node_metrics,alias:t,discard_unknown_columns\""];
   string node_id = 2;
   string btfs_version = 3;
@@ -59,4 +65,8 @@ message Node {
     (gogoproto.stdtime) = true
   ];
   string h_val = 25;
+  Geo geo = 26 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
 }
