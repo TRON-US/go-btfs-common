@@ -47,7 +47,23 @@ func ToPubKey(pubKey string) (ic.PubKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ic.UnmarshalSecp256k1PublicKey(raw)
+	return ic.UnmarshalPublicKey(raw)
+}
+
+func FromPubKey(pubKey ic.PubKey) (string, error) {
+	pkb, err := ic.MarshalPublicKey(pubKey)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(pkb), nil
+}
+
+func FromPrivKey(privKey ic.PrivKey) (string, error) {
+	prkb, err := ic.MarshalPrivateKey(privKey)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(prkb), nil
 }
 
 // Secp256k1 private key string to ic.PrivKey interface
