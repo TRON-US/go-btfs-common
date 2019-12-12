@@ -58,7 +58,7 @@ func FromPubKey(pubKey ic.PubKey) (string, error) {
 	return base64.StdEncoding.EncodeToString(pkb), nil
 }
 
-func FromPrivateKeyToString(privKey ic.PrivKey) (string, error) {
+func FromPrivKey(privKey ic.PrivKey) (string, error) {
 	prkb, err := ic.MarshalPrivateKey(privKey)
 	if err != nil {
 		return "", err
