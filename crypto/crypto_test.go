@@ -1,6 +1,7 @@
 package crypto
 
 import (
+	"bytes"
 	"testing"
 
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
@@ -54,4 +55,51 @@ func TestEncryptDecrypt(t *testing.T) {
 	if string(msg) != origin {
 		t.Errorf("Decrypt failed")
 	}
+}
+
+func TestSerializeDeserializeKey(t *testing.T) {
+	privKey, err := ToPrivKey(KeyString)
+	if err != nil {
+		t.Error("ToPrivKey failed")
+		return
+	}
+	privKeyString, err := FromPrivKey(privKey)
+	if err != nil {
+		t.Error("FromPrivKey failed")
+		return
+	}
+	if privKeyString != KeyString {
+		t.Error("serialize and deserialize private key fail")
+		return
+	}
+
+	pubKey := privKey.GetPublic()
+	pubKeyString, err := FromPubKey(pubKey)
+	if err != nil {
+		t.Error("FromPubKey failed")
+		return
+	}
+
+	nPubKey, err := ToPubKey(pubKeyString)
+	if err != nil {
+		t.Error("ToPubKey failed")
+		return
+	}
+
+	pubkeyRaw, err := pubKey.Raw()
+	if err != nil {
+		t.Error("get pubkey raw failed")
+		return
+	}
+	nPubkeyRaw, err := nPubKey.Raw()
+	if err != nil {
+		t.Error("get PubKey raw failed")
+		return
+	}
+
+	if bytes.Compare(pubkeyRaw, nPubkeyRaw) != 0 {
+		t.Error("serialize and deserialize pub key fail")
+		return
+	}
+
 }

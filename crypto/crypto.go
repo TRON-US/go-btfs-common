@@ -47,7 +47,7 @@ func ToPubKey(pubKey string) (ic.PubKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ic.UnmarshalSecp256k1PublicKey(raw)
+	return ic.UnmarshalPublicKey(raw)
 }
 
 func FromPubKey(pubKey ic.PubKey) (string, error) {
