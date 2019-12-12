@@ -1,28 +1,54 @@
 package grpc
 
 import (
+	"log"
+	"net"
+
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	pb "github.com/tron-us/go-btfs-common/protos/status"
+	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/middleware"
-	"google.golang.org/grpc/reflection"
 
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	healthPb "google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/reflection"
 )
 
-type RuntimeServer struct {
-	shared.UnimplementedRuntimeServiceServer
-}
-type StatusServer struct {
-	// for backward-compatibility
-	//pb.UnimplementedStatusServer
-	pb.UnimplementedStatusServiceServer
-}
 type GrpcServer struct {
 	server       *grpc.Server
 	healthServer *health.Server
 	serverName   string
+	lis          net.Listener
+	dBURL        string
+	rDURL        string
+}
+
+func (s *GrpcServer) GrpcStatusServer(port string, dBURL string, rDURL string, statusServer pb.StatusServiceServer) *GrpcServer {
+	s.dBURL = dBURL
+	s.rDURL = rDURL
+
+	lis, err := net.Listen("tcp", port)
+	if err != nil {
+		log.Panic(constant.RPCListenError, zap.Error(err))
+	}
+	s.lis = lis
+	s.CreateServer("status-server").
+		CreateHealthServer().
+		RegisterServer(statusServer).
+		RegisterHealthServer().
+		WithReflection().
+		AcceptConnection()
+
+	return s
+}
+
+func (s *GrpcServer) AcceptConnection() *GrpcServer {
+	if err := s.server.Serve(s.lis); err != nil {
+		log.Panic(constant.RPCServeError, zap.Error(err))
+	}
+	return s
 }
 
 func (s *GrpcServer) CreateServer(serverName string) *GrpcServer {
@@ -31,16 +57,18 @@ func (s *GrpcServer) CreateServer(serverName string) *GrpcServer {
 	s.server = grpc.NewServer(middleware.GrpcServerOption)
 	return s
 }
+
 func (s *GrpcServer) CreateHealthServer() *GrpcServer {
 	//create grpc heath server
 	s.healthServer = health.NewServer()
 	return s
 }
-func (s *GrpcServer) RegisterServer() *GrpcServer {
+
+func (s *GrpcServer) RegisterServer(serverl interface{}) *GrpcServer {
 	//register two services under the same server
-	pb.RegisterStatusServer(s.server, &StatusServer{})
-	pb.RegisterStatusServiceServer(s.server, &StatusServer{})
-	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{})
+	pb.RegisterStatusServer(s.server, serverl.(pb.StatusServiceServer))
+	pb.RegisterStatusServiceServer(s.server, serverl.(pb.StatusServiceServer))
+	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
 	return s
 }
 
@@ -55,8 +83,4 @@ func (s *GrpcServer) WithReflection() *GrpcServer {
 	// Reflection api register.
 	reflection.Register(s.server)
 	return s
-}
-
-func (s *GrpcServer) GetServer() *grpc.Server {
-	return s.server
 }
