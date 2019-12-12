@@ -2,6 +2,7 @@ package crypto
 
 import (
 	"bytes"
+	"go.uber.org/zap"
 	"testing"
 
 	ledgerPb "github.com/tron-us/go-btfs-common/protos/ledger"
@@ -60,45 +61,45 @@ func TestEncryptDecrypt(t *testing.T) {
 func TestSerializeDeserializeKey(t *testing.T) {
 	privKey, err := ToPrivKey(KeyString)
 	if err != nil {
-		t.Error("ToPrivKey failed")
+		t.Error("ToPrivKey failed", zap.Error(err))
 		return
 	}
 	privKeyString, err := FromPrivKey(privKey)
 	if err != nil {
-		t.Error("FromPrivKey failed")
+		t.Error("FromPrivKey failed", zap.Error(err))
 		return
 	}
 	if privKeyString != KeyString {
-		t.Error("serialize and deserialize private key fail")
+		t.Error("serialize and deserialize private key fail", zap.Error(err))
 		return
 	}
 
 	pubKey := privKey.GetPublic()
 	pubKeyString, err := FromPubKey(pubKey)
 	if err != nil {
-		t.Error("FromPubKey failed")
+		t.Error("FromPubKey failed", zap.Error(err))
 		return
 	}
 
 	nPubKey, err := ToPubKey(pubKeyString)
 	if err != nil {
-		t.Error("ToPubKey failed")
+		t.Error("ToPubKey failed", zap.Error(err))
 		return
 	}
 
 	pubkeyRaw, err := pubKey.Raw()
 	if err != nil {
-		t.Error("get pubkey raw failed")
+		t.Error("get pubkey raw failed", zap.Error(err))
 		return
 	}
 	nPubkeyRaw, err := nPubKey.Raw()
 	if err != nil {
-		t.Error("get PubKey raw failed")
+		t.Error("get PubKey raw failed", zap.Error(err))
 		return
 	}
 
 	if bytes.Compare(pubkeyRaw, nPubkeyRaw) != 0 {
-		t.Error("serialize and deserialize pub key fail")
+		t.Error("serialize and deserialize pub key fail", zap.Error(err))
 		return
 	}
 
