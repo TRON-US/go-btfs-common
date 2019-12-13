@@ -5,14 +5,15 @@ import (
 	"net"
 
 	"github.com/tron-us/go-btfs-common/protos/shared"
-	pb "github.com/tron-us/go-btfs-common/protos/status"
+	"github.com/tron-us/go-btfs-common/protos/status"
+
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/middleware"
 
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
-	healthPb "google.golang.org/grpc/health/grpc_health_v1"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -25,7 +26,7 @@ type GrpcServer struct {
 	rDURL        string
 }
 
-func (s *GrpcServer) GrpcStatusServer(port string, dBURL string, rDURL string, statusServer pb.StatusServiceServer) *GrpcServer {
+func (s *GrpcServer) GrpcStatusServer(port string, dBURL string, rDURL string, statusServer status.StatusServiceServer) *GrpcServer {
 	s.dBURL = dBURL
 	s.rDURL = rDURL
 
@@ -59,23 +60,23 @@ func (s *GrpcServer) CreateServer(serverName string) *GrpcServer {
 }
 
 func (s *GrpcServer) CreateHealthServer() *GrpcServer {
-	//create grpc heath server
+	//create grpc health server
 	s.healthServer = health.NewServer()
 	return s
 }
 
-func (s *GrpcServer) RegisterServer(serverl interface{}) *GrpcServer {
+func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 	//register two services under the same server
-	pb.RegisterStatusServer(s.server, serverl.(pb.StatusServiceServer))
-	pb.RegisterStatusServiceServer(s.server, serverl.(pb.StatusServiceServer))
+	status.RegisterStatusServer(s.server, server.(status.StatusServiceServer))
+	status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
 	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
 	return s
 }
 
 func (s *GrpcServer) RegisterHealthServer() *GrpcServer {
 	// Add health server to exchange.
-	s.healthServer.SetServingStatus(s.serverName, healthPb.HealthCheckResponse_SERVING)
-	healthPb.RegisterHealthServer(s.server, s.healthServer)
+	s.healthServer.SetServingStatus(s.serverName, healthpb.HealthCheckResponse_SERVING)
+	healthpb.RegisterHealthServer(s.server, s.healthServer)
 	return s
 }
 
