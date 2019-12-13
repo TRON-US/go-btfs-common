@@ -109,6 +109,7 @@ message Host {
   uint64 collateral_stake = 25;
   uint64 collateral_lost = 26;
   uint64 collateral_burn = 27;
+  string country_short = 28;
 }
 
 message Location {
