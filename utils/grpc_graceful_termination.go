@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/tron-us/go-common/v2/log"
 	"google.golang.org/grpc"
 )
 
@@ -25,7 +25,7 @@ func (grpcInfo ServerCleanupInfo) GracefulTerminateDetect() {
 
 	select {
 	case <-interrupt:
-		fmt.Println("Received kill signal")
+		log.Info("Received kill signal")
 		break
 	}
 }
@@ -34,7 +34,7 @@ func (grpcInfo ServerCleanupInfo) GracefulTerminateDetect() {
 // Override this function in your package to do more.
 func (grpcInfo ServerCleanupInfo) GracefulTerminateExec() {
 	if grpcInfo.GrpcServer != nil {
-		fmt.Println("Shutting down server gracefully")
+		log.Info("Shutting down server gracefully")
 		grpcInfo.GrpcServer.GracefulStop()
 	}
 }
