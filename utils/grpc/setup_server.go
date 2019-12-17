@@ -4,6 +4,9 @@ import (
 	"log"
 	"net"
 
+	"github.com/tron-us/go-btfs-common/protos/escrow"
+	"github.com/tron-us/go-btfs-common/protos/guard"
+	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 
@@ -26,18 +29,38 @@ type GrpcServer struct {
 	rDURL        string
 }
 
-func (s *GrpcServer) GrpcStatusServer(port string, dBURL string, rDURL string, statusServer status.StatusServiceServer) *GrpcServer {
-	s.dBURL = dBURL
-	s.rDURL = rDURL
+func (s *GrpcServer) serverTypeToServerName(server interface{}) {
+	switch server.(type) {
+	case status.StatusServiceServer:
+		s.serverName = "status-server"
+	case escrow.EscrowServiceServer:
+		s.serverName = "escrow"
+	case guard.GuardServiceServer:
+		s.serverName = "guard"
+	case hub.HubQueryServiceServer:
+		s.serverName = "hub"
+	default:
+		s.serverName = "status-server"
+	}
+}
+
+func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}) *GrpcServer {
+
+	s.serverTypeToServerName(server)
+
+	s.dBURL = dbURL
+	s.rDURL = rdURL
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Panic(constant.RPCListenError, zap.Error(err))
 	}
+
 	s.lis = lis
-	s.CreateServer("status-server").
+
+	s.CreateServer(s.serverName).
 		CreateHealthServer().
-		RegisterServer(statusServer).
+		RegisterServer(server).
 		RegisterHealthServer().
 		WithReflection().
 		AcceptConnection()
@@ -66,10 +89,21 @@ func (s *GrpcServer) CreateHealthServer() *GrpcServer {
 }
 
 func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
-	//register two services under the same server
-	status.RegisterStatusServer(s.server, server.(status.StatusServiceServer))
-	status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
+
+	switch server.(type) {
+	case status.StatusServiceServer:
+		status.RegisterStatusServer(s.server, server.(status.StatusServiceServer))
+		status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
+	case escrow.EscrowServiceServer:
+		escrow.RegisterEscrowServiceServer(s.server, server.(escrow.EscrowServiceServer))
+	case guard.GuardServiceServer:
+		guard.RegisterGuardServiceServer(s.server, server.(guard.GuardServiceServer))
+	case hub.HubQueryServiceServer:
+		hub.RegisterHubQueryServiceServer(s.server, server.(hub.HubQueryServiceServer))
+	}
+
 	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
+
 	return s
 }
 

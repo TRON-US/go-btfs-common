@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/tron-us/go-btfs-common/protos/shared"
+	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/utils"
 
 	"github.com/tron-us/go-common/v2/db"
@@ -22,7 +22,7 @@ type RuntimeClientBuilder struct {
 }
 
 func (g *RuntimeClientBuilder) WithContext(ctx context.Context, f func(ctx context.Context,
-	client shared.RuntimeServiceClient) error) error {
+	client sharedpb.RuntimeServiceClient) error) error {
 	return g.doWithContext(ctx, f)
 }
 
@@ -30,7 +30,7 @@ type RuntimeServer struct {
 	DB_URL      string
 	RD_URL      string
 	serviceName string
-	shared.UnimplementedRuntimeServiceServer
+	sharedpb.UnimplementedRuntimeServiceServer
 }
 
 const (
@@ -38,7 +38,7 @@ const (
 )
 
 //implementation of the shared helper function
-func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *shared.SignedRuntimeInfoRequest) (*shared.RuntimeInfoReport, error) {
+func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 	//get connection object
 
 	connection := db.ConnectionUrls{
