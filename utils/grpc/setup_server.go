@@ -40,7 +40,7 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	case hub.HubQueryServiceServer:
 		s.serverName = "hub"
 	default:
-		s.serverName = "status-server"
+		s.serverName = "unknown"
 	}
 }
 
@@ -63,6 +63,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server 
 		RegisterServer(server).
 		RegisterHealthServer().
 		WithReflection().
+		WithGracefulTermDetectAndExec().
 		AcceptConnection()
 
 	return s
@@ -117,5 +118,14 @@ func (s *GrpcServer) RegisterHealthServer() *GrpcServer {
 func (s *GrpcServer) WithReflection() *GrpcServer {
 	// Reflection api register.
 	reflection.Register(s.server)
+	return s
+}
+
+func (s *GrpcServer) WithGracefulTermDetectAndExec() *GrpcServer {
+	//spin another routine to continue execution
+	go func() {
+		GracefulTerminateDetect()
+		GracefulTerminateExec(s.server)
+	}()
 	return s
 }

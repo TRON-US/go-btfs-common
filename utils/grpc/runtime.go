@@ -8,9 +8,6 @@ import (
 	"github.com/tron-us/go-btfs-common/utils"
 
 	"github.com/tron-us/go-common/v2/db"
-	"github.com/tron-us/go-common/v2/log"
-
-	"go.uber.org/zap"
 )
 
 func RuntimeClient(addr string) *RuntimeClientBuilder {
@@ -33,10 +30,6 @@ type RuntimeServer struct {
 	sharedpb.UnimplementedRuntimeServiceServer
 }
 
-const (
-	runtimeHandlerError = "RuntimeHandler Error!"
-)
-
 //implementation of the shared helper function
 func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 	//get connection object
@@ -49,9 +42,9 @@ func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRu
 	//check runtime in shared
 	res, err := utils.CheckRuntime(ctx, req, connection)
 	if err != nil {
-		log.Error(runtimeHandlerError, zap.Error(err))
+		return nil, err
 	}
-	//fill the returned data with status-server specific info
+	//fill the returned data with server specific info
 	if res != nil {
 		res.QueueStatusExtra = []byte(nil)
 		res.ChainStatusExtra = []byte(nil)
