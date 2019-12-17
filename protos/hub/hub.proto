@@ -101,11 +101,11 @@ message Host {
   float storage_volume_cap = 17;
   float storage_volume_left = 18;
   uint64 storage_time_min = 19;
-  float storage_price_ask = 20;
-  float storage_price_est = 21;
+  int64 storage_price_ask = 20;
+  int64 storage_price_est = 21;
   double bandwidth_limit = 22;
-  float bandwidth_price_ask = 23;
-  float bandwidth_price_est = 24;
+  int64 bandwidth_price_ask = 23;
+  int64 bandwidth_price_est = 24;
   uint64 collateral_stake = 25;
   uint64 collateral_lost = 26;
   uint64 collateral_burn = 27;
