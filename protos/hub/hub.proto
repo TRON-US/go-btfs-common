@@ -89,9 +89,9 @@ message Host {
   string region = 5;
   string btfs_version = 6;
   float score = 7;
-  int64 heart_beats = 8;
+  uint64 heart_beats = 8;
   float uptime = 9;
-  int64 age = 10;
+  uint64 age = 10;
   float reputation = 11;
   float upload_average = 12;
   float upload_variance = 13;
@@ -101,11 +101,11 @@ message Host {
   float storage_volume_cap = 17;
   float storage_volume_left = 18;
   uint64 storage_time_min = 19;
-  float storage_price_ask = 20;
-  float storage_price_est = 21;
+  uint64 storage_price_ask = 20;
+  uint64 storage_price_est = 21;
   double bandwidth_limit = 22;
-  float bandwidth_price_ask = 23;
-  float bandwidth_price_est = 24;
+  uint64 bandwidth_price_ask = 23;
+  uint64 bandwidth_price_est = 24;
   uint64 collateral_stake = 25;
   uint64 collateral_lost = 26;
   uint64 collateral_burn = 27;
