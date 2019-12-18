@@ -29,7 +29,7 @@ func GracefulTerminateDetect() {
 // GracefulTerminateExec performs a default list of tasks to clean up
 // Override this function in your package to do more.
 func GracefulTerminateExec(grpcServer *grpc.Server) {
-	stopped := make(chan struct{})
+	stopped := make(chan struct{}, 1)
 
 	go func() {
 		if grpcServer != nil {
