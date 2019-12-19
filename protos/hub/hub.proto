@@ -110,9 +110,30 @@ message Host {
   uint64 collateral_lost = 26;
   uint64 collateral_burn = 27;
   string country_short = 28;
+  ExperimentalFlags flg = 29 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
 }
 
 message Location {
   double lat = 1;
   double lon = 2;
+}
+
+message ExperimentalFlags {
+  bool analytics = 1;
+  bool filestore_enabled = 2;
+  bool hosts_sync_enabled = 3;
+  bool hosts_sync_mode = 4;
+  bool libp2p_stream_mounting = 5;
+  bool p2p_http_proxy = 6;
+  bool prefer_tls = 7;
+  bool quic = 8;
+  bool remove_on_unpin = 9;
+  bool sharding_enabled = 10;
+  bool storage_client_enabled = 11;
+  bool storage_host_enabled = 12;
+  bool strategic_providing = 13;
+  bool url_store_enabled = 14;
 }
