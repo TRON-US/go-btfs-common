@@ -31,35 +31,36 @@ var _ = time.Kitchen
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Node struct {
-	tableName            string  `pg:"node_metrics,alias:t,discard_unknown_columns"`
-	NodeId               string  `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
-	BtfsVersion          string  `protobuf:"bytes,3,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
-	UpTime               uint64  `protobuf:"varint,4,opt,name=up_time,json=upTime,proto3" json:"up_time,omitempty" pg:"up_time"`
-	StorageUsed          uint64  `protobuf:"varint,5,opt,name=storage_used,json=storageUsed,proto3" json:"storage_used,omitempty" pg:"storage_used"`
-	StorageVolumeCap     uint64  `protobuf:"varint,6,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap,omitempty" pg:"storage_volume_cap"`
-	MemoryUsed           uint64  `protobuf:"varint,7,opt,name=memory_used,json=memoryUsed,proto3" json:"memory_used,omitempty" pg:"memory_used"`
-	CpuUsed              float64 `protobuf:"fixed64,8,opt,name=cpu_used,json=cpuUsed,proto3" json:"cpu_used,omitempty" pg:"cpu_used"`
-	Upload               uint64  `protobuf:"varint,9,opt,name=upload,proto3" json:"upload,omitempty" pg:"upload"`
-	Download             uint64  `protobuf:"varint,10,opt,name=download,proto3" json:"download,omitempty" pg:"download"`
-	TotalUpload          uint64  `protobuf:"varint,11,opt,name=total_upload,json=totalUpload,proto3" json:"total_upload,omitempty" pg:"total_upload"`
-	TotalDownload        uint64  `protobuf:"varint,12,opt,name=total_download,json=totalDownload,proto3" json:"total_download,omitempty" pg:"total_download"`
-	StoragePriceDeal     uint64  `protobuf:"varint,13,opt,name=storage_price_deal,json=storagePriceDeal,proto3" json:"storage_price_deal,omitempty" pg:"storage_price_deal"`
-	BandwidthPriceDeal   uint64  `protobuf:"varint,14,opt,name=bandwidth_price_deal,json=bandwidthPriceDeal,proto3" json:"bandwidth_price_deal,omitempty" pg:"bandwidth_price_deal"`
-	Node_Settings        `protobuf:"bytes,15,opt,name=settings,proto3,embedded=settings" json:"settings" pg:"settings"`
-	Reputation           float64   `protobuf:"fixed64,16,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
-	BlocksUp             uint64    `protobuf:"varint,17,opt,name=blocks_up,json=blocksUp,proto3" json:"blocks_up,omitempty" pg:"blocks_up"`
-	BlocksDown           uint64    `protobuf:"varint,18,opt,name=blocks_down,json=blocksDown,proto3" json:"blocks_down,omitempty" pg:"blocks_down"`
-	OsType               string    `protobuf:"bytes,19,opt,name=os_type,json=osType,proto3" json:"os_type,omitempty" pg:"os_type"`
-	ArchType             string    `protobuf:"bytes,20,opt,name=arch_type,json=archType,proto3" json:"arch_type,omitempty" pg:"arch_type"`
-	CpuInfo              string    `protobuf:"bytes,21,opt,name=cpu_info,json=cpuInfo,proto3" json:"cpu_info,omitempty" pg:"cpu_info"`
-	NodeIp               string    `protobuf:"bytes,22,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty" pg:"node_ip"`
-	PeersConnected       uint64    `protobuf:"varint,23,opt,name=peers_connected,json=peersConnected,proto3" json:"peers_connected,omitempty" pg:"peers_connected"`
-	TimeCreated          time.Time `protobuf:"bytes,24,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
-	HVal                 string    `protobuf:"bytes,25,opt,name=h_val,json=hVal,proto3" json:"h_val,omitempty" pg:"h_val"`
-	Node_Geo             `protobuf:"bytes,26,opt,name=geo,proto3,embedded=geo" json:"geo" pg:"geo"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
-	XXX_unrecognized     []byte   `json:"-" pg:"-"`
-	XXX_sizecache        int32    `json:"-" pg:"-"`
+	tableName              string  `pg:"node_metrics,alias:t,discard_unknown_columns"`
+	NodeId                 string  `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
+	BtfsVersion            string  `protobuf:"bytes,3,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
+	UpTime                 uint64  `protobuf:"varint,4,opt,name=up_time,json=upTime,proto3" json:"up_time,omitempty" pg:"up_time"`
+	StorageUsed            uint64  `protobuf:"varint,5,opt,name=storage_used,json=storageUsed,proto3" json:"storage_used,omitempty" pg:"storage_used"`
+	StorageVolumeCap       uint64  `protobuf:"varint,6,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap,omitempty" pg:"storage_volume_cap"`
+	MemoryUsed             uint64  `protobuf:"varint,7,opt,name=memory_used,json=memoryUsed,proto3" json:"memory_used,omitempty" pg:"memory_used"`
+	CpuUsed                float64 `protobuf:"fixed64,8,opt,name=cpu_used,json=cpuUsed,proto3" json:"cpu_used,omitempty" pg:"cpu_used"`
+	Upload                 uint64  `protobuf:"varint,9,opt,name=upload,proto3" json:"upload,omitempty" pg:"upload"`
+	Download               uint64  `protobuf:"varint,10,opt,name=download,proto3" json:"download,omitempty" pg:"download"`
+	TotalUpload            uint64  `protobuf:"varint,11,opt,name=total_upload,json=totalUpload,proto3" json:"total_upload,omitempty" pg:"total_upload"`
+	TotalDownload          uint64  `protobuf:"varint,12,opt,name=total_download,json=totalDownload,proto3" json:"total_download,omitempty" pg:"total_download"`
+	StoragePriceDeal       uint64  `protobuf:"varint,13,opt,name=storage_price_deal,json=storagePriceDeal,proto3" json:"storage_price_deal,omitempty" pg:"storage_price_deal"`
+	BandwidthPriceDeal     uint64  `protobuf:"varint,14,opt,name=bandwidth_price_deal,json=bandwidthPriceDeal,proto3" json:"bandwidth_price_deal,omitempty" pg:"bandwidth_price_deal"`
+	Node_Settings          `protobuf:"bytes,15,opt,name=settings,proto3,embedded=settings" json:"settings" pg:"settings"`
+	Reputation             float64   `protobuf:"fixed64,16,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
+	BlocksUp               uint64    `protobuf:"varint,17,opt,name=blocks_up,json=blocksUp,proto3" json:"blocks_up,omitempty" pg:"blocks_up"`
+	BlocksDown             uint64    `protobuf:"varint,18,opt,name=blocks_down,json=blocksDown,proto3" json:"blocks_down,omitempty" pg:"blocks_down"`
+	OsType                 string    `protobuf:"bytes,19,opt,name=os_type,json=osType,proto3" json:"os_type,omitempty" pg:"os_type"`
+	ArchType               string    `protobuf:"bytes,20,opt,name=arch_type,json=archType,proto3" json:"arch_type,omitempty" pg:"arch_type"`
+	CpuInfo                string    `protobuf:"bytes,21,opt,name=cpu_info,json=cpuInfo,proto3" json:"cpu_info,omitempty" pg:"cpu_info"`
+	NodeIp                 string    `protobuf:"bytes,22,opt,name=node_ip,json=nodeIp,proto3" json:"node_ip,omitempty" pg:"node_ip"`
+	PeersConnected         uint64    `protobuf:"varint,23,opt,name=peers_connected,json=peersConnected,proto3" json:"peers_connected,omitempty" pg:"peers_connected"`
+	TimeCreated            time.Time `protobuf:"bytes,24,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
+	HVal                   string    `protobuf:"bytes,25,opt,name=h_val,json=hVal,proto3" json:"h_val,omitempty" pg:"h_val"`
+	Node_Geo               `protobuf:"bytes,26,opt,name=geo,proto3,embedded=geo" json:"geo" pg:"geo"`
+	Node_ExperimentalFlags `protobuf:"bytes,27,opt,name=flg,proto3,embedded=flg" json:"flg" pg:"flg"`
+	XXX_NoUnkeyedLiteral   struct{} `json:"-" pg:"-"`
+	XXX_unrecognized       []byte   `json:"-" pg:"-"`
+	XXX_sizecache          int32    `json:"-" pg:"-"`
 }
 
 func (m *Node) Reset()         { *m = Node{} }
@@ -424,6 +425,161 @@ func (m *Node_Geo) GetLongitude() float32 {
 func (*Node_Geo) XXX_MessageName() string {
 	return "node.Node.Geo"
 }
+
+type Node_ExperimentalFlags struct {
+	Analytics            bool     `protobuf:"varint,1,opt,name=analytics,proto3" json:"analytics,omitempty" pg:"analytics"`
+	FilestoreEnabled     bool     `protobuf:"varint,2,opt,name=filestore_enabled,json=filestoreEnabled,proto3" json:"filestore_enabled,omitempty" pg:"filestore_enabled"`
+	HostsSyncEnabled     bool     `protobuf:"varint,3,opt,name=hosts_sync_enabled,json=hostsSyncEnabled,proto3" json:"hosts_sync_enabled,omitempty" pg:"hosts_sync_enabled"`
+	HostsSyncMode        bool     `protobuf:"varint,4,opt,name=hosts_sync_mode,json=hostsSyncMode,proto3" json:"hosts_sync_mode,omitempty" pg:"hosts_sync_mode"`
+	Libp2PStreamMounting bool     `protobuf:"varint,5,opt,name=libp2p_stream_mounting,json=libp2pStreamMounting,proto3" json:"libp2p_stream_mounting,omitempty" pg:"libp2p_stream_mounting"`
+	P2PHttpProxy         bool     `protobuf:"varint,6,opt,name=p2p_http_proxy,json=p2pHttpProxy,proto3" json:"p2p_http_proxy,omitempty" pg:"p2p_http_proxy"`
+	PreferTls            bool     `protobuf:"varint,7,opt,name=prefer_tls,json=preferTls,proto3" json:"prefer_tls,omitempty" pg:"prefer_tls"`
+	Quic                 bool     `protobuf:"varint,8,opt,name=quic,proto3" json:"quic,omitempty" pg:"quic"`
+	RemoveOnUnpin        bool     `protobuf:"varint,9,opt,name=remove_on_unpin,json=removeOnUnpin,proto3" json:"remove_on_unpin,omitempty" pg:"remove_on_unpin"`
+	ShardingEnabled      bool     `protobuf:"varint,10,opt,name=sharding_enabled,json=shardingEnabled,proto3" json:"sharding_enabled,omitempty" pg:"sharding_enabled"`
+	StorageClientEnabled bool     `protobuf:"varint,11,opt,name=storage_client_enabled,json=storageClientEnabled,proto3" json:"storage_client_enabled,omitempty" pg:"storage_client_enabled"`
+	StorageHostEnabled   bool     `protobuf:"varint,12,opt,name=storage_host_enabled,json=storageHostEnabled,proto3" json:"storage_host_enabled,omitempty" pg:"storage_host_enabled"`
+	StrategicProviding   bool     `protobuf:"varint,13,opt,name=strategic_providing,json=strategicProviding,proto3" json:"strategic_providing,omitempty" pg:"strategic_providing"`
+	UrlStoreEnabled      bool     `protobuf:"varint,14,opt,name=url_store_enabled,json=urlStoreEnabled,proto3" json:"url_store_enabled,omitempty" pg:"url_store_enabled"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *Node_ExperimentalFlags) Reset()         { *m = Node_ExperimentalFlags{} }
+func (m *Node_ExperimentalFlags) String() string { return proto.CompactTextString(m) }
+func (*Node_ExperimentalFlags) ProtoMessage()    {}
+func (*Node_ExperimentalFlags) Descriptor() ([]byte, []int) {
+	return fileDescriptor_35f8e1f5ec2240a2, []int{0, 2}
+}
+func (m *Node_ExperimentalFlags) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Node_ExperimentalFlags) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Node_ExperimentalFlags.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Node_ExperimentalFlags) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Node_ExperimentalFlags.Merge(m, src)
+}
+func (m *Node_ExperimentalFlags) XXX_Size() int {
+	return m.Size()
+}
+func (m *Node_ExperimentalFlags) XXX_DiscardUnknown() {
+	xxx_messageInfo_Node_ExperimentalFlags.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Node_ExperimentalFlags proto.InternalMessageInfo
+
+func (m *Node_ExperimentalFlags) GetAnalytics() bool {
+	if m != nil {
+		return m.Analytics
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetFilestoreEnabled() bool {
+	if m != nil {
+		return m.FilestoreEnabled
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetHostsSyncEnabled() bool {
+	if m != nil {
+		return m.HostsSyncEnabled
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetHostsSyncMode() bool {
+	if m != nil {
+		return m.HostsSyncMode
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetLibp2PStreamMounting() bool {
+	if m != nil {
+		return m.Libp2PStreamMounting
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetP2PHttpProxy() bool {
+	if m != nil {
+		return m.P2PHttpProxy
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetPreferTls() bool {
+	if m != nil {
+		return m.PreferTls
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetQuic() bool {
+	if m != nil {
+		return m.Quic
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetRemoveOnUnpin() bool {
+	if m != nil {
+		return m.RemoveOnUnpin
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetShardingEnabled() bool {
+	if m != nil {
+		return m.ShardingEnabled
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetStorageClientEnabled() bool {
+	if m != nil {
+		return m.StorageClientEnabled
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetStorageHostEnabled() bool {
+	if m != nil {
+		return m.StorageHostEnabled
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetStrategicProviding() bool {
+	if m != nil {
+		return m.StrategicProviding
+	}
+	return false
+}
+
+func (m *Node_ExperimentalFlags) GetUrlStoreEnabled() bool {
+	if m != nil {
+		return m.UrlStoreEnabled
+	}
+	return false
+}
+
+func (*Node_ExperimentalFlags) XXX_MessageName() string {
+	return "node.Node.ExperimentalFlags"
+}
 func init() {
 	proto.RegisterType((*Node)(nil), "node.Node")
 	golang_proto.RegisterType((*Node)(nil), "node.Node")
@@ -431,68 +587,89 @@ func init() {
 	golang_proto.RegisterType((*Node_Settings)(nil), "node.Node.Settings")
 	proto.RegisterType((*Node_Geo)(nil), "node.Node.Geo")
 	golang_proto.RegisterType((*Node_Geo)(nil), "node.Node.Geo")
+	proto.RegisterType((*Node_ExperimentalFlags)(nil), "node.Node.ExperimentalFlags")
+	golang_proto.RegisterType((*Node_ExperimentalFlags)(nil), "node.Node.ExperimentalFlags")
 }
 
 func init() { proto.RegisterFile("protos/node/node.proto", fileDescriptor_35f8e1f5ec2240a2) }
 func init() { golang_proto.RegisterFile("protos/node/node.proto", fileDescriptor_35f8e1f5ec2240a2) }
 
 var fileDescriptor_35f8e1f5ec2240a2 = []byte{
-	// 869 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x54, 0xcd, 0x6e, 0x23, 0x45,
-	0x10, 0x66, 0x12, 0xaf, 0x63, 0xb7, 0x1d, 0x27, 0xe9, 0x2c, 0xd9, 0x59, 0x83, 0xec, 0x10, 0x84,
-	0x30, 0xab, 0x30, 0x59, 0x40, 0x1c, 0x58, 0x89, 0x03, 0xc9, 0x4a, 0xd1, 0x4a, 0xb0, 0x8a, 0x26,
-	0x3f, 0x07, 0x2e, 0xad, 0xf6, 0x4c, 0x67, 0xdc, 0xf2, 0x4c, 0x77, 0x6b, 0xba, 0x27, 0x51, 0x24,
-	0x1e, 0x82, 0x23, 0x6f, 0xc2, 0x95, 0x63, 0x8e, 0xfb, 0x04, 0x01, 0x12, 0x9e, 0x80, 0x13, 0x47,
-	0x54, 0xd5, 0xe3, 0x9f, 0xec, 0xc5, 0x9a, 0xfe, 0xbe, 0xaf, 0xca, 0x5d, 0x55, 0x5f, 0x35, 0xd9,
-	0x31, 0xa5, 0x76, 0xda, 0x1e, 0x28, 0x9d, 0x0a, 0xfc, 0x89, 0x10, 0xa0, 0x0d, 0xf8, 0xee, 0xbf,
-	0xcc, 0xa4, 0x9b, 0x54, 0xe3, 0x28, 0xd1, 0xc5, 0x81, 0x2b, 0xb5, 0xfa, 0xb2, 0xb2, 0x07, 0xc8,
-	0x8f, 0xab, 0xcb, 0x83, 0x4c, 0x67, 0x1a, 0x0f, 0xf8, 0xe5, 0xe3, 0xfa, 0xc3, 0x4c, 0xeb, 0x2c,
-	0x17, 0x0b, 0x95, 0x93, 0x85, 0xb0, 0x8e, 0x17, 0xc6, 0x0b, 0xf6, 0x7e, 0x27, 0xa4, 0xf1, 0x56,
-	0xa7, 0x82, 0x9e, 0x11, 0xe2, 0xf8, 0x38, 0x17, 0x4c, 0xf1, 0x42, 0x84, 0xc1, 0x6e, 0x30, 0x6a,
-	0x1f, 0x7e, 0xfb, 0xef, 0xdd, 0xf0, 0x2b, 0x93, 0xbd, 0xda, 0x83, 0x7f, 0x67, 0x85, 0x70, 0xa5,
-	0x4c, 0xec, 0x3e, 0xcf, 0x25, 0xb7, 0xaf, 0xdc, 0x7e, 0x2a, 0x6d, 0xc2, 0xcb, 0x94, 0x55, 0x6a,
-	0xaa, 0xf4, 0xb5, 0x62, 0x89, 0xce, 0xab, 0x42, 0xd9, 0xbd, 0xb8, 0x8d, 0x89, 0xde, 0xf2, 0x42,
-	0xd0, 0x67, 0x64, 0x0d, 0x63, 0x65, 0x1a, 0xae, 0x40, 0xca, 0xb8, 0x09, 0xc7, 0x37, 0x29, 0xfd,
-	0x84, 0x74, 0xc7, 0xee, 0xd2, 0xb2, 0x2b, 0x51, 0x5a, 0xa9, 0x55, 0xb8, 0x8a, 0x6c, 0x07, 0xb0,
-	0x0b, 0x0f, 0x41, 0x6c, 0x65, 0x18, 0x5c, 0x38, 0x6c, 0xec, 0x06, 0xa3, 0x46, 0xdc, 0xac, 0xcc,
-	0x99, 0x2c, 0x04, 0xc4, 0x5a, 0xa7, 0x4b, 0x9e, 0x09, 0x56, 0x59, 0x91, 0x86, 0x4f, 0x90, 0xed,
-	0xd4, 0xd8, 0xb9, 0x15, 0x29, 0xdd, 0x27, 0x74, 0x26, 0xb9, 0x82, 0x6b, 0x09, 0x96, 0x70, 0x13,
-	0x36, 0x51, 0xb8, 0x59, 0x33, 0x17, 0x48, 0x1c, 0x71, 0x43, 0x87, 0xa4, 0x53, 0x88, 0x42, 0x97,
-	0x37, 0x3e, 0xdf, 0x1a, 0xca, 0x88, 0x87, 0x30, 0xdd, 0x73, 0xd2, 0x4a, 0x4c, 0xe5, 0xd9, 0xd6,
-	0x6e, 0x30, 0x0a, 0xe2, 0xb5, 0xc4, 0x54, 0x48, 0xed, 0x90, 0x66, 0x65, 0x72, 0xcd, 0xd3, 0xb0,
-	0x3d, 0xbb, 0x24, 0x9c, 0x68, 0x9f, 0xb4, 0x52, 0x7d, 0xad, 0x90, 0x21, 0xc8, 0xcc, 0xcf, 0x50,
-	0x80, 0xd3, 0x8e, 0xe7, 0xac, 0x8e, 0xec, 0xf8, 0x02, 0x10, 0x3b, 0xf7, 0xe1, 0x9f, 0x91, 0x9e,
-	0x97, 0xcc, 0x93, 0x74, 0x51, 0xb4, 0x8e, 0xe8, 0xeb, 0x59, 0xa6, 0xa5, 0x3a, 0x4d, 0x29, 0x13,
-	0xc1, 0x52, 0xc1, 0xf3, 0x70, 0xfd, 0x51, 0x9d, 0x27, 0x40, 0xbc, 0x16, 0x3c, 0xa7, 0x2f, 0xc9,
-	0xd3, 0x31, 0x57, 0xe9, 0xb5, 0x4c, 0xdd, 0x64, 0x59, 0xdf, 0x43, 0x3d, 0x9d, 0x73, 0x8b, 0x88,
-	0xef, 0x48, 0xcb, 0x0a, 0xe7, 0xa4, 0xca, 0x6c, 0xb8, 0xb1, 0x1b, 0x8c, 0x3a, 0x5f, 0x6f, 0x47,
-	0x68, 0x4b, 0xf0, 0x4c, 0x74, 0x5a, 0x53, 0x87, 0xad, 0xdb, 0xbb, 0xe1, 0x07, 0xef, 0xee, 0x86,
-	0x41, 0x3c, 0x97, 0xd3, 0x01, 0x21, 0xa5, 0x30, 0x95, 0xe3, 0x0e, 0xe6, 0xbb, 0x89, 0x5d, 0x5b,
-	0x42, 0xe8, 0x47, 0xa4, 0x3d, 0xce, 0x75, 0x32, 0xb5, 0xac, 0x32, 0xe1, 0x96, 0xef, 0x90, 0x07,
-	0xce, 0x71, 0x22, 0x35, 0x09, 0xf5, 0x87, 0xd4, 0x4f, 0xc4, 0x43, 0x50, 0x3c, 0x98, 0x43, 0x5b,
-	0xe6, 0x6e, 0x8c, 0x08, 0xb7, 0xbd, 0xb1, 0xb4, 0x3d, 0xbb, 0x31, 0x02, 0xd2, 0xf2, 0x32, 0x99,
-	0x78, 0xea, 0x29, 0x52, 0x2d, 0x00, 0x90, 0xac, 0xe7, 0x28, 0xd5, 0xa5, 0x0e, 0x3f, 0x44, 0x0e,
-	0xe6, 0xf8, 0x46, 0x5d, 0xea, 0x85, 0x53, 0x4d, 0xb8, 0xb3, 0xe4, 0x54, 0x43, 0x3f, 0x27, 0x1b,
-	0x46, 0x88, 0xd2, 0xb2, 0x44, 0x2b, 0x25, 0x12, 0x27, 0xd2, 0xf0, 0x19, 0x5e, 0xa7, 0x87, 0xf0,
-	0xd1, 0x0c, 0xa5, 0xc7, 0xa4, 0x0b, 0x66, 0x65, 0x49, 0x29, 0x38, 0xa8, 0x42, 0xec, 0x57, 0x3f,
-	0xf2, 0x2b, 0x18, 0xcd, 0x56, 0x30, 0x3a, 0x9b, 0xad, 0xa0, 0x6f, 0xdb, 0xaf, 0x7f, 0x0e, 0x83,
-	0xb8, 0x03, 0x91, 0x47, 0x3e, 0x90, 0x6e, 0x93, 0x27, 0x13, 0x76, 0xc5, 0xf3, 0xf0, 0x39, 0x5e,
-	0xa4, 0x31, 0xb9, 0xe0, 0x39, 0x7d, 0x41, 0x56, 0x33, 0xa1, 0xc3, 0x3e, 0x26, 0xed, 0x2d, 0x0d,
-	0xe1, 0x58, 0xe8, 0xa5, 0xfe, 0x83, 0xa8, 0xff, 0x4f, 0x40, 0x5a, 0xb3, 0xd9, 0xd0, 0x17, 0x64,
-	0xeb, 0xb1, 0x45, 0xb8, 0x9d, 0xe2, 0x7e, 0x37, 0xe2, 0x8d, 0x65, 0x87, 0xfc, 0x60, 0xa7, 0x34,
-	0x22, 0xdb, 0xef, 0x1b, 0x04, 0xd4, 0x2b, 0xa8, 0xde, 0x7a, 0xec, 0x0f, 0xd0, 0x8f, 0xc8, 0xcc,
-	0x64, 0xb8, 0xa7, 0xac, 0x90, 0x7e, 0x93, 0x1b, 0x71, 0xaf, 0xc6, 0xa1, 0xd8, 0x9f, 0xa4, 0x82,
-	0x2e, 0x2e, 0x32, 0xe7, 0xb2, 0x90, 0x0e, 0x97, 0x3a, 0x88, 0x7b, 0x73, 0xf8, 0x47, 0x40, 0xe9,
-	0x17, 0x64, 0x33, 0xd1, 0x79, 0xce, 0x9d, 0x28, 0x79, 0xce, 0xac, 0xe3, 0x53, 0x51, 0x2f, 0xf8,
-	0xc6, 0x02, 0x3f, 0x05, 0xb8, 0xff, 0x0b, 0x59, 0x3d, 0x16, 0x9a, 0x7e, 0x4a, 0xd6, 0x13, 0x5d,
-	0x29, 0x57, 0xde, 0x30, 0x3b, 0xd1, 0xa5, 0xf3, 0x8f, 0x57, 0xdc, 0xad, 0xc1, 0x53, 0xc0, 0x60,
-	0x4d, 0x4b, 0x91, 0x81, 0x13, 0xeb, 0x77, 0xc8, 0x9f, 0x60, 0x4d, 0x73, 0xee, 0xa4, 0xab, 0x52,
-	0x81, 0x37, 0x5f, 0x89, 0xe7, 0x67, 0xfa, 0x31, 0x69, 0xe7, 0x5a, 0x65, 0x9e, 0x6c, 0x20, 0xb9,
-	0x00, 0x0e, 0xbf, 0xff, 0xef, 0xef, 0x41, 0x70, 0x7b, 0x3f, 0x08, 0xde, 0xdd, 0x0f, 0x82, 0xbf,
-	0xee, 0x07, 0xc1, 0x6f, 0x0f, 0x83, 0xe0, 0x8f, 0x87, 0x41, 0x70, 0xfb, 0x30, 0x08, 0x48, 0x57,
-	0xea, 0x08, 0x1e, 0x33, 0x1c, 0xd4, 0x61, 0x1b, 0x26, 0x75, 0x02, 0x06, 0x38, 0x09, 0x7e, 0xc6,
-	0xb7, 0x7c, 0xdc, 0x44, 0x3f, 0x7c, 0xf3, 0x7f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x07, 0xdd, 0x39,
-	0x8a, 0xf2, 0x05, 0x00, 0x00,
+	// 1178 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x56, 0x41, 0x73, 0x1b, 0xc5,
+	0x12, 0x7e, 0x1b, 0x2b, 0xce, 0x6a, 0x24, 0x4b, 0xf6, 0x38, 0xcf, 0xd9, 0x28, 0x79, 0xb2, 0x5f,
+	0xde, 0x03, 0x4c, 0x08, 0x72, 0x08, 0xa1, 0x0a, 0x52, 0xc5, 0x01, 0x3b, 0x21, 0x49, 0x15, 0x09,
+	0xae, 0xb5, 0x9d, 0x03, 0x97, 0xad, 0xd1, 0xee, 0x68, 0x35, 0xe5, 0xd9, 0x99, 0x61, 0x67, 0xd6,
+	0x89, 0xaa, 0xf8, 0x11, 0x1c, 0xf9, 0x39, 0x1c, 0x73, 0x23, 0x77, 0xaa, 0x02, 0x24, 0xfc, 0x02,
+	0x4e, 0x1c, 0xa9, 0xee, 0xd9, 0x95, 0x64, 0xb8, 0xa4, 0x76, 0xbe, 0xef, 0xeb, 0x4e, 0x4f, 0x77,
+	0xcf, 0x27, 0x93, 0x2d, 0x53, 0x6a, 0xa7, 0xed, 0x9e, 0xd2, 0x19, 0xc7, 0x7f, 0x46, 0x08, 0xd0,
+	0x16, 0x7c, 0x0f, 0x6e, 0xe7, 0xc2, 0x4d, 0xab, 0xf1, 0x28, 0xd5, 0xc5, 0x9e, 0x2b, 0xb5, 0xfa,
+	0xb0, 0xb2, 0x7b, 0xc8, 0x8f, 0xab, 0xc9, 0x5e, 0xae, 0x73, 0x8d, 0x07, 0xfc, 0xf2, 0x71, 0x83,
+	0xed, 0x5c, 0xeb, 0x5c, 0xf2, 0x85, 0xca, 0x89, 0x82, 0x5b, 0xc7, 0x0a, 0xe3, 0x05, 0x37, 0x7e,
+	0xea, 0x93, 0xd6, 0x53, 0x9d, 0x71, 0x7a, 0x4c, 0x88, 0x63, 0x63, 0xc9, 0x13, 0xc5, 0x0a, 0x1e,
+	0x05, 0x3b, 0xc1, 0x6e, 0x7b, 0xff, 0x93, 0x3f, 0x5e, 0x6f, 0x7f, 0x64, 0xf2, 0x7b, 0x37, 0xe0,
+	0x7f, 0x4f, 0x0a, 0xee, 0x4a, 0x91, 0xda, 0x5b, 0x4c, 0x0a, 0x66, 0xef, 0xb9, 0x5b, 0x99, 0xb0,
+	0x29, 0x2b, 0xb3, 0xa4, 0x52, 0xa7, 0x4a, 0x3f, 0x57, 0x49, 0xaa, 0x65, 0x55, 0x28, 0x7b, 0x23,
+	0x6e, 0x63, 0xa2, 0xa7, 0xac, 0xe0, 0xf4, 0x0a, 0xb9, 0x84, 0xb1, 0x22, 0x8b, 0x2e, 0x40, 0xca,
+	0x78, 0x15, 0x8e, 0x8f, 0x33, 0xfa, 0x5f, 0xd2, 0x1d, 0xbb, 0x89, 0x4d, 0xce, 0x78, 0x69, 0x85,
+	0x56, 0xd1, 0x0a, 0xb2, 0x1d, 0xc0, 0x9e, 0x79, 0x08, 0x62, 0x2b, 0x93, 0x40, 0xc1, 0x51, 0x6b,
+	0x27, 0xd8, 0x6d, 0xc5, 0xab, 0x95, 0x39, 0x16, 0x05, 0x87, 0x58, 0xeb, 0x74, 0xc9, 0x72, 0x9e,
+	0x54, 0x96, 0x67, 0xd1, 0x45, 0x64, 0x3b, 0x35, 0x76, 0x62, 0x79, 0x46, 0x6f, 0x11, 0xda, 0x48,
+	0xce, 0xa0, 0x2c, 0x9e, 0xa4, 0xcc, 0x44, 0xab, 0x28, 0x5c, 0xaf, 0x99, 0x67, 0x48, 0x1c, 0x30,
+	0x43, 0xb7, 0x49, 0xa7, 0xe0, 0x85, 0x2e, 0x67, 0x3e, 0xdf, 0x25, 0x94, 0x11, 0x0f, 0x61, 0xba,
+	0xab, 0x24, 0x4c, 0x4d, 0xe5, 0xd9, 0x70, 0x27, 0xd8, 0x0d, 0xe2, 0x4b, 0xa9, 0xa9, 0x90, 0xda,
+	0x22, 0xab, 0x95, 0x91, 0x9a, 0x65, 0x51, 0xbb, 0x29, 0x12, 0x4e, 0x74, 0x40, 0xc2, 0x4c, 0x3f,
+	0x57, 0xc8, 0x10, 0x64, 0xe6, 0x67, 0xb8, 0x80, 0xd3, 0x8e, 0xc9, 0xa4, 0x8e, 0xec, 0xf8, 0x0b,
+	0x20, 0x76, 0xe2, 0xc3, 0xdf, 0x21, 0x3d, 0x2f, 0x99, 0x27, 0xe9, 0xa2, 0x68, 0x0d, 0xd1, 0xfb,
+	0x4d, 0xa6, 0xa5, 0x7b, 0x9a, 0x52, 0xa4, 0x3c, 0xc9, 0x38, 0x93, 0xd1, 0xda, 0xb9, 0x7b, 0x1e,
+	0x02, 0x71, 0x9f, 0x33, 0x49, 0x6f, 0x93, 0xcb, 0x63, 0xa6, 0xb2, 0xe7, 0x22, 0x73, 0xd3, 0x65,
+	0x7d, 0x0f, 0xf5, 0x74, 0xce, 0x2d, 0x22, 0x3e, 0x23, 0xa1, 0xe5, 0xce, 0x09, 0x95, 0xdb, 0xa8,
+	0xbf, 0x13, 0xec, 0x76, 0xee, 0x6c, 0x8e, 0x70, 0x2d, 0x61, 0x67, 0x46, 0x47, 0x35, 0xb5, 0x1f,
+	0xbe, 0x7c, 0xbd, 0xfd, 0xaf, 0x57, 0xaf, 0xb7, 0x83, 0x78, 0x2e, 0xa7, 0x43, 0x42, 0x4a, 0x6e,
+	0x2a, 0xc7, 0x1c, 0xcc, 0x77, 0x1d, 0xbb, 0xb6, 0x84, 0xd0, 0x6b, 0xa4, 0x3d, 0x96, 0x3a, 0x3d,
+	0xb5, 0x49, 0x65, 0xa2, 0x0d, 0xdf, 0x21, 0x0f, 0x9c, 0xe0, 0x44, 0x6a, 0x12, 0xee, 0x1f, 0x51,
+	0x3f, 0x11, 0x0f, 0xc1, 0xe5, 0x61, 0x39, 0xb4, 0x4d, 0xdc, 0xcc, 0xf0, 0x68, 0xd3, 0x2f, 0x96,
+	0xb6, 0xc7, 0x33, 0xc3, 0x21, 0x2d, 0x2b, 0xd3, 0xa9, 0xa7, 0x2e, 0x23, 0x15, 0x02, 0x80, 0x64,
+	0x3d, 0x47, 0xa1, 0x26, 0x3a, 0xfa, 0x37, 0x72, 0x30, 0xc7, 0xc7, 0x6a, 0xa2, 0x17, 0x9b, 0x6a,
+	0xa2, 0xad, 0xa5, 0x4d, 0x35, 0xf4, 0x3d, 0xd2, 0x37, 0x9c, 0x97, 0x36, 0x49, 0xb5, 0x52, 0x3c,
+	0x75, 0x3c, 0x8b, 0xae, 0x60, 0x39, 0x3d, 0x84, 0x0f, 0x1a, 0x94, 0x3e, 0x24, 0x5d, 0x58, 0xd6,
+	0x24, 0x2d, 0x39, 0x03, 0x55, 0x84, 0xfd, 0x1a, 0x8c, 0xfc, 0x13, 0x1c, 0x35, 0x4f, 0x70, 0x74,
+	0xdc, 0x3c, 0x41, 0xdf, 0xb6, 0xef, 0x7f, 0xd9, 0x0e, 0xe2, 0x0e, 0x44, 0x1e, 0xf8, 0x40, 0xba,
+	0x49, 0x2e, 0x4e, 0x93, 0x33, 0x26, 0xa3, 0xab, 0x58, 0x48, 0x6b, 0xfa, 0x8c, 0x49, 0x7a, 0x93,
+	0xac, 0xe4, 0x5c, 0x47, 0x03, 0x4c, 0xda, 0x5b, 0x1a, 0xc2, 0x43, 0xae, 0x97, 0xfa, 0x0f, 0x22,
+	0xfa, 0x29, 0x59, 0x99, 0xc8, 0x3c, 0xba, 0x86, 0xda, 0xeb, 0x4b, 0xda, 0x07, 0x2f, 0x0c, 0x2f,
+	0x45, 0xc1, 0x95, 0x63, 0xf2, 0x4b, 0xc9, 0xce, 0x4d, 0x0e, 0x42, 0x06, 0xbf, 0x07, 0x24, 0x6c,
+	0xa6, 0x4a, 0x6f, 0x92, 0x8d, 0xf3, 0xcb, 0xc5, 0xec, 0x29, 0x3a, 0x43, 0x2b, 0xee, 0x2f, 0xef,
+	0xd6, 0x17, 0xf6, 0x94, 0x8e, 0xc8, 0xe6, 0xdf, 0x57, 0x0b, 0xd4, 0x17, 0x50, 0xbd, 0x71, 0x7e,
+	0xb3, 0x40, 0xbf, 0x4b, 0x9a, 0xf5, 0xc4, 0x17, 0x9e, 0x14, 0xc2, 0x7b, 0x40, 0x2b, 0xee, 0xd5,
+	0x38, 0xb4, 0xe9, 0x89, 0x50, 0xd0, 0xff, 0x45, 0x66, 0x29, 0x0a, 0xe1, 0xd0, 0x0e, 0x82, 0xb8,
+	0x37, 0x87, 0xbf, 0x02, 0x94, 0xbe, 0x4f, 0xd6, 0x53, 0x2d, 0x25, 0x73, 0xbc, 0x64, 0x32, 0xb1,
+	0x8e, 0x9d, 0xf2, 0xda, 0x1a, 0xfa, 0x0b, 0xfc, 0x08, 0xe0, 0xc1, 0x77, 0x64, 0xe5, 0x21, 0xd7,
+	0xf4, 0x7f, 0x64, 0x2d, 0xd5, 0x95, 0x72, 0xe5, 0x2c, 0xb1, 0x53, 0x5d, 0x3a, 0x6f, 0x7b, 0x71,
+	0xb7, 0x06, 0x8f, 0x00, 0x83, 0x07, 0x5e, 0xf2, 0x1c, 0x76, 0xb8, 0x76, 0x30, 0x7f, 0x82, 0x07,
+	0x2e, 0x99, 0x13, 0xae, 0xca, 0x38, 0x56, 0x7e, 0x21, 0x9e, 0x9f, 0xe9, 0x75, 0xd2, 0x96, 0x5a,
+	0xe5, 0x9e, 0x6c, 0x21, 0xb9, 0x00, 0x06, 0x3f, 0xb7, 0xc8, 0xc6, 0x3f, 0x26, 0x01, 0x31, 0x4c,
+	0x31, 0x39, 0x73, 0x22, 0xb5, 0x58, 0x48, 0x18, 0x2f, 0x00, 0xfa, 0x01, 0xd9, 0x98, 0x08, 0xc9,
+	0xa1, 0x37, 0x3c, 0xe1, 0x0a, 0x0c, 0xd6, 0x5b, 0x6a, 0x18, 0xaf, 0xcf, 0x89, 0x07, 0x1e, 0x07,
+	0x57, 0x98, 0x6a, 0xeb, 0x6c, 0x62, 0x67, 0x2a, 0x9d, 0xab, 0x57, 0xbc, 0x1a, 0x99, 0xa3, 0x99,
+	0x4a, 0x1b, 0xf5, 0xbb, 0xa4, 0xbf, 0xa4, 0x2e, 0x74, 0x5d, 0x72, 0x18, 0xaf, 0xcd, 0xa5, 0x4f,
+	0xe0, 0x17, 0xe2, 0x2e, 0xd9, 0x92, 0x62, 0x6c, 0xee, 0x98, 0xc4, 0xba, 0x92, 0xb3, 0x22, 0x29,
+	0xa0, 0x4d, 0x42, 0xe5, 0xd8, 0xe5, 0x30, 0xbe, 0xec, 0xd9, 0x23, 0x24, 0x9f, 0xd4, 0x1c, 0xfd,
+	0x3f, 0xe9, 0x41, 0xc8, 0xd4, 0x39, 0x93, 0x98, 0x52, 0xbf, 0x98, 0xa1, 0x0b, 0x87, 0x71, 0xd7,
+	0xdc, 0x31, 0x8f, 0x9c, 0x33, 0x87, 0x80, 0xd1, 0xff, 0x10, 0x62, 0x4a, 0x3e, 0xe1, 0x65, 0xe2,
+	0xa4, 0x45, 0x03, 0x0e, 0xe3, 0xb6, 0x47, 0x8e, 0xa5, 0xa5, 0x94, 0xb4, 0xbe, 0xad, 0x44, 0x8a,
+	0xde, 0x1b, 0xc6, 0xf8, 0x0d, 0x65, 0x97, 0xbc, 0xd0, 0x67, 0x3c, 0xd1, 0x2a, 0xa9, 0x94, 0x11,
+	0x0a, 0x1d, 0x38, 0x8c, 0xd7, 0x3c, 0xfc, 0xb5, 0x3a, 0x01, 0x10, 0xd6, 0xc2, 0x4e, 0x59, 0x99,
+	0x09, 0x95, 0xcf, 0x5b, 0x41, 0x50, 0xd8, 0x6f, 0xf0, 0xa6, 0x13, 0x77, 0xc9, 0x56, 0xb3, 0x94,
+	0xa9, 0x14, 0x5c, 0xb9, 0x79, 0x40, 0xc7, 0xdf, 0xb0, 0x66, 0x0f, 0x90, 0x6c, 0xa2, 0x6e, 0x93,
+	0x06, 0x4f, 0xa0, 0x61, 0xf3, 0x98, 0x2e, 0xc6, 0x34, 0xfe, 0xfc, 0x48, 0xdb, 0x79, 0xc4, 0x1e,
+	0xd9, 0xb4, 0xae, 0x64, 0x8e, 0xe7, 0x22, 0x85, 0xa6, 0x9c, 0x09, 0xa8, 0x02, 0x6d, 0x1b, 0x03,
+	0x6a, 0xea, 0xb0, 0x61, 0xe0, 0x25, 0x56, 0x25, 0xec, 0xf4, 0xf2, 0xf4, 0x7b, 0xfe, 0x12, 0x55,
+	0x29, 0x8f, 0x96, 0x86, 0xbf, 0xff, 0xf9, 0x9f, 0xbf, 0x0d, 0x83, 0x97, 0x6f, 0x86, 0xc1, 0xab,
+	0x37, 0xc3, 0xe0, 0xd7, 0x37, 0xc3, 0xe0, 0x87, 0xb7, 0xc3, 0xe0, 0xc7, 0xb7, 0xc3, 0xe0, 0xe5,
+	0xdb, 0x61, 0x40, 0xba, 0x42, 0x8f, 0xe0, 0x47, 0x16, 0x4d, 0x61, 0xbf, 0x0d, 0xae, 0x70, 0x08,
+	0xc6, 0x74, 0x18, 0x7c, 0x83, 0x7f, 0x63, 0x8c, 0x57, 0xd1, 0xa7, 0x3e, 0xfe, 0x2b, 0x00, 0x00,
+	0xff, 0xff, 0x09, 0xb7, 0x36, 0x4e, 0x8a, 0x08, 0x00, 0x00,
 }
 
 func (m *Node) Marshal() (dAtA []byte, err error) {
@@ -520,6 +697,18 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	{
+		size, err := m.Node_ExperimentalFlags.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintNode(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0xda
+	{
 		size, err := m.Node_Geo.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
@@ -540,12 +729,12 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xca
 	}
-	n2, err2 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
-	if err2 != nil {
-		return 0, err2
+	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	if err3 != nil {
+		return 0, err3
 	}
-	i -= n2
-	i = encodeVarintNode(dAtA, i, uint64(n2))
+	i -= n3
+	i = encodeVarintNode(dAtA, i, uint64(n3))
 	i--
 	dAtA[i] = 0x1
 	i--
@@ -811,6 +1000,173 @@ func (m *Node_Geo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *Node_ExperimentalFlags) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Node_ExperimentalFlags) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Node_ExperimentalFlags) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.UrlStoreEnabled {
+		i--
+		if m.UrlStoreEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x70
+	}
+	if m.StrategicProviding {
+		i--
+		if m.StrategicProviding {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x68
+	}
+	if m.StorageHostEnabled {
+		i--
+		if m.StorageHostEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x60
+	}
+	if m.StorageClientEnabled {
+		i--
+		if m.StorageClientEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x58
+	}
+	if m.ShardingEnabled {
+		i--
+		if m.ShardingEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x50
+	}
+	if m.RemoveOnUnpin {
+		i--
+		if m.RemoveOnUnpin {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x48
+	}
+	if m.Quic {
+		i--
+		if m.Quic {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x40
+	}
+	if m.PreferTls {
+		i--
+		if m.PreferTls {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x38
+	}
+	if m.P2PHttpProxy {
+		i--
+		if m.P2PHttpProxy {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x30
+	}
+	if m.Libp2PStreamMounting {
+		i--
+		if m.Libp2PStreamMounting {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.HostsSyncMode {
+		i--
+		if m.HostsSyncMode {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.HostsSyncEnabled {
+		i--
+		if m.HostsSyncEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.FilestoreEnabled {
+		i--
+		if m.FilestoreEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Analytics {
+		i--
+		if m.Analytics {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintNode(dAtA []byte, offset int, v uint64) int {
 	offset -= sovNode(v)
 	base := offset
@@ -859,8 +1215,10 @@ func NewPopulatedNode(r randyNode, easy bool) *Node {
 	this.HVal = string(randStringNode(r))
 	v3 := NewPopulatedNode_Geo(r, easy)
 	this.Node_Geo = *v3
+	v4 := NewPopulatedNode_ExperimentalFlags(r, easy)
+	this.Node_ExperimentalFlags = *v4
 	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedNode(r, 27)
+		this.XXX_unrecognized = randUnrecognizedNode(r, 28)
 	}
 	return this
 }
@@ -899,6 +1257,28 @@ func NewPopulatedNode_Geo(r randyNode, easy bool) *Node_Geo {
 	return this
 }
 
+func NewPopulatedNode_ExperimentalFlags(r randyNode, easy bool) *Node_ExperimentalFlags {
+	this := &Node_ExperimentalFlags{}
+	this.Analytics = bool(bool(r.Intn(2) == 0))
+	this.FilestoreEnabled = bool(bool(r.Intn(2) == 0))
+	this.HostsSyncEnabled = bool(bool(r.Intn(2) == 0))
+	this.HostsSyncMode = bool(bool(r.Intn(2) == 0))
+	this.Libp2PStreamMounting = bool(bool(r.Intn(2) == 0))
+	this.P2PHttpProxy = bool(bool(r.Intn(2) == 0))
+	this.PreferTls = bool(bool(r.Intn(2) == 0))
+	this.Quic = bool(bool(r.Intn(2) == 0))
+	this.RemoveOnUnpin = bool(bool(r.Intn(2) == 0))
+	this.ShardingEnabled = bool(bool(r.Intn(2) == 0))
+	this.StorageClientEnabled = bool(bool(r.Intn(2) == 0))
+	this.StorageHostEnabled = bool(bool(r.Intn(2) == 0))
+	this.StrategicProviding = bool(bool(r.Intn(2) == 0))
+	this.UrlStoreEnabled = bool(bool(r.Intn(2) == 0))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNode(r, 15)
+	}
+	return this
+}
+
 type randyNode interface {
 	Float32() float32
 	Float64() float64
@@ -918,9 +1298,9 @@ func randUTF8RuneNode(r randyNode) rune {
 	return rune(ru + 61)
 }
 func randStringNode(r randyNode) string {
-	v4 := r.Intn(100)
-	tmps := make([]rune, v4)
-	for i := 0; i < v4; i++ {
+	v5 := r.Intn(100)
+	tmps := make([]rune, v5)
+	for i := 0; i < v5; i++ {
 		tmps[i] = randUTF8RuneNode(r)
 	}
 	return string(tmps)
@@ -942,11 +1322,11 @@ func randFieldNode(dAtA []byte, r randyNode, fieldNumber int, wire int) []byte {
 	switch wire {
 	case 0:
 		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
-		v5 := r.Int63()
+		v6 := r.Int63()
 		if r.Intn(2) == 0 {
-			v5 *= -1
+			v6 *= -1
 		}
-		dAtA = encodeVarintPopulateNode(dAtA, uint64(v5))
+		dAtA = encodeVarintPopulateNode(dAtA, uint64(v6))
 	case 1:
 		dAtA = encodeVarintPopulateNode(dAtA, uint64(key))
 		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
@@ -1060,6 +1440,8 @@ func (m *Node) Size() (n int) {
 	}
 	l = m.Node_Geo.Size()
 	n += 2 + l + sovNode(uint64(l))
+	l = m.Node_ExperimentalFlags.Size()
+	n += 2 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -1112,6 +1494,60 @@ func (m *Node_Geo) Size() (n int) {
 	}
 	if m.Longitude != 0 {
 		n += 5
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *Node_ExperimentalFlags) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Analytics {
+		n += 2
+	}
+	if m.FilestoreEnabled {
+		n += 2
+	}
+	if m.HostsSyncEnabled {
+		n += 2
+	}
+	if m.HostsSyncMode {
+		n += 2
+	}
+	if m.Libp2PStreamMounting {
+		n += 2
+	}
+	if m.P2PHttpProxy {
+		n += 2
+	}
+	if m.PreferTls {
+		n += 2
+	}
+	if m.Quic {
+		n += 2
+	}
+	if m.RemoveOnUnpin {
+		n += 2
+	}
+	if m.ShardingEnabled {
+		n += 2
+	}
+	if m.StorageClientEnabled {
+		n += 2
+	}
+	if m.StorageHostEnabled {
+		n += 2
+	}
+	if m.StrategicProviding {
+		n += 2
+	}
+	if m.UrlStoreEnabled {
+		n += 2
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -1778,6 +2214,39 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 27:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Node_ExperimentalFlags", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthNode
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthNode
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Node_ExperimentalFlags.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNode(dAtA[iNdEx:])
@@ -2059,6 +2528,340 @@ func (m *Node_Geo) Unmarshal(dAtA []byte) error {
 			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
 			iNdEx += 4
 			m.Longitude = float32(math.Float32frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNode(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNode
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNode
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Node_ExperimentalFlags) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNode
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ExperimentalFlags: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ExperimentalFlags: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Analytics", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Analytics = bool(v != 0)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FilestoreEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.FilestoreEnabled = bool(v != 0)
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HostsSyncEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.HostsSyncEnabled = bool(v != 0)
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HostsSyncMode", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.HostsSyncMode = bool(v != 0)
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Libp2PStreamMounting", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Libp2PStreamMounting = bool(v != 0)
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P2PHttpProxy", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.P2PHttpProxy = bool(v != 0)
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreferTls", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.PreferTls = bool(v != 0)
+		case 8:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Quic", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Quic = bool(v != 0)
+		case 9:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RemoveOnUnpin", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.RemoveOnUnpin = bool(v != 0)
+		case 10:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ShardingEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ShardingEnabled = bool(v != 0)
+		case 11:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StorageClientEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.StorageClientEnabled = bool(v != 0)
+		case 12:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StorageHostEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.StorageHostEnabled = bool(v != 0)
+		case 13:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StrategicProviding", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.StrategicProviding = bool(v != 0)
+		case 14:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UrlStoreEnabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.UrlStoreEnabled = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNode(dAtA[iNdEx:])
