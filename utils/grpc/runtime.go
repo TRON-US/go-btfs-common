@@ -30,6 +30,8 @@ type RuntimeServer struct {
 	sharedpb.UnimplementedRuntimeServiceServer
 }
 
+var Startime = time.Now()
+
 //implementation of the shared helper function
 func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRuntimeInfoRequest) (*sharedpb.RuntimeInfoReport, error) {
 	//get connection object
@@ -52,6 +54,7 @@ func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRu
 		res.Extra = []byte(nil)
 		res.PeerId = []byte(nil)
 		res.ServiceName = []byte(s.serviceName)
+		res.StartTime = Startime
 		res.CurentTime = time.Now()
 		res.GitHash = []byte(nil)
 		res.Version = []byte(nil)
