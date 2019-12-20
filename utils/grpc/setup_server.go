@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	"github.com/tron-us/go-common/v2/middleware"
+	"fmt"
 	"log"
 	"net"
 
@@ -11,8 +11,9 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 
-	"fmt"
 	"github.com/tron-us/go-common/v2/constant"
+	"github.com/tron-us/go-common/v2/middleware"
+
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -42,11 +43,11 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	case string:
 		s.serverName = fmt.Sprintf("%v", server)
 	default:
-			s.serverName = "unknown"
+		s.serverName = "unknown"
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption ) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
