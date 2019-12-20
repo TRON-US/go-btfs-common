@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"github.com/tron-us/go-common/v2/middleware"
 	"log"
 	"net"
 
@@ -10,9 +11,8 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 
+	"fmt"
 	"github.com/tron-us/go-common/v2/constant"
-	"github.com/tron-us/go-common/v2/middleware"
-
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -36,15 +36,17 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	case escrow.EscrowServiceServer:
 		s.serverName = "escrow"
 	case guard.GuardServiceServer:
-		s.serverName = "guard"
+		s.serverName = "guard-interceptor"
 	case hub.HubQueryServiceServer:
 		s.serverName = "hub"
+	case string:
+		s.serverName = fmt.Sprintf("%v", server)
 	default:
-		s.serverName = "unknown"
+			s.serverName = "unknown"
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption ) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
@@ -58,7 +60,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server 
 
 	s.lis = lis
 
-	s.CreateServer(s.serverName).
+	s.CreateServer(s.serverName, options...).
 		CreateHealthServer().
 		RegisterServer(server).
 		RegisterHealthServer().
@@ -76,10 +78,11 @@ func (s *GrpcServer) AcceptConnection() *GrpcServer {
 	return s
 }
 
-func (s *GrpcServer) CreateServer(serverName string) *GrpcServer {
+func (s *GrpcServer) CreateServer(serverName string, options ...grpc.ServerOption) *GrpcServer {
 	//create grpc server
 	s.serverName = serverName
-	s.server = grpc.NewServer(middleware.GrpcServerOption)
+	options = append(options, middleware.GrpcServerOption)
+	s.server = grpc.NewServer(options...)
 	return s
 }
 
