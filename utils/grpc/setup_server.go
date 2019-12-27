@@ -10,6 +10,7 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
+	"github.com/tron-us/go-btfs-common/utils"
 
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/middleware"
@@ -17,7 +18,6 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
-	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -62,7 +62,6 @@ func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server 
 	s.lis = lis
 
 	s.CreateServer(s.serverName, options...).
-		CreateHealthServer().
 		RegisterServer(server).
 		RegisterHealthServer().
 		WithReflection().
@@ -113,9 +112,8 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 }
 
 func (s *GrpcServer) RegisterHealthServer() *GrpcServer {
-	// Add health server to exchange.
-	s.healthServer.SetServingStatus(s.serverName, healthpb.HealthCheckResponse_SERVING)
-	healthpb.RegisterHealthServer(s.server, s.healthServer)
+	// Register health server to exchange.
+	utils.RegisterHealthCheckService(s.server)
 	return s
 }
 
