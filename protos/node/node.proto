@@ -74,7 +74,7 @@ message Node {
   string os_type = 19;
   string arch_type = 20;
   string cpu_info = 21;
-  string node_ip = 22;
+  string node_ip = 22 [(gogoproto.jsontag) = "-"];
   uint64 peers_connected = 23;
   google.protobuf.Timestamp time_created = 24 [
     (gogoproto.nullable) = false,
