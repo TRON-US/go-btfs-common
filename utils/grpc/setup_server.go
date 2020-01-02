@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"fmt"
-	"log"
 	"net"
 
 	"github.com/tron-us/go-btfs-common/protos/escrow"
@@ -11,7 +10,9 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 
+	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-common/v2/constant"
+	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
 
 	"go.uber.org/zap"
@@ -22,16 +23,16 @@ import (
 )
 
 type GrpcServer struct {
-	server       *grpc.Server
-	healthServer *health.Server
-	serverName   string
-	lis          net.Listener
-	dBURL        string
-	rDURL        string
+	server          *grpc.Server
+	healthServer    *health.Server
+	serverName      string
+	lis             net.Listener
+	dBURL           string
+	rDURL           string
 }
 
 func (s *GrpcServer) serverTypeToServerName(server interface{}) {
-	switch server.(type) {
+	switch t := server.(type) {
 	case status.StatusServiceServer:
 		s.serverName = "status-server"
 	case escrow.EscrowServiceServer:
@@ -40,8 +41,8 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 		s.serverName = "guard-interceptor"
 	case hub.HubQueryServiceServer:
 		s.serverName = "hub"
-	case string:
-		s.serverName = fmt.Sprintf("%v", server)
+	case *controller.DefaultController:
+		s.serverName = fmt.Sprintf("%v", t.ServerName)
 	default:
 		s.serverName = "unknown"
 	}
@@ -108,6 +109,8 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 	}
 
 	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
+
+	log.Info("Registered: " + s.serverName + " and runtime server!")
 
 	return s
 }
