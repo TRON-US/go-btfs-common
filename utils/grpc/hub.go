@@ -2,12 +2,18 @@ package grpc
 
 import (
 	"context"
+	"time"
 
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 )
 
 func HubQueryClient(addr string) *HubQueryClientBuilder {
 	return &HubQueryClientBuilder{builder(addr)}
+}
+
+func (b *HubQueryClientBuilder) Timeout(to time.Duration) *HubQueryClientBuilder {
+	b.timeout = to
+	return b
 }
 
 type HubQueryClientBuilder struct {

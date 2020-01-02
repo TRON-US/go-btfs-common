@@ -3,10 +3,16 @@ package grpc
 import (
 	"context"
 	"google.golang.org/grpc/health/grpc_health_v1"
+	"time"
 )
 
 func HealthCheckClient(addr string) *HealthCheckClientBuilder {
 	return &HealthCheckClientBuilder{builder(addr)}
+}
+
+func (b *HealthCheckClientBuilder) Timeout(to time.Duration) *HealthCheckClientBuilder {
+	b.timeout = to
+	return b
 }
 
 type HealthCheckClientBuilder struct {

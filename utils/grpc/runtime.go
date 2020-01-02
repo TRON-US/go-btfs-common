@@ -14,6 +14,11 @@ func RuntimeClient(addr string) *RuntimeClientBuilder {
 	return &RuntimeClientBuilder{builder(addr)}
 }
 
+func (b *RuntimeClientBuilder) Timeout(to time.Duration) *RuntimeClientBuilder {
+	b.timeout = to
+	return b
+}
+
 type RuntimeClientBuilder struct {
 	ClientBuilder
 }
