@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-
 	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
 )
 

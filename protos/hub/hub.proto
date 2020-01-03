@@ -16,6 +16,7 @@ option java_multiple_files = true;
 option java_outer_classname = "HubProto";
 option java_package = "io.btfs.hub";
 
+import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -85,31 +86,34 @@ message Host {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  string node_ip = 4;
-  string region = 5;
-  string btfs_version = 6;
-  float score = 7;
-  uint64 heart_beats = 8;
-  float uptime = 9;
-  uint64 age = 10;
-  float reputation = 11;
-  float upload_average = 12;
-  float upload_variance = 13;
-  float download_average = 14;
-  float download_variance = 15;
-  Location location = 16 [(gogoproto.nullable) = false];
-  float storage_volume_cap = 17;
-  float storage_volume_left = 18;
-  uint64 storage_time_min = 19;
-  uint64 storage_price_ask = 20;
-  uint64 storage_price_est = 21;
-  double bandwidth_limit = 22;
-  uint64 bandwidth_price_ask = 23;
-  uint64 bandwidth_price_est = 24;
-  uint64 collateral_stake = 25;
-  uint64 collateral_lost = 26;
-  uint64 collateral_burn = 27;
-  string country_short = 28;
+  string region = 4;
+  string btfs_version = 5;
+  float score = 6;
+  uint64 heart_beats = 7;
+  float uptime = 8;
+  uint64 age = 9;
+  float reputation = 10;
+  float upload_average = 11;
+  float upload_variance = 12;
+  float download_average = 13;
+  float download_variance = 14;
+  Location location = 15 [(gogoproto.nullable) = false];
+  float storage_volume_cap = 16;
+  float storage_volume_left = 17;
+  uint64 storage_time_min = 18;
+  uint64 storage_price_ask = 19;
+  uint64 storage_price_est = 20;
+  double bandwidth_limit = 21;
+  uint64 bandwidth_price_ask = 22;
+  uint64 bandwidth_price_est = 23;
+  uint64 collateral_stake = 24;
+  uint64 collateral_lost = 25;
+  uint64 collateral_burn = 26;
+  string country_short = 27;
+  node.Node.ExperimentalFlags flg = 28 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
 }
 
 message Location {

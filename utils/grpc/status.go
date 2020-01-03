@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-
 	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 )
 

@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-
 	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
 )
 

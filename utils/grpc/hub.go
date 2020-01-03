@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 )
 
