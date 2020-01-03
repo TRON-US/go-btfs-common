@@ -23,12 +23,12 @@ import (
 )
 
 type GrpcServer struct {
-	server          *grpc.Server
-	healthServer    *health.Server
-	serverName      string
-	lis             net.Listener
-	dBURL           string
-	rDURL           string
+	server       *grpc.Server
+	healthServer *health.Server
+	serverName   string
+	lis          net.Listener
+	dBURL        string
+	rDURL        string
 }
 
 func (s *GrpcServer) serverTypeToServerName(server interface{}) {
