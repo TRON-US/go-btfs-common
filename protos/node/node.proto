@@ -38,7 +38,7 @@ message Node {
     bool analytics = 1;
     bool filestore_enabled = 2;
     bool hosts_sync_enabled = 3;
-    bool hosts_sync_mode = 4;
+    string hosts_sync_mode = 4;
     bool libp2p_stream_mounting = 5;
     bool p2p_http_proxy = 6;
     bool prefer_tls = 7;
