@@ -11,8 +11,8 @@ ENV PROTOTOOL_VERSION=1.9.0
 
 # Install patch
 RUN apt-get update && apt-get install -y patch
-
-RUN apt-get install -y unzip
+RUN apt-get install -y unzip 
+RUN apt-get install -y postgresql-client redis-tools
 
 # install standard c++ implementation of protocol buffers
 RUN wget --quiet https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
