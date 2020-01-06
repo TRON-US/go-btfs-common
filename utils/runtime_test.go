@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -15,11 +16,16 @@ import (
 
 var pgURLString string
 var rdURLString string
+var foundPgString bool
+var foundRdString bool
 
 func init() {
 	//get db and redis connection strings
-	pgURLString = os.Getenv("TEST_DB_URL")
-	rdURLString = os.Getenv("TEST_RD_URL")
+	pgURLString, foundPgString = os.LookupEnv("TEST_DB_URL")
+	rdURLString, foundRdString = os.LookupEnv("TEST_RD_URL")
+	if(foundPgString == false || foundRdString == false){
+		panic(fmt.Sprintf("TEST_DB_URL and TEST_RD_URL env vars need to be set before running test"))
+	}
 }
 
 func TestCheckRuntimeDB(t *testing.T) {

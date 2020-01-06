@@ -13,9 +13,9 @@ func TestNewGRPCConn(t *testing.T) {
 		out connectivity.State
 		err bool
 	}{
-		{in: "ftp://db-grpc-dev.btfs.io", err: true},
-		{in: "http://db-grpc-dev.btfs.io:443", err: true},
-		{in: "https://db-grpc-dev.btfs.io", out: connectivity.Ready},
+		{in: "ftp://status-dev.btfs.io", err: true},
+		{in: "http://status-dev.btfs.io:443", err: true},
+		{in: "https://status-dev.btfs.io", out: connectivity.Ready},
 	}
 	for _, tt := range tests {
 		ctx, cancelFunc := context.WithTimeout(context.Background(), 2*time.Second)
