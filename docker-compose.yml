@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - 50051:50051
     command:
       bash -c "make test_docker"
     depends_on:
