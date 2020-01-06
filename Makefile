@@ -62,15 +62,14 @@ test:
 	brew services start redis
 	dropdb --if-exists $(TEST_DB_NAME)
 	createdb $(TEST_DB_NAME)
-	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(TEST_RD_URL)
+	TEST_DB_URL=$(TEST_DB_URL); TEST_RD_URL=$(TEST_RD_URL); go test -v ./...
 	dropdb $(TEST_DB_NAME)
 	brew services stop postgresql
 	brew services stop redis
 
 test_docker:
 	sleep 10
-	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(DOCKER_TEST_RD_URL)
-	dropdb $(TEST_DB_NAME)
+	TEST_DB_URL=$(TEST_DB_URL); TEST_RD_URL=$(DOCKER_TEST_RD_URL); go test -v ./...
 
 test_git_diff_protos: 
 	bin/test-git-diff-protos
