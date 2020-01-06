@@ -23,7 +23,7 @@ func init() {
 	//get db and redis connection strings
 	pgURLString, foundPgString = os.LookupEnv("TEST_DB_URL")
 	rdURLString, foundRdString = os.LookupEnv("TEST_RD_URL")
-	if(foundPgString == false || foundRdString == false){
+	if foundPgString == false || foundRdString == false {
 		panic(fmt.Sprintf("TEST_DB_URL and TEST_RD_URL env vars need to be set before running test"))
 	}
 }
