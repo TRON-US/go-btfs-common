@@ -1,0 +1,32 @@
+version: '3'
+services:
+  repo_test:
+    # runs go test on repo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      bash -c "make test_docker"
+    depends_on:
+      - redis
+      - db
+    environment:
+      # set env vars that will work for docker-compose containers and Makefile
+      - TEST_DB_HOSTNAME=db
+      - TEST_DB_PORT=5432
+      - TEST_DB_USER=postgres
+      - TEST_RD_HOSTNAME=redis
+      - TEST_RD_PORT=6379
+  redis:
+    # spin up a redis db on 63790 port
+    image: redis
+    ports:
+      - 63790:6379
+  db:
+    # spin up postgres on 54320 port
+    image: postgres:latest
+    ports:
+      - 54320:5432
+    environment:
+      - POSTGRES_DB=runtime
+      - POSTGRES_USER=postgres
