@@ -221,7 +221,8 @@ message CancelContractResult {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  ledger.SignedChannelState channel_state = 6; // escrow signed and then return caller to sign
+  int64 amount = 6;
+  ledger.SignedChannelState channel_state = 7; // escrow signed and then return caller to sign
 }
 
 message SignedCancelContractResult {
