@@ -4,11 +4,14 @@ default: lintf
 TEST_DB_NAME ?= runtime
 TEST_DB_USER ?= `whoami`
 TEST_DB_HOSTNAME ?= localhost
-TEST_DB_URL="postgresql://$(TEST_DB_USER)@$(TEST_DB_HOSTNAME):5432/$(TEST_DB_NAME)"
+TEST_DB_PORT ?= 5432
+TEST_DB_URL="postgresql://$(TEST_DB_USER)@$(TEST_DB_HOSTNAME):$(TEST_DB_PORT)/$(TEST_DB_NAME)"
 TEST_RD_NAME ?= runtime
 TEST_RD_USER ?= `whoami`
 TEST_RD_HOSTNAME ?= localhost
-TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):6379/$(TEST_RD_NAME)"
+TEST_RD_PORT ?= 6379
+TEST_RD_URL="redis://$(TEST_RD_USER)@$(TEST_RD_HOSTNAME):$(TEST_RD_PORT)/$(TEST_RD_NAME)"
+DOCKER_TEST_RD_URL="redis://$(TEST_RD_HOSTNAME):$(TEST_RD_PORT)"
 
 PG_FIX_CANDIDATES=./protos/node/node.pb.go \
 			./protos/status/status.pb.go \
@@ -59,10 +62,14 @@ test:
 	brew services start redis
 	dropdb --if-exists $(TEST_DB_NAME)
 	createdb $(TEST_DB_NAME)
-	go test -v ./... -args -db_url=$(TEST_DB_URL) -rd_url=$(TEST_RD_URL)
+	TEST_DB_URL=$(TEST_DB_URL) TEST_RD_URL=$(TEST_RD_URL) go test -v ./...
 	dropdb $(TEST_DB_NAME)
 	brew services stop postgresql
 	brew services stop redis
+
+test_docker:
+	sleep 10
+	TEST_DB_URL=$(TEST_DB_URL) TEST_RD_URL=$(DOCKER_TEST_RD_URL) go test -v ./...
 
 test_git_diff_protos: 
 	bin/test-git-diff-protos

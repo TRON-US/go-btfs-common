@@ -2,7 +2,8 @@ package utils
 
 import (
 	"context"
-	"flag"
+	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -13,19 +14,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var pgURLString *string
-var rdURLString *string
+var pgURLString string
+var rdURLString string
+var foundPgString bool
+var foundRdString bool
 
 func init() {
 	//get db and redis connection strings
-	pgURLString = flag.String("db_url", "xyz", "a string")
-	rdURLString = flag.String("rd_url", "xyz", "a string")
+	pgURLString, foundPgString = os.LookupEnv("TEST_DB_URL")
+	rdURLString, foundRdString = os.LookupEnv("TEST_RD_URL")
+	if foundPgString == false || foundRdString == false {
+		panic(fmt.Sprintf("TEST_DB_URL and TEST_RD_URL env vars need to be set before running test"))
+	}
 }
 
 func TestCheckRuntimeDB(t *testing.T) {
 	//setup connection (postgres) object
 	var connection = db.ConnectionUrls{
-		PgURL: *pgURLString,
+		PgURL: pgURLString,
 		RdURL: "",
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -42,7 +48,7 @@ func TestCheckRuntimeRD(t *testing.T) {
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
 		PgURL: "",
-		RdURL: *rdURLString,
+		RdURL: rdURLString,
 	}
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
