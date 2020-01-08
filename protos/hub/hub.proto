@@ -58,6 +58,15 @@ message SettingsData {
 message HostsReq {
   string id = 1;
   int32 resp_size = 2;
+  enum Mode {
+    SCORE = 0; // default
+    GEO = 1;
+    REP = 2;
+    PRICE = 3;
+    SPEED = 4;
+    TESTNET = 5;
+  }
+  Mode mode = 3;
 }
 
 message HostsResp {
