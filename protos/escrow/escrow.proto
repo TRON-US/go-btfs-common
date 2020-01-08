@@ -40,6 +40,8 @@ service EscrowService {
   rpc MyPayment(SignedPayoutAddress) returns (SignedPaymentResult);
   // seller request escrow to payout to seller
   rpc PayOut(SignedPayoutRequest) returns (SignedPayoutResult);
+  // auth request escrow to refund unpaid out balance of a contract
+  rpc Refund(SignedRefundRequest) returns (SignedRefundResult);
 }
 
 enum TokenType {
@@ -219,6 +221,8 @@ message CancelContractResult {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  int64 amount = 6;
+  ledger.SignedChannelState channel_state = 7; // escrow signed and then return caller to sign
 }
 
 message SignedCancelContractResult {
@@ -299,5 +303,37 @@ message PayoutResult {
 
 message SignedPayoutResult {
   PayoutResult result = 1;
+  bytes escrow_signature = 2;
+}
+
+message RefundRequest {
+  string contract_id = 1;
+  bytes to_address = 2;
+  google.protobuf.Timestamp signed_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  ledger.SignedChannelState channel_state = 4;
+}
+
+message SignedRefundRequest {
+  RefundRequest request = 1;
+  bytes signature = 2;
+}
+
+message RefundResult {
+  string contract_id = 1;
+  int64 amount = 2;
+  bool paid = 3;
+  string reference = 4;
+  bytes escrow_address = 5;
+  google.protobuf.Timestamp escrow_signed_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedRefundResult {
+  RefundResult result = 1;
   bytes escrow_signature = 2;
 }
