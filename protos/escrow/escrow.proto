@@ -42,6 +42,8 @@ service EscrowService {
   rpc PayOut(SignedPayoutRequest) returns (SignedPayoutResult);
   // auth request escrow to refund unpaid out balance of a contract
   rpc Refund(SignedRefundRequest) returns (SignedRefundResult);
+  // query balance and create account if account not exist
+  rpc BalanceOf(ledger.SignedPublicKey) returns (SignedBalanceResult);
 }
 
 enum TokenType {
@@ -335,5 +337,19 @@ message RefundResult {
 
 message SignedRefundResult {
   RefundResult result = 1;
+  bytes escrow_signature = 2;
+}
+
+message BalanceResult {
+  int64 balance = 1;
+  bytes escrow_address = 2;
+  google.protobuf.Timestamp escrow_signed_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedBalanceResult {
+  BalanceResult result = 1;
   bytes escrow_signature = 2;
 }
