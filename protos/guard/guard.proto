@@ -85,6 +85,7 @@ message Contract {
     CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NO QUESTION, it go to CANCELED status
     CLOSED = 5; // the all work in such contract was done
     RENEWED = 6; // the contract got renewed
+    OBSOLETE = 7; //the contract was replaced with some other contract after it was canceled or renewed
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
