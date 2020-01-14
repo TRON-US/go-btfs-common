@@ -6,12 +6,15 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"strings"
 
 	"github.com/gogo/protobuf/proto"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
+	pb "github.com/libp2p/go-libp2p-core/crypto/pb"
 	"github.com/libp2p/go-libp2p-core/peer"
 )
 
@@ -170,4 +173,38 @@ func GetPubKeyFromPeerId(pid string) (ic.PubKey, error) {
 		return nil, err2
 	}
 	return pubKey, nil
+}
+
+func Hex64ToBase64(key string) (string, error) {
+	src := []byte(key)
+
+	dst := make([]byte, hex.DecodedLen(len(src)))
+	_, err := hex.Decode(dst, src)
+	if err != nil {
+		return "", fmt.Errorf("decode hex64 failed: %v", err)
+	}
+
+	// marshal
+	pbmes := new(pb.PrivateKey)
+	pbmes.Type = pb.KeyType_Secp256k1
+	pbmes.Data = dst
+	marshaledKey, err := proto.Marshal(pbmes)
+	if err != nil {
+		return "", fmt.Errorf("marshal key failed: %v", err)
+	}
+
+	// base64 encoding
+	encodeKey := base64.StdEncoding.EncodeToString(marshaledKey)
+	return encodeKey, nil
+}
+
+// GetPrivKeyFromHexOrBase64 can decode a priv key from either hex or base64
+// format to satisfy different key storage encoding schemes
+func GetPrivKeyFromHexOrBase64(raw string) (ic.PrivKey, error) {
+	key, err := Hex64ToBase64(raw)
+	if err != nil {
+		// Check base64 format directly
+		key = raw
+	}
+	return ToPrivKey(key)
 }

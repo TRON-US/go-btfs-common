@@ -16,19 +16,16 @@ func TestSignVerify(t *testing.T) {
 	// test get privKey and pubKey
 	privKey, err := ToPrivKey(KeyString)
 	if err != nil {
-		t.Error("ToPrivKey failed")
-		return
+		t.Fatal("ToPrivKey failed", err)
 	}
 
 	rawPubKey, err := privKey.GetPublic().Raw()
 	if err != nil {
-		t.Error("get raw public key from privKey failed")
-		return
+		t.Fatal("Get raw public key from privKey failed", err)
 	}
 	pubKey, err := ToPubKeyRaw(rawPubKey)
 	if err != nil {
-		t.Error("ToPubKeyRaw failed")
-		return
+		t.Fatal("ToPubKeyRaw failed", err)
 	}
 
 	// test sign and verify the key string
@@ -38,12 +35,11 @@ func TestSignVerify(t *testing.T) {
 
 	sign, err := Sign(privKey, message)
 	if err != nil {
-		t.Error("Sign with private key failed")
-		return
+		t.Fatal("Sign with private key failed", err)
 	}
 	ret, err := Verify(pubKey, message, sign)
 	if err != nil || !ret {
-		t.Error("Verify with public key failed")
+		t.Fatal("Verify with public key failed", err)
 	}
 }
 
@@ -51,55 +47,71 @@ func TestEncryptDecrypt(t *testing.T) {
 	origin := "Hello World"
 	key := []byte(EncryptKey)
 	encryptMsg, _ := Encrypt(key, []byte(origin))
-	msg, _ := Decrypt(key, []byte(encryptMsg))
+	msg, err := Decrypt(key, []byte(encryptMsg))
+	if err != nil {
+		t.Fatal("Decrypt failed", err)
+	}
 	if string(msg) != origin {
-		t.Errorf("Decrypt failed")
+		t.Fatal("Decrypt failed")
 	}
 }
 
 func TestSerializeDeserializeKey(t *testing.T) {
 	privKey, err := ToPrivKey(KeyString)
 	if err != nil {
-		t.Error("ToPrivKey failed", err)
-		return
+		t.Fatal("ToPrivKey failed", err)
 	}
 	privKeyString, err := FromPrivKey(privKey)
 	if err != nil {
-		t.Error("FromPrivKey failed", err)
-		return
+		t.Fatal("FromPrivKey failed", err)
 	}
 	if privKeyString != KeyString {
-		t.Error("serialize and deserialize private key fail", err)
-		return
+		t.Fatal("Serialize and deserialize private key failed", err)
 	}
 
 	pubKey := privKey.GetPublic()
 	pubKeyString, err := FromPubKey(pubKey)
 	if err != nil {
-		t.Error("FromPubKey failed", err)
-		return
+		t.Fatal("FromPubKey failed", err)
 	}
 
 	nPubKey, err := ToPubKey(pubKeyString)
 	if err != nil {
-		t.Error("ToPubKey failed", err)
-		return
+		t.Fatal("ToPubKey failed", err)
 	}
 
 	pubkeyRaw, err := pubKey.Raw()
 	if err != nil {
-		t.Error("get pubkey raw failed", err)
-		return
+		t.Fatal("Get pubkey raw failed", err)
 	}
 	nPubkeyRaw, err := nPubKey.Raw()
 	if err != nil {
-		t.Error("get PubKey raw failed", err)
-		return
+		t.Fatal("Get PubKey raw failed", err)
 	}
 
 	if bytes.Compare(pubkeyRaw, nPubkeyRaw) != 0 {
-		t.Error("serialize and deserialize pub key fail", err)
-		return
+		t.Fatal("Serialize and deserialize pub key failed", err)
+	}
+}
+
+func TestHex64ToBase64(t *testing.T) {
+	keyHex64 := "da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0"
+	privKey, err := Hex64ToBase64(keyHex64)
+	if err != nil {
+		t.Fatal("Decode hex64 private key failed", err)
 	}
 
+	priv, err := ToPrivKey(privKey)
+	if err != nil {
+		t.Fatal("Get private key failed", err)
+	}
+	pubKey := priv.GetPublic()
+	pub, err := FromPubKey(pubKey)
+	if err != nil {
+		t.Fatal("From public key failed", err)
+	}
+	keyBase64 := "CAISIQJ/5o1cuJslw3ySQMIsbnMrvM/H/j5d3+N4rkNz48WCYw=="
+	if pub != keyBase64 {
+		t.Fatal("Base64 public key decode failed")
+	}
 }
