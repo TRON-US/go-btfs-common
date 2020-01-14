@@ -26,7 +26,7 @@ import (
 
 const (
 	defaultSchema  = "http"
-	defaultTimeout = 30 * time.Second
+	defaultTimeout = 600 * time.Second
 )
 
 var (
