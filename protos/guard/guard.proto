@@ -103,6 +103,16 @@ message Contract {
   bytes guard_signature = 9;
   string preparer_pid = 10; //while the contract got renewed, some stakeholder take renter's place to prepare such contract
   bytes preparer_signature = 11;
+  google.protobuf.Timestamp last_success_challenge_time = 12 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp last_challenge_time = 13 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  int32 challenge_warn_times = 14; //record times of timeout response after last success challenge time
+  int32 challenge_success_times = 15; //record times of success after the contract was put into the warn status
 }
 
 message FileStoreMeta {
@@ -118,7 +128,7 @@ message FileStoreMeta {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ]; //rent end time
-  int32 check_frequency = 6; // shard check frequency in a year,  1 means check once per year, 0 means check 12 per year(1 per month)
+  int32 check_frequency = 6; //reserve: shard check frequency in days, 1 means check once per day
   int64 guard_fee = 7; // reserve: the fee which guard will charge for supporting
   int64 escrow_fee = 8; //reserve: the fee which escrow will charge for supporting
   int32 shard_count = 9; //shard's count, by default is 30
@@ -126,6 +136,9 @@ message FileStoreMeta {
   int32 recover_threshold = 11; //reserved field, indicate the threshold for starting to recover
   string escrow_pid = 12;
   string guard_pid = 13;
+  int32 warn_challenge_times = 14; //reserve: indicate how many times warn challenge will take the contract to cancel status, renter cannot set it now, use 7 as default
+  int32 success_challenge_times = 15; //reserve: indicate how many times success will take the contract from warn status back to right, renter cannot set it now, use 1 as default
+  int32 check_frequency_warn = 16; //reserve: check frequency in days while in warn status, renter cannot set it now, use 1 as default
 }
 
 message FileStoreStatus {
