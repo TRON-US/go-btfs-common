@@ -136,8 +136,8 @@ message FileStoreMeta {
   int32 recover_threshold = 11; //reserved field, indicate the threshold for starting to recover
   string escrow_pid = 12;
   string guard_pid = 13;
-  int32 warn_challenge_times = 14; //reserve: indicate how many times warn challenge will take the contract to cancel status, renter cannot set it now, use 7 as default
-  int32 success_challenge_times = 15; //reserve: indicate how many times success will take the contract from warn status back to right, renter cannot set it now, use 1 as default
+  int32 warn_challenge_times_limit = 14; //reserve: indicate how many times warn challenge will take the contract to cancel status, renter cannot set it now, use 7 as default
+  int32 success_challenge_times_limit = 15; //reserve: indicate how many times success will take the contract from warn status back to right, renter cannot set it now, use 1 as default
   int32 check_frequency_warn = 16; //reserve: check frequency in days while in warn status, renter cannot set it now, use 1 as default
 }
 
