@@ -86,6 +86,7 @@ message Contract {
     CLOSED = 5; // the all work in such contract was done
     RENEWED = 6; // the contract got renewed
     OBSOLETE = 7; //the contract was replaced with some other contract after it was canceled or renewed
+    WARN = 8; //the shard is in warn status
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
@@ -111,8 +112,9 @@ message Contract {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  int32 challenge_warn_times = 14; //record times of timeout response after last success challenge time
-  int32 challenge_success_times = 15; //record times of success after the contract was put into the warn status
+  int32 challenge_times = 14; //total challenge times till now
+  int32 challenge_warn_times = 15; //record times of timeout response after last success challenge time
+  int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
 }
 
 message FileStoreMeta {
