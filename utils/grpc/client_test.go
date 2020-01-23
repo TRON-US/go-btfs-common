@@ -2,9 +2,10 @@ package grpc
 
 import (
 	"context"
-	"google.golang.org/grpc/connectivity"
 	"testing"
 	"time"
+
+	"google.golang.org/grpc/connectivity"
 )
 
 func TestNewGRPCConn(t *testing.T) {

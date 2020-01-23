@@ -26,7 +26,7 @@ import (
 
 const (
 	defaultSchema  = "http"
-	defaultTimeout = 360 * time.Second
+	defaultTimeout = 30 * time.Second
 )
 
 var (
@@ -74,9 +74,8 @@ type ClientBuilder struct {
 	timeout time.Duration
 }
 
-func (b *ClientBuilder) Timeout(to time.Duration) *ClientBuilder {
+func (b *ClientBuilder) Timeout(to time.Duration) {
 	b.timeout = to
-	return b
 }
 
 func builder(address string) ClientBuilder {
