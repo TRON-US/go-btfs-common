@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -27,11 +26,6 @@ import (
 const (
 	defaultSchema  = "http"
 	defaultTimeout = 30 * time.Second
-)
-
-var (
-	domainRegexp = regexp.MustCompile(`^(localhost)|([a-zA-Z0-9-]{1,63}\.)+([a-zA-Z]{1,63})$`)
-	ipv4Regexp   = regexp.MustCompile(`^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$`)
 )
 
 func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error {
@@ -114,9 +108,6 @@ func parse(rawU string) (*parsedURL, error) {
 		return nil, err
 	}
 	h := u.Hostname()
-	if err := checkHost(h); err != nil {
-		return nil, err
-	}
 	result := new(parsedURL)
 	result.schema = u.Scheme
 	result.host = h
@@ -140,20 +131,6 @@ func getPort(u *url.URL) (int, error) {
 		}
 	}
 	return strconv.Atoi(p)
-}
-
-func checkHost(host string) error {
-	if host == "" {
-		return errors.New("empty host")
-	}
-	host = strings.ToLower(host)
-	if domainRegexp.MatchString(host) {
-		return nil
-	}
-	if ipv4Regexp.MatchString(host) {
-		return nil
-	}
-	return fmt.Errorf("invalid host: %v", host)
 }
 
 type parsedURL struct {

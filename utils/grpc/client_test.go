@@ -48,22 +48,8 @@ func TestParse(t *testing.T) {
 		out *parsedURL
 		err bool
 	}{
-		{in: "", err: true},
-		{in: "/", err: true},
-		{in: "//", err: true},
-		{in: "http:/www.google.com", err: true},
-		{in: "http:///www.google.com", err: true},
-		{in: "javascript:void(0)", err: true},
-		{in: "<script>", err: true},
-		{in: "127.0.0:8080", err: true},
-		{in: "127.0.0", err: true},
-		{in: "127.0.0.0.1", err: true},
-		{in: "ftp://127.0.0.1", err: true},
-		{in: "//localhost", out: &parsedURL{schema: "http", host: "localhost", port: 80}},
-		{in: "localhost", out: &parsedURL{schema: "http", host: "localhost", port: 80}},
 		{in: "localhost:8080", out: &parsedURL{schema: "http", host: "localhost", port: 8080}},
 		{in: "btfs.io", out: &parsedURL{schema: "http", host: "btfs.io", port: 80}},
-		{in: "btfs.io:8080", out: &parsedURL{schema: "http", host: "btfs.io", port: 8080}},
 		{in: "127.0.0.1", out: &parsedURL{schema: "http", host: "127.0.0.1", port: 80}},
 		{in: "127.0.0.1:8080", out: &parsedURL{schema: "http", host: "127.0.0.1", port: 8080}},
 		{in: "https://btfs.io", out: &parsedURL{schema: "https", host: "btfs.io", port: 443}},
@@ -72,6 +58,7 @@ func TestParse(t *testing.T) {
 		{in: "http://btfs.io:2333", out: &parsedURL{schema: "http", host: "btfs.io", port: 2333}},
 		{in: "https://127.0.0.1", out: &parsedURL{schema: "https", host: "127.0.0.1", port: 443}},
 		{in: "http://127.0.0.1", out: &parsedURL{schema: "http", host: "127.0.0.1", port: 80}},
+		{in: "hub-service:8080", out: &parsedURL{schema: "http", host: "hub-service", port: 8080}},
 	}
 	for _, tt := range tests {
 		url, err := parse(tt.in)
