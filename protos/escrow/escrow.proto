@@ -79,7 +79,7 @@ message EscrowContract {
   Schedule payout_schedule = 9; // schedule enum
   int32 num_payouts = 10; // numbers of payouts
   bytes reference = 11; // reference like hash value etc
-  int32 customize_paydays = 12; // customized payout days
+  int32 customize_payout_period = 12; // customized payout period in days
 }
 
 message SignedEscrowContract {
