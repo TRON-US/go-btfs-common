@@ -54,6 +54,7 @@ enum Schedule {
   MONTHLY = 0;
   QUARTERLY = 1;
   ANNUALLY = 2;
+  CUSTOMIZED = 3;
 }
 
 message ContractID {
@@ -78,6 +79,7 @@ message EscrowContract {
   Schedule payout_schedule = 9; // schedule enum
   int32 num_payouts = 10; // numbers of payouts
   bytes reference = 11; // reference like hash value etc
+  int32 customize_payout_period = 12; // customized payout period in days
 }
 
 message SignedEscrowContract {
