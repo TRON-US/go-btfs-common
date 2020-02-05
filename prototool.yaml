@@ -20,6 +20,19 @@ lint:
       - ENUM_NAMES_CAPITALIZED
     # remove:
     #   - ENUM_NAMES_CAMEL_CASE
+  ignores:
+    - id: ENUM_FIELD_NAMES_UPPER_SNAKE_CASE
+      files:
+        - protos/exchange/exchange_message.proto
+    - id: ENUM_NAMES_CAMEL_CASE
+      files:
+        - protos/exchange/exchange_message.proto
+    - id: ENUM_NAMES_CAPITALIZED
+      files:
+        - protos/exchange/exchange_message.proto
+    - id: MESSAGE_FIELD_NAMES_LOWER_SNAKE_CASE
+      files:
+        - protos/exchange/exchange_message.proto
 
 # Code generation directives.
 generate:
