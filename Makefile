@@ -25,6 +25,7 @@ brew:
 
 trongogo:
 	cd ../ && git clone https://github.com/TRON-US/protobuf || true
+	cd ../ && git clone https://github.com/googleapis/googleapis.git || true
 	cd ../protobuf && make
 
 lintf:

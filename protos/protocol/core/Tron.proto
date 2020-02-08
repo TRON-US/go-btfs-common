@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-import "google/protobuf/any.proto";
-import "protos/protocol/core/Discover.proto";
+package protocol;
 
 option go_package = "protocol.core";
 
-package protocol;
+import "google/protobuf/any.proto";
+import "protos/protocol/core/Discover.proto";
 
 enum AccountType {
   Normal = 0;
@@ -63,9 +63,9 @@ message ChainParameters {
   }
 }
 
-/* Account */
+// Account
 message Account {
-  /* frozen balance */
+  // frozen balance
   message Frozen {
     int64 frozen_balance = 1; // the frozen trx balance
     int64 expire_time = 2; // the expire time
@@ -81,10 +81,8 @@ message Account {
   repeated Vote votes = 5;
   // the other asset owned by this account
   map<string, int64> asset = 6;
-
   // the other asset owned by this account，key is assetId
   map<string, int64> assetV2 = 56;
-
   // the frozen balance for bandwidth
   repeated Frozen frozen = 7;
   // bandwidth, get from frozen
@@ -93,15 +91,14 @@ message Account {
   int64 acquired_delegated_frozen_balance_for_bandwidth = 41;
   //Freeze and provide balances to other accounts
   int64 delegated_frozen_balance_for_bandwidth = 42;
-
   // this account create time
-  int64 create_time = 0x09;
+  int64 create_time = 9;
   // this last operation time, including transfer, voting and so on. //FIXME fix grammar
   int64 latest_opration_time = 10;
   // witness block producing allowance
-  int64 allowance = 0x0B;
+  int64 allowance = 11;
   // last withdraw time
-  int64 latest_withdraw_time = 0x0C;
+  int64 latest_withdraw_time = 12;
   // not used so far
   bytes code = 13;
   bool is_witness = 14;
@@ -118,33 +115,26 @@ message Account {
   map<string, int64> free_asset_net_usageV2 = 59;
   int64 latest_consume_time = 21;
   int64 latest_consume_free_time = 22;
-
   // the identity of this account, case insensitive
   bytes account_id = 23;
-
   message AccountResource {
     // energy resource, get from frozen
     int64 energy_usage = 1;
     // the frozen balance for energy
     Frozen frozen_balance_for_energy = 2;
     int64 latest_consume_time_for_energy = 3;
-
     //Frozen balance provided by other accounts to this account
     int64 acquired_delegated_frozen_balance_for_energy = 4;
     //Frozen balances provided to other accounts
     int64 delegated_frozen_balance_for_energy = 5;
-
     // storage resource, get from market
     int64 storage_limit = 6;
     int64 storage_usage = 7;
     int64 latest_exchange_storage_time = 8;
-
   }
   AccountResource account_resource = 26;
-
   bytes codeHash = 30;
 }
-
 
 message DelegatedResource {
   bytes from = 1;
@@ -256,7 +246,6 @@ message Transaction {
     bytes provider = 3;
     bytes ContractName = 4;
   }
-
   message Result {
     enum code {
       SUCESS = 0;
@@ -281,7 +270,6 @@ message Transaction {
     int64 fee = 1;
     code ret = 2;
     contractResult contractRet = 3;
-
     string assetIssueID = 14;
     int64 withdraw_amount = 15;
     int64 unfreeze_amount = 16;
@@ -290,7 +278,6 @@ message Transaction {
     int64 exchange_withdraw_another_amount = 20;
     int64 exchange_id = 21;
   }
-
   message raw {
     bytes ref_block_bytes = 1;
     int64 ref_block_num = 3;
@@ -306,7 +293,6 @@ message Transaction {
     int64 timestamp = 14;
     int64 fee_limit = 18;
   }
-
   raw raw_data = 1;
   // only support size = 1,  repeated list here for muti-sig extension
   repeated bytes signature = 2;
@@ -333,7 +319,6 @@ message TransactionInfo {
   repeated Log log = 8;
   code result = 9;
   bytes resMessage = 10;
-
   string assetIssueID = 14;
   int64 withdraw_amount = 15;
   int64 unfreeze_amount = 16;
@@ -391,7 +376,6 @@ message BlockInventory {
     ADVTISE = 1;
     FETCH = 2;
   }
-
   message BlockId {
     bytes hash = 1;
     int64 number = 2;
@@ -416,7 +400,6 @@ message Items {
     BLOCK = 2;
     BLOCKHEADER = 3;
   }
-
   ItemType type = 1;
   repeated Block blocks = 2;
   repeated BlockHeader block_headers = 3;
@@ -429,30 +412,30 @@ message DynamicProperties {
 }
 
 enum ReasonCode {
-  REQUESTED = 0x00;
-  BAD_PROTOCOL = 0x02;
-  TOO_MANY_PEERS = 0x04;
-  DUPLICATE_PEER = 0x05;
-  INCOMPATIBLE_PROTOCOL = 0x06;
-  NULL_IDENTITY = 0x07;
-  PEER_QUITING = 0x08;
-  UNEXPECTED_IDENTITY = 0x09;
-  LOCAL_IDENTITY = 0x0A;
-  PING_TIMEOUT = 0x0B;
-  USER_REASON = 0x10;
-  RESET = 0x11;
-  SYNC_FAIL = 0x12;
-  FETCH_FAIL = 0x13;
-  BAD_TX = 0x14;
-  BAD_BLOCK = 0x15;
-  FORKED = 0x16;
-  UNLINKABLE = 0x17;
-  INCOMPATIBLE_VERSION = 0x18;
-  INCOMPATIBLE_CHAIN = 0x19;
-  TIME_OUT = 0x20;
-  CONNECT_FAIL = 0x21;
-  TOO_MANY_PEERS_WITH_SAME_IP = 0x22;
-  UNKNOWN = 0xFF;
+  REQUESTED = 0;
+  BAD_PROTOCOL = 2;
+  TOO_MANY_PEERS = 4;
+  DUPLICATE_PEER = 5;
+  INCOMPATIBLE_PROTOCOL = 6;
+  NULL_IDENTITY = 7;
+  PEER_QUITING = 8;
+  UNEXPECTED_IDENTITY = 9;
+  LOCAL_IDENTITY = 10;
+  PING_TIMEOUT = 11;
+  USER_REASON = 16;
+  RESET = 17;
+  SYNC_FAIL = 18;
+  FETCH_FAIL = 19;
+  BAD_TX = 20;
+  BAD_BLOCK = 21;
+  FORKED = 22;
+  UNLINKABLE = 23;
+  INCOMPATIBLE_VERSION = 24;
+  INCOMPATIBLE_CHAIN = 25;
+  TIME_OUT = 32;
+  CONNECT_FAIL = 33;
+  TOO_MANY_PEERS_WITH_SAME_IP = 34;
+  UNKNOWN = 255;
 }
 
 message DisconnectMessage {
@@ -464,7 +447,6 @@ message HelloMessage {
     bytes hash = 1;
     int64 number = 2;
   }
-
   Endpoint from = 1;
   int32 version = 2;
   int64 timestamp = 3;
@@ -488,6 +470,7 @@ message SmartContract {
         string name = 2;
         string type = 3;
         // SolidityType type = 3;
+
       }
       enum StateMutabilityType {
         UnknownMutabilityType = 0;
@@ -496,7 +479,6 @@ message SmartContract {
         Nonpayable = 3;
         Payable = 4;
       }
-
       bool anonymous = 1;
       bool constant = 2;
       string name = 3;
@@ -516,7 +498,6 @@ message SmartContract {
   int64 consume_user_resource_percent = 6;
   string name = 7;
   int64 origin_energy_limit = 8;
-
 }
 
 message InternalTransaction {

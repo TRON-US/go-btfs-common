@@ -1,25 +1,25 @@
-/*
- * java-protocol is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * java-protocol is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+//
+// * java-protocol is free software: you can redistribute it and/or modify
+// * it under the terms of the GNU General Public License as published by
+// * the Free Software Foundation, either version 3 of the License, or
+// * (at your option) any later version.
+// *
+// * java-protocol is distributed in the hope that it will be useful,
+// * but WITHOUT ANY WARRANTY; without even the implied warranty of
+// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// * GNU General Public License for more details.
+// *
+// * You should have received a copy of the GNU General Public License
+// * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 
 syntax = "proto3";
 
 package protocol;
 
-import "protos/protocol/core/Tron.proto";
-
 option go_package = "protocol.core";
+
+import "protos/protocol/core/Tron.proto";
 
 message AccountCreateContract {
   bytes owner_address = 1;
@@ -51,7 +51,6 @@ message TransferAssetContract {
   bytes to_address = 3;
   int64 amount = 4;
 }
-
 
 message VoteAssetContract {
   bytes owner_address = 1;
@@ -94,7 +93,6 @@ message WitnessUpdateContract {
 
 message AssetIssueContract {
   string id = 41;
-
   message FrozenSupply {
     int64 frozen_amount = 1;
     int64 frozen_days = 2;
@@ -126,24 +124,21 @@ message ParticipateAssetIssueContract {
   int64 amount = 4; // the amount of drops
 }
 
-
 enum ResourceCode {
-  BANDWIDTH = 0x00;
-  ENERGY = 0x01;
+  BANDWIDTH = 0;
+  ENERGY = 1;
 }
 
 message FreezeBalanceContract {
   bytes owner_address = 1;
   int64 frozen_balance = 2;
   int64 frozen_duration = 3;
-
   ResourceCode resource = 10;
   bytes receiver_address = 15;
 }
 
 message UnfreezeBalanceContract {
   bytes owner_address = 1;
-
   ResourceCode resource = 10;
   bytes receiver_address = 15;
 }
