@@ -9,6 +9,7 @@ protoc:
     - .
     - ../../tron-us/protobuf/protobuf
     - ../../../../src
+    #- ../../googleapis
   allow_unused_imports: false
 
 # Lint directives.

@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.2
+	github.com/googleapis/googleapis v0.0.0-20200207231800-e7d8a694f455
 	github.com/libp2p/go-libp2p-core v0.0.6
 	github.com/stretchr/testify v1.4.0
 	github.com/tron-us/go-common/v2 v2.0.5
