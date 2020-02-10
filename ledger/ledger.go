@@ -2,14 +2,12 @@ package ledger
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
 	"github.com/tron-us/go-btfs-common/utils/grpc"
 	"github.com/tron-us/protobuf/proto"
 
-	btcec "github.com/btcsuite/btcd/btcec"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
 )
 
@@ -22,7 +20,7 @@ func NewClient(addr string) *Client {
 }
 
 func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
-	addr, err := RawPublicKey(pubKey)
+	addr, err := pubKey.RawFull()
 	if err != nil {
 		return nil, err
 	}
@@ -33,11 +31,11 @@ func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 }
 
 func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
-	fromAddr, err := RawPublicKey(fromKey)
+	fromAddr, err := fromKey.RawFull()
 	if err != nil {
 		return nil, err
 	}
-	toAddr, err := RawPublicKey(toKey)
+	toAddr, err := toKey.RawFull()
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +65,7 @@ func NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, 
 }
 
 func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb.Account, error) {
-	keyBytes, err := RawPublicKey(pubKey)
+	keyBytes, err := pubKey.RawFull()
 	if err != nil {
 		return nil, err
 	}
@@ -82,19 +80,8 @@ func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb
 	return res.GetAccount(), nil
 }
 
-// RawPublicKey returns the raw public key ledger needs
-// Ledger needs uncompressed public keys
-// TODO: Very hacky, clean this up later, modify into libp2p-core/crypto
-func RawPublicKey(pubKey ic.PubKey) ([]byte, error) {
-	k, ok := pubKey.(*ic.Secp256k1PublicKey)
-	if !ok {
-		return nil, fmt.Errorf("wrong public key type")
-	}
-	return (*btcec.PublicKey)(k).SerializeUncompressed(), nil
-}
-
 func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey) (*ledgerpb.SignedCreateAccountResult, error) {
-	pubKeyBytes, err := RawPublicKey(pubKey)
+	pubKeyBytes, err := pubKey.RawFull()
 	if err != nil {
 		return nil, err
 	}
