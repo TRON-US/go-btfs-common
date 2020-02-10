@@ -90,3 +90,46 @@ message Node {
     (gogoproto.nullable) = false
   ];
 }
+
+message StorageStat {
+  message Host {
+    bool online = 1;
+    float uptime = 2;
+    float score = 3;
+    int64 storage_used = 4;
+    int64 storage_cap = 5;
+  }
+  message Renter {
+    string reversed = 1;
+  }
+  Host host_stats = 1 [(gogoproto.nullable) = false];
+  Renter renter_stats = 2 [(gogoproto.nullable) = false];
+}
+
+message ContractStat {
+  int64 active_contract_num = 1;
+  int64 compensation_paid = 2;
+  int64 compensation_outstanding = 3;
+  string first_contract_start = 4;
+  string last_contract_end = 5;
+  string role = 6;
+}
+
+message Contracts {
+  message Contract {
+    string contract_id = 1;
+    string host_id = 2;
+    string renter_id = 3;
+    string status = 4;
+    string start_time = 5;
+    string end_time = 6;
+    string next_escrow_time = 7;
+    int64 compensation_paid = 8;
+    int64 compensation_outstanding = 9;
+    int64 unit_price = 10;
+    int64 shard_size = 11;
+    string shard_hash = 12;
+    string file_hash = 13;
+  }
+  repeated Contract contracts = 1;
+}
