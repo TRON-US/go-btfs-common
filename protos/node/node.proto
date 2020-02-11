@@ -17,6 +17,7 @@ option java_multiple_files = true;
 option java_outer_classname = "NodeProto";
 option java_package = "io.btfs.node";
 
+import "github.com/tron-us/go-btfs-common/protos/guard/guard.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -100,19 +101,30 @@ message StorageStat {
     int64 storage_cap = 5;
   }
   message Renter {
-    string reversed = 1;
+    string reserved = 1;
   }
   Host host_stats = 1 [(gogoproto.nullable) = false];
   Renter renter_stats = 2 [(gogoproto.nullable) = false];
 }
 
 message ContractStat {
+  enum Role {
+    HOST = 0;
+    RENTER = 1;
+    RESERVED = 2;
+  }
   int64 active_contract_num = 1;
   int64 compensation_paid = 2;
   int64 compensation_outstanding = 3;
-  string first_contract_start = 4;
-  string last_contract_end = 5;
-  string role = 6;
+  google.protobuf.Timestamp first_contract_start = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp last_contract_end = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  Role role = 6;
 }
 
 message Contracts {
@@ -120,10 +132,19 @@ message Contracts {
     string contract_id = 1;
     string host_id = 2;
     string renter_id = 3;
-    string status = 4;
-    string start_time = 5;
-    string end_time = 6;
-    string next_escrow_time = 7;
+    guard.Contract.ContractState status = 4;
+    google.protobuf.Timestamp start_time = 5 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
+    google.protobuf.Timestamp end_time = 6 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
+    google.protobuf.Timestamp next_escrow_time = 7 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
     int64 compensation_paid = 8;
     int64 compensation_outstanding = 9;
     int64 unit_price = 10;
