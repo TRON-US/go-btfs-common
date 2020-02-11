@@ -138,7 +138,7 @@ func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.
 	})
 }
 
-func NewPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
+func NewSignedPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
 	raw, err := pubK.RawFull()
 	if err != nil {
 		return nil, err
