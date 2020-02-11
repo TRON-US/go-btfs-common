@@ -5,6 +5,8 @@ import (
 	"time"
 
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
+
+	"github.com/tron-us/go-btfs-common/crypto"
 	"github.com/tron-us/go-btfs-common/utils/grpc"
 	"github.com/tron-us/protobuf/proto"
 
@@ -61,6 +63,13 @@ func NewSignedChannelState(channelState *ledgerpb.ChannelState, fromSig []byte, 
 		Channel:       channelState,
 		FromSignature: fromSig,
 		ToSignature:   toSig,
+	}
+}
+
+func NewSignedChannelCommit(commit *ledgerpb.ChannelCommit, sig []byte) *ledgerpb.SignedChannelCommit {
+	return &ledgerpb.SignedChannelCommit{
+		Channel:   commit,
+		Signature: sig,
 	}
 }
 
@@ -127,4 +136,22 @@ func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.
 		_, err := client.CloseChannel(ctx, signedChannelState)
 		return err
 	})
+}
+
+func NewPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
+	raw, err := pubK.RawFull()
+	if err != nil {
+		return nil, err
+	}
+	lgPubKey := &ledgerpb.PublicKey{
+		Key: raw,
+	}
+	sig, err := crypto.Sign(privK, lgPubKey)
+	if err != nil {
+		return nil, err
+	}
+	return &ledgerpb.SignedPublicKey{
+		Key:       lgPubKey,
+		Signature: sig,
+	}, nil
 }
