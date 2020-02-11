@@ -13,4 +13,4 @@ require (
 	google.golang.org/grpc v1.25.1
 )
 
-replace github.com/libp2p/go-libp2p-core => github.com/TRON-US/go-libp2p-core v0.4.0
+replace github.com/libp2p/go-libp2p-core => github.com/TRON-US/go-libp2p-core v0.4.1

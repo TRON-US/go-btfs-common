@@ -22,7 +22,7 @@ func NewClient(addr string) *Client {
 }
 
 func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
-	addr, err := pubKey.RawFull()
+	addr, err := ic.RawFull(pubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -33,11 +33,11 @@ func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 }
 
 func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
-	fromAddr, err := fromKey.RawFull()
+	fromAddr, err := ic.RawFull(fromKey)
 	if err != nil {
 		return nil, err
 	}
-	toAddr, err := toKey.RawFull()
+	toAddr, err := ic.RawFull(toKey)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func NewSignedChannelCommit(commit *ledgerpb.ChannelCommit, sig []byte) *ledgerp
 }
 
 func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb.Account, error) {
-	keyBytes, err := pubKey.RawFull()
+	keyBytes, err := ic.RawFull(pubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb
 }
 
 func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey) (*ledgerpb.SignedCreateAccountResult, error) {
-	pubKeyBytes, err := pubKey.RawFull()
+	pubKeyBytes, err := ic.RawFull(pubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.
 }
 
 func NewSignedPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
-	raw, err := pubK.RawFull()
+	raw, err := ic.RawFull(pubK)
 	if err != nil {
 		return nil, err
 	}

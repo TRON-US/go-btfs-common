@@ -9,7 +9,7 @@ import (
 
 func NewPayinRequest(payinId string, payerPubkey ic.PubKey, state *ledgerpb.SignedChannelState) (
 	*escrowpb.PayinRequest, error) {
-	raw, err := payerPubkey.RawFull()
+	raw, err := ic.RawFull(payerPubkey)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func NewSignedPayinRequest(req *escrowpb.PayinRequest, sig []byte) *escrowpb.Sig
 }
 
 func NewContractID(id string, key ic.PubKey) (*escrowpb.ContractID, error) {
-	raw, err := key.RawFull()
+	raw, err := ic.RawFull(key)
 	if err != nil {
 		return nil, err
 	}
@@ -47,15 +47,15 @@ func NewSingedContractID(id *escrowpb.ContractID, sig []byte) *escrowpb.SignedCo
 
 func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, authPubKey ic.PubKey,
 	amount int64, ps escrowpb.Schedule, period int32) (*escrowpb.EscrowContract, error) {
-	payerAddr, err := payerPubKey.RawFull()
+	payerAddr, err := ic.RawFull(payerPubKey)
 	if err != nil {
 		return nil, err
 	}
-	hostAddr, err := hostPubKey.RawFull()
+	hostAddr, err := ic.RawFull(hostPubKey)
 	if err != nil {
 		return nil, err
 	}
-	authAddress, err := authPubKey.RawFull()
+	authAddress, err := ic.RawFull(authPubKey)
 	if err != nil {
 		return nil, err
 	}
