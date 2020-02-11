@@ -1,7 +1,7 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/TRON-US/go-libp2p-core v0.4.0 h1:tF/sxyQDLP/WW6w566MGs5P20XeMR97M0lfdBkhJNfc=
-github.com/TRON-US/go-libp2p-core v0.4.0/go.mod h1:B9V1MQtCLGp+jUXNdKJzNllFSsVSMuex1+5/fyWgYl0=
+github.com/TRON-US/go-libp2p-core v0.4.1 h1:vOTph4f42uxr2r2oAyCogIUxsHl2b5vWen2fiA0LCQ4=
+github.com/TRON-US/go-libp2p-core v0.4.1/go.mod h1:B9V1MQtCLGp+jUXNdKJzNllFSsVSMuex1+5/fyWgYl0=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
 github.com/btcsuite/btcd v0.0.0-20190523000118-16327141da8c h1:aEbSeNALREWXk0G7UdNhR3ayBV7tZ4M2PNmnrCAph6Q=
 github.com/btcsuite/btcd v0.0.0-20190523000118-16327141da8c/go.mod h1:3J08xEfcugPacsc34/LKRU2yO7YmuT8yt28J8k2+rrI=
