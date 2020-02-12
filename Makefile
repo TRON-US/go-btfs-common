@@ -24,6 +24,7 @@ brew:
 	brew install go protobuf prototool postgresql redis
 
 trongogo:
+	cd ../ && git clone https://github.com/googleapis/googleapis.git && cd go-btfs-common || true
 	cd ../ && git clone https://github.com/TRON-US/protobuf || true
 	cd ../protobuf && make
 

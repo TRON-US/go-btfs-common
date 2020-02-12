@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+package exchange;
+
+import "google/protobuf/any.proto";
+import "protos/ledger/ledger.proto";
+
+message PrepareWithdrawRequest {
+  int64 amount = 1;
+  int64 out_tx_id = 2;
+  bytes user_address = 3;
+  bytes user_external_address = 4;
+}
+
+message PrepareWithdrawResponse {
+  Response response = 1;
+  bytes ledger_exchange_address = 2;
+  int64 id = 3;
+}
+
+message WithdrawRequest {
+  int64 id = 1;
+  ledger.SignedChannelState success_channel_state = 2;
+  ledger.SignedChannelState failure_channel_state = 3;
+}
+
+message WithdrawResponse {
+  Response response = 1;
+}
+
+message PrepareDepositRequest {
+  int64 amount = 1;
+  int64 out_tx_id = 2;
+  bytes user_address = 3;
+}
+
+message PrepareDepositResponse {
+  Response response = 1;
+  int64 id = 2;
+  TronTransaction tron_transaction = 3;
+}
+
+message DepositRequest {
+  int64 id = 1;
+  TronTransaction signed_tron_transaction = 4;
+}
+
+message DepositResponse {
+  Response response = 1;
+}
+
+message ConfirmDepositRequest {
+  int64 id = 1;
+}
+
+message ConfirmDepositResponse {
+  Response response = 1;
+  ledger.SignedChannelState success_channel_state = 2;
+}
+
+message QueryTransactionRequest {
+  int64 id = 1;
+}
+
+message QueryTransactionResponse {
+  Response response = 1;
+  bytes type = 2;
+  int64 amount = 3;
+  bytes token_name = 4;
+  bytes user_address = 5;
+  bytes tron_status = 6;
+  bytes channel_status = 7;
+}
+
+message ActivateAccountRequest {
+  bytes address = 1;
+}
+
+message ActivateAccountResponse {
+  Response response = 1;
+  string txId = 2;
+}
+
+message Response {
+  enum return_code {
+    SUCCESS = 0;
+    AMOUNT_ILLEGAL = 1;
+    REMOTE_CALL_ERROR = 2;
+    INACTIVATED_ACCOUNT = 3;
+    TRON_BALANCE_INSUFFICIENT = 4;
+    CHANNEL_CLOSED = 5;
+    CHANNEL_ADDRESS_ILLEGAL = 6;
+    REQUEST_PARAM_ILLEGAL = 7;
+    TRANSFER_ADDRESS_FAILED = 8;
+    SIGN_FAILED = 9;
+    MARSHAL_FAILED = 10;
+    DATABASE_ERROR = 11;
+    TRANSACTION_EXIST = 12;
+    BROADCAST_ERROR = 13;
+    HASH_FAILED = 14;
+    USER_TRON_BALANCE_INSUFFICIENT = 15;
+    LEDGER_BALANCE_INSUFFICIENT = 16;
+    TRANSACTION_NOT_EXIST = 17;
+    TRANSACTION_STATUS_ILLEGAL = 18;
+    UNMARSHAL_FAILED = 19;
+    TRANSACTION_FAILED = 20;
+    TRANSACTION_PENDING = 21;
+    DECODE_STRING_FAILED = 22;
+    TRANSACTION_TYPE_ILLEGAL = 23;
+    IP_ACCESS_DENIED = 24;
+    ADDRESS_ACCESS_DENIED = 25;
+    OTHER_ERROR = 99;
+  }
+  return_code code = 1;
+  bytes return_message = 2;
+}
+
+message TronTransaction {
+  message TronContract {
+    enum TronContractType {
+      AccountCreateContract = 0;
+      TransferContract = 1;
+      TransferAssetContract = 2;
+      VoteAssetContract = 3;
+      VoteWitnessContract = 4;
+      WitnessCreateContract = 5;
+      AssetIssueContract = 6;
+      WitnessUpdateContract = 8;
+      ParticipateAssetIssueContract = 9;
+      AccountUpdateContract = 10;
+      FreezeBalanceContract = 11;
+      UnfreezeBalanceContract = 12;
+      WithdrawBalanceContract = 13;
+      UnfreezeAssetContract = 14;
+      UpdateAssetContract = 15;
+      ProposalCreateContract = 16;
+      ProposalApproveContract = 17;
+      ProposalDeleteContract = 18;
+      SetAccountIdContract = 19;
+      CustomContract = 20;
+      // BuyStorageContract = 21;
+      // BuyStorageBytesContract = 22;
+      // SellStorageContract = 23;
+      CreateSmartContract = 30;
+      TriggerSmartContract = 31;
+      GetContract = 32;
+      UpdateSettingContract = 33;
+      ExchangeCreateContract = 41;
+      ExchangeInjectContract = 42;
+      ExchangeWithdrawContract = 43;
+      ExchangeTransactionContract = 44;
+      UpdateEnergyLimitContract = 45;
+    }
+    TronContractType type = 1;
+    google.protobuf.Any parameter = 2;
+    bytes provider = 3;
+    bytes ContractName = 4;
+  }
+  message TronResult {
+    enum TronCode {
+      SUCESS = 0;
+      FAILED = 1;
+    }
+    enum TronContractResult {
+      DEFAULT = 0;
+      SUCCESS = 1;
+      REVERT = 2;
+      BAD_JUMP_DESTINATION = 3;
+      OUT_OF_MEMORY = 4;
+      PRECOMPILED_CONTRACT = 5;
+      STACK_TOO_SMALL = 6;
+      STACK_TOO_LARGE = 7;
+      ILLEGAL_OPERATION = 8;
+      STACK_OVERFLOW = 9;
+      OUT_OF_ENERGY = 10;
+      OUT_OF_TIME = 11;
+      JVM_STACK_OVER_FLOW = 12;
+      UNKNOWN = 13;
+    }
+    int64 fee = 1;
+    TronCode ret = 2;
+    TronContractResult contractRet = 3;
+    string assetIssueID = 14;
+    int64 withdraw_amount = 15;
+    int64 unfreeze_amount = 16;
+    int64 exchange_received_amount = 18;
+    int64 exchange_inject_another_amount = 19;
+    int64 exchange_withdraw_another_amount = 20;
+    int64 exchange_id = 21;
+  }
+  message TronRaw {
+    bytes ref_block_bytes = 1;
+    int64 ref_block_num = 3;
+    bytes ref_block_hash = 4;
+    int64 expiration = 8;
+    repeated TronAuthority auths = 9;
+    // data not used
+    bytes data = 10;
+    //only support size = 1,  repeated list here for extension
+    repeated TronContract contract = 11;
+    // scripts not used
+    bytes scripts = 12;
+    int64 timestamp = 14;
+    int64 fee_limit = 18;
+  }
+  TronRaw raw_data = 1;
+  // only support size = 1,  repeated list here for muti-sig extension
+  repeated bytes signature = 2;
+  repeated TronResult ret = 5;
+}
+
+message TronAuthority {
+  TronAccountId account = 1;
+  bytes permission_name = 2;
+}
+
+message TronAccountId {
+  bytes name = 1;
+  bytes address = 2;
+}

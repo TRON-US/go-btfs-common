@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package exchange;
+
+import "protos/exchange/exchange_message.proto";
+
+service Exchange {
+  rpc PrepareWithdraw(PrepareWithdrawRequest) returns (PrepareWithdrawResponse);
+  rpc Withdraw(WithdrawRequest) returns (WithdrawResponse);
+  rpc PrepareDeposit(PrepareDepositRequest) returns (PrepareDepositResponse);
+  rpc Deposit(DepositRequest) returns (DepositResponse);
+  rpc ConfirmDeposit(ConfirmDepositRequest) returns (ConfirmDepositResponse);
+  rpc QueryTransaction(QueryTransactionRequest) returns (QueryTransactionResponse);
+  rpc ActivateAccountOnChain(ActivateAccountRequest) returns (ActivateAccountResponse);
+}

@@ -10,6 +10,7 @@ require (
 	github.com/tron-us/go-common/v2 v2.0.5
 	github.com/tron-us/protobuf v1.3.4
 	go.uber.org/zap v1.10.0
+	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
 	google.golang.org/grpc v1.25.1
 )
 
