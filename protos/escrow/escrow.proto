@@ -44,6 +44,10 @@ service EscrowService {
   rpc Refund(SignedRefundRequest) returns (SignedRefundResult);
   // query balance and create account if account not exist
   rpc BalanceOf(ledger.SignedPublicKey) returns (SignedBalanceResult);
+  // Creates a channel on the ledger and returns the ID of the ledger
+  rpc CreateChannel(ledger.SignedChannelCommit) returns (ledger.ChannelID);
+  // Closes a channel on the ledger.
+  rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
 }
 
 enum TokenType {
