@@ -28,8 +28,8 @@ func init() {
 func GetMinimumQuestionsCountPerShard(status *guard.FileStoreStatus) (val int) {
 	//Below comment codes were reserved here
 	//if status == nil || status.FileStoreMeta.CheckFrequency == 0 {
-	//	//if it is 0 or status is nil, means using default frequency, 12 per year
-	//	return ConstMinQuestionsCountPerChallenge * 12
+	//	//if it is 0 or status is nil, means using default frequency
+	//	return ConstMinQuestionsCountPerChallenge * 52
 	//}
 	//
 	//return int(status.FileStoreMeta.CheckFrequency) * ConstMinQuestionsCountPerChallenge
