@@ -26,7 +26,7 @@ brew:
 trongogo:
 	cd ../ && git clone https://github.com/googleapis/googleapis.git && cd go-btfs-common || true
 	cd ../ && git clone https://github.com/TRON-US/protobuf || true
-	cd ../protobuf && make
+	cd ../protobuf && git checkout master && git pull && make
 
 lintf:
 	prototool lint ./protos
