@@ -123,6 +123,7 @@ message Host {
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
   ];
+  float discovery = 29;
 }
 
 message Location {
