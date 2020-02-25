@@ -11,9 +11,11 @@ import (
 	"time"
 
 	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
+	exchangepb "github.com/tron-us/go-btfs-common/protos/exchange"
 	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
+	tronpb "github.com/tron-us/go-btfs-common/protos/protocol/api"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	statuspb "github.com/tron-us/go-btfs-common/protos/status"
 
@@ -58,6 +60,10 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return v(ctx, grpc_health_v1.NewHealthClient(conn))
 	case func(ctx context.Context, client ledgerpb.ChannelsClient) error:
 		return v(ctx, ledgerpb.NewChannelsClient(conn))
+	case func(ctx context.Context, client exchangepb.ExchangeClient) error:
+		return v(ctx, exchangepb.NewExchangeClient(conn))
+	case func(ctx context.Context, client tronpb.WalletSolidityClient) error:
+		return v(ctx, tronpb.NewWalletSolidityClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
