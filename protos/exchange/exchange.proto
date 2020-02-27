@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package exchange;
+package protocol;
 
 import "protos/exchange/exchange_message.proto";
 

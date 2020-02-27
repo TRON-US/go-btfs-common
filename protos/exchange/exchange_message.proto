@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package exchange;
+package protocol;
 
 import "google/protobuf/any.proto";
 import "protos/ledger/ledger.proto";
