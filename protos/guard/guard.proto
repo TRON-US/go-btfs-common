@@ -23,6 +23,8 @@ service GuardService {
   rpc SubmitFileStoreMeta(FileStoreStatus) returns (Result);
   rpc SendQuestions(FileChallengeQuestions) returns (Result); //used for renter send the questions to guard
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
+  rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
+  rpc ForceRepair(ForceRepairRequest) returns (Result);
 }
 
 message Log {
@@ -235,6 +237,26 @@ message CheckFileStoreMetaRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 5; //requester signed
+}
+
+message ReadyForChallengeRequest {
+  string renter_pid = 1;
+  string file_hash = 2;
+  string shard_hash = 3;
+  string contract_id = 4;
+  string host_pid = 5;
+  google.protobuf.Timestamp prepare_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 7;
+}
+
+message ForceRepairRequest {
+  string renter_pid = 1;
+  string file_hash = 2;
+  string auth_pid = 3; //the peer who was authorized to issue force repair request
+  bytes signature = 4;
 }
 
 enum ResponseCode {
