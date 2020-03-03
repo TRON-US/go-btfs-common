@@ -19,7 +19,6 @@ option java_package = "io.btfs.ledger";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 
 // Interface exported by the server.
-
 service Channels {
   // Creates a channel on the ledger and returns the ID of the ledger
   rpc CreateChannel(SignedChannelCommit) returns (ChannelID);
@@ -33,9 +32,11 @@ service Channels {
   // Create an account and return
   rpc CreateAccount(PublicKey) returns (CreateAccountResult);
   // Create an account, securely, and return
-  rpc SignedCreateAccount(SignedPublicKey) returns (SignedCreateAccountResult);
+  rpc SignedCreateAccount(SignedCreateAccountRequest) returns (SignedCreateAccountResult);
   // Update an account pub key (BIP 44 compatible)
   rpc UpdateAccountPubKey(SignedPublicKeyPair) returns (Null);
+  // Transfers funds from one off-chain account to another
+  rpc Transfer(SignedTransferRequest) returns (TransferResult);
 }
 
 message Null {}
@@ -63,6 +64,13 @@ message SignedChannelCommit {
 
 message CreateAccountResult {
   Account account = 1;
+}
+
+message SignedCreateAccountRequest {
+  PublicKey key = 1;
+  bytes signature = 2;
+  // client version number
+  string client_version_number = 3;
 }
 
 message SignedCreateAccountResult {
@@ -113,4 +121,19 @@ message SignedPublicKeyPair {
   PublicKey new_key = 2;
   bytes old_signature = 3;
   bytes new_signature = 4;
+}
+
+message TransferRequest {
+  PublicKey payer = 1;
+  PublicKey recipient = 2;
+  int64 amount = 3;
+}
+
+message SignedTransferRequest {
+  TransferRequest transfer_request = 1;
+  bytes signature = 2;
+}
+
+message TransferResult {
+  int64 balance = 1;
 }
