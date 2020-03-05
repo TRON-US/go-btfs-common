@@ -103,7 +103,7 @@ func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pu
 	if err != nil {
 		return nil, err
 	}
-	signedPubkey := &ledgerpb.SignedPublicKey{Key: singedPubKey, Signature: signature}
+	signedPubkey := &ledgerpb.SignedCreateAccountRequest{Key: singedPubKey, Signature: signature}
 
 	var result *ledgerpb.SignedCreateAccountResult
 	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {

@@ -367,6 +367,74 @@ func (*CreateAccountResult) XXX_MessageName() string {
 	return "ledger.CreateAccountResult"
 }
 
+type SignedCreateAccountRequest struct {
+	Key       *PublicKey `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" pg:"key"`
+	Signature []byte     `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	// client version number
+	ClientVersionNumber  string   `protobuf:"bytes,3,opt,name=client_version_number,json=clientVersionNumber,proto3" json:"client_version_number,omitempty" pg:"client_version_number"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *SignedCreateAccountRequest) Reset()         { *m = SignedCreateAccountRequest{} }
+func (m *SignedCreateAccountRequest) String() string { return proto.CompactTextString(m) }
+func (*SignedCreateAccountRequest) ProtoMessage()    {}
+func (*SignedCreateAccountRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_858b35020cfe9185, []int{6}
+}
+func (m *SignedCreateAccountRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SignedCreateAccountRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SignedCreateAccountRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SignedCreateAccountRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SignedCreateAccountRequest.Merge(m, src)
+}
+func (m *SignedCreateAccountRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *SignedCreateAccountRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SignedCreateAccountRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SignedCreateAccountRequest proto.InternalMessageInfo
+
+func (m *SignedCreateAccountRequest) GetKey() *PublicKey {
+	if m != nil {
+		return m.Key
+	}
+	return nil
+}
+
+func (m *SignedCreateAccountRequest) GetSignature() []byte {
+	if m != nil {
+		return m.Signature
+	}
+	return nil
+}
+
+func (m *SignedCreateAccountRequest) GetClientVersionNumber() string {
+	if m != nil {
+		return m.ClientVersionNumber
+	}
+	return ""
+}
+
+func (*SignedCreateAccountRequest) XXX_MessageName() string {
+	return "ledger.SignedCreateAccountRequest"
+}
+
 type SignedCreateAccountResult struct {
 	Balance              int64    `protobuf:"varint,1,opt,name=balance,proto3" json:"balance,omitempty" pg:"balance"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
@@ -378,7 +446,7 @@ func (m *SignedCreateAccountResult) Reset()         { *m = SignedCreateAccountRe
 func (m *SignedCreateAccountResult) String() string { return proto.CompactTextString(m) }
 func (*SignedCreateAccountResult) ProtoMessage()    {}
 func (*SignedCreateAccountResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{6}
+	return fileDescriptor_858b35020cfe9185, []int{7}
 }
 func (m *SignedCreateAccountResult) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -431,7 +499,7 @@ func (m *Account) Reset()         { *m = Account{} }
 func (m *Account) String() string { return proto.CompactTextString(m) }
 func (*Account) ProtoMessage()    {}
 func (*Account) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{7}
+	return fileDescriptor_858b35020cfe9185, []int{8}
 }
 func (m *Account) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -489,7 +557,7 @@ func (m *ChannelID) Reset()         { *m = ChannelID{} }
 func (m *ChannelID) String() string { return proto.CompactTextString(m) }
 func (*ChannelID) ProtoMessage()    {}
 func (*ChannelID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{8}
+	return fileDescriptor_858b35020cfe9185, []int{9}
 }
 func (m *ChannelID) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -543,7 +611,7 @@ func (m *ChannelInfo) Reset()         { *m = ChannelInfo{} }
 func (m *ChannelInfo) String() string { return proto.CompactTextString(m) }
 func (*ChannelInfo) ProtoMessage()    {}
 func (*ChannelInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{9}
+	return fileDescriptor_858b35020cfe9185, []int{10}
 }
 func (m *ChannelInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -617,7 +685,7 @@ func (m *SignedChannelState) Reset()         { *m = SignedChannelState{} }
 func (m *SignedChannelState) String() string { return proto.CompactTextString(m) }
 func (*SignedChannelState) ProtoMessage()    {}
 func (*SignedChannelState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{10}
+	return fileDescriptor_858b35020cfe9185, []int{11}
 }
 func (m *SignedChannelState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -683,7 +751,7 @@ func (m *ClosedChannelCursor) Reset()         { *m = ClosedChannelCursor{} }
 func (m *ClosedChannelCursor) String() string { return proto.CompactTextString(m) }
 func (*ClosedChannelCursor) ProtoMessage()    {}
 func (*ClosedChannelCursor) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{11}
+	return fileDescriptor_858b35020cfe9185, []int{12}
 }
 func (m *ClosedChannelCursor) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -744,7 +812,7 @@ func (m *ChannelState) Reset()         { *m = ChannelState{} }
 func (m *ChannelState) String() string { return proto.CompactTextString(m) }
 func (*ChannelState) ProtoMessage()    {}
 func (*ChannelState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{12}
+	return fileDescriptor_858b35020cfe9185, []int{13}
 }
 func (m *ChannelState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -816,7 +884,7 @@ func (m *ChannelClosed) Reset()         { *m = ChannelClosed{} }
 func (m *ChannelClosed) String() string { return proto.CompactTextString(m) }
 func (*ChannelClosed) ProtoMessage()    {}
 func (*ChannelClosed) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{13}
+	return fileDescriptor_858b35020cfe9185, []int{14}
 }
 func (m *ChannelClosed) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -870,7 +938,7 @@ func (m *SignedPublicKeyPair) Reset()         { *m = SignedPublicKeyPair{} }
 func (m *SignedPublicKeyPair) String() string { return proto.CompactTextString(m) }
 func (*SignedPublicKeyPair) ProtoMessage()    {}
 func (*SignedPublicKeyPair) Descriptor() ([]byte, []int) {
-	return fileDescriptor_858b35020cfe9185, []int{14}
+	return fileDescriptor_858b35020cfe9185, []int{15}
 }
 func (m *SignedPublicKeyPair) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -930,6 +998,183 @@ func (m *SignedPublicKeyPair) GetNewSignature() []byte {
 func (*SignedPublicKeyPair) XXX_MessageName() string {
 	return "ledger.SignedPublicKeyPair"
 }
+
+type TransferRequest struct {
+	Payer                *PublicKey `protobuf:"bytes,1,opt,name=payer,proto3" json:"payer,omitempty" pg:"payer"`
+	Recipient            *PublicKey `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty" pg:"recipient"`
+	Amount               int64      `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty" pg:"amount"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-" pg:"-"`
+	XXX_unrecognized     []byte     `json:"-" pg:"-"`
+	XXX_sizecache        int32      `json:"-" pg:"-"`
+}
+
+func (m *TransferRequest) Reset()         { *m = TransferRequest{} }
+func (m *TransferRequest) String() string { return proto.CompactTextString(m) }
+func (*TransferRequest) ProtoMessage()    {}
+func (*TransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_858b35020cfe9185, []int{16}
+}
+func (m *TransferRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransferRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransferRequest.Merge(m, src)
+}
+func (m *TransferRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransferRequest proto.InternalMessageInfo
+
+func (m *TransferRequest) GetPayer() *PublicKey {
+	if m != nil {
+		return m.Payer
+	}
+	return nil
+}
+
+func (m *TransferRequest) GetRecipient() *PublicKey {
+	if m != nil {
+		return m.Recipient
+	}
+	return nil
+}
+
+func (m *TransferRequest) GetAmount() int64 {
+	if m != nil {
+		return m.Amount
+	}
+	return 0
+}
+
+func (*TransferRequest) XXX_MessageName() string {
+	return "ledger.TransferRequest"
+}
+
+type SignedTransferRequest struct {
+	TransferRequest      *TransferRequest `protobuf:"bytes,1,opt,name=transfer_request,json=transferRequest,proto3" json:"transfer_request,omitempty" pg:"transfer_request"`
+	Signature            []byte           `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-" pg:"-"`
+	XXX_unrecognized     []byte           `json:"-" pg:"-"`
+	XXX_sizecache        int32            `json:"-" pg:"-"`
+}
+
+func (m *SignedTransferRequest) Reset()         { *m = SignedTransferRequest{} }
+func (m *SignedTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*SignedTransferRequest) ProtoMessage()    {}
+func (*SignedTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_858b35020cfe9185, []int{17}
+}
+func (m *SignedTransferRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SignedTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SignedTransferRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SignedTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SignedTransferRequest.Merge(m, src)
+}
+func (m *SignedTransferRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *SignedTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SignedTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SignedTransferRequest proto.InternalMessageInfo
+
+func (m *SignedTransferRequest) GetTransferRequest() *TransferRequest {
+	if m != nil {
+		return m.TransferRequest
+	}
+	return nil
+}
+
+func (m *SignedTransferRequest) GetSignature() []byte {
+	if m != nil {
+		return m.Signature
+	}
+	return nil
+}
+
+func (*SignedTransferRequest) XXX_MessageName() string {
+	return "ledger.SignedTransferRequest"
+}
+
+type TransferResult struct {
+	Balance              int64    `protobuf:"varint,1,opt,name=balance,proto3" json:"balance,omitempty" pg:"balance"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *TransferResult) Reset()         { *m = TransferResult{} }
+func (m *TransferResult) String() string { return proto.CompactTextString(m) }
+func (*TransferResult) ProtoMessage()    {}
+func (*TransferResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_858b35020cfe9185, []int{18}
+}
+func (m *TransferResult) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransferResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransferResult.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransferResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransferResult.Merge(m, src)
+}
+func (m *TransferResult) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransferResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransferResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransferResult proto.InternalMessageInfo
+
+func (m *TransferResult) GetBalance() int64 {
+	if m != nil {
+		return m.Balance
+	}
+	return 0
+}
+
+func (*TransferResult) XXX_MessageName() string {
+	return "ledger.TransferResult"
+}
 func init() {
 	proto.RegisterType((*Null)(nil), "ledger.Null")
 	golang_proto.RegisterType((*Null)(nil), "ledger.Null")
@@ -943,6 +1188,8 @@ func init() {
 	golang_proto.RegisterType((*SignedChannelCommit)(nil), "ledger.SignedChannelCommit")
 	proto.RegisterType((*CreateAccountResult)(nil), "ledger.CreateAccountResult")
 	golang_proto.RegisterType((*CreateAccountResult)(nil), "ledger.CreateAccountResult")
+	proto.RegisterType((*SignedCreateAccountRequest)(nil), "ledger.SignedCreateAccountRequest")
+	golang_proto.RegisterType((*SignedCreateAccountRequest)(nil), "ledger.SignedCreateAccountRequest")
 	proto.RegisterType((*SignedCreateAccountResult)(nil), "ledger.SignedCreateAccountResult")
 	golang_proto.RegisterType((*SignedCreateAccountResult)(nil), "ledger.SignedCreateAccountResult")
 	proto.RegisterType((*Account)(nil), "ledger.Account")
@@ -961,64 +1208,78 @@ func init() {
 	golang_proto.RegisterType((*ChannelClosed)(nil), "ledger.ChannelClosed")
 	proto.RegisterType((*SignedPublicKeyPair)(nil), "ledger.SignedPublicKeyPair")
 	golang_proto.RegisterType((*SignedPublicKeyPair)(nil), "ledger.SignedPublicKeyPair")
+	proto.RegisterType((*TransferRequest)(nil), "ledger.TransferRequest")
+	golang_proto.RegisterType((*TransferRequest)(nil), "ledger.TransferRequest")
+	proto.RegisterType((*SignedTransferRequest)(nil), "ledger.SignedTransferRequest")
+	golang_proto.RegisterType((*SignedTransferRequest)(nil), "ledger.SignedTransferRequest")
+	proto.RegisterType((*TransferResult)(nil), "ledger.TransferResult")
+	golang_proto.RegisterType((*TransferResult)(nil), "ledger.TransferResult")
 }
 
 func init() { proto.RegisterFile("protos/ledger/ledger.proto", fileDescriptor_858b35020cfe9185) }
 func init() { golang_proto.RegisterFile("protos/ledger/ledger.proto", fileDescriptor_858b35020cfe9185) }
 
 var fileDescriptor_858b35020cfe9185 = []byte{
-	// 814 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x56, 0xcd, 0x6e, 0xd3, 0x4a,
-	0x14, 0x96, 0x9d, 0x34, 0x6e, 0x4e, 0x7e, 0x7a, 0xef, 0xa4, 0xf7, 0xde, 0xd4, 0xbd, 0x37, 0xb7,
-	0x75, 0x55, 0x51, 0x8a, 0x48, 0xaa, 0x22, 0x24, 0x76, 0xfd, 0x09, 0x52, 0xa9, 0x40, 0x55, 0x48,
-	0x60, 0xc3, 0x26, 0x72, 0xec, 0x49, 0x6a, 0xe1, 0x78, 0x82, 0x3d, 0x56, 0xe9, 0x4b, 0xb0, 0x61,
-	0xc3, 0x82, 0xf7, 0x60, 0xc1, 0x86, 0x65, 0x97, 0x3c, 0x02, 0x6a, 0x37, 0x3c, 0x06, 0x9a, 0xf1,
-	0x8c, 0x1d, 0x27, 0x4e, 0xe9, 0x2a, 0x9e, 0x73, 0xbe, 0xf9, 0xe6, 0x7c, 0xe7, 0x9c, 0x39, 0x13,
-	0xd0, 0x27, 0x3e, 0xa1, 0x24, 0x68, 0xb9, 0xd8, 0x1e, 0x61, 0x5f, 0xfc, 0x34, 0xb9, 0x11, 0x15,
-	0xa2, 0x95, 0xbe, 0x37, 0x72, 0xe8, 0x79, 0x38, 0x68, 0x5a, 0x64, 0xdc, 0xa2, 0x3e, 0xf1, 0x1e,
-	0x86, 0x41, 0x8b, 0x23, 0x06, 0xe1, 0xb0, 0x35, 0x22, 0x23, 0xc2, 0x17, 0xfc, 0x2b, 0xda, 0x69,
-	0x14, 0x20, 0x7f, 0x16, 0xba, 0xae, 0xf1, 0x1f, 0x14, 0x3b, 0xe1, 0xc0, 0x75, 0xac, 0xe7, 0xf8,
-	0x12, 0xfd, 0x01, 0xb9, 0xb7, 0xf8, 0xb2, 0xae, 0x6c, 0x28, 0x3b, 0xe5, 0x2e, 0xfb, 0x34, 0x5e,
-	0xc1, 0x4a, 0xcf, 0x19, 0x79, 0xd8, 0x4e, 0x40, 0x5b, 0x09, 0xa8, 0xb4, 0xff, 0x67, 0x53, 0xc4,
-	0x13, 0xfb, 0xf9, 0x3e, 0xf4, 0x2f, 0x14, 0x03, 0x67, 0xe4, 0x99, 0x34, 0xf4, 0x71, 0x5d, 0xe5,
-	0x7c, 0x89, 0xc1, 0xf8, 0xac, 0x40, 0xa5, 0x7d, 0x6e, 0x7a, 0x1e, 0x76, 0xdb, 0x64, 0x3c, 0x76,
-	0x28, 0xba, 0x07, 0x4b, 0x13, 0xf3, 0x12, 0xfb, 0x8b, 0x69, 0x23, 0x3f, 0x6a, 0x41, 0xd1, 0xc7,
-	0x96, 0x33, 0x71, 0xb0, 0x47, 0x39, 0x71, 0x26, 0x38, 0xc1, 0xa0, 0xbf, 0xa1, 0x60, 0x8e, 0x49,
-	0xe8, 0xd1, 0x7a, 0x6e, 0x43, 0xd9, 0xc9, 0x75, 0xc5, 0x0a, 0xad, 0xc1, 0x32, 0x67, 0xec, 0x3b,
-	0x76, 0x3d, 0xcf, 0x3d, 0x1a, 0x5f, 0x9f, 0xda, 0x86, 0x0d, 0xb5, 0x48, 0x74, 0x3a, 0xc6, 0x16,
-	0x68, 0x56, 0x64, 0x10, 0x51, 0xfe, 0x25, 0x0f, 0x4e, 0xe1, 0xba, 0x12, 0xf5, 0x9b, 0x24, 0x1c,
-	0x42, 0xad, 0xed, 0x63, 0x93, 0xe2, 0x23, 0xcb, 0x62, 0x11, 0x75, 0x71, 0x10, 0xba, 0x14, 0xdd,
-	0x07, 0xcd, 0x8c, 0x0c, 0xe2, 0x94, 0x15, 0x79, 0x8a, 0xc4, 0x49, 0xbf, 0xf1, 0x18, 0xd6, 0x44,
-	0x9c, 0x19, 0x3c, 0x75, 0xd0, 0x06, 0xa6, 0x6b, 0x7a, 0x16, 0xe6, 0x3c, 0xb9, 0xae, 0x5c, 0x1a,
-	0x1d, 0xd0, 0x04, 0x14, 0x3d, 0x00, 0xcd, 0xb4, 0x6d, 0x1f, 0x07, 0xc1, 0xe2, 0xc4, 0x4b, 0xc4,
-	0x34, 0xa3, 0x9a, 0x66, 0x5c, 0x87, 0xa2, 0x48, 0xc1, 0xe9, 0x53, 0x54, 0x05, 0xd5, 0xb1, 0xc5,
-	0x99, 0xaa, 0x63, 0x1b, 0x5f, 0x15, 0x28, 0x49, 0xaf, 0x37, 0x24, 0x68, 0x33, 0xf6, 0x4f, 0x1d,
-	0x17, 0x6f, 0x67, 0x5b, 0xd0, 0x3e, 0x94, 0x87, 0x3e, 0x19, 0xf7, 0x65, 0x22, 0xd4, 0xec, 0x44,
-	0x94, 0x18, 0x48, 0x4a, 0x69, 0x02, 0x50, 0x12, 0xef, 0xc8, 0x65, 0xef, 0x28, 0x52, 0x22, 0xf1,
-	0xdb, 0x50, 0xb5, 0x5c, 0x12, 0xe0, 0x7e, 0x80, 0xdf, 0x85, 0x98, 0x89, 0x8a, 0xba, 0xa0, 0xc2,
-	0xad, 0x3d, 0x61, 0x34, 0x3e, 0x28, 0x80, 0x52, 0xcd, 0xd0, 0xa3, 0x26, 0xc5, 0xa8, 0x39, 0xdb,
-	0x0b, 0xab, 0x33, 0x4a, 0x38, 0x2c, 0x69, 0x85, 0x6d, 0xa8, 0x72, 0x45, 0xb3, 0xfd, 0x50, 0x61,
-	0xd6, 0x9e, 0x34, 0xa2, 0x4d, 0x28, 0x53, 0x32, 0x05, 0xca, 0x71, 0x50, 0x89, 0x92, 0x18, 0x62,
-	0x60, 0xa8, 0xb5, 0x59, 0x84, 0x71, 0x73, 0x86, 0x7e, 0x40, 0xfc, 0xbb, 0x5f, 0xa0, 0x79, 0xdd,
-	0x6a, 0x96, 0xee, 0x8f, 0x0a, 0x94, 0x53, 0x8a, 0xef, 0x50, 0x36, 0x1d, 0x96, 0x67, 0x48, 0xe3,
-	0x35, 0xda, 0x82, 0x3c, 0x93, 0xba, 0xa8, 0x30, 0xdc, 0x89, 0xfe, 0x07, 0x95, 0x12, 0x5e, 0x87,
-	0x0c, 0x88, 0x4a, 0x89, 0x71, 0x94, 0xcc, 0x0d, 0x9e, 0x03, 0xb4, 0x07, 0x4b, 0x01, 0x0b, 0x4f,
-	0x04, 0xa6, 0xcb, 0x4d, 0xf3, 0x25, 0xeb, 0x46, 0x40, 0xe3, 0x8b, 0x22, 0x6f, 0x77, 0x9c, 0x9a,
-	0x8e, 0xe9, 0xf8, 0x68, 0x17, 0x34, 0xe2, 0xda, 0xfd, 0x5b, 0x47, 0x5b, 0x81, 0xb8, 0x36, 0x1b,
-	0x81, 0xbb, 0xa0, 0x79, 0xf8, 0x82, 0x63, 0x17, 0x8e, 0xa0, 0x82, 0x87, 0x2f, 0xa2, 0x71, 0x59,
-	0x61, 0xbc, 0xb3, 0x35, 0x2d, 0x13, 0xd7, 0x4e, 0xea, 0xbe, 0x05, 0x15, 0x46, 0x98, 0x80, 0xf2,
-	0x11, 0xc8, 0xc3, 0x17, 0x31, 0x68, 0xff, 0x67, 0x0e, 0x96, 0x85, 0xa2, 0x00, 0x1d, 0x40, 0x25,
-	0xba, 0xf5, 0xc2, 0x82, 0xd6, 0x33, 0xa5, 0x47, 0x23, 0x49, 0x9f, 0x2f, 0x18, 0x7a, 0x02, 0xd5,
-	0x13, 0x4c, 0xa7, 0x2f, 0xe6, 0x3c, 0x48, 0xaf, 0xcd, 0x9a, 0x18, 0xee, 0x08, 0xca, 0x3c, 0xfb,
-	0xf2, 0xe4, 0x5b, 0x92, 0xae, 0xcf, 0x8d, 0xc8, 0xa8, 0x6c, 0xcf, 0x60, 0xf5, 0x04, 0xd3, 0x33,
-	0xfc, 0x9e, 0xa6, 0x7a, 0x39, 0x11, 0x91, 0xd1, 0xe2, 0xd9, 0xc1, 0xc4, 0x79, 0x90, 0xf7, 0x7a,
-	0xbe, 0x14, 0x7a, 0xc2, 0x9a, 0x31, 0x27, 0x5f, 0xc6, 0xc3, 0x3e, 0x45, 0xf3, 0x4f, 0x5a, 0x54,
-	0x42, 0xb6, 0x39, 0xa3, 0x36, 0x83, 0xf2, 0x10, 0x6a, 0xaf, 0x27, 0x76, 0x62, 0xee, 0x84, 0x03,
-	0xd6, 0x09, 0xeb, 0x0b, 0x28, 0x59, 0xfb, 0xe9, 0x65, 0xe9, 0x64, 0xaf, 0xf2, 0xf1, 0xc1, 0xd5,
-	0x75, 0x43, 0xf9, 0x7e, 0xdd, 0x50, 0x7e, 0x5c, 0x37, 0x94, 0x4f, 0x37, 0x0d, 0xe5, 0xdb, 0x4d,
-	0x43, 0xb9, 0xba, 0x69, 0x28, 0x50, 0x75, 0x48, 0x73, 0x40, 0x87, 0x81, 0x80, 0x1f, 0x97, 0x5e,
-	0xf0, 0xdf, 0x0e, 0x7b, 0xd4, 0x3b, 0xca, 0x1b, 0xf1, 0x87, 0x60, 0x50, 0xe0, 0xaf, 0xfc, 0xa3,
-	0x5f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x0b, 0x41, 0x6d, 0x22, 0x3d, 0x08, 0x00, 0x00,
+	// 934 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x56, 0x4f, 0x6f, 0x1b, 0x45,
+	0x14, 0xd7, 0xd8, 0xae, 0x1d, 0x3f, 0xff, 0x49, 0x19, 0x37, 0xc5, 0xdd, 0x52, 0xd3, 0x6c, 0x54,
+	0x51, 0x82, 0xb0, 0xab, 0x20, 0x24, 0x6e, 0x6d, 0x12, 0xa4, 0x52, 0x81, 0x22, 0x6b, 0x53, 0x38,
+	0x20, 0x24, 0x6b, 0xff, 0x8c, 0xdd, 0x15, 0xeb, 0x9d, 0x30, 0x3b, 0x4b, 0xc8, 0x99, 0x3b, 0x97,
+	0x5e, 0x38, 0xf0, 0x39, 0xe0, 0xc0, 0x85, 0x63, 0x8f, 0x7c, 0x04, 0x94, 0x7c, 0x11, 0x34, 0xff,
+	0x76, 0xb3, 0xeb, 0xb5, 0xc9, 0x01, 0xf5, 0x64, 0xcf, 0x7b, 0xbf, 0xf7, 0xe6, 0xf7, 0xe6, 0xfd,
+	0xe6, 0xcd, 0x82, 0x75, 0xc6, 0x28, 0xa7, 0xc9, 0x24, 0x22, 0xc1, 0x82, 0x30, 0xfd, 0x33, 0x96,
+	0x46, 0xdc, 0x54, 0x2b, 0xeb, 0xc9, 0x22, 0xe4, 0xaf, 0x52, 0x6f, 0xec, 0xd3, 0xe5, 0x84, 0x33,
+	0x1a, 0x7f, 0x9c, 0x26, 0x13, 0x89, 0xf0, 0xd2, 0xf9, 0x64, 0x41, 0x17, 0x54, 0x2e, 0xe4, 0x3f,
+	0x15, 0x69, 0x37, 0xa1, 0x71, 0x92, 0x46, 0x91, 0xfd, 0x00, 0xda, 0xd3, 0xd4, 0x8b, 0x42, 0xff,
+	0x4b, 0x72, 0x81, 0x6f, 0x43, 0xfd, 0x7b, 0x72, 0x31, 0x44, 0x0f, 0xd1, 0xe3, 0xae, 0x23, 0xfe,
+	0xda, 0x2f, 0x61, 0xfb, 0x34, 0x5c, 0xc4, 0x24, 0xc8, 0x41, 0x7b, 0x39, 0xa8, 0x73, 0xf0, 0xce,
+	0x58, 0xf3, 0xc9, 0xfc, 0x32, 0x0e, 0xbf, 0x07, 0xed, 0x24, 0x5c, 0xc4, 0x2e, 0x4f, 0x19, 0x19,
+	0xd6, 0x64, 0xbe, 0xdc, 0x60, 0xff, 0x86, 0xa0, 0x77, 0xfc, 0xca, 0x8d, 0x63, 0x12, 0x1d, 0xd3,
+	0xe5, 0x32, 0xe4, 0xf8, 0x03, 0xb8, 0x75, 0xe6, 0x5e, 0x10, 0xb6, 0x3e, 0xad, 0xf2, 0xe3, 0x09,
+	0xb4, 0x19, 0xf1, 0xc3, 0xb3, 0x90, 0xc4, 0x5c, 0x26, 0xae, 0x04, 0xe7, 0x18, 0x7c, 0x17, 0x9a,
+	0xee, 0x92, 0xa6, 0x31, 0x1f, 0xd6, 0x1f, 0xa2, 0xc7, 0x75, 0x47, 0xaf, 0xf0, 0x3d, 0xd8, 0x92,
+	0x19, 0x67, 0x61, 0x30, 0x6c, 0x48, 0x4f, 0x4b, 0xae, 0x5f, 0x04, 0x76, 0x00, 0x03, 0x55, 0x74,
+	0x91, 0xe3, 0x04, 0x5a, 0xbe, 0x32, 0x68, 0x96, 0x3b, 0x66, 0xe3, 0x02, 0xce, 0x31, 0xa8, 0xff,
+	0x38, 0x84, 0x67, 0x30, 0x38, 0x66, 0xc4, 0xe5, 0xe4, 0xd0, 0xf7, 0x05, 0x23, 0x87, 0x24, 0x69,
+	0xc4, 0xf1, 0x87, 0xd0, 0x72, 0x95, 0x41, 0xef, 0xb2, 0x6d, 0x76, 0x31, 0x38, 0xe3, 0xb7, 0x5f,
+	0x23, 0xb0, 0x34, 0xd1, 0x62, 0xa2, 0x1f, 0x52, 0x92, 0xf0, 0xff, 0xa1, 0x51, 0xf8, 0x00, 0x76,
+	0xfc, 0x48, 0x1c, 0xe3, 0xec, 0x47, 0xc2, 0x92, 0x90, 0xc6, 0xb3, 0x38, 0x5d, 0x7a, 0x84, 0xc9,
+	0xb3, 0x6c, 0x3b, 0x03, 0xe5, 0xfc, 0x46, 0xf9, 0x4e, 0xa4, 0xcb, 0xfe, 0x14, 0xee, 0x55, 0x92,
+	0x92, 0xd5, 0x0d, 0xa1, 0xe5, 0xb9, 0x91, 0x1b, 0xfb, 0x44, 0xf2, 0xaa, 0x3b, 0x66, 0x69, 0x4f,
+	0xa1, 0xa5, 0xa1, 0xf8, 0x23, 0x68, 0xb9, 0x41, 0xc0, 0x48, 0x92, 0xac, 0x27, 0x6f, 0x10, 0xd7,
+	0x33, 0xd6, 0x8a, 0x19, 0xef, 0x43, 0x5b, 0x37, 0xe6, 0xc5, 0xe7, 0xb8, 0x0f, 0xb5, 0x30, 0xd0,
+	0x7b, 0xd6, 0xc2, 0xc0, 0xfe, 0x13, 0x41, 0xc7, 0x78, 0xe3, 0x39, 0xc5, 0xbb, 0x99, 0xff, 0xda,
+	0x76, 0x59, 0xb8, 0x08, 0xc1, 0x07, 0xd0, 0x9d, 0x33, 0xba, 0x9c, 0x99, 0xf6, 0xd4, 0xaa, 0xdb,
+	0xd3, 0x11, 0x20, 0x53, 0xca, 0x18, 0x80, 0xd3, 0x2c, 0xa2, 0x5e, 0x1d, 0xd1, 0xe6, 0xd4, 0xe0,
+	0x1f, 0x41, 0xdf, 0x8f, 0x68, 0x42, 0x66, 0x89, 0x68, 0xa2, 0x28, 0x4a, 0x69, 0xb3, 0x27, 0xad,
+	0xa7, 0xda, 0x68, 0xff, 0x82, 0x00, 0x17, 0x24, 0x7a, 0xca, 0x5d, 0x4e, 0xf0, 0xb8, 0xac, 0xd0,
+	0x3b, 0xa5, 0x4a, 0x24, 0x2c, 0x17, 0xe8, 0x23, 0xe8, 0xcb, 0x8a, 0xca, 0x0a, 0xe8, 0x09, 0xeb,
+	0x69, 0xa6, 0x82, 0x5d, 0xe8, 0x72, 0x7a, 0x0d, 0x54, 0x97, 0xa0, 0x0e, 0xa7, 0x19, 0xc4, 0x26,
+	0x30, 0x38, 0x16, 0x0c, 0xb3, 0x2b, 0x93, 0xb2, 0x84, 0xb2, 0x9b, 0x5f, 0xeb, 0xd5, 0xba, 0x6b,
+	0x55, 0x75, 0xbf, 0x46, 0xd0, 0x2d, 0x54, 0x7c, 0x83, 0xb6, 0x59, 0xb0, 0x55, 0x4a, 0x9a, 0xad,
+	0xf1, 0x1e, 0x34, 0x44, 0xa9, 0xeb, 0x1a, 0x23, 0x9d, 0xf8, 0x7d, 0xa8, 0x71, 0x2a, 0xfb, 0x50,
+	0x01, 0xa9, 0x71, 0x6a, 0x1f, 0xe6, 0xd3, 0x4c, 0x9e, 0x01, 0x7e, 0x02, 0xb7, 0x12, 0x41, 0x4f,
+	0x13, 0xb3, 0x4c, 0xd0, 0x6a, 0xcb, 0x1c, 0x05, 0xb4, 0xff, 0x40, 0x66, 0xe6, 0x64, 0x47, 0x33,
+	0x75, 0x43, 0x86, 0xf7, 0xa1, 0x45, 0xa3, 0x60, 0xb6, 0xf1, 0x1e, 0x37, 0x69, 0x14, 0x88, 0xc1,
+	0xbc, 0x0f, 0xad, 0x98, 0x9c, 0x4b, 0xec, 0xda, 0xc1, 0xd8, 0x8c, 0xc9, 0xb9, 0x1a, 0xe2, 0x3d,
+	0x91, 0xb7, 0xdc, 0xd3, 0x2e, 0x8d, 0x82, 0xbc, 0xef, 0x7b, 0xd0, 0x13, 0x09, 0x73, 0x50, 0x43,
+	0x81, 0x62, 0x72, 0x9e, 0x77, 0xfe, 0x67, 0x04, 0xdb, 0x2f, 0x99, 0x1b, 0x27, 0x73, 0xc2, 0xcc,
+	0xe4, 0x79, 0xeb, 0xd3, 0xdc, 0xbe, 0x80, 0x1d, 0x75, 0x7c, 0x65, 0x2a, 0x47, 0x70, 0x9b, 0x6b,
+	0xd3, 0x8c, 0x29, 0x9b, 0x66, 0xf5, 0xae, 0xd9, 0xa8, 0x14, 0xe2, 0x6c, 0xf3, 0x52, 0x8e, 0xcd,
+	0x73, 0x7c, 0x1f, 0xfa, 0x79, 0x86, 0xcd, 0x43, 0xee, 0xe0, 0xf7, 0x06, 0x6c, 0xe9, 0xf6, 0x27,
+	0xf8, 0x29, 0xf4, 0xd4, 0x88, 0xd4, 0x16, 0x7c, 0xbf, 0x52, 0x27, 0xea, 0x55, 0xb1, 0x56, 0xd5,
+	0x8d, 0x3f, 0x83, 0xfe, 0x73, 0xc2, 0xaf, 0x4f, 0xb1, 0x55, 0x90, 0x35, 0x28, 0x9b, 0x04, 0xee,
+	0x10, 0xba, 0x52, 0xaa, 0x66, 0xe7, 0x0d, 0x0a, 0xb5, 0x56, 0x5e, 0x39, 0xa5, 0xf1, 0x2f, 0xe0,
+	0xce, 0x73, 0xc2, 0x4f, 0xc8, 0x4f, 0xbc, 0x70, 0xf1, 0xf3, 0x22, 0x2a, 0xe6, 0x41, 0x35, 0x99,
+	0xec, 0x1c, 0xcc, 0x10, 0x5c, 0x95, 0x80, 0x95, 0x67, 0xad, 0x78, 0x54, 0xbe, 0xcb, 0xde, 0xeb,
+	0x42, 0x1a, 0xbb, 0x54, 0x54, 0xc5, 0x1b, 0x69, 0xed, 0x6e, 0xc4, 0xc8, 0xec, 0xcf, 0x60, 0xf0,
+	0xf5, 0x59, 0x90, 0x9b, 0xa7, 0xa9, 0x27, 0x6e, 0x50, 0xa9, 0x59, 0x85, 0x6b, 0x6b, 0x75, 0x8d,
+	0x53, 0x7c, 0x63, 0xe1, 0x43, 0xd8, 0x32, 0x0a, 0xc1, 0x0f, 0x8a, 0x61, 0x25, 0xed, 0x59, 0x77,
+	0x57, 0x45, 0x29, 0x48, 0x1c, 0x3d, 0x7d, 0x73, 0x39, 0x42, 0x7f, 0x5f, 0x8e, 0xd0, 0x3f, 0x97,
+	0x23, 0xf4, 0xeb, 0xd5, 0x08, 0xfd, 0x75, 0x35, 0x42, 0x6f, 0xae, 0x46, 0x08, 0xfa, 0x21, 0x1d,
+	0x7b, 0x7c, 0x9e, 0xe8, 0xc0, 0xa3, 0xce, 0x57, 0xf2, 0x77, 0x2a, 0xbe, 0xf2, 0xa6, 0xe8, 0x5b,
+	0xfd, 0x85, 0xe8, 0x35, 0xe5, 0x67, 0xdf, 0x27, 0xff, 0x06, 0x00, 0x00, 0xff, 0xff, 0x34, 0x6d,
+	0x72, 0xea, 0x4e, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1045,9 +1306,11 @@ type ChannelsClient interface {
 	// Create an account and return
 	CreateAccount(ctx context.Context, in *PublicKey, opts ...grpc.CallOption) (*CreateAccountResult, error)
 	// Create an account, securely, and return
-	SignedCreateAccount(ctx context.Context, in *SignedPublicKey, opts ...grpc.CallOption) (*SignedCreateAccountResult, error)
+	SignedCreateAccount(ctx context.Context, in *SignedCreateAccountRequest, opts ...grpc.CallOption) (*SignedCreateAccountResult, error)
 	// Update an account pub key (BIP 44 compatible)
 	UpdateAccountPubKey(ctx context.Context, in *SignedPublicKeyPair, opts ...grpc.CallOption) (*Null, error)
+	// Transfers funds from one off-chain account to another
+	Transfer(ctx context.Context, in *SignedTransferRequest, opts ...grpc.CallOption) (*TransferResult, error)
 }
 
 type channelsClient struct {
@@ -1103,7 +1366,7 @@ func (c *channelsClient) CreateAccount(ctx context.Context, in *PublicKey, opts 
 	return out, nil
 }
 
-func (c *channelsClient) SignedCreateAccount(ctx context.Context, in *SignedPublicKey, opts ...grpc.CallOption) (*SignedCreateAccountResult, error) {
+func (c *channelsClient) SignedCreateAccount(ctx context.Context, in *SignedCreateAccountRequest, opts ...grpc.CallOption) (*SignedCreateAccountResult, error) {
 	out := new(SignedCreateAccountResult)
 	err := c.cc.Invoke(ctx, "/ledger.Channels/SignedCreateAccount", in, out, opts...)
 	if err != nil {
@@ -1115,6 +1378,15 @@ func (c *channelsClient) SignedCreateAccount(ctx context.Context, in *SignedPubl
 func (c *channelsClient) UpdateAccountPubKey(ctx context.Context, in *SignedPublicKeyPair, opts ...grpc.CallOption) (*Null, error) {
 	out := new(Null)
 	err := c.cc.Invoke(ctx, "/ledger.Channels/UpdateAccountPubKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *channelsClient) Transfer(ctx context.Context, in *SignedTransferRequest, opts ...grpc.CallOption) (*TransferResult, error) {
+	out := new(TransferResult)
+	err := c.cc.Invoke(ctx, "/ledger.Channels/Transfer", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1135,9 +1407,11 @@ type ChannelsServer interface {
 	// Create an account and return
 	CreateAccount(context.Context, *PublicKey) (*CreateAccountResult, error)
 	// Create an account, securely, and return
-	SignedCreateAccount(context.Context, *SignedPublicKey) (*SignedCreateAccountResult, error)
+	SignedCreateAccount(context.Context, *SignedCreateAccountRequest) (*SignedCreateAccountResult, error)
 	// Update an account pub key (BIP 44 compatible)
 	UpdateAccountPubKey(context.Context, *SignedPublicKeyPair) (*Null, error)
+	// Transfers funds from one off-chain account to another
+	Transfer(context.Context, *SignedTransferRequest) (*TransferResult, error)
 }
 
 // UnimplementedChannelsServer can be embedded to have forward compatible implementations.
@@ -1159,11 +1433,14 @@ func (*UnimplementedChannelsServer) GetNextClosedChannel(ctx context.Context, re
 func (*UnimplementedChannelsServer) CreateAccount(ctx context.Context, req *PublicKey) (*CreateAccountResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
-func (*UnimplementedChannelsServer) SignedCreateAccount(ctx context.Context, req *SignedPublicKey) (*SignedCreateAccountResult, error) {
+func (*UnimplementedChannelsServer) SignedCreateAccount(ctx context.Context, req *SignedCreateAccountRequest) (*SignedCreateAccountResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignedCreateAccount not implemented")
 }
 func (*UnimplementedChannelsServer) UpdateAccountPubKey(ctx context.Context, req *SignedPublicKeyPair) (*Null, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountPubKey not implemented")
+}
+func (*UnimplementedChannelsServer) Transfer(ctx context.Context, req *SignedTransferRequest) (*TransferResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
 }
 
 func RegisterChannelsServer(s *grpc.Server, srv ChannelsServer) {
@@ -1261,7 +1538,7 @@ func _Channels_CreateAccount_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _Channels_SignedCreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SignedPublicKey)
+	in := new(SignedCreateAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1273,7 +1550,7 @@ func _Channels_SignedCreateAccount_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/ledger.Channels/SignedCreateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChannelsServer).SignedCreateAccount(ctx, req.(*SignedPublicKey))
+		return srv.(ChannelsServer).SignedCreateAccount(ctx, req.(*SignedCreateAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1292,6 +1569,24 @@ func _Channels_UpdateAccountPubKey_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ChannelsServer).UpdateAccountPubKey(ctx, req.(*SignedPublicKeyPair))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Channels_Transfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignedTransferRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChannelsServer).Transfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ledger.Channels/Transfer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChannelsServer).Transfer(ctx, req.(*SignedTransferRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1327,6 +1622,10 @@ var _Channels_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAccountPubKey",
 			Handler:    _Channels_UpdateAccountPubKey_Handler,
+		},
+		{
+			MethodName: "Transfer",
+			Handler:    _Channels_Transfer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1574,6 +1873,59 @@ func (m *CreateAccountResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Account != nil {
 		{
 			size, err := m.Account.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintLedger(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *SignedCreateAccountRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *SignedCreateAccountRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SignedCreateAccountRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.ClientVersionNumber) > 0 {
+		i -= len(m.ClientVersionNumber)
+		copy(dAtA[i:], m.ClientVersionNumber)
+		i = encodeVarintLedger(dAtA, i, uint64(len(m.ClientVersionNumber)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintLedger(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Key != nil {
+		{
+			size, err := m.Key.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -2031,6 +2383,140 @@ func (m *SignedPublicKeyPair) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *TransferRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransferRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransferRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Amount != 0 {
+		i = encodeVarintLedger(dAtA, i, uint64(m.Amount))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.Recipient != nil {
+		{
+			size, err := m.Recipient.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintLedger(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Payer != nil {
+		{
+			size, err := m.Payer.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintLedger(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *SignedTransferRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *SignedTransferRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SignedTransferRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintLedger(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.TransferRequest != nil {
+		{
+			size, err := m.TransferRequest.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintLedger(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *TransferResult) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransferResult) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransferResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Balance != 0 {
+		i = encodeVarintLedger(dAtA, i, uint64(m.Balance))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintLedger(dAtA []byte, offset int, v uint64) int {
 	offset -= sovLedger(v)
 	base := offset
@@ -2144,6 +2630,30 @@ func (m *CreateAccountResult) Size() (n int) {
 	_ = l
 	if m.Account != nil {
 		l = m.Account.Size()
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *SignedCreateAccountRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Key != nil {
+		l = m.Key.Size()
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	l = len(m.ClientVersionNumber)
+	if l > 0 {
 		n += 1 + l + sovLedger(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
@@ -2335,6 +2845,64 @@ func (m *SignedPublicKeyPair) Size() (n int) {
 	l = len(m.NewSignature)
 	if l > 0 {
 		n += 1 + l + sovLedger(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *TransferRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Payer != nil {
+		l = m.Payer.Size()
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	if m.Recipient != nil {
+		l = m.Recipient.Size()
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	if m.Amount != 0 {
+		n += 1 + sovLedger(uint64(m.Amount))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *SignedTransferRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.TransferRequest != nil {
+		l = m.TransferRequest.Size()
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovLedger(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *TransferResult) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Balance != 0 {
+		n += 1 + sovLedger(uint64(m.Balance))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2966,6 +3534,162 @@ func (m *CreateAccountResult) Unmarshal(dAtA []byte) error {
 			if err := m.Account.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipLedger(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *SignedCreateAccountRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowLedger
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: SignedCreateAccountRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: SignedCreateAccountRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Key", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Key == nil {
+				m.Key = &PublicKey{}
+			}
+			if err := m.Key.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = append(m.Signature[:0], dAtA[iNdEx:postIndex]...)
+			if m.Signature == nil {
+				m.Signature = []byte{}
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClientVersionNumber", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ClientVersionNumber = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -4135,6 +4859,348 @@ func (m *SignedPublicKeyPair) Unmarshal(dAtA []byte) error {
 				m.NewSignature = []byte{}
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipLedger(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransferRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowLedger
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransferRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransferRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Payer", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Payer == nil {
+				m.Payer = &PublicKey{}
+			}
+			if err := m.Payer.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Recipient", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Recipient == nil {
+				m.Recipient = &PublicKey{}
+			}
+			if err := m.Recipient.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			m.Amount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Amount |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipLedger(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *SignedTransferRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowLedger
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: SignedTransferRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: SignedTransferRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransferRequest", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.TransferRequest == nil {
+				m.TransferRequest = &TransferRequest{}
+			}
+			if err := m.TransferRequest.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthLedger
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = append(m.Signature[:0], dAtA[iNdEx:postIndex]...)
+			if m.Signature == nil {
+				m.Signature = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipLedger(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthLedger
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransferResult) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowLedger
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransferResult: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransferResult: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Balance", wireType)
+			}
+			m.Balance = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLedger
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Balance |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipLedger(dAtA[iNdEx:])
