@@ -23,6 +23,7 @@ import "google/protobuf/timestamp.proto";
 service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
+  rpc GetStats(StatsReq) returns (StatsResp);
 }
 
 message SettingsReq {
@@ -76,6 +77,21 @@ message HostsResp {
   int32 resp_size = 4;
   string mode = 5;
   google.protobuf.Timestamp response_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message StatsReq {
+  string id = 1;
+}
+
+message StatsResp {
+  ResponseCode code = 1;
+  string message = 2;
+  float uptime = 3;
+  float score = 4;
+  google.protobuf.Timestamp response_time = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
