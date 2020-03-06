@@ -39,7 +39,7 @@ service EscrowService {
   // seller query what new payments to receive
   rpc MyPayment(SignedPayoutAddress) returns (SignedPaymentResult);
   // query balance and create account if account not exist
-  rpc BalanceOf(ledger.SignedPublicKey) returns (SignedBalanceResult);
+  rpc BalanceOf(ledger.SignedCreateAccountRequest) returns (SignedBalanceResult);
   // Creates a channel on the ledger and returns the ID of the ledger
   rpc CreateChannel(ledger.SignedChannelCommit) returns (ledger.ChannelID);
   // Closes a channel on the ledger.
