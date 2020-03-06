@@ -38,12 +38,8 @@ service EscrowService {
   rpc CancelContracts(SignedCancelRequest) returns (SignedCancelContractResult);
   // seller query what new payments to receive
   rpc MyPayment(SignedPayoutAddress) returns (SignedPaymentResult);
-  // seller request escrow to payout to seller
-  rpc PayOut(SignedPayoutRequest) returns (SignedPayoutResult);
-  // auth request escrow to refund unpaid out balance of a contract
-  rpc Refund(SignedRefundRequest) returns (SignedRefundResult);
   // query balance and create account if account not exist
-  rpc BalanceOf(ledger.SignedPublicKey) returns (SignedBalanceResult);
+  rpc BalanceOf(ledger.SignedCreateAccountRequest) returns (SignedBalanceResult);
   // Creates a channel on the ledger and returns the ID of the ledger
   rpc CreateChannel(ledger.SignedChannelCommit) returns (ledger.ChannelID);
   // Closes a channel on the ledger.
@@ -230,7 +226,8 @@ message CancelContractResult {
     (gogoproto.stdtime) = true
   ];
   int64 amount = 6;
-  ledger.SignedChannelState channel_state = 7; // escrow signed and then return caller to sign
+  bool paid = 7;
+  string reference = 8;
 }
 
 message SignedCancelContractResult {
@@ -258,7 +255,6 @@ message Payment {
   bytes to_address = 4;
   int64 amount = 5;
   int32 index = 6;
-  ledger.SignedChannelState channel_state = 7;
 }
 
 message PaymentResult {
@@ -272,77 +268,6 @@ message PaymentResult {
 
 message SignedPaymentResult {
   PaymentResult result = 1;
-  bytes escrow_signature = 2;
-}
-
-message PayoutRequest {
-  repeated Payment payment = 1;
-  bytes seller_address = 2;
-  google.protobuf.Timestamp seller_signed_time = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-}
-
-message SignedPayoutRequest {
-  PayoutRequest request = 1;
-  bytes seller_signature = 2;
-}
-
-message PayoutItem {
-  string contract_id = 1;
-  int64 escrow_id = 2;
-  bytes from_address = 3;
-  bytes to_address = 4;
-  int64 amount = 5;
-  int32 index = 6;
-  bool paid = 7;
-  string reference = 8;
-}
-
-message PayoutResult {
-  repeated PayoutItem payout = 1;
-  bytes escrow_address = 2;
-  google.protobuf.Timestamp escrow_signed_time = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-}
-
-message SignedPayoutResult {
-  PayoutResult result = 1;
-  bytes escrow_signature = 2;
-}
-
-message RefundRequest {
-  string contract_id = 1;
-  bytes to_address = 2;
-  google.protobuf.Timestamp signed_time = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-  ledger.SignedChannelState channel_state = 4;
-}
-
-message SignedRefundRequest {
-  RefundRequest request = 1;
-  bytes signature = 2;
-}
-
-message RefundResult {
-  string contract_id = 1;
-  int64 amount = 2;
-  bool paid = 3;
-  string reference = 4;
-  bytes escrow_address = 5;
-  google.protobuf.Timestamp escrow_signed_time = 6 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-}
-
-message SignedRefundResult {
-  RefundResult result = 1;
   bytes escrow_signature = 2;
 }
 
