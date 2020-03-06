@@ -19,7 +19,7 @@ var rdURLString string
 var foundPgString bool
 var foundRdString bool
 
-func init() {
+func initTest() {
 	//get db and redis connection strings
 	pgURLString, foundPgString = os.LookupEnv("TEST_DB_URL")
 	rdURLString, foundRdString = os.LookupEnv("TEST_RD_URL")
@@ -29,6 +29,7 @@ func init() {
 }
 
 func TestCheckRuntimeDB(t *testing.T) {
+	initTest()
 	//setup connection (postgres) object
 	var connection = db.ConnectionUrls{
 		PgURL: pgURLString,
@@ -45,6 +46,7 @@ func TestCheckRuntimeDB(t *testing.T) {
 	assert.Equal(t, runtimeInfoReportFail.DbStatusExtra, []byte(nil), "DB connection is still provided, error!")
 }
 func TestCheckRuntimeRD(t *testing.T) {
+	initTest()
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
 		PgURL: "",
