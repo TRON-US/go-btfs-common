@@ -146,3 +146,13 @@ message Location {
   double lat = 1;
   double lon = 2;
 }
+
+message ChallengeResult {
+  string node_id = 1;
+  string challenge_result = 2;
+  string contract_id = 3;
+  google.protobuf.Timestamp challenge_timestamp = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
