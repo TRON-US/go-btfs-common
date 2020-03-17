@@ -20,6 +20,7 @@ import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
+// HubQueryService are interface for hub-query
 service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
@@ -35,6 +36,7 @@ enum ResponseCode {
   SUCCESS = 0;
   SIGNATURE_FORMAT_ERROR = 1;
   COMPUTE_ADDRESS_ERROR = 2;
+  TIMEOUT_ERROR = 3;
   OTHER_ERROR = 20;
 }
 
@@ -96,6 +98,37 @@ message StatsResp {
     (gogoproto.stdtime) = true
   ];
 }
+
+// HubParserService are interface for hub-parser
+service HubParseService {
+  rpc UpdateDiscovery(ParseReq) returns (ParseResp);
+  rpc UpdateScore(ParseReq) returns (ParseResp);
+  rpc UpdateNetwork(ParseReq) returns (ParseResp);
+}
+
+message Candidate {
+  string node_id = 1;
+  uint64 heart_beats = 2;
+  float upload_average = 3;
+  float upload_variance = 4;
+  float download_average = 5;
+  float download_variance = 6;
+}
+
+message ParseReq {
+  repeated Candidate candidates = 1;
+}
+
+message ParseResp {
+  ResponseCode code = 1;
+  string message = 2;
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+// Below are common use messages for hub services
 
 message HostsData {
   repeated Host hosts = 1;
