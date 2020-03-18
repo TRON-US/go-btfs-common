@@ -26,6 +26,7 @@ service GuardService {
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
   rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
   rpc ForceRepair(ForceRepairRequest) returns (Result);
+  rpc ListAllContracts(ListAllContractsRequest) returns (AllContracts);
 }
 
 message Log {
@@ -238,6 +239,29 @@ message CheckFileStoreMetaRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 5; //requester signed
+}
+
+message ListAllContractsRequest {
+  string host_pid = 1;
+  string requester_pid = 2;
+  google.protobuf.Timestamp request_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  int32 request_page_size = 4;
+  int32 request_page_index = 5;
+  bytes signature = 6; //requester signed
+}
+
+message AllContracts {
+  string host_pid = 1;
+  google.protobuf.Timestamp generate_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  repeated Contract contracts = 3;
+  int32 count = 4;
+  bytes signature = 5;
 }
 
 message ReadyForChallengeRequest {
