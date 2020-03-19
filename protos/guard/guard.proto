@@ -247,11 +247,11 @@ message ListHostContractsRequest {
   int32 request_page_size = 3;
   int32 request_page_index = 4;
   google.protobuf.Timestamp last_modify_time_since = 5 [
-    (gogoproto.nullable) = false,
+    (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
   google.protobuf.Timestamp last_modify_time_to = 6 [
-    (gogoproto.nullable) = false,
+    (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
   enum SelectState {
@@ -261,7 +261,7 @@ message ListHostContractsRequest {
   }
   SelectState state = 7;
   google.protobuf.Timestamp request_time = 8 [
-    (gogoproto.nullable) = false,
+    (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
   bytes signature = 9; //requester signed
