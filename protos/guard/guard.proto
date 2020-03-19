@@ -26,7 +26,7 @@ service GuardService {
   rpc CheckFileStoreMeta(CheckFileStoreMetaRequest) returns (FileStoreStatus); //reserved for other nodes to check contract status
   rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
   rpc ForceRepair(ForceRepairRequest) returns (Result);
-  rpc ListAllContracts(ListAllContractsRequest) returns (AllContracts);
+  rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
 }
 
 message Log {
@@ -241,20 +241,34 @@ message CheckFileStoreMetaRequest {
   bytes signature = 5; //requester signed
 }
 
-message ListAllContractsRequest {
+message ListHostContractsRequest {
   string host_pid = 1;
   string requester_pid = 2;
-  google.protobuf.Timestamp request_time = 3 [
+  int32 request_page_size = 3;
+  int32 request_page_index = 4;
+  google.protobuf.Timestamp last_modify_time_since = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  int32 request_page_size = 4;
-  int32 request_page_index = 5;
-  bytes signature = 6; //requester signed
+  google.protobuf.Timestamp last_modify_time_to = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  enum SelectState {
+    ALL = 0;
+    ACTIVE = 1;
+    CLOSED = 2;
+  }
+  SelectState state = 7;
+  google.protobuf.Timestamp request_time = 8 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 9; //requester signed
 }
 
-message AllContracts {
-  string host_pid = 1;
+message ContractsList {
+  ListHostContractsRequest request = 1;
   google.protobuf.Timestamp generate_time = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
