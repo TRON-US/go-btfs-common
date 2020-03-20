@@ -104,6 +104,7 @@ service HubParseService {
   rpc UpdateDiscovery(ParseReq) returns (ParseResp);
   rpc UpdateScore(ParseReq) returns (ParseResp);
   rpc UpdateNetwork(ParseReq) returns (ParseResp);
+  rpc Recycle(RecycleReq) returns (ParseResp);
 }
 
 message Candidate {
@@ -117,6 +118,10 @@ message Candidate {
 
 message ParseReq {
   repeated Candidate candidates = 1;
+}
+
+message RecycleReq {
+  string index_name = 1;
 }
 
 message ParseResp {
