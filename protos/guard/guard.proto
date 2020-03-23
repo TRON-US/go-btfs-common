@@ -100,7 +100,7 @@ message Contract {
     (gogoproto.stdtime) = true
   ]; //contract signed time
   bytes escrow_signature = 6; //escrow's signature
-  repeated Log change_log = 7; //TBD one field to store the contract change log, need to discuss whether need the field
+  repeated Log change_log = 7 [(gogoproto.pgtag) = "-"]; //TBD one field to store the contract change log, need to discuss whether need the field
   google.protobuf.Timestamp last_modify_time = 8 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -162,13 +162,13 @@ message FileStoreStatus {
     CANCELED = 6; //reserved for the cancel contract
   }
   MetaState state = 2;
-  repeated Contract contracts = 3;
+  repeated Contract contracts = 3 [(gogoproto.pgtag) = "-"];
   bytes renter_signature = 4; //rental's signature for the first full file status with contracts
   google.protobuf.Timestamp guard_receive_time = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ]; //guard received time, which used to calculate the timeout for cancel
-  repeated Log change_log = 6;
+  repeated Log change_log = 6 [(gogoproto.pgtag) = "-"];
   google.protobuf.Timestamp current_time = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
