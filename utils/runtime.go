@@ -18,6 +18,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
+	const DBURLDNE = "DB URL does not exist !!"
 
 	for _, url := range connection.PgURL {
 		if url != "" {
@@ -38,7 +39,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 			// Assume the database connection is healthy
 			report.DbStatusExtra = append(report.DbStatusExtra, []byte(constant.DBConnectionHealthy))
 		} else {
-			report.DbStatusExtra = nil
+			report.DbStatusExtra = append(report.DbStatusExtra, []byte(DBURLDNE))
 		}
 	}
 
