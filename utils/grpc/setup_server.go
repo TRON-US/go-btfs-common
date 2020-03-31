@@ -27,7 +27,7 @@ type GrpcServer struct {
 	healthServer *health.Server
 	serverName   string
 	lis          net.Listener
-	dBURL        string
+	dBURL        []string
 	rDURL        string
 }
 
@@ -48,7 +48,7 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURL []string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
