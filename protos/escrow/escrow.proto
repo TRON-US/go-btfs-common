@@ -33,6 +33,8 @@ service EscrowService {
   rpc IsPaid(SignedContractID) returns (SignedPayinStatus);
   // check escrow pay out to seller status of a contract
   rpc GetPayOutStatus(SignedContractID) returns (SignedPayoutStatus);
+  //get the payout status in batch
+  rpc GetPayOutStatusBatch(SignedContractIDBatch) returns (SignedPayoutStatusBatch);
   // auth request to cancel the contract
   // escrow will cancel the left payments to seller
   rpc CancelContracts(SignedCancelRequest) returns (SignedCancelContractResult);
@@ -44,6 +46,8 @@ service EscrowService {
   rpc CreateChannel(ledger.SignedChannelCommit) returns (ledger.ChannelID);
   // Closes a channel on the ledger.
   rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
+  //use escrow as proxy to do the payment
+  rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
 }
 
 enum TokenType {
@@ -64,6 +68,11 @@ message ContractID {
 
 message SignedContractID {
   ContractID data = 1;
+  bytes signature = 2;
+}
+
+message SignedContractIDBatch {
+  repeated ContractID data = 1;
   bytes signature = 2;
 }
 
@@ -199,6 +208,11 @@ message PayoutStatus {
 
 message SignedPayoutStatus {
   PayoutStatus status = 1;
+  bytes escrow_signature = 2;
+}
+
+message SignedPayoutStatusBatch {
+  repeated PayoutStatus status = 1;
   bytes escrow_signature = 2;
 }
 
