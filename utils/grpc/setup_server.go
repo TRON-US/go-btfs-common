@@ -3,6 +3,7 @@ package grpc
 import (
 	"fmt"
 	"net"
+	"strings"
 
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
@@ -48,11 +49,14 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL []string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
-	s.dBURL = dbURL
+	//connections delimited by ','
+	dbURList := strings.Split(dbURL,",")
+
+	s.dBURL = dbURList
 	s.rDURL = rdURL
 
 	lis, err := net.Listen("tcp", port)
