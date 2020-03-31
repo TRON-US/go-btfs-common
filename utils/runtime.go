@@ -19,7 +19,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 
-	for  _ , url  := range connection.PgURL  {
+	for _, url := range connection.PgURL {
 		if url != "" {
 			// Check postgres dbWrite
 			PGDBWrite := postgres.CreateTGPGDB(url)

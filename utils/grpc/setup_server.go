@@ -54,7 +54,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server 
 	s.serverTypeToServerName(server)
 
 	//connections delimited by ','
-	dbURList := strings.Split(dbURL,",")
+	dbURList := strings.Split(dbURL, ",")
 
 	s.dBURL = dbURList
 	s.rDURL = rdURL
