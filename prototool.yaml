@@ -76,3 +76,6 @@ generate:
       type: gogo
       flags: plugins=grpc
       output: .
+    - name: js
+      flags: import_style=commonjs,binary
+      output: js
