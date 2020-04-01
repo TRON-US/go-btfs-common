@@ -66,13 +66,18 @@ message ContractID {
   bytes address = 2;
 }
 
+message ContractIDBatch {
+  repeated string contract_id = 1;
+  bytes address = 2;
+}
+
 message SignedContractID {
   ContractID data = 1;
   bytes signature = 2;
 }
 
 message SignedContractIDBatch {
-  repeated ContractID data = 1;
+  ContractIDBatch data = 1;
   bytes signature = 2;
 }
 
