@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 
 	"github.com/tron-us/go-common/v2/constant"
@@ -13,6 +12,7 @@ import (
 
 	"go.uber.org/zap"
 )
+
 
 func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime

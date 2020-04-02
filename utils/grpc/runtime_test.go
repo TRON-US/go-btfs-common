@@ -12,7 +12,7 @@ import (
 )
 
 func TestRuntimeServer(t *testing.T) {
-	pgConMaps :=  map[string]string{"DB_URL_STATUS":"postgresql://uchenna:Q@vl321!@localhost:5432/db_status", "DB_URL_GUARD": "postgresql://uchenna:Q@vl321!@localhost:5432/db_guard"}
+	pgConMaps :=  map[string]string{"DB_URL_STATUS":dbStatusURL, "DB_URL_GUARD": "postgresql://uchenna:Q@vl321!@localhost:5432/db_guard"}
 	rdCon := "redis://uchenna:@127.0.0.1:6379/4"
 
 	runtime := RuntimeServer{DB_URL:pgConMaps, RD_URL:rdCon, serviceName:"hub"}

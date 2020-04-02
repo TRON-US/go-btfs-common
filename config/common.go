@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/tron-us/go-btfs-common/protos/guard"
@@ -13,6 +15,12 @@ import (
 var (
 	ConstMinQuestionsCountPerChallenge = 100
 	ConstMinQuestionsCountPerShard     = 100
+	DbStatusURL string
+	DbGuardURL string
+	DbRdURL string
+	FoundPgStatusString bool
+	FoundPgGuardString bool
+	FoundDbRdString bool
 )
 
 func init() {
@@ -34,4 +42,14 @@ func GetMinimumQuestionsCountPerShard(status *guard.FileStoreStatus) (val int) {
 	//
 	//return int(status.FileStoreMeta.CheckFrequency) * ConstMinQuestionsCountPerChallenge
 	return ConstMinQuestionsCountPerShard
+}
+
+func InitDB() {
+	//get db and redis connection strings
+	DbStatusURL, FoundPgStatusString = os.LookupEnv("TEST_DB_URL_STATUS")
+	DbGuardURL, FoundPgGuardString = os.LookupEnv("TEST_DB_URL_GUARD")
+	DbRdURL, FoundDbRdString = os.LookupEnv("TEST_RD_URL")
+	if FoundPgStatusString == false || FoundPgGuardString == false || FoundDbRdString == false {
+		log.Error(fmt.Sprintf("dbStatusURL and dbStatusURL env vars need to be set before running test"))
+	}
 }

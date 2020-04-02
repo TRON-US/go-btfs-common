@@ -2,6 +2,8 @@ package utils
 
 import (
 	"context"
+	"fmt"
+	"github.com/tron-us/go-btfs-common/config"
 	"strings"
 	"testing"
 	"time"
@@ -13,14 +15,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var pgURLMap map[string]string
-var rdURLString string
-var foundPgString bool
-var foundRdString bool
+var dbStatusURL string
+var dbGuardURL string
+var rdURL string
+var foundRDString bool
+var foundPgStatusString bool
+var foundPgGuardString bool
 
 func TestCheckRuntimeDB(t *testing.T) {
+	config.InitDB()
 	//setup connection (postgres) object
-	pgConMaps :=  map[string]string{"DB_URL_STATUS":"postgresql://uchenna:Q@vl321!@localhost:5432/db_status", "DB_URL_GUARD": "postgresql://uchenna:Q@vl321!@localhost:5432/db_guard"}
+	fmt.Println(dbStatusURL)
+	fmt.Println(dbGuardURL)
+	pgConMaps :=  map[string]string{"DB_URL_STATUS":dbStatusURL, "DB_URL_GUARD": dbGuardURL}
 	var connection = db.ConnectionUrls{
 		PgURL: pgConMaps,
 		RdURL: "",
@@ -43,11 +50,12 @@ func TestCheckRuntimeDB(t *testing.T) {
 	assert.True(t, strings.Contains(string(runtimeInfoReportFail.DbStatusExtra[1]), "DB URL does not exist !!"), "DB URL does not exist !!")
 }
 func TestCheckRuntimeRD(t *testing.T) {
+	config.InitDB()
 	const RDURLDNE = "RD URL does not exist !!"
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
 		PgURL: map[string]string{},
-		RdURL: "redis://uchenna:@127.0.0.1:6379/4",
+		RdURL: rdURL,
 	}
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
