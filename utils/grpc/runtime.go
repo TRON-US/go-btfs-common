@@ -24,7 +24,7 @@ func (g *RuntimeClientBuilder) WithContext(ctx context.Context, f func(ctx conte
 }
 
 type RuntimeServer struct {
-	DB_URL      []string
+	DB_URL      map[string]string
 	RD_URL      string
 	serviceName string
 	sharedpb.UnimplementedRuntimeServiceServer

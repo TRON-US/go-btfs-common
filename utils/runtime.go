@@ -19,27 +19,29 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 	const DBURLDNE = "DB URL does not exist !!"
+	const RDURLDNE = "RD URL does not exist !!"
 
-	for _, url := range connection.PgURL {
+	for key , url := range connection.PgURL {
+
 		if url != "" {
 			// Check postgres dbWrite
 			PGDBWrite := postgres.CreateTGPGDB(url)
 			if err := PGDBWrite.Ping(); err != nil {
-				report.DbStatusExtra = append(report.DbStatusExtra, []byte(constant.DBWriteConnectionError))
+				report.DbStatusExtra = append(report.DbStatusExtra, []byte(key+ ":" +constant.DBWriteConnectionError))
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBWriteConnectionError, zap.Error(err))
 			}
 			// Check postgres dbRead
 			PGDBRead := postgres.CreateTGPGDB(url)
 			if err := PGDBRead.Ping(); err != nil {
-				report.DbStatusExtra = append(report.DbStatusExtra, []byte(constant.DBReadConnectionError))
+				report.DbStatusExtra = append(report.DbStatusExtra, []byte(key+ ":" +constant.DBReadConnectionError))
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBReadConnectionError, zap.Error(err))
 			}
 			// Assume the database connection is healthy
-			report.DbStatusExtra = append(report.DbStatusExtra, []byte(constant.DBConnectionHealthy))
+			report.DbStatusExtra = append(report.DbStatusExtra, []byte(key+ ":" + constant.DBConnectionHealthy))
 		} else {
-			report.DbStatusExtra = append(report.DbStatusExtra, []byte(DBURLDNE))
+			report.DbStatusExtra = append(report.DbStatusExtra, []byte(key + ":" + DBURLDNE))
 		}
 	}
 
@@ -58,7 +60,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 		// Assume the redis connection is healthy
 		report.RdStatusExtra = []byte(constant.RDConnectionHealthy)
 	} else {
-		report.RdStatusExtra = nil
+		report.RdStatusExtra = []byte(RDURLDNE)
 	}
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
