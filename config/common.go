@@ -17,7 +17,7 @@ var (
 	ConstMinQuestionsCountPerShard     = 100
 	DbStatusURL string
 	DbGuardURL string
-	DbRdURL string
+	RdURL string
 	FoundPgStatusString bool
 	FoundPgGuardString bool
 	FoundDbRdString bool
@@ -47,9 +47,9 @@ func GetMinimumQuestionsCountPerShard(status *guard.FileStoreStatus) (val int) {
 func InitDB() {
 	//get db and redis connection strings
 	DbStatusURL, FoundPgStatusString = os.LookupEnv("TEST_DB_URL_STATUS")
-	DbGuardURL, FoundPgGuardString = os.LookupEnv("TEST_DB_URL_GUARD")
-	DbRdURL, FoundDbRdString = os.LookupEnv("TEST_RD_URL")
+	DbGuardURL, FoundPgGuardString = os.LookupEnv("TEST_DB_URL_STATUS")
+	RdURL, FoundDbRdString = os.LookupEnv("TEST_RD_URL")
 	if FoundPgStatusString == false || FoundPgGuardString == false || FoundDbRdString == false {
-		log.Error(fmt.Sprintf("dbStatusURL and dbStatusURL env vars need to be set before running test"))
+		log.Error(fmt.Sprintf("TEST_DB_URL_STATUS or TEST_DB_URL_STATUS or TEST_RD_URL env vars need to be set before running test"))
 	}
 }

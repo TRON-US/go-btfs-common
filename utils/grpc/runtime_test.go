@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"github.com/tron-us/go-btfs-common/config"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/log"
@@ -12,8 +13,9 @@ import (
 )
 
 func TestRuntimeServer(t *testing.T) {
-	pgConMaps :=  map[string]string{"DB_URL_STATUS":dbStatusURL, "DB_URL_GUARD": "postgresql://uchenna:Q@vl321!@localhost:5432/db_guard"}
-	rdCon := "redis://uchenna:@127.0.0.1:6379/4"
+	config.InitDB()
+	pgConMaps :=  map[string]string{"DB_URL_STATUS":config.DbStatusURL, "DB_URL_GUARD": config.DbGuardURL}
+	rdCon := config.RdURL
 
 	runtime := RuntimeServer{DB_URL:pgConMaps, RD_URL:rdCon, serviceName:"hub"}
 	report, err := runtime.CheckRuntime(context.Background(), &shared.SignedRuntimeInfoRequest{})
@@ -30,8 +32,9 @@ func TestRuntimeServer(t *testing.T) {
 
 
 func TestRuntimeServerDBDNE(t *testing.T) {
+	config.InitDB()
 	pgConMaps :=  map[string]string{"DB_URL_STATUS":"", "DB_URL_GUARD": ""}
-	rdCon := "redis://uchenna:@127.0.0.1:6379/4"
+	rdCon := config.RdURL
 	const DBURLDNE = "DB URL does not exist !!"
 
 	runtime := RuntimeServer{DB_URL:pgConMaps, RD_URL:rdCon, serviceName:"hub"}

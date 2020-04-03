@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"fmt"
 	"github.com/tron-us/go-btfs-common/config"
 	"strings"
 	"testing"
@@ -15,19 +14,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var dbStatusURL string
-var dbGuardURL string
-var rdURL string
-var foundRDString bool
-var foundPgStatusString bool
-var foundPgGuardString bool
-
 func TestCheckRuntimeDB(t *testing.T) {
 	config.InitDB()
 	//setup connection (postgres) object
-	fmt.Println(dbStatusURL)
-	fmt.Println(dbGuardURL)
-	pgConMaps :=  map[string]string{"DB_URL_STATUS":dbStatusURL, "DB_URL_GUARD": dbGuardURL}
+	pgConMaps :=  map[string]string{"DB_URL_STATUS":config.DbStatusURL, "DB_URL_GUARD": config.DbGuardURL}
 	var connection = db.ConnectionUrls{
 		PgURL: pgConMaps,
 		RdURL: "",
@@ -36,8 +26,8 @@ func TestCheckRuntimeDB(t *testing.T) {
 	defer cancel()
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportPass.DbStatusExtra[0], []byte("DB_URL_STATUS:" +constant.DBConnectionHealthy), "connection successful")
-	assert.Equal(t, runtimeInfoReportPass.DbStatusExtra[1], []byte("DB_URL_GUARD:" +constant.DBConnectionHealthy), "connection successful")
+	assert.True(t, strings.Contains(string(runtimeInfoReportPass.DbStatusExtra[0]), constant.DBConnectionHealthy), "connection not successful")
+	assert.True(t, strings.Contains(string(runtimeInfoReportPass.DbStatusExtra[1]), constant.DBConnectionHealthy), "connection not successful")
 
 	//disable connection string
 	pgEmptyConMaps :=  map[string]string{"DB_URL_STATUS":"", "DB_URL_GUARD": ""}
@@ -55,7 +45,7 @@ func TestCheckRuntimeRD(t *testing.T) {
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
 		PgURL: map[string]string{},
-		RdURL: rdURL,
+		RdURL: config.RdURL,
 	}
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)

@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"github.com/tron-us/go-btfs-common/config"
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
@@ -21,9 +22,10 @@ type serverStruct struct {
 func TestSetupServer(t *testing.T) {
 
 	s := GrpcServer{}
-	config := "localhost:50030"
-	pgConMaps :=  map[string]string{"DB_URL_STATUS":"postgresql://uchenna:Q@vl321!@localhost:5432/db_status", "DB_URL_GUARD": "postgresql://uchenna:Q@vl321!@localhost:5432/db_guard"}
-	rdCon := "redis://uchenna:@127.0.0.1:6379/4"
+	config.InitDB()
+	address := "localhost:50030"
+	pgConMaps :=  map[string]string{"DB_URL_STATUS":config.DbStatusURL, "DB_URL_GUARD": config.DbGuardURL}
+	rdCon := config.RdURL
 	quit := make(chan struct{})
 
 	//create server
@@ -33,7 +35,7 @@ func TestSetupServer(t *testing.T) {
 			case <-quit:
 				return
 			default:
-				s.GrpcServer(config, pgConMaps, rdCon, &serverStruct{})
+				s.GrpcServer(address, pgConMaps, rdCon, &serverStruct{})
 			}
 		}
 	}()
@@ -52,7 +54,7 @@ func TestSetupServer(t *testing.T) {
 		out connectivity.State
 		err bool
 	}{
-		{in: config, err: true},
+		{in: address, err: true},
 	}
 
 	//test server with client, check runtime
