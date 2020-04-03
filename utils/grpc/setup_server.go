@@ -2,14 +2,15 @@ package grpc
 
 import (
 	"fmt"
+	"net"
+
+	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
 	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
-	"net"
 
-	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
@@ -26,7 +27,7 @@ type GrpcServer struct {
 	healthServer *health.Server
 	serverName   string
 	lis          net.Listener
-	dBURLs        map[string]string
+	dBURLs       map[string]string
 	rDURL        string
 }
 

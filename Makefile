@@ -80,7 +80,7 @@ test:
 
 test_docker:
 	sleep 10
-	TEST_DB_URL=$(TEST_DB_URL) TEST_RD_URL=$(DOCKER_TEST_RD_URL) go test -v ./...
+	TEST_DB_URL=$(TEST_DB_URL) TEST_DB_URL_STATUS=$(TEST_DB_URL_STATUS) TEST_DB_URL_GUARD=$(TEST_DB_URL_GUARD) TEST_RD_URL=$(TEST_RD_URL) go test -v ./...
 
 test_git_diff_protos:
 	bin/test-git-diff-protos
