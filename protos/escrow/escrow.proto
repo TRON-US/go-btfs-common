@@ -209,6 +209,7 @@ message PayoutStatus {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  string error_msg = 19;
 }
 
 message SignedPayoutStatus {
