@@ -533,7 +533,7 @@ proto.shared.RuntimeInfoReport.toObject = function(includeInstance, msg) {
     startTime: (f = msg.getStartTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     gitHash: msg.getGitHash_asB64(),
     version: msg.getVersion_asB64(),
-    dbStatusExtra: msg.getDbStatusExtra_asB64(),
+    dbStatusExtraMap: (f = msg.getDbStatusExtraMap()) ? f.toObject(includeInstance, undefined) : [],
     rdStatusExtra: msg.getRdStatusExtra_asB64(),
     queueStatusExtra: msg.getQueueStatusExtra_asB64(),
     chainStatusExtra: msg.getChainStatusExtra_asB64(),
@@ -610,8 +610,10 @@ proto.shared.RuntimeInfoReport.deserializeBinaryFromReader = function(msg, reade
       msg.setVersion(value);
       break;
     case 9:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setDbStatusExtra(value);
+      var value = msg.getDbStatusExtraMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
       break;
     case 10:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
@@ -720,12 +722,9 @@ proto.shared.RuntimeInfoReport.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getDbStatusExtra_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      9,
-      f
-    );
+  f = message.getDbStatusExtraMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(9, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
   f = message.getRdStatusExtra_asU8();
   if (f.length > 0) {
@@ -1078,45 +1077,25 @@ proto.shared.RuntimeInfoReport.prototype.setVersion = function(value) {
 
 
 /**
- * optional bytes db_status_extra = 9;
- * @return {!(string|Uint8Array)}
+ * map<string, string> db_status_extra = 9;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
  */
-proto.shared.RuntimeInfoReport.prototype.getDbStatusExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+proto.shared.RuntimeInfoReport.prototype.getDbStatusExtraMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 9, opt_noLazyCreate,
+      null));
 };
 
 
 /**
- * optional bytes db_status_extra = 9;
- * This is a type-conversion wrapper around `getDbStatusExtra()`
- * @return {string}
- */
-proto.shared.RuntimeInfoReport.prototype.getDbStatusExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getDbStatusExtra()));
-};
-
-
-/**
- * optional bytes db_status_extra = 9;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getDbStatusExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getDbStatusExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getDbStatusExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * Clears values from the map. The map will be non-null.
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
-proto.shared.RuntimeInfoReport.prototype.setDbStatusExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 9, value);
-};
+proto.shared.RuntimeInfoReport.prototype.clearDbStatusExtraMap = function() {
+  this.getDbStatusExtraMap().clear();
+  return this;};
 
 
 /**
