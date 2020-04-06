@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
 	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 
-	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
@@ -27,7 +27,7 @@ type GrpcServer struct {
 	healthServer *health.Server
 	serverName   string
 	lis          net.Listener
-	dBURL        string
+	dBURLs       map[string]string
 	rDURL        string
 }
 
@@ -48,11 +48,11 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
-	s.dBURL = dbURL
+	s.dBURLs = dbURLs
 	s.rDURL = rdURL
 
 	lis, err := net.Listen("tcp", port)
@@ -108,7 +108,7 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 		hub.RegisterHubQueryServiceServer(s.server, server.(hub.HubQueryServiceServer))
 	}
 
-	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
+	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURLs, RD_URL: s.rDURL, serviceName: s.serverName})
 
 	log.Info("Registered: " + s.serverName + " and runtime server!")
 

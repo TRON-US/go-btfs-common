@@ -14,30 +14,36 @@ import (
 	"go.uber.org/zap"
 )
 
+const DBURLDNE = "DB URL does not exist !!"
+const RDURLDNE = "RD URL does not exist !!"
+
 func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
+	report.DbStatusExtra = map[string]string{}
 
-	if connection.PgURL != "" {
-		// Check postgres dbWrite
-		PGDBWrite := postgres.CreateTGPGDB(connection.PgURL)
-		if err := PGDBWrite.Ping(); err != nil {
-			report.DbStatusExtra = []byte(constant.DBWriteConnectionError)
-			report.Status = sharedpb.RuntimeInfoReport_SICK
-			log.Error(constant.DBWriteConnectionError, zap.Error(err))
+	for key, url := range connection.PgURL {
+		if url != "" {
+			// Check postgres dbWrite
+			PGDBWrite := postgres.CreateTGPGDB(url)
+			if err := PGDBWrite.Ping(); err != nil {
+				report.DbStatusExtra[key] = constant.DBWriteConnectionError
+				report.Status = sharedpb.RuntimeInfoReport_SICK
+				log.Error(constant.DBWriteConnectionError, zap.Error(err))
+			}
+			// Check postgres dbRead
+			PGDBRead := postgres.CreateTGPGDB(url)
+			if err := PGDBRead.Ping(); err != nil {
+				report.DbStatusExtra[key] = constant.DBReadConnectionError
+				report.Status = sharedpb.RuntimeInfoReport_SICK
+				log.Error(constant.DBReadConnectionError, zap.Error(err))
+			}
+			// Assume the database connection is healthy
+			report.DbStatusExtra[key] = constant.DBConnectionHealthy
+		} else {
+			report.DbStatusExtra[key] = DBURLDNE
 		}
-		// Check postgres dbRead
-		PGDBRead := postgres.CreateTGPGDB(connection.PgURL)
-		if err := PGDBRead.Ping(); err != nil {
-			report.DbStatusExtra = []byte(constant.DBReadConnectionError)
-			report.Status = sharedpb.RuntimeInfoReport_SICK
-			log.Error(constant.DBReadConnectionError, zap.Error(err))
-		}
-		// Assume the database connection is healthy
-		report.DbStatusExtra = []byte(constant.DBConnectionHealthy)
-	} else {
-		report.DbStatusExtra = nil
 	}
 
 	// Check redis environment variable
@@ -55,7 +61,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 		// Assume the redis connection is healthy
 		report.RdStatusExtra = []byte(constant.RDConnectionHealthy)
 	} else {
-		report.RdStatusExtra = nil
+		report.RdStatusExtra = []byte(RDURLDNE)
 	}
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
