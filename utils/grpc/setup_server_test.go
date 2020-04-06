@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"github.com/tron-us/go-common/v2/log"
 	"strings"
 	"testing"
 	"time"
@@ -25,7 +26,7 @@ type serverStruct struct {
 
 func init() {
 	if config.InitTestDB() != nil {
-
+		log.Panic("Cannot init database urls for testing !", zap.Error(err))
 	}
 }
 func TestSetupServer(t *testing.T) {

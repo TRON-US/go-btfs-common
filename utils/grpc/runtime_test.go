@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"github.com/tron-us/go-common/v2/log"
 	"strings"
 	"testing"
 
@@ -16,6 +17,7 @@ import (
 
 func init() {
 	if config.InitTestDB() != nil {
+		log.Panic("Cannot init database urls for testing !", zap.Error(err))
 	}
 }
 
@@ -26,10 +28,8 @@ func TestRuntimeServer(t *testing.T) {
 
 	runtime := RuntimeServer{DB_URL: pgConMaps, RD_URL: rdCon, serviceName: "hub"}
 	report, err := runtime.CheckRuntime(context.Background(), &shared.SignedRuntimeInfoRequest{})
-	if err != nil {
-		assert.Error(t, err, zap.Error(err))
-	}
 
+	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(string(report.ServiceName), "hub"), "service name assigned unsuccessfully")
 	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_GUARD"]), constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
 	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_STATUS"]), constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
@@ -44,10 +44,8 @@ func TestRuntimeServerDBDNE(t *testing.T) {
 
 	runtime := RuntimeServer{DB_URL: pgConMaps, RD_URL: rdCon, serviceName: "hub"}
 	report, err := runtime.CheckRuntime(context.Background(), &shared.SignedRuntimeInfoRequest{})
-	if err != nil {
-		assert.Error(t, err, zap.Error(err))
-	}
 
+	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(string(report.ServiceName), "hub"), "service name assigned unsuccessfully")
 	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_STATUS"]), DBURLDNE), "database url name assigned unsuccessfully")
 	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_GUARD"]), DBURLDNE), "database url name assigned unsuccessfully")

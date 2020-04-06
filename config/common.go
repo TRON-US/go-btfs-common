@@ -35,8 +35,3 @@ func GetMinimumQuestionsCountPerShard(status *guard.FileStoreStatus) (val int) {
 	//return int(status.FileStoreMeta.CheckFrequency) * ConstMinQuestionsCountPerChallenge
 	return ConstMinQuestionsCountPerShard
 }
-
-type ConnectionUrls struct {
-	PgURL map[string]string
-	RdURL string
-}
