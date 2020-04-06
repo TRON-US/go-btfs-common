@@ -2,63 +2,70 @@ package utils
 
 import (
 	"context"
-	"fmt"
-	"os"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/tron-us/go-btfs-common/config"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
-	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/db"
+	"github.com/tron-us/go-common/v2/log"
+
+	"github.com/tron-us/go-common/v2/constant"
 
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
-var pgURLString string
-var rdURLString string
-var foundPgString bool
-var foundRdString bool
-
-func initTest() {
-	//get db and redis connection strings
-	pgURLString, foundPgString = os.LookupEnv("TEST_DB_URL")
-	rdURLString, foundRdString = os.LookupEnv("TEST_RD_URL")
-	if foundPgString == false || foundRdString == false {
-		panic(fmt.Sprintf("TEST_DB_URL and TEST_RD_URL env vars need to be set before running test"))
+func init() {
+	if err := config.InitTestDB(); err != nil {
+		log.Panic("Cannot init database urls for testing !", zap.Error(err))
 	}
 }
 
 func TestCheckRuntimeDB(t *testing.T) {
-	initTest()
+
 	//setup connection (postgres) object
+	pgConMaps := map[string]string{"DB_URL_STATUS": config.DbStatusURL, "DB_URL_GUARD": config.DbGuardURL}
 	var connection = db.ConnectionUrls{
-		PgURL: pgURLString,
+		PgURL: pgConMaps,
 		RdURL: "",
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportPass.DbStatusExtra, []byte(constant.DBConnectionHealthy), "DB is not running")
+	runtimeInfoReportPass, err := CheckRuntime(ctx, shared, connection)
+	assert.Nil(t, err, zap.Error(err))
+	assert.True(t, strings.Contains(string(runtimeInfoReportPass.DbStatusExtra["DB_URL_STATUS"]), constant.DBConnectionHealthy), "connection not successful")
+	assert.True(t, strings.Contains(string(runtimeInfoReportPass.DbStatusExtra["DB_URL_GUARD"]), constant.DBConnectionHealthy), "connection not successful")
+
 	//disable connection string
-	connection.PgURL = ""
-	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportFail.DbStatusExtra, []byte(nil), "DB connection is still provided, error!")
+	pgEmptyConMaps := map[string]string{"DB_URL_STATUS": "", "DB_URL_GUARD": ""}
+	var emptyConnection = db.ConnectionUrls{
+		PgURL: pgEmptyConMaps,
+		RdURL: "",
+	}
+	runtimeInfoReportFail, err := CheckRuntime(ctx, shared, emptyConnection)
+	assert.Nil(t, err, zap.Error(err))
+	assert.True(t, strings.Contains(string(runtimeInfoReportFail.DbStatusExtra["DB_URL_STATUS"]), "DB URL does not exist !!"), "DB URL does not exist !!")
+	assert.True(t, strings.Contains(string(runtimeInfoReportFail.DbStatusExtra["DB_URL_GUARD"]), "DB URL does not exist !!"), "DB URL does not exist !!")
 }
 func TestCheckRuntimeRD(t *testing.T) {
-	initTest()
+	const RDURLDNE = "RD URL does not exist !!"
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
-		PgURL: "",
-		RdURL: rdURLString,
+		PgURL: map[string]string{},
+		RdURL: config.RdURL,
 	}
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	runtimeInfoReportPass, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportPass.RdStatusExtra, []byte(constant.RDConnectionHealthy), "Redis is not running")
+	runtimeInfoReportPass, err := CheckRuntime(ctx, shared, connection)
+	assert.Nil(t, err, zap.Error(err))
+	assert.True(t, strings.Contains(string(runtimeInfoReportPass.RdStatusExtra), constant.RDConnectionHealthy), "Redis is not running")
 	//disable connection string
 	connection.RdURL = ""
-	runtimeInfoReportFail, _ := CheckRuntime(ctx, shared, connection)
-	assert.Equal(t, runtimeInfoReportFail.RdStatusExtra, []byte(nil), "Redis connection is still provided, error!")
+	runtimeInfoReportFail, err := CheckRuntime(ctx, shared, connection)
+	assert.Nil(t, err, zap.Error(err))
+	assert.True(t, strings.Contains(string(runtimeInfoReportFail.RdStatusExtra), RDURLDNE), "Redis connection is still provided, error!")
 }
