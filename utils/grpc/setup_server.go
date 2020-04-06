@@ -40,7 +40,9 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	case guard.GuardServiceServer:
 		s.serverName = "guard-interceptor"
 	case hub.HubQueryServiceServer:
-		s.serverName = "hub"
+		s.serverName = "hub-query"
+	case hub.HubParseServiceServer:
+		s.serverName = "hub-parser"
 	case *controller.DefaultController:
 		s.serverName = fmt.Sprintf("%v", t.ServerName)
 	default:
@@ -106,6 +108,8 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 		guard.RegisterGuardServiceServer(s.server, server.(guard.GuardServiceServer))
 	case hub.HubQueryServiceServer:
 		hub.RegisterHubQueryServiceServer(s.server, server.(hub.HubQueryServiceServer))
+	case hub.HubParseServiceServer:
+		hub.RegisterHubParseServiceServer(s.server, server.(hub.HubParseServiceServer))
 	}
 
 	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURLs, RD_URL: s.rDURL, serviceName: s.serverName})
