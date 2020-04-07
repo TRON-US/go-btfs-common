@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	if config.InitTestDB() != nil {
+	if err := config.InitTestDB(); err != nil {
 		log.Panic("Cannot init database urls for testing !", zap.Error(err))
 	}
 }
@@ -30,10 +30,10 @@ func TestRuntimeServer(t *testing.T) {
 	report, err := runtime.CheckRuntime(context.Background(), &shared.SignedRuntimeInfoRequest{})
 
 	assert.Nil(t, err, zap.Error(err))
-	assert.True(t, strings.Contains(string(report.ServiceName), "hub"), "service name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_GUARD"]), constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_STATUS"]), constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.RdStatusExtra), constant.RDConnectionHealthy), "redis urls name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.ServiceName, "hub"), "service name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.DbStatusExtra["DB_URL_GUARD"], constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.DbStatusExtra["DB_URL_STATUS"], constant.DBConnectionHealthy), "database url name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.RdStatusExtra, constant.RDConnectionHealthy), "redis urls name assigned unsuccessfully")
 
 }
 
@@ -46,9 +46,9 @@ func TestRuntimeServerDBDNE(t *testing.T) {
 	report, err := runtime.CheckRuntime(context.Background(), &shared.SignedRuntimeInfoRequest{})
 
 	assert.Nil(t, err, zap.Error(err))
-	assert.True(t, strings.Contains(string(report.ServiceName), "hub"), "service name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_STATUS"]), DBURLDNE), "database url name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.DbStatusExtra["DB_URL_GUARD"]), DBURLDNE), "database url name assigned unsuccessfully")
-	assert.True(t, strings.Contains(string(report.RdStatusExtra), constant.RDConnectionHealthy), "redis urls name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.ServiceName, "hub"), "service name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.DbStatusExtra["DB_URL_STATUS"], DBURLDNE), "database url name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.DbStatusExtra["DB_URL_GUARD"], DBURLDNE), "database url name assigned unsuccessfully")
+	assert.True(t, strings.Contains(report.RdStatusExtra, constant.RDConnectionHealthy), "redis urls name assigned unsuccessfully")
 
 }
