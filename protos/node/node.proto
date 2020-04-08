@@ -101,6 +101,7 @@ message StorageStat {
     int64 storage_used = 4;
     int64 storage_cap = 5;
     int64 storage_disk_total = 6;
+    int64 storage_disk_available = 7;
   }
   message Renter {
     option (gogoproto.json_no_omit_empty) = true;
