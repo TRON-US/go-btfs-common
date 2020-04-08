@@ -48,16 +48,16 @@ func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRu
 	}
 	//fill the returned data with server specific info
 	if res != nil {
-		res.QueueStatusExtra = []byte(nil)
-		res.ChainStatusExtra = []byte(nil)
-		res.CacheStatusExtra = []byte(nil)
-		res.Extra = []byte(nil)
-		res.PeerId = []byte(nil)
-		res.ServiceName = []byte(s.serviceName)
+		res.QueueStatusExtra = ""
+		res.ChainStatusExtra = ""
+		res.CacheStatusExtra = ""
+		res.Extra = ""
+		res.PeerId = ""
+		res.ServiceName = s.serviceName
 		res.StartTime = Startime
 		res.CurentTime = time.Now()
-		res.GitHash = []byte(nil)
-		res.Version = []byte(nil)
+		res.GitHash = ""
+		res.Version = ""
 	}
 
 	return res, err

@@ -25,7 +25,7 @@ type serverStruct struct {
 }
 
 func init() {
-	if config.InitTestDB() != nil {
+	if err := config.InitTestDB(); err != nil {
 		log.Panic("Cannot init database urls for testing !", zap.Error(err))
 	}
 }
@@ -45,7 +45,7 @@ func TestSetupServer(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	//check setup_server variables
-	assert.Equal(t, s.serverName, "hub", "hub server name assigned unsuccessfully")
+	assert.Equal(t, s.serverName, "hub-query", "hub server name assigned unsuccessfully")
 	assert.NotNil(t, s.healthServer, "health server assigned unsuccessfully")
 	assert.NotNil(t, s.server, "server assigned unsuccessfully")
 	assert.NotNil(t, s.dBURLs, "database urls assigned unsuccessfully")
@@ -65,9 +65,9 @@ func TestSetupServer(t *testing.T) {
 			client shared.RuntimeServiceClient) error {
 			res := requestRuntimeInfo(t, ctx, client)
 			//check runtime information
-			assert.True(t, strings.Contains(string(res.DbStatusExtra["DB_URL_STATUS"]), constant.DBConnectionHealthy), "database assigned unsuccessfully")
-			assert.True(t, strings.Contains(string(res.DbStatusExtra["DB_URL_GUARD"]), constant.DBConnectionHealthy), "database assigned unsuccessfully")
-			assert.True(t, strings.Contains(string(res.RdStatusExtra), constant.RDConnectionHealthy), "redis assigned unsuccessfully")
+			assert.True(t, strings.Contains(res.DbStatusExtra["DB_URL_STATUS"], constant.DBConnectionHealthy), "database assigned unsuccessfully")
+			assert.True(t, strings.Contains(res.DbStatusExtra["DB_URL_GUARD"], constant.DBConnectionHealthy), "database assigned unsuccessfully")
+			assert.True(t, strings.Contains(res.RdStatusExtra, constant.RDConnectionHealthy), "redis assigned unsuccessfully")
 			return nil
 		})
 		if err != nil {

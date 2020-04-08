@@ -54,14 +54,14 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 		}
 		errConn := redis.CheckRedisConnection(redis.NewRedisConn(opts))
 		if errConn != nil {
-			report.RdStatusExtra = []byte(constant.RDConnectionError)
+			report.RdStatusExtra = constant.RDConnectionError
 			report.Status = sharedpb.RuntimeInfoReport_SICK
 			log.Error(constant.RDConnectionError, zap.Error(errConn))
 		}
 		// Assume the redis connection is healthy
-		report.RdStatusExtra = []byte(constant.RDConnectionHealthy)
+		report.RdStatusExtra = constant.RDConnectionHealthy
 	} else {
-		report.RdStatusExtra = []byte(RDURLDNE)
+		report.RdStatusExtra = RDURLDNE
 	}
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
