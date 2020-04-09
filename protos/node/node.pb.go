@@ -2264,7 +2264,7 @@ func NewPopulatedContracts_Contract(r randyNode, easy bool) *Contracts_Contract 
 	this.ContractId = string(randStringNode(r))
 	this.HostId = string(randStringNode(r))
 	this.RenterId = string(randStringNode(r))
-	this.Status = guard.Contract_ContractState([]int32{0, 1, 2, 3, 4, 5, 6, 7, 8}[r.Intn(9)])
+	this.Status = guard.Contract_ContractState([]int32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}[r.Intn(10)])
 	v10 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.StartTime = *v10
 	v11 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)

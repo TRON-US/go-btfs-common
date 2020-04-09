@@ -91,6 +91,7 @@ message Contract {
     RENEWED = 6; // the contract got renewed
     OBSOLETE = 7; //the contract was replaced with some other contract after it was canceled or renewed
     WARN = 8; //the shard is in warn status
+    DRAFT_WARN = 9; // get the warn status before the first success challenge
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
