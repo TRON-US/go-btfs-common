@@ -525,20 +525,20 @@ proto.shared.RuntimeInfoReport.prototype.toObject = function(opt_includeInstance
  */
 proto.shared.RuntimeInfoReport.toObject = function(includeInstance, msg) {
   var f, obj = {
-    peerId: msg.getPeerId_asB64(),
-    address: msg.getAddress_asB64(),
-    serviceName: msg.getServiceName_asB64(),
+    peerId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    address: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    serviceName: jspb.Message.getFieldWithDefault(msg, 3, ""),
     status: jspb.Message.getFieldWithDefault(msg, 4, 0),
     curentTime: (f = msg.getCurentTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     startTime: (f = msg.getStartTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    gitHash: msg.getGitHash_asB64(),
-    version: msg.getVersion_asB64(),
+    gitHash: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 8, ""),
     dbStatusExtraMap: (f = msg.getDbStatusExtraMap()) ? f.toObject(includeInstance, undefined) : [],
-    rdStatusExtra: msg.getRdStatusExtra_asB64(),
-    queueStatusExtra: msg.getQueueStatusExtra_asB64(),
-    chainStatusExtra: msg.getChainStatusExtra_asB64(),
-    cacheStatusExtra: msg.getCacheStatusExtra_asB64(),
-    extra: msg.getExtra_asB64()
+    rdStatusExtra: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    queueStatusExtra: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    chainStatusExtra: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    cacheStatusExtra: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    extra: jspb.Message.getFieldWithDefault(msg, 14, "")
   };
 
   if (includeInstance) {
@@ -576,15 +576,15 @@ proto.shared.RuntimeInfoReport.deserializeBinaryFromReader = function(msg, reade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setPeerId(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setServiceName(value);
       break;
     case 4:
@@ -602,11 +602,11 @@ proto.shared.RuntimeInfoReport.deserializeBinaryFromReader = function(msg, reade
       msg.setStartTime(value);
       break;
     case 7:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setGitHash(value);
       break;
     case 8:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setVersion(value);
       break;
     case 9:
@@ -616,23 +616,23 @@ proto.shared.RuntimeInfoReport.deserializeBinaryFromReader = function(msg, reade
          });
       break;
     case 10:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setRdStatusExtra(value);
       break;
     case 11:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setQueueStatusExtra(value);
       break;
     case 12:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setChainStatusExtra(value);
       break;
     case 13:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setCacheStatusExtra(value);
       break;
     case 14:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setExtra(value);
       break;
     default:
@@ -664,23 +664,23 @@ proto.shared.RuntimeInfoReport.prototype.serializeBinary = function() {
  */
 proto.shared.RuntimeInfoReport.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getPeerId_asU8();
+  f = message.getPeerId();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getServiceName_asU8();
+  f = message.getServiceName();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       3,
       f
     );
@@ -708,16 +708,16 @@ proto.shared.RuntimeInfoReport.serializeBinaryToWriter = function(message, write
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
-  f = message.getGitHash_asU8();
+  f = message.getGitHash();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       7,
       f
     );
   }
-  f = message.getVersion_asU8();
+  f = message.getVersion();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       8,
       f
     );
@@ -726,37 +726,37 @@ proto.shared.RuntimeInfoReport.serializeBinaryToWriter = function(message, write
   if (f && f.getLength() > 0) {
     f.serializeBinary(9, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
-  f = message.getRdStatusExtra_asU8();
+  f = message.getRdStatusExtra();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       10,
       f
     );
   }
-  f = message.getQueueStatusExtra_asU8();
+  f = message.getQueueStatusExtra();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       11,
       f
     );
   }
-  f = message.getChainStatusExtra_asU8();
+  f = message.getChainStatusExtra();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       12,
       f
     );
   }
-  f = message.getCacheStatusExtra_asU8();
+  f = message.getCacheStatusExtra();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       13,
       f
     );
   }
-  f = message.getExtra_asU8();
+  f = message.getExtra();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       14,
       f
     );
@@ -775,128 +775,56 @@ proto.shared.RuntimeInfoReport.HealthStatus = {
 };
 
 /**
- * optional bytes peer_id = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getPeerId = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes peer_id = 1;
- * This is a type-conversion wrapper around `getPeerId()`
+ * optional string peer_id = 1;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getPeerId_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getPeerId()));
+proto.shared.RuntimeInfoReport.prototype.getPeerId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes peer_id = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getPeerId()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getPeerId_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getPeerId()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setPeerId = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional bytes address = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes address = 2;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 2;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.shared.RuntimeInfoReport.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes address = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional bytes service_name = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getServiceName = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes service_name = 3;
- * This is a type-conversion wrapper around `getServiceName()`
+ * optional string service_name = 3;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getServiceName_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getServiceName()));
+proto.shared.RuntimeInfoReport.prototype.getServiceName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
- * optional bytes service_name = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getServiceName()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getServiceName_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getServiceName()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setServiceName = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -993,86 +921,38 @@ proto.shared.RuntimeInfoReport.prototype.hasStartTime = function() {
 
 
 /**
- * optional bytes git_hash = 7;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getGitHash = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
-};
-
-
-/**
- * optional bytes git_hash = 7;
- * This is a type-conversion wrapper around `getGitHash()`
+ * optional string git_hash = 7;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getGitHash_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getGitHash()));
+proto.shared.RuntimeInfoReport.prototype.getGitHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /**
- * optional bytes git_hash = 7;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getGitHash()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getGitHash_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getGitHash()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setGitHash = function(value) {
-  return jspb.Message.setProto3BytesField(this, 7, value);
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional bytes version = 8;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getVersion = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
-};
-
-
-/**
- * optional bytes version = 8;
- * This is a type-conversion wrapper around `getVersion()`
+ * optional string version = 8;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getVersion_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getVersion()));
+proto.shared.RuntimeInfoReport.prototype.getVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /**
- * optional bytes version = 8;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getVersion()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getVersion_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getVersion()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setVersion = function(value) {
-  return jspb.Message.setProto3BytesField(this, 8, value);
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
@@ -1099,212 +979,92 @@ proto.shared.RuntimeInfoReport.prototype.clearDbStatusExtraMap = function() {
 
 
 /**
- * optional bytes rd_status_extra = 10;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getRdStatusExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
-};
-
-
-/**
- * optional bytes rd_status_extra = 10;
- * This is a type-conversion wrapper around `getRdStatusExtra()`
+ * optional string rd_status_extra = 10;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getRdStatusExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getRdStatusExtra()));
+proto.shared.RuntimeInfoReport.prototype.getRdStatusExtra = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /**
- * optional bytes rd_status_extra = 10;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getRdStatusExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getRdStatusExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getRdStatusExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setRdStatusExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 10, value);
+  return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional bytes queue_status_extra = 11;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getQueueStatusExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
-};
-
-
-/**
- * optional bytes queue_status_extra = 11;
- * This is a type-conversion wrapper around `getQueueStatusExtra()`
+ * optional string queue_status_extra = 11;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getQueueStatusExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getQueueStatusExtra()));
+proto.shared.RuntimeInfoReport.prototype.getQueueStatusExtra = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /**
- * optional bytes queue_status_extra = 11;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getQueueStatusExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getQueueStatusExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getQueueStatusExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setQueueStatusExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 11, value);
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional bytes chain_status_extra = 12;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getChainStatusExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
-};
-
-
-/**
- * optional bytes chain_status_extra = 12;
- * This is a type-conversion wrapper around `getChainStatusExtra()`
+ * optional string chain_status_extra = 12;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getChainStatusExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getChainStatusExtra()));
+proto.shared.RuntimeInfoReport.prototype.getChainStatusExtra = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /**
- * optional bytes chain_status_extra = 12;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getChainStatusExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getChainStatusExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getChainStatusExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setChainStatusExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 12, value);
+  return jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
 /**
- * optional bytes cache_status_extra = 13;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getCacheStatusExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
-};
-
-
-/**
- * optional bytes cache_status_extra = 13;
- * This is a type-conversion wrapper around `getCacheStatusExtra()`
+ * optional string cache_status_extra = 13;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getCacheStatusExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getCacheStatusExtra()));
+proto.shared.RuntimeInfoReport.prototype.getCacheStatusExtra = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /**
- * optional bytes cache_status_extra = 13;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getCacheStatusExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getCacheStatusExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getCacheStatusExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setCacheStatusExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 13, value);
+  return jspb.Message.setProto3StringField(this, 13, value);
 };
 
 
 /**
- * optional bytes extra = 14;
- * @return {!(string|Uint8Array)}
- */
-proto.shared.RuntimeInfoReport.prototype.getExtra = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
-};
-
-
-/**
- * optional bytes extra = 14;
- * This is a type-conversion wrapper around `getExtra()`
+ * optional string extra = 14;
  * @return {string}
  */
-proto.shared.RuntimeInfoReport.prototype.getExtra_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getExtra()));
+proto.shared.RuntimeInfoReport.prototype.getExtra = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /**
- * optional bytes extra = 14;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getExtra()`
- * @return {!Uint8Array}
- */
-proto.shared.RuntimeInfoReport.prototype.getExtra_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getExtra()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.shared.RuntimeInfoReport} returns this
  */
 proto.shared.RuntimeInfoReport.prototype.setExtra = function(value) {
-  return jspb.Message.setProto3BytesField(this, 14, value);
+  return jspb.Message.setProto3StringField(this, 14, value);
 };
 
 
