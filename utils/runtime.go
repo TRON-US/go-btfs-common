@@ -44,6 +44,9 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 		} else {
 			report.DbStatusExtra[key] = DBURLDNE
 		}
+		if report.DbStatusExtra[key] == constant.DBConnectionHealthy {
+			log.Info(key +":"+ constant.DBConnectionHealthy)
+		}
 	}
 
 	// Check redis environment variable
@@ -63,6 +66,10 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	} else {
 		report.RdStatusExtra = RDURLDNE
 	}
+	if report.RdStatusExtra == constant.RDConnectionHealthy {
+		log.Info(constant.RDConnectionHealthy)
+	}
+
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
 	return report, nil
