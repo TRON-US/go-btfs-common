@@ -21,7 +21,7 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
-	report.DbStatusExtra = map[string]string{}
+	report.DbStatusExtra = make(map[string]string)
 
 	for key, url := range connection.PgURL {
 		if url != "" {
