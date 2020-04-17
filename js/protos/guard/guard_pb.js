@@ -1518,7 +1518,8 @@ proto.guard.Contract.ContractState = {
   CLOSED: 5,
   RENEWED: 6,
   OBSOLETE: 7,
-  WARN: 8
+  WARN: 8,
+  DRAFT_WARN: 9
 };
 
 /**
