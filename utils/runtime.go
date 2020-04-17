@@ -24,62 +24,79 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 	report.DbStatusExtra = make(map[string]string)
 
 	for key, url := range connection.PgURL {
+		// Assume the database connection is healthy
+		report.DbStatusExtra[key] = DBURLDNE
+
 		if url != "" {
-			// Check postgres dbWrite
+			// Log write connection string
 			PGDBWrite := postgres.CreateTGPGDB(url)
 			log.Info("Postgres Write",
 				zap.String("user", PGDBWrite.Options().User),
 				zap.String("host", PGDBWrite.Options().Addr),
 				zap.String("db", PGDBWrite.Options().Database),
 			)
+
+			// Check postgres dbWrite
 			if err := PGDBWrite.Ping(); err != nil {
 				report.DbStatusExtra[key] = constant.DBWriteConnectionError
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBWriteConnectionError, zap.Error(err))
 			}
 
-			// Check postgres dbRead
+			// Log read connection string
 			PGDBRead := postgres.CreateTGPGDB(url)
 			log.Info("Postgres Read",
 				zap.String("user", PGDBRead.Options().User),
 				zap.String("host", PGDBRead.Options().Addr),
 				zap.String("db", PGDBRead.Options().Database),
 			)
+
+			// Check postgres dbRead
 			if err := PGDBRead.Ping(); err != nil {
 				report.DbStatusExtra[key] = constant.DBReadConnectionError
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBReadConnectionError, zap.Error(err))
 			}
-			// Assume the database connection is healthy
+
+			// Set the database connection is healthy
 			report.DbStatusExtra[key] = constant.DBConnectionHealthy
-		} else {
-			report.DbStatusExtra[key] = DBURLDNE
 		}
-		if report.DbStatusExtra[key] == constant.DBConnectionHealthy {
-			log.Info(key + ":" + constant.DBConnectionHealthy)
-		}
+
+		// Log status
+		log.Info(key + ":" + report.DbStatusExtra[key])
 	}
+
+	// Assume the redis connection is not present
+	report.RdStatusExtra = RDURLDNE
 
 	// Check redis environment variable
 	if connection.RdURL != "" {
+		// Parse redis url
 		opts, errParse := redis.ParseRedisURL(connection.RdURL)
 		if errParse != nil {
 			log.Error(constant.RDURLParseError, zap.Error(errParse))
 		}
+
+		// Log connection string
+		log.Info("Redis URL",
+			zap.String("host", opts.Addr),
+			zap.String("db", string(opts.DB)),
+		)
+
+		// Check redis connection
 		errConn := redis.CheckRedisConnection(redis.NewRedisConn(opts))
 		if errConn != nil {
 			report.RdStatusExtra = constant.RDConnectionError
 			report.Status = sharedpb.RuntimeInfoReport_SICK
 			log.Error(constant.RDConnectionError, zap.Error(errConn))
 		}
-		// Assume the redis connection is healthy
+
+		// Set redis connection to healthy
 		report.RdStatusExtra = constant.RDConnectionHealthy
-	} else {
-		report.RdStatusExtra = RDURLDNE
 	}
-	if report.RdStatusExtra == constant.RDConnectionHealthy {
-		log.Info(constant.RDConnectionHealthy)
-	}
+
+	// Log status
+	log.Info(report.RdStatusExtra)
 
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
