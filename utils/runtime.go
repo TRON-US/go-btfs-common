@@ -28,34 +28,20 @@ func CheckRuntime(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoReques
 		report.DbStatusExtra[key] = DBURLDNE
 
 		if url != "" {
-			// Log write connection string
-			PGDBWrite := postgres.CreateTGPGDB(url)
-			log.Info("Postgres Write",
-				zap.String("user", PGDBWrite.Options().User),
-				zap.String("host", PGDBWrite.Options().Addr),
-				zap.String("db", PGDBWrite.Options().Database),
+			// Log the connection string
+			pgdb := postgres.CreateTGPGDB(url)
+			log.Info("Postgres",
+				zap.String("name", key),
+				zap.String("user", pgdb.Options().User),
+				zap.String("host", pgdb.Options().Addr),
+				zap.String("db", pgdb.Options().Database),
 			)
 
 			// Check postgres dbWrite
-			if err := PGDBWrite.Ping(); err != nil {
+			if err := pgdb.Ping(); err != nil {
 				report.DbStatusExtra[key] = constant.DBWriteConnectionError
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBWriteConnectionError, zap.Error(err))
-			}
-
-			// Log read connection string
-			PGDBRead := postgres.CreateTGPGDB(url)
-			log.Info("Postgres Read",
-				zap.String("user", PGDBRead.Options().User),
-				zap.String("host", PGDBRead.Options().Addr),
-				zap.String("db", PGDBRead.Options().Database),
-			)
-
-			// Check postgres dbRead
-			if err := PGDBRead.Ping(); err != nil {
-				report.DbStatusExtra[key] = constant.DBReadConnectionError
-				report.Status = sharedpb.RuntimeInfoReport_SICK
-				log.Error(constant.DBReadConnectionError, zap.Error(err))
 			}
 
 			// Set the database connection is healthy
