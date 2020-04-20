@@ -81,14 +81,14 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 
 	ctx := context.Background()
 	req := new(shared.SignedRuntimeInfoRequest)
-	connection := db.ConnectionUrls{RdURL:rdURL,PgURL:dbURLs}
+	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
 
-	_, err = utils.CheckRuntime(ctx, req, connection)
+	_, err = utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
 		log.Panic("Got error", zap.Error(err))
 	}
 
-	<- done
+	<-done
 
 	return s
 }

@@ -23,7 +23,7 @@ func init() {
 	}
 }
 
-func TestCheckRuntimeDB(t *testing.T) {
+func TestCheckDBConnection(t *testing.T) {
 
 	//setup connection (postgres) object
 	pgConMaps := map[string]string{"DB_URL_STATUS": config.DbStatusURL, "DB_URL_GUARD": config.DbGuardURL}
@@ -34,7 +34,7 @@ func TestCheckRuntimeDB(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	runtimeInfoReportPass, err := CheckRuntime(ctx, shared, connection)
+	runtimeInfoReportPass, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportPass.DbStatusExtra["DB_URL_STATUS"], constant.DBConnectionHealthy), "connection not successful")
 	assert.True(t, strings.Contains(runtimeInfoReportPass.DbStatusExtra["DB_URL_GUARD"], constant.DBConnectionHealthy), "connection not successful")
@@ -45,12 +45,12 @@ func TestCheckRuntimeDB(t *testing.T) {
 		PgURL: pgEmptyConMaps,
 		RdURL: "",
 	}
-	runtimeInfoReportFail, err := CheckRuntime(ctx, shared, emptyConnection)
+	runtimeInfoReportFail, err := CheckDBConnection(ctx, shared, emptyConnection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportFail.DbStatusExtra["DB_URL_STATUS"], "DB URL does not exist !!"), "DB URL does not exist !!")
 	assert.True(t, strings.Contains(runtimeInfoReportFail.DbStatusExtra["DB_URL_GUARD"], "DB URL does not exist !!"), "DB URL does not exist !!")
 }
-func TestCheckRuntimeRD(t *testing.T) {
+func TestCheckDBConnectionRD(t *testing.T) {
 	const RDURLDNE = "RD URL does not exist !!"
 	//setup connection (redis) object
 	var connection = db.ConnectionUrls{
@@ -60,12 +60,12 @@ func TestCheckRuntimeRD(t *testing.T) {
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	runtimeInfoReportPass, err := CheckRuntime(ctx, shared, connection)
+	runtimeInfoReportPass, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportPass.RdStatusExtra, constant.RDConnectionHealthy), "Redis is not running")
 	//disable connection string
 	connection.RdURL = ""
-	runtimeInfoReportFail, err := CheckRuntime(ctx, shared, connection)
+	runtimeInfoReportFail, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportFail.RdStatusExtra, RDURLDNE), "Redis connection is still provided, error!")
 }
