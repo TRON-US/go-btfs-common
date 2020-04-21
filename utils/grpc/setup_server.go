@@ -1,15 +1,17 @@
 package grpc
 
 import (
+	"context"
 	"fmt"
-	"net"
-
 	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
 	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
+	"github.com/tron-us/go-btfs-common/utils"
+	"github.com/tron-us/go-common/v2/db"
+	"net"
 
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/log"
@@ -64,13 +66,29 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 
 	s.lis = lis
 
-	s.CreateServer(s.serverName, options...).
-		CreateHealthServer().
-		RegisterServer(server).
-		RegisterHealthServer().
-		WithReflection().
-		WithGracefulTermDetectAndExec().
-		AcceptConnection()
+	done := make(chan bool)
+
+	go func() {
+		s.CreateServer(s.serverName, options...).
+			CreateHealthServer().
+			RegisterServer(server).
+			RegisterHealthServer().
+			WithReflection().
+			WithGracefulTermDetectAndExec().
+			AcceptConnection()
+		done <- true
+	}()
+
+	ctx := context.Background()
+	req := new(shared.SignedRuntimeInfoRequest)
+	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
+
+	_, err = utils.CheckDBConnection(ctx, req, connection)
+	if err != nil {
+		log.Panic("Got error", zap.Error(err))
+	}
+
+	<-done
 
 	return s
 }
