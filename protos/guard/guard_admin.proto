@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package guard;
+
+// gogo plugin toggles
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.messagename_all) = true;
+option (gogoproto.populate_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+// golang option
+option go_package = "guard";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "GuardProto";
+option java_package = "io.btfs.guard";
+
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+import "protos/guard/guard.proto";
+
+service GuardAdminService {
+  rpc AddRepairNodes(K8sRepairNodesRequest) returns (Result);
+  rpc AddRepairNode(RepairNodeDescRequest) returns (Result);
+  rpc ListAllRepairNodes(AuthenticateRequest) returns (RepairNodesResponse);
+}
+
+message K8sRepairNodesRequest {
+  string region = 1;
+  string country = 2;
+  string namespace = 3;
+  string label = 4;
+  string service_prefix = 5;
+  string hostname_suffix = 6;
+  string requester_pid = 7;
+  google.protobuf.Timestamp request_time = 8 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 9; //requester signed
+}
+
+message RepairNodeDesc {
+  string region = 1;
+  string country = 2;
+  float latitude = 3;
+  float longitude = 4;
+  string host_address = 5;
+  string name = 6;
+  string version = 7;
+  enum NodeType {
+    SINGLE_NODE = 0;
+    KUBERNETES = 1;
+    DOCKER = 2;
+    VM = 3;
+    OTHER = 4;
+  }
+  NodeType type = 8;
+  bool is_active = 9;
+}
+
+message RepairNodeDescRequest {
+  RepairNodeDesc node = 1;
+  string requester_pid = 2;
+  google.protobuf.Timestamp request_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 4; //requester signed
+}
+
+message AuthenticateRequest {
+  string requester_pid = 1;
+  google.protobuf.Timestamp request_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 3; //requester signed
+}
+
+message RepairNodesResponse {
+  repeated RepairNodeDesc nodes = 1;
+  string generate_pid = 2;
+  google.protobuf.Timestamp generate_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 4; //requester signed
+}
