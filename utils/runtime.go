@@ -33,7 +33,7 @@ type postgresObj struct {
 	urls map[string]string
 }
 
-func CheckDBConnection(ctx context.Context, req *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
+func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
@@ -48,6 +48,8 @@ func CheckDBConnection(ctx context.Context, req *sharedpb.SignedRuntimeInfoReque
 		check.dbConn.checkConnection(ctx, report)
 	}
 
+	// Remaining fields will be populated by the calling service
+	// Reserve: only pass fatal error to higher level
 	return report, nil
 }
 
