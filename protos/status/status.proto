@@ -20,13 +20,6 @@ import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-service Status {
-  rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
-  rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
-  rpc CollectHealth(NodeHealth) returns (google.protobuf.Empty);
-  rpc CollectError(NodeError) returns (google.protobuf.Empty);
-}
-
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
