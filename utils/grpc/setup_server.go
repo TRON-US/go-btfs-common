@@ -118,7 +118,6 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 
 	switch server.(type) {
 	case status.StatusServiceServer:
-		status.RegisterStatusServer(s.server, server.(status.StatusServiceServer))
 		status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
 	case escrow.EscrowServiceServer:
 		escrow.RegisterEscrowServiceServer(s.server, server.(escrow.EscrowServiceServer))
