@@ -25,6 +25,35 @@ service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
   rpc GetStats(StatsReq) returns (StatsResp);
+  rpc GetNodesLocation(NodesReq) returns (NodesLocationsResp);
+}
+
+message NodesReq {
+  repeated string node_id = 1;
+  string requester_id = 2;
+  bytes signature = 3;
+}
+
+message NodeLocation {
+  string node_id = 1;
+  string region = 2;
+  string country = 3;
+  string version = 4;
+  float latitude = 5;
+  float longitude = 6;
+  string host_address = 7;
+  string name = 8;
+  string error_msg = 9;
+}
+
+message NodesLocationsResp {
+  repeated Host nodes = 1;
+  string preparer_id = 2;
+  google.protobuf.Timestamp prepare_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 4;
 }
 
 message SettingsReq {
