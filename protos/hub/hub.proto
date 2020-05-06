@@ -25,35 +25,13 @@ service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
   rpc GetStats(StatsReq) returns (StatsResp);
-  rpc GetNodesLocation(NodesReq) returns (NodesLocationsResp);
+  rpc QueryNodes(NodesReq) returns (HostsResp); //used by internal services
 }
 
 message NodesReq {
   repeated string node_id = 1;
   string requester_id = 2;
   bytes signature = 3;
-}
-
-message NodeLocation {
-  string node_id = 1;
-  string region = 2;
-  string country = 3;
-  string version = 4;
-  float latitude = 5;
-  float longitude = 6;
-  string host_address = 7;
-  string name = 8;
-  string error_msg = 9;
-}
-
-message NodesLocationsResp {
-  repeated Host nodes = 1;
-  string preparer_id = 2;
-  google.protobuf.Timestamp prepare_time = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-  bytes signature = 4;
 }
 
 message SettingsReq {
@@ -206,7 +184,7 @@ message Host {
   uint64 collateral_stake = 24;
   uint64 collateral_lost = 25;
   uint64 collateral_burn = 26;
-  string country_short = 27;
+  string country_short = 27; //if it is "", means no data related node_id find
   node.Node.ExperimentalFlags flg = 28 [
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
