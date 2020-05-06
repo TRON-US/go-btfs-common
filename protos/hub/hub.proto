@@ -25,6 +25,13 @@ service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
   rpc GetStats(StatsReq) returns (StatsResp);
+  rpc QueryNodes(NodesReq) returns (HostsResp); //used by internal services
+}
+
+message NodesReq {
+  repeated string node_id = 1;
+  string requester_id = 2;
+  bytes signature = 3;
 }
 
 message SettingsReq {
@@ -177,7 +184,7 @@ message Host {
   uint64 collateral_stake = 24;
   uint64 collateral_lost = 25;
   uint64 collateral_burn = 26;
-  string country_short = 27;
+  string country_short = 27; //if it is "", means no data related node_id find
   node.Node.ExperimentalFlags flg = 28 [
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
