@@ -94,7 +94,7 @@ message Contract {
     WARN = 8; //the shard is in warn status
     DRAFT_WARN = 9; // get the warn status before the first success challenge
     READY_CHALLENGE = 10; //got the host's request it is ready for challenge
-    REESTABLISHED = 11; //renew the specific contract for new duration
+    RECREATED = 11; //renew the specific contract for new duration
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
@@ -175,7 +175,7 @@ message FileStoreStatus {
     LOST = 4; //some shards were lost and the whole file cannot be recovered now
     DONE = 5; //all contracts were done
     CANCELED = 6; //reserved for the cancel contract
-    REESTABLISHED = 7; //file storage was renewed for additional period
+    RECREATED = 7; //file storage was renewed for additional period
   }
   MetaState state = 2;
   repeated Contract contracts = 3 [(gogoproto.pgtag) = "-"];
@@ -195,7 +195,7 @@ message FileStoreStatus {
     PARTIAL_NEW = 1; //part of the file status was new, indicate that some contracts were rebuild
     EXPIRED = 2; //the file rental was expired, indicate that all shards can be removed from host
     RENEW = 3; //the contract got renewed
-    REESTABLISH = 4; //storage period was extended
+    RECREATE = 4; //storage period was extended
   }
   RentalState rental_state = 9;
   string preparer_pid = 10; //the stakeholder who prepared such file, if the file is NEW state, the preparer is rental
