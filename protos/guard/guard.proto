@@ -293,7 +293,7 @@ message ListHostContractsRequest {
     (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
-  bytes signature = 9; //requester signed--
+  bytes signature = 9; //requester signed
 }
 
 message ContractsList {
