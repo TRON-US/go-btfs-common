@@ -27,7 +27,7 @@ service GuardService {
   rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
   rpc ForceRepair(ForceRepairRequest) returns (Result);
   rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
-  rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreInfoResponse);
+  rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreListResponse);
 }
 
 message Log {
@@ -125,7 +125,7 @@ message Contract {
   int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
 }
 
-message FileStoreInfoResponse {
+message FileStoreListResponse {
   ListRenterFileInfoRequest request = 1;
   google.protobuf.Timestamp current_time = 2 [
     (gogoproto.nullable) = false,
