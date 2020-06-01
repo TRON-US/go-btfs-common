@@ -27,7 +27,7 @@ service GuardService {
   rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
   rpc ForceRepair(ForceRepairRequest) returns (Result);
   rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
-  rpc RetrieveFileInfo(FileInfoRequest) returns (FileInfoResponse);
+  rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreInfoResponse);
 }
 
 message Log {
@@ -125,15 +125,15 @@ message Contract {
   int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
 }
 
-message FileInfoResponse {
-  repeated FileStoreMeta file_store_meta = 1 [
-    (gogoproto.nullable) = false,
-    (gogoproto.pgtag) = "-"
-  ];
+message FileStoreInfoResponse {
+  ListRenterFileInfoRequest request = 1;
   google.protobuf.Timestamp current_time = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  repeated FileStoreMeta file_store_meta = 3;
+  int32 count = 4;
+  bytes signature = 5;
 }
 
 message FileStoreMeta {
@@ -258,14 +258,16 @@ message CheckFileStoreMetaRequest {
   bytes signature = 5; //requester signed
 }
 
-message FileInfoRequest {
+message ListRenterFileInfoRequest {
   string renter_pid = 1;
   string requester_pid = 2;
-  google.protobuf.Timestamp request_time = 3 [
+  int32 request_page_size = 3;
+  int32 request_page_index = 4;
+  google.protobuf.Timestamp request_time = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  bytes signature = 4;
+  bytes signature = 6;
 }
 
 message ListHostContractsRequest {
@@ -291,7 +293,7 @@ message ListHostContractsRequest {
     (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
-  bytes signature = 9; //requester signed
+  bytes signature = 9; //requester signed--
 }
 
 message ContractsList {
