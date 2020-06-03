@@ -27,6 +27,7 @@ service GuardService {
   rpc ReadyForChallenge(ReadyForChallengeRequest) returns (Result);
   rpc ForceRepair(ForceRepairRequest) returns (Result);
   rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
+  rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreListResponse);
 }
 
 message Log {
@@ -88,11 +89,12 @@ message Contract {
     LOST = 3; // the challenge failed, the following payout should be hold or even stopped
     CANCELED = 4; //if the shard was rebuild after LOST, or after some days of NO QUESTION, it go to CANCELED status
     CLOSED = 5; // the all work in such contract was done
-    RENEWED = 6; // the contract got renewed
+    RENEWED = 6; // the contract got renewed for guard repair
     OBSOLETE = 7; //the contract was replaced with some other contract after it was canceled or renewed
     WARN = 8; //the shard is in warn status
     DRAFT_WARN = 9; // get the warn status before the first success challenge
     READY_CHALLENGE = 10; //got the host's request it is ready for challenge
+    RECREATED = 11; //renew the specific contract for new duration
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
@@ -121,6 +123,17 @@ message Contract {
   int32 challenge_times = 14; //total challenge times till now
   int32 challenge_warn_times = 15; //record times of timeout response after last success challenge time
   int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
+}
+
+message FileStoreListResponse {
+  ListRenterFileInfoRequest request = 1;
+  google.protobuf.Timestamp current_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  repeated FileStoreMeta file_store_meta = 3;
+  int32 count = 4;
+  bytes signature = 5;
 }
 
 message FileStoreMeta {
@@ -162,6 +175,7 @@ message FileStoreStatus {
     LOST = 4; //some shards were lost and the whole file cannot be recovered now
     DONE = 5; //all contracts were done
     CANCELED = 6; //reserved for the cancel contract
+    RECREATED = 7; //file storage was renewed for additional period
   }
   MetaState state = 2;
   repeated Contract contracts = 3 [(gogoproto.pgtag) = "-"];
@@ -181,6 +195,7 @@ message FileStoreStatus {
     PARTIAL_NEW = 1; //part of the file status was new, indicate that some contracts were rebuild
     EXPIRED = 2; //the file rental was expired, indicate that all shards can be removed from host
     RENEW = 3; //the contract got renewed
+    RECREATE = 4; //storage period was extended
   }
   RentalState rental_state = 9;
   string preparer_pid = 10; //the stakeholder who prepared such file, if the file is NEW state, the preparer is rental
@@ -241,6 +256,18 @@ message CheckFileStoreMetaRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 5; //requester signed
+}
+
+message ListRenterFileInfoRequest {
+  string renter_pid = 1;
+  string requester_pid = 2;
+  int32 request_page_size = 3;
+  int32 request_page_index = 4;
+  google.protobuf.Timestamp request_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 6;
 }
 
 message ListHostContractsRequest {
