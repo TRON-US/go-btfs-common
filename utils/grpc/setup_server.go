@@ -1,16 +1,18 @@
 package grpc
 
 import (
+	"context"
 	"fmt"
-	"net"
-
+	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
 	"github.com/tron-us/go-btfs-common/protos/hub"
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
+	"github.com/tron-us/go-btfs-common/utils"
+	"github.com/tron-us/go-common/v2/db"
+	"net"
 
-	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
@@ -27,7 +29,7 @@ type GrpcServer struct {
 	healthServer *health.Server
 	serverName   string
 	lis          net.Listener
-	dBURL        string
+	dBURLs       map[string]string
 	rDURL        string
 }
 
@@ -40,7 +42,9 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	case guard.GuardServiceServer:
 		s.serverName = "guard-interceptor"
 	case hub.HubQueryServiceServer:
-		s.serverName = "hub"
+		s.serverName = "hub-query"
+	case hub.HubParseServiceServer:
+		s.serverName = "hub-parser"
 	case *controller.DefaultController:
 		s.serverName = fmt.Sprintf("%v", t.ServerName)
 	default:
@@ -48,11 +52,11 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
+func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
 
 	s.serverTypeToServerName(server)
 
-	s.dBURL = dbURL
+	s.dBURLs = dbURLs
 	s.rDURL = rdURL
 
 	lis, err := net.Listen("tcp", port)
@@ -62,13 +66,29 @@ func (s *GrpcServer) GrpcServer(port string, dbURL string, rdURL string, server 
 
 	s.lis = lis
 
-	s.CreateServer(s.serverName, options...).
-		CreateHealthServer().
-		RegisterServer(server).
-		RegisterHealthServer().
-		WithReflection().
-		WithGracefulTermDetectAndExec().
-		AcceptConnection()
+	done := make(chan bool)
+
+	go func() {
+		s.CreateServer(s.serverName, options...).
+			CreateHealthServer().
+			RegisterServer(server).
+			RegisterHealthServer().
+			WithReflection().
+			WithGracefulTermDetectAndExec().
+			AcceptConnection()
+		done <- true
+	}()
+
+	ctx := context.Background()
+	req := new(shared.SignedRuntimeInfoRequest)
+	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
+
+	_, err = utils.CheckDBConnection(ctx, req, connection)
+	if err != nil {
+		log.Panic("Got error", zap.Error(err))
+	}
+
+	<-done
 
 	return s
 }
@@ -98,7 +118,6 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 
 	switch server.(type) {
 	case status.StatusServiceServer:
-		status.RegisterStatusServer(s.server, server.(status.StatusServiceServer))
 		status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
 	case escrow.EscrowServiceServer:
 		escrow.RegisterEscrowServiceServer(s.server, server.(escrow.EscrowServiceServer))
@@ -106,9 +125,11 @@ func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 		guard.RegisterGuardServiceServer(s.server, server.(guard.GuardServiceServer))
 	case hub.HubQueryServiceServer:
 		hub.RegisterHubQueryServiceServer(s.server, server.(hub.HubQueryServiceServer))
+	case hub.HubParseServiceServer:
+		hub.RegisterHubParseServiceServer(s.server, server.(hub.HubParseServiceServer))
 	}
 
-	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURL, RD_URL: s.rDURL, serviceName: s.serverName})
+	shared.RegisterRuntimeServiceServer(s.server, &RuntimeServer{DB_URL: s.dBURLs, RD_URL: s.rDURL, serviceName: s.serverName})
 
 	log.Info("Registered: " + s.serverName + " and runtime server!")
 

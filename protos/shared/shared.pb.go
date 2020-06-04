@@ -183,20 +183,20 @@ func (*SignedRuntimeInfoRequest) XXX_MessageName() string {
 }
 
 type RuntimeInfoReport struct {
-	PeerId               []byte                         `protobuf:"bytes,1,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty" pg:"peer_id"`
-	Address              []byte                         `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
-	ServiceName          []byte                         `protobuf:"bytes,3,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty" pg:"service_name"`
+	PeerId               string                         `protobuf:"bytes,1,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty" pg:"peer_id"`
+	Address              string                         `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	ServiceName          string                         `protobuf:"bytes,3,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty" pg:"service_name"`
 	Status               RuntimeInfoReport_HealthStatus `protobuf:"varint,4,opt,name=status,proto3,enum=shared.RuntimeInfoReport_HealthStatus" json:"status,omitempty" pg:"status"`
 	CurentTime           time.Time                      `protobuf:"bytes,5,opt,name=curent_time,json=curentTime,proto3,stdtime" json:"curent_time" pg:"curent_time"`
 	StartTime            time.Time                      `protobuf:"bytes,6,opt,name=start_time,json=startTime,proto3,stdtime" json:"start_time" pg:"start_time"`
-	GitHash              []byte                         `protobuf:"bytes,7,opt,name=git_hash,json=gitHash,proto3" json:"git_hash,omitempty" pg:"git_hash"`
-	Version              []byte                         `protobuf:"bytes,8,opt,name=version,proto3" json:"version,omitempty" pg:"version"`
-	DbStatusExtra        []byte                         `protobuf:"bytes,9,opt,name=db_status_extra,json=dbStatusExtra,proto3" json:"db_status_extra,omitempty" pg:"db_status_extra"`
-	RdStatusExtra        []byte                         `protobuf:"bytes,10,opt,name=rd_status_extra,json=rdStatusExtra,proto3" json:"rd_status_extra,omitempty" pg:"rd_status_extra"`
-	QueueStatusExtra     []byte                         `protobuf:"bytes,11,opt,name=queue_status_extra,json=queueStatusExtra,proto3" json:"queue_status_extra,omitempty" pg:"queue_status_extra"`
-	ChainStatusExtra     []byte                         `protobuf:"bytes,12,opt,name=chain_status_extra,json=chainStatusExtra,proto3" json:"chain_status_extra,omitempty" pg:"chain_status_extra"`
-	CacheStatusExtra     []byte                         `protobuf:"bytes,13,opt,name=cache_status_extra,json=cacheStatusExtra,proto3" json:"cache_status_extra,omitempty" pg:"cache_status_extra"`
-	Extra                []byte                         `protobuf:"bytes,14,opt,name=extra,proto3" json:"extra,omitempty" pg:"extra"`
+	GitHash              string                         `protobuf:"bytes,7,opt,name=git_hash,json=gitHash,proto3" json:"git_hash,omitempty" pg:"git_hash"`
+	Version              string                         `protobuf:"bytes,8,opt,name=version,proto3" json:"version,omitempty" pg:"version"`
+	DbStatusExtra        map[string]string              `protobuf:"bytes,9,rep,name=db_status_extra,json=dbStatusExtra,proto3" json:"db_status_extra,omitempty" pg:"db_status_extra" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	RdStatusExtra        string                         `protobuf:"bytes,10,opt,name=rd_status_extra,json=rdStatusExtra,proto3" json:"rd_status_extra,omitempty" pg:"rd_status_extra"`
+	QueueStatusExtra     string                         `protobuf:"bytes,11,opt,name=queue_status_extra,json=queueStatusExtra,proto3" json:"queue_status_extra,omitempty" pg:"queue_status_extra"`
+	ChainStatusExtra     string                         `protobuf:"bytes,12,opt,name=chain_status_extra,json=chainStatusExtra,proto3" json:"chain_status_extra,omitempty" pg:"chain_status_extra"`
+	CacheStatusExtra     string                         `protobuf:"bytes,13,opt,name=cache_status_extra,json=cacheStatusExtra,proto3" json:"cache_status_extra,omitempty" pg:"cache_status_extra"`
+	Extra                string                         `protobuf:"bytes,14,opt,name=extra,proto3" json:"extra,omitempty" pg:"extra"`
 	XXX_NoUnkeyedLiteral struct{}                       `json:"-" pg:"-"`
 	XXX_unrecognized     []byte                         `json:"-" pg:"-"`
 	XXX_sizecache        int32                          `json:"-" pg:"-"`
@@ -235,25 +235,25 @@ func (m *RuntimeInfoReport) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RuntimeInfoReport proto.InternalMessageInfo
 
-func (m *RuntimeInfoReport) GetPeerId() []byte {
+func (m *RuntimeInfoReport) GetPeerId() string {
 	if m != nil {
 		return m.PeerId
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetAddress() []byte {
+func (m *RuntimeInfoReport) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetServiceName() []byte {
+func (m *RuntimeInfoReport) GetServiceName() string {
 	if m != nil {
 		return m.ServiceName
 	}
-	return nil
+	return ""
 }
 
 func (m *RuntimeInfoReport) GetStatus() RuntimeInfoReport_HealthStatus {
@@ -277,60 +277,60 @@ func (m *RuntimeInfoReport) GetStartTime() time.Time {
 	return time.Time{}
 }
 
-func (m *RuntimeInfoReport) GetGitHash() []byte {
+func (m *RuntimeInfoReport) GetGitHash() string {
 	if m != nil {
 		return m.GitHash
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetVersion() []byte {
+func (m *RuntimeInfoReport) GetVersion() string {
 	if m != nil {
 		return m.Version
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetDbStatusExtra() []byte {
+func (m *RuntimeInfoReport) GetDbStatusExtra() map[string]string {
 	if m != nil {
 		return m.DbStatusExtra
 	}
 	return nil
 }
 
-func (m *RuntimeInfoReport) GetRdStatusExtra() []byte {
+func (m *RuntimeInfoReport) GetRdStatusExtra() string {
 	if m != nil {
 		return m.RdStatusExtra
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetQueueStatusExtra() []byte {
+func (m *RuntimeInfoReport) GetQueueStatusExtra() string {
 	if m != nil {
 		return m.QueueStatusExtra
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetChainStatusExtra() []byte {
+func (m *RuntimeInfoReport) GetChainStatusExtra() string {
 	if m != nil {
 		return m.ChainStatusExtra
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetCacheStatusExtra() []byte {
+func (m *RuntimeInfoReport) GetCacheStatusExtra() string {
 	if m != nil {
 		return m.CacheStatusExtra
 	}
-	return nil
+	return ""
 }
 
-func (m *RuntimeInfoReport) GetExtra() []byte {
+func (m *RuntimeInfoReport) GetExtra() string {
 	if m != nil {
 		return m.Extra
 	}
-	return nil
+	return ""
 }
 
 func (*RuntimeInfoReport) XXX_MessageName() string {
@@ -345,52 +345,57 @@ func init() {
 	golang_proto.RegisterType((*SignedRuntimeInfoRequest)(nil), "shared.SignedRuntimeInfoRequest")
 	proto.RegisterType((*RuntimeInfoReport)(nil), "shared.RuntimeInfoReport")
 	golang_proto.RegisterType((*RuntimeInfoReport)(nil), "shared.RuntimeInfoReport")
+	proto.RegisterMapType((map[string]string)(nil), "shared.RuntimeInfoReport.DbStatusExtraEntry")
+	golang_proto.RegisterMapType((map[string]string)(nil), "shared.RuntimeInfoReport.DbStatusExtraEntry")
 }
 
 func init() { proto.RegisterFile("protos/shared/shared.proto", fileDescriptor_40efd7a2bcef91b6) }
 func init() { golang_proto.RegisterFile("protos/shared/shared.proto", fileDescriptor_40efd7a2bcef91b6) }
 
 var fileDescriptor_40efd7a2bcef91b6 = []byte{
-	// 610 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x94, 0xcb, 0x6e, 0xd3, 0x40,
-	0x14, 0x86, 0x3b, 0xbd, 0xe4, 0x72, 0xe2, 0xa6, 0x61, 0x84, 0x84, 0x1b, 0xa1, 0x34, 0x64, 0x51,
-	0xba, 0x28, 0x0e, 0x2a, 0x7b, 0x50, 0x52, 0x15, 0x1a, 0x15, 0xa5, 0x91, 0x1d, 0x36, 0x48, 0xc8,
-	0x9a, 0xc4, 0x13, 0xdb, 0xa2, 0xf1, 0xa4, 0x33, 0xe3, 0x8a, 0x07, 0xe0, 0x01, 0x58, 0xb2, 0xe6,
-	0x49, 0x58, 0x76, 0xc9, 0x13, 0x00, 0x6a, 0x5f, 0x04, 0xcd, 0x25, 0x6a, 0x13, 0xda, 0x05, 0xac,
-	0xec, 0xf3, 0x9f, 0xef, 0x5c, 0x73, 0x62, 0xa8, 0xcf, 0x38, 0x93, 0x4c, 0xb4, 0x45, 0x42, 0x38,
-	0x8d, 0xec, 0xc3, 0xd3, 0x22, 0x2e, 0x18, 0xab, 0xfe, 0x3c, 0x4e, 0x65, 0x92, 0x8f, 0xbc, 0x31,
-	0x9b, 0xb6, 0x25, 0x67, 0xd9, 0xb3, 0x5c, 0xb4, 0x35, 0x31, 0xca, 0x27, 0xed, 0x98, 0xc5, 0x4c,
-	0x1b, 0xfa, 0xcd, 0x44, 0xd6, 0x77, 0x62, 0xc6, 0xe2, 0x33, 0x7a, 0x43, 0xc9, 0x74, 0x4a, 0x85,
-	0x24, 0xd3, 0x99, 0x01, 0x5a, 0x9f, 0x11, 0x60, 0x3f, 0xcf, 0x94, 0xdc, 0xcb, 0x26, 0xcc, 0xa7,
-	0xe7, 0x39, 0x15, 0x12, 0x3f, 0x85, 0x2d, 0x6e, 0x5e, 0x43, 0x12, 0x45, 0x9c, 0x0a, 0xe1, 0xa2,
-	0x26, 0xda, 0x73, 0xfc, 0xaa, 0x95, 0x3b, 0x46, 0xc5, 0x47, 0x50, 0x19, 0xe7, 0x9c, 0x66, 0x32,
-	0x54, 0x29, 0xdc, 0xd5, 0x26, 0xda, 0xab, 0x1c, 0xd4, 0x3d, 0x53, 0xd6, 0x9b, 0x97, 0xf5, 0x86,
-	0xf3, 0xb2, 0xdd, 0xd2, 0xe5, 0xcf, 0x9d, 0x95, 0x2f, 0xbf, 0x76, 0x90, 0x0f, 0x26, 0x50, 0xb9,
-	0x5a, 0x13, 0x70, 0x83, 0x34, 0xce, 0x68, 0x74, 0x47, 0x2f, 0xfb, 0xb0, 0xc6, 0xe9, 0xb9, 0xae,
-	0xaf, 0x52, 0xdb, 0xcd, 0xfc, 0x0d, 0xfa, 0x0a, 0xc3, 0x8f, 0xa1, 0x2c, 0xd2, 0x38, 0x23, 0x32,
-	0xe7, 0xa6, 0x1d, 0xc7, 0xbf, 0x11, 0x5a, 0xdf, 0x36, 0xe0, 0xc1, 0x42, 0xe4, 0x8c, 0x71, 0x89,
-	0x1f, 0x41, 0x71, 0x46, 0x29, 0x0f, 0xd3, 0xc8, 0x4e, 0x59, 0x50, 0x66, 0x2f, 0xc2, 0x2e, 0x14,
-	0xe7, 0xe3, 0x9b, 0x54, 0x73, 0x13, 0x3f, 0x01, 0x47, 0x50, 0x7e, 0x91, 0x8e, 0x69, 0x98, 0x91,
-	0x29, 0x75, 0xd7, 0xb4, 0xbb, 0x62, 0xb5, 0x3e, 0x99, 0x52, 0xfc, 0x12, 0x0a, 0x42, 0x12, 0x99,
-	0x0b, 0x77, 0xbd, 0x89, 0xf6, 0xaa, 0x07, 0xbb, 0x77, 0xb6, 0xae, 0x1a, 0xf0, 0x8e, 0x29, 0x39,
-	0x93, 0x49, 0xa0, 0x69, 0xdf, 0x46, 0x2d, 0xaf, 0x76, 0xe3, 0xff, 0x56, 0x8b, 0x0f, 0x01, 0x84,
-	0x24, 0xdc, 0x66, 0x29, 0xfc, 0x43, 0x96, 0xb2, 0x8e, 0xd3, 0x49, 0xb6, 0xa1, 0x14, 0xa7, 0x32,
-	0x4c, 0x88, 0x48, 0xdc, 0xa2, 0xd9, 0x44, 0x9c, 0xca, 0x63, 0x22, 0x12, 0xb5, 0xa3, 0x0b, 0xca,
-	0x45, 0xca, 0x32, 0xb7, 0x64, 0x3c, 0xd6, 0xc4, 0xbb, 0xb0, 0x15, 0x8d, 0x42, 0x33, 0x4d, 0x48,
-	0x3f, 0x49, 0x4e, 0xdc, 0xb2, 0x26, 0x36, 0xa3, 0x91, 0x99, 0xf5, 0x48, 0x89, 0x8a, 0xe3, 0xd1,
-	0x22, 0x07, 0x86, 0xe3, 0xd1, 0x6d, 0x6e, 0x1f, 0xf0, 0x79, 0x4e, 0x73, 0xba, 0x88, 0x56, 0x34,
-	0x5a, 0xd3, 0x9e, 0x25, 0x7a, 0x9c, 0x90, 0x34, 0x5b, 0xa4, 0x1d, 0x43, 0x6b, 0xcf, 0x32, 0x4d,
-	0xc6, 0xc9, 0x52, 0xee, 0x4d, 0x4b, 0x2b, 0xcf, 0x6d, 0xfa, 0x21, 0x6c, 0x18, 0xa0, 0xaa, 0x01,
-	0x63, 0xb4, 0x5e, 0x83, 0x73, 0xfb, 0x87, 0xc4, 0x25, 0x58, 0x0f, 0x7a, 0x87, 0x27, 0xb5, 0x15,
-	0x5c, 0x81, 0xa2, 0xff, 0xae, 0xdf, 0xef, 0xf5, 0xdf, 0xd4, 0x10, 0xde, 0x84, 0x72, 0xf7, 0xf4,
-	0x74, 0x18, 0x0c, 0xfd, 0xce, 0xa0, 0xb6, 0x8a, 0x6b, 0xe0, 0x0c, 0x3a, 0xfe, 0xb0, 0xd7, 0x79,
-	0x1b, 0x06, 0xc3, 0xd3, 0x41, 0x6d, 0xed, 0xe0, 0x03, 0x54, 0xed, 0x89, 0x04, 0xe6, 0x9c, 0xf0,
-	0x09, 0x38, 0x87, 0x09, 0x1d, 0x7f, 0xb4, 0x32, 0x6e, 0xce, 0x4f, 0xe9, 0xbe, 0x3f, 0x4d, 0x7d,
-	0xfb, 0xde, 0x63, 0xeb, 0xbe, 0xba, 0xbc, 0x6a, 0xa0, 0x1f, 0x57, 0x0d, 0xf4, 0xfb, 0xaa, 0x81,
-	0xbe, 0x5e, 0x37, 0xd0, 0xf7, 0xeb, 0x06, 0xba, 0xbc, 0x6e, 0x20, 0xa8, 0xa6, 0xcc, 0x1b, 0xc9,
-	0x89, 0xb0, 0xb1, 0xdd, 0x4a, 0xa0, 0x9f, 0x03, 0x75, 0x24, 0x03, 0xf4, 0xde, 0x7e, 0x86, 0x46,
-	0x05, 0x7d, 0x35, 0x2f, 0xfe, 0x04, 0x00, 0x00, 0xff, 0xff, 0x71, 0xff, 0x07, 0x57, 0xb3, 0x04,
-	0x00, 0x00,
+	// 661 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x94, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0xc7, 0xbb, 0x49, 0x9b, 0x8f, 0xc9, 0x47, 0xc3, 0x0a, 0x09, 0x37, 0x42, 0x69, 0xc8, 0xa1,
+	0xe4, 0x50, 0x1c, 0x14, 0x2e, 0x88, 0x03, 0x90, 0x94, 0x42, 0xa3, 0xa2, 0x34, 0xb2, 0xc3, 0x05,
+	0x09, 0x59, 0x9b, 0x78, 0x63, 0x5b, 0x6d, 0xec, 0x74, 0x77, 0x5d, 0xd1, 0x3b, 0x0f, 0x80, 0x38,
+	0xf1, 0x38, 0x1c, 0x7b, 0xe4, 0x09, 0x00, 0xb5, 0x2f, 0x82, 0xbc, 0xbb, 0x51, 0x93, 0xb4, 0x3d,
+	0xc0, 0xc9, 0x3b, 0xff, 0xf9, 0xcd, 0xc7, 0xce, 0x4e, 0x02, 0xd5, 0x19, 0x8b, 0x44, 0xc4, 0x5b,
+	0xdc, 0x27, 0x8c, 0xba, 0xfa, 0x63, 0x4a, 0x11, 0x67, 0x94, 0x55, 0x7d, 0xea, 0x05, 0xc2, 0x8f,
+	0x47, 0xe6, 0x38, 0x9a, 0xb6, 0x04, 0x8b, 0xc2, 0x27, 0x31, 0x6f, 0x49, 0x62, 0x14, 0x4f, 0x5a,
+	0x5e, 0xe4, 0x45, 0xd2, 0x90, 0x27, 0x15, 0x59, 0xdd, 0xf6, 0xa2, 0xc8, 0x3b, 0xa1, 0xd7, 0x94,
+	0x08, 0xa6, 0x94, 0x0b, 0x32, 0x9d, 0x29, 0xa0, 0xf1, 0x05, 0x01, 0xb6, 0xe2, 0x30, 0x91, 0x7b,
+	0xe1, 0x24, 0xb2, 0xe8, 0x69, 0x4c, 0xb9, 0xc0, 0x8f, 0x61, 0x93, 0xa9, 0xa3, 0x43, 0x5c, 0x97,
+	0x51, 0xce, 0x0d, 0x54, 0x47, 0xcd, 0xa2, 0x55, 0xd6, 0x72, 0x47, 0xa9, 0x78, 0x1f, 0x0a, 0xe3,
+	0x98, 0xd1, 0x50, 0x38, 0x49, 0x0a, 0x23, 0x55, 0x47, 0xcd, 0x42, 0xbb, 0x6a, 0xaa, 0xb2, 0xe6,
+	0xbc, 0xac, 0x39, 0x9c, 0x97, 0xed, 0xe6, 0x2e, 0x7e, 0x6d, 0xaf, 0x7d, 0xfd, 0xbd, 0x8d, 0x2c,
+	0x50, 0x81, 0x89, 0xab, 0x31, 0x01, 0xc3, 0x0e, 0xbc, 0x90, 0xba, 0xb7, 0xf4, 0xb2, 0x0b, 0x69,
+	0x46, 0x4f, 0x65, 0xfd, 0x24, 0xb5, 0x9e, 0xcc, 0x4d, 0xd0, 0x4a, 0x30, 0xfc, 0x10, 0xf2, 0x3c,
+	0xf0, 0x42, 0x22, 0x62, 0xa6, 0xda, 0x29, 0x5a, 0xd7, 0x42, 0xe3, 0x5b, 0x06, 0xee, 0x2d, 0x45,
+	0xce, 0x22, 0x26, 0xf0, 0x03, 0xc8, 0xce, 0x28, 0x65, 0x4e, 0xe0, 0xca, 0x2a, 0x79, 0x2b, 0x93,
+	0x98, 0x3d, 0x17, 0x1b, 0x90, 0x9d, 0x5f, 0x3f, 0x25, 0x1d, 0x73, 0x13, 0x3f, 0x82, 0x22, 0xa7,
+	0xec, 0x2c, 0x18, 0x53, 0x27, 0x24, 0x53, 0x6a, 0xa4, 0xa5, 0xbb, 0xa0, 0xb5, 0x3e, 0x99, 0x52,
+	0xfc, 0x12, 0x32, 0x5c, 0x10, 0x11, 0x73, 0x63, 0xbd, 0x8e, 0x9a, 0xe5, 0xf6, 0xce, 0xad, 0xad,
+	0x27, 0x0d, 0x98, 0x07, 0x94, 0x9c, 0x08, 0xdf, 0x96, 0xb4, 0xa5, 0xa3, 0x56, 0x47, 0xbb, 0xf1,
+	0x7f, 0xa3, 0xc5, 0x7b, 0x00, 0x5c, 0x10, 0xa6, 0xb3, 0x64, 0xfe, 0x21, 0x4b, 0x5e, 0xc6, 0xc9,
+	0x24, 0x5b, 0x90, 0xf3, 0x02, 0xe1, 0xf8, 0x84, 0xfb, 0x46, 0x56, 0x4d, 0xc2, 0x0b, 0xc4, 0x01,
+	0xe1, 0x7e, 0x32, 0xa3, 0x33, 0xca, 0x78, 0x10, 0x85, 0x46, 0x4e, 0x79, 0xb4, 0x89, 0x87, 0xb0,
+	0xe9, 0x8e, 0x1c, 0x75, 0x1b, 0x87, 0x7e, 0x16, 0x8c, 0x18, 0xf9, 0x7a, 0xba, 0x59, 0x68, 0xef,
+	0xde, 0x3d, 0x89, 0x37, 0x23, 0x35, 0x85, 0xfd, 0x04, 0xdf, 0x0f, 0x05, 0x3b, 0xb7, 0x4a, 0xee,
+	0xa2, 0x86, 0x77, 0x60, 0x93, 0xb9, 0xcb, 0x59, 0x41, 0xd6, 0x2d, 0x31, 0x77, 0x91, 0xdb, 0x05,
+	0x7c, 0x1a, 0xd3, 0x98, 0x2e, 0xa3, 0x05, 0x89, 0x56, 0xa4, 0x67, 0x85, 0x1e, 0xfb, 0x24, 0x08,
+	0x97, 0xe9, 0xa2, 0xa2, 0xa5, 0x67, 0x95, 0x26, 0x63, 0x7f, 0x25, 0x77, 0x49, 0xd3, 0x89, 0x67,
+	0x91, 0xbe, 0x0f, 0x1b, 0x0a, 0x28, 0x4b, 0x40, 0x19, 0xd5, 0xd7, 0x80, 0x6f, 0x5e, 0x16, 0x57,
+	0x20, 0x7d, 0x4c, 0xcf, 0xf5, 0x1a, 0x26, 0xc7, 0x24, 0xfa, 0x8c, 0x9c, 0xc4, 0x54, 0x6f, 0xa0,
+	0x32, 0x5e, 0xa4, 0x9e, 0xa3, 0xc6, 0x5b, 0x28, 0x2e, 0x2e, 0x0e, 0xce, 0xc1, 0xba, 0xdd, 0xdb,
+	0x3b, 0xac, 0xac, 0xe1, 0x02, 0x64, 0xad, 0x0f, 0xfd, 0x7e, 0xaf, 0xff, 0xae, 0x82, 0x70, 0x09,
+	0xf2, 0xdd, 0xa3, 0xa3, 0xa1, 0x3d, 0xb4, 0x3a, 0x83, 0x4a, 0x0a, 0x57, 0xa0, 0x38, 0xe8, 0x58,
+	0xc3, 0x5e, 0xe7, 0xbd, 0x63, 0x0f, 0x8f, 0x06, 0x95, 0x74, 0xfb, 0x13, 0x94, 0xf5, 0x43, 0xd8,
+	0x6a, 0x7d, 0xf1, 0x21, 0x14, 0xf7, 0x7c, 0x3a, 0x3e, 0xd6, 0x32, 0xae, 0xcf, 0x1f, 0xec, 0xae,
+	0x1f, 0x69, 0x75, 0xeb, 0xce, 0x27, 0xed, 0xbe, 0xba, 0xb8, 0xac, 0xa1, 0x9f, 0x97, 0x35, 0xf4,
+	0xe7, 0xb2, 0x86, 0xbe, 0x5f, 0xd5, 0xd0, 0x8f, 0xab, 0x1a, 0xba, 0xb8, 0xaa, 0x21, 0x28, 0x07,
+	0x91, 0x39, 0x12, 0x13, 0xae, 0x63, 0xbb, 0x05, 0x5b, 0x7e, 0x07, 0xc9, 0x52, 0x0e, 0xd0, 0x47,
+	0xfd, 0xb7, 0x37, 0xca, 0xc8, 0x2d, 0x7d, 0xf6, 0x37, 0x00, 0x00, 0xff, 0xff, 0xff, 0xcc, 0xca,
+	0x04, 0x23, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -621,11 +626,23 @@ func (m *RuntimeInfoReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x52
 	}
 	if len(m.DbStatusExtra) > 0 {
-		i -= len(m.DbStatusExtra)
-		copy(dAtA[i:], m.DbStatusExtra)
-		i = encodeVarintShared(dAtA, i, uint64(len(m.DbStatusExtra)))
-		i--
-		dAtA[i] = 0x4a
+		for k := range m.DbStatusExtra {
+			v := m.DbStatusExtra[k]
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintShared(dAtA, i, uint64(len(v)))
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintShared(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintShared(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x4a
+		}
 	}
 	if len(m.Version) > 0 {
 		i -= len(m.Version)
@@ -768,9 +785,13 @@ func (m *RuntimeInfoReport) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
 	}
-	l = len(m.DbStatusExtra)
-	if l > 0 {
-		n += 1 + l + sovShared(uint64(l))
+	if len(m.DbStatusExtra) > 0 {
+		for k, v := range m.DbStatusExtra {
+			_ = k
+			_ = v
+			mapEntrySize := 1 + len(k) + sovShared(uint64(len(k))) + 1 + len(v) + sovShared(uint64(len(v)))
+			n += mapEntrySize + 1 + sovShared(uint64(mapEntrySize))
+		}
 	}
 	l = len(m.RdStatusExtra)
 	if l > 0 {
@@ -1082,7 +1103,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PeerId", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1092,31 +1113,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PeerId = append(m.PeerId[:0], dAtA[iNdEx:postIndex]...)
-			if m.PeerId == nil {
-				m.PeerId = []byte{}
-			}
+			m.PeerId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1126,31 +1145,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Address = append(m.Address[:0], dAtA[iNdEx:postIndex]...)
-			if m.Address == nil {
-				m.Address = []byte{}
-			}
+			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ServiceName", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1160,25 +1177,23 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ServiceName = append(m.ServiceName[:0], dAtA[iNdEx:postIndex]...)
-			if m.ServiceName == nil {
-				m.ServiceName = []byte{}
-			}
+			m.ServiceName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 0 {
@@ -1269,7 +1284,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field GitHash", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1279,31 +1294,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.GitHash = append(m.GitHash[:0], dAtA[iNdEx:postIndex]...)
-			if m.GitHash == nil {
-				m.GitHash = []byte{}
-			}
+			m.GitHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Version", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1313,31 +1326,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Version = append(m.Version[:0], dAtA[iNdEx:postIndex]...)
-			if m.Version == nil {
-				m.Version = []byte{}
-			}
+			m.Version = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DbStatusExtra", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1347,31 +1358,124 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DbStatusExtra = append(m.DbStatusExtra[:0], dAtA[iNdEx:postIndex]...)
 			if m.DbStatusExtra == nil {
-				m.DbStatusExtra = []byte{}
+				m.DbStatusExtra = make(map[string]string)
 			}
+			var mapkey string
+			var mapvalue string
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowShared
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowShared
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthShared
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthShared
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var stringLenmapvalue uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowShared
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapvalue |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapvalue := int(stringLenmapvalue)
+					if intStringLenmapvalue < 0 {
+						return ErrInvalidLengthShared
+					}
+					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
+					if postStringIndexmapvalue < 0 {
+						return ErrInvalidLengthShared
+					}
+					if postStringIndexmapvalue > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
+					iNdEx = postStringIndexmapvalue
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipShared(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if skippy < 0 {
+						return ErrInvalidLengthShared
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.DbStatusExtra[mapkey] = mapvalue
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RdStatusExtra", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1381,31 +1485,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RdStatusExtra = append(m.RdStatusExtra[:0], dAtA[iNdEx:postIndex]...)
-			if m.RdStatusExtra == nil {
-				m.RdStatusExtra = []byte{}
-			}
+			m.RdStatusExtra = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field QueueStatusExtra", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1415,31 +1517,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.QueueStatusExtra = append(m.QueueStatusExtra[:0], dAtA[iNdEx:postIndex]...)
-			if m.QueueStatusExtra == nil {
-				m.QueueStatusExtra = []byte{}
-			}
+			m.QueueStatusExtra = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ChainStatusExtra", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1449,31 +1549,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ChainStatusExtra = append(m.ChainStatusExtra[:0], dAtA[iNdEx:postIndex]...)
-			if m.ChainStatusExtra == nil {
-				m.ChainStatusExtra = []byte{}
-			}
+			m.ChainStatusExtra = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CacheStatusExtra", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1483,31 +1581,29 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.CacheStatusExtra = append(m.CacheStatusExtra[:0], dAtA[iNdEx:postIndex]...)
-			if m.CacheStatusExtra == nil {
-				m.CacheStatusExtra = []byte{}
-			}
+			m.CacheStatusExtra = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Extra", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowShared
@@ -1517,25 +1613,23 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthShared
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthShared
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Extra = append(m.Extra[:0], dAtA[iNdEx:postIndex]...)
-			if m.Extra == nil {
-				m.Extra = []byte{}
-			}
+			m.Extra = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

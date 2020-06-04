@@ -20,10 +20,18 @@ import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
+// HubQueryService are interface for hub-query
 service HubQueryService {
   rpc GetSettings(SettingsReq) returns (SettingsResp);
   rpc GetHosts(HostsReq) returns (HostsResp);
   rpc GetStats(StatsReq) returns (StatsResp);
+  rpc QueryNodes(NodesReq) returns (HostsResp); //used by internal services
+}
+
+message NodesReq {
+  repeated string node_id = 1;
+  string requester_id = 2;
+  bytes signature = 3;
 }
 
 message SettingsReq {
@@ -35,6 +43,7 @@ enum ResponseCode {
   SUCCESS = 0;
   SIGNATURE_FORMAT_ERROR = 1;
   COMPUTE_ADDRESS_ERROR = 2;
+  TIMEOUT_ERROR = 3;
   OTHER_ERROR = 20;
 }
 
@@ -97,6 +106,47 @@ message StatsResp {
   ];
 }
 
+// HubParserService are interface for hub-parser
+service HubParseService {
+  rpc UpdateDiscovery(ParseReq) returns (ParseResp);
+  rpc UpdateScore(ParseReq) returns (ParseResp);
+  rpc UpdateNetwork(ParseReq) returns (ParseResp);
+  rpc Recycle(RecycleReq) returns (ParseResp);
+}
+
+message Candidate {
+  string node_id = 1;
+  uint64 heart_beats = 2;
+  float upload_average = 3;
+  float upload_variance = 4;
+  float download_average = 5;
+  float download_variance = 6;
+}
+
+message ParseReq {
+  repeated Candidate candidates = 1;
+}
+
+message RecycleReq {
+  enum ESIndex {
+    NODES = 0;
+    NETWORK = 1;
+    TESTNET_NODES = 2;
+  }
+  ESIndex es_index = 1;
+}
+
+message ParseResp {
+  ResponseCode code = 1;
+  string message = 2;
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+// Below are common use messages for hub services
+
 message HostsData {
   repeated Host hosts = 1;
 }
@@ -134,7 +184,7 @@ message Host {
   uint64 collateral_stake = 24;
   uint64 collateral_lost = 25;
   uint64 collateral_burn = 26;
-  string country_short = 27;
+  string country_short = 27; //if it is "", means no data related node_id find
   node.Node.ExperimentalFlags flg = 28 [
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false

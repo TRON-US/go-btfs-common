@@ -24,7 +24,7 @@ func (g *RuntimeClientBuilder) WithContext(ctx context.Context, f func(ctx conte
 }
 
 type RuntimeServer struct {
-	DB_URL      string
+	DB_URL      map[string]string
 	RD_URL      string
 	serviceName string
 	sharedpb.UnimplementedRuntimeServiceServer
@@ -42,22 +42,22 @@ func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRu
 	}
 
 	//check runtime in shared
-	res, err := utils.CheckRuntime(ctx, req, connection)
+	res, err := utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
 		return nil, err
 	}
 	//fill the returned data with server specific info
 	if res != nil {
-		res.QueueStatusExtra = []byte(nil)
-		res.ChainStatusExtra = []byte(nil)
-		res.CacheStatusExtra = []byte(nil)
-		res.Extra = []byte(nil)
-		res.PeerId = []byte(nil)
-		res.ServiceName = []byte(s.serviceName)
+		res.QueueStatusExtra = ""
+		res.ChainStatusExtra = ""
+		res.CacheStatusExtra = ""
+		res.Extra = ""
+		res.PeerId = ""
+		res.ServiceName = s.serviceName
 		res.StartTime = Startime
 		res.CurentTime = time.Now()
-		res.GitHash = []byte(nil)
-		res.Version = []byte(nil)
+		res.GitHash = ""
+		res.Version = ""
 	}
 
 	return res, err

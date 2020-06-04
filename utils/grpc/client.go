@@ -50,6 +50,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return v(ctx, statuspb.NewStatusServiceClient(conn))
 	case func(context.Context, hubpb.HubQueryServiceClient) error:
 		return v(ctx, hubpb.NewHubQueryServiceClient(conn))
+	case func(context.Context, hubpb.HubParseServiceClient) error:
+		return v(ctx, hubpb.NewHubParseServiceClient(conn))
 	case func(context.Context, guardpb.GuardServiceClient) error:
 		return v(ctx, guardpb.NewGuardServiceClient(conn))
 	case func(context.Context, escrowpb.EscrowServiceClient) error:
