@@ -66,6 +66,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return v(ctx, exchangepb.NewExchangeClient(conn))
 	case func(ctx context.Context, client tronpb.WalletSolidityClient) error:
 		return v(ctx, tronpb.NewWalletSolidityClient(conn))
+	case func(ctx context.Context, client tronpb.WalletClient) error:
+		return v(ctx, tronpb.NewWalletClient(conn))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
