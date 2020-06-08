@@ -14,7 +14,10 @@ import (
 	"go.uber.org/zap"
 )
 
+// DBURLDNE database does not exist or unreachable
 const DBURLDNE = "DB URL does not exist !!"
+
+// RDURLDNE redis does not exist or unreachable
 const RDURLDNE = "RD URL does not exist !!"
 
 type dbObj struct {
@@ -33,6 +36,7 @@ type postgresObj struct {
 	urls map[string]string
 }
 
+// CheckDBConnection checks database connections.
 func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
@@ -40,10 +44,11 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 	report.DbStatusExtra = make(map[string]string)
 
 	var checker []*dbObj
+	checker = append(checker,
+		&dbObj{dbConn: &postgresObj{urls: connection.PgURL}},
+		&dbObj{dbConn: &redisObj{url: connection.RdURL}})
 
-	checker = append(checker, &dbObj{dbConn: &postgresObj{urls: connection.PgURL}})
-	checker = append(checker, &dbObj{dbConn: &redisObj{url: connection.RdURL}})
-
+	// Check connection for each dbObj
 	for _, check := range checker {
 		check.dbConn.checkConnection(ctx, report)
 	}
