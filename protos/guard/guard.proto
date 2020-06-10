@@ -74,6 +74,7 @@ message ContractMeta {
   }
   Schedule payout_schedule = 15; // schedule for payouts
   int32 num_payouts = 16; // numbers of payouts
+  int64 contingent_amount = 17;
 }
 
 message Contract {

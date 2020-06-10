@@ -9395,7 +9395,8 @@ proto.escrow.EscrowStatus = {
   ACTIVE: 1,
   CANCELED: 2,
   CLOSED: 3,
-  NOTSTART: 4
+  NOTSTART: 4,
+  NOTSTART_PAID: 5
 };
 
 goog.object.extend(exports, proto.escrow);

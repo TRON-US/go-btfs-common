@@ -654,7 +654,8 @@ proto.guard.ContractMeta.toObject = function(includeInstance, msg) {
     amount: jspb.Message.getFieldWithDefault(msg, 13, 0),
     collateralAmount: jspb.Message.getFieldWithDefault(msg, 14, 0),
     payoutSchedule: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    numPayouts: jspb.Message.getFieldWithDefault(msg, 16, 0)
+    numPayouts: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    contingentAmount: jspb.Message.getFieldWithDefault(msg, 17, 0)
   };
 
   if (includeInstance) {
@@ -756,6 +757,10 @@ proto.guard.ContractMeta.deserializeBinaryFromReader = function(msg, reader) {
     case 16:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setNumPayouts(value);
+      break;
+    case 17:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setContingentAmount(value);
       break;
     default:
       reader.skipField();
@@ -897,6 +902,13 @@ proto.guard.ContractMeta.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt32(
       16,
+      f
+    );
+  }
+  f = message.getContingentAmount();
+  if (f !== 0) {
+    writer.writeInt64(
+      17,
       f
     );
   }
@@ -1235,6 +1247,24 @@ proto.guard.ContractMeta.prototype.getNumPayouts = function() {
  */
 proto.guard.ContractMeta.prototype.setNumPayouts = function(value) {
   return jspb.Message.setProto3IntField(this, 16, value);
+};
+
+
+/**
+ * optional int64 contingent_amount = 17;
+ * @return {number}
+ */
+proto.guard.ContractMeta.prototype.getContingentAmount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.ContractMeta} returns this
+ */
+proto.guard.ContractMeta.prototype.setContingentAmount = function(value) {
+  return jspb.Message.setProto3IntField(this, 17, value);
 };
 
 
