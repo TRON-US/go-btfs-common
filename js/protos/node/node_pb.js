@@ -2357,7 +2357,9 @@ proto.node.StorageStat.Host.toObject = function(includeInstance, msg) {
     uptime: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
     score: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
     storageUsed: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    storageCap: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    storageCap: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    storageDiskTotal: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    storageDiskAvailable: jspb.Message.getFieldWithDefault(msg, 7, 0)
   };
 
   if (includeInstance) {
@@ -2413,6 +2415,14 @@ proto.node.StorageStat.Host.deserializeBinaryFromReader = function(msg, reader) 
     case 5:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setStorageCap(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setStorageDiskTotal(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setStorageDiskAvailable(value);
       break;
     default:
       reader.skipField();
@@ -2475,6 +2485,20 @@ proto.node.StorageStat.Host.serializeBinaryToWriter = function(message, writer) 
   if (f !== 0) {
     writer.writeInt64(
       5,
+      f
+    );
+  }
+  f = message.getStorageDiskTotal();
+  if (f !== 0) {
+    writer.writeInt64(
+      6,
+      f
+    );
+  }
+  f = message.getStorageDiskAvailable();
+  if (f !== 0) {
+    writer.writeInt64(
+      7,
       f
     );
   }
@@ -2568,6 +2592,42 @@ proto.node.StorageStat.Host.prototype.getStorageCap = function() {
  */
 proto.node.StorageStat.Host.prototype.setStorageCap = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional int64 storage_disk_total = 6;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getStorageDiskTotal = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setStorageDiskTotal = function(value) {
+  return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional int64 storage_disk_available = 7;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getStorageDiskAvailable = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setStorageDiskAvailable = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
 };
 
 
