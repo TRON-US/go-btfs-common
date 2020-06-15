@@ -46,7 +46,7 @@ func NewSingedContractID(id *escrowpb.ContractID, sig []byte) *escrowpb.SignedCo
 }
 
 func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, authPubKey ic.PubKey,
-	amount int64, ps escrowpb.Schedule, period int32) (*escrowpb.EscrowContract, error) {
+	amount int64, ps escrowpb.Schedule, period int32, ctype escrowpb.ContractType, contingentAmount int64) (*escrowpb.EscrowContract, error) {
 	payerAddr, err := ic.RawFull(payerPubKey)
 	if err != nil {
 		return nil, err
@@ -71,5 +71,7 @@ func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, a
 		PayoutSchedule:        ps,
 		NumPayouts:            1,
 		CustomizePayoutPeriod: period,
+		Type:				   ctype,
+		ContingentAmount:      contingentAmount,
 	}, nil
 }
