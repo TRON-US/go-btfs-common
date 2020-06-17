@@ -2660,7 +2660,8 @@ proto.hub.RecycleReq.prototype.toObject = function(opt_includeInstance) {
  */
 proto.hub.RecycleReq.toObject = function(includeInstance, msg) {
   var f, obj = {
-    esIndex: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    esIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    timeScopeInHours: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -2701,6 +2702,10 @@ proto.hub.RecycleReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {!proto.hub.RecycleReq.ESIndex} */ (reader.readEnum());
       msg.setEsIndex(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setTimeScopeInHours(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2737,6 +2742,13 @@ proto.hub.RecycleReq.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getTimeScopeInHours();
+  if (f !== 0) {
+    writer.writeUint64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -2764,6 +2776,24 @@ proto.hub.RecycleReq.prototype.getEsIndex = function() {
  */
 proto.hub.RecycleReq.prototype.setEsIndex = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional uint64 time_scope_in_hours = 2;
+ * @return {number}
+ */
+proto.hub.RecycleReq.prototype.getTimeScopeInHours = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.RecycleReq} returns this
+ */
+proto.hub.RecycleReq.prototype.setTimeScopeInHours = function(value) {
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
