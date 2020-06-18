@@ -134,6 +134,7 @@ message RecycleReq {
     TESTNET_NODES = 2;
   }
   ESIndex es_index = 1;
+  int64 time_scope_in_hours = 2;
 }
 
 message ParseResp {
