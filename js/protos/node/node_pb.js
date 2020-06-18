@@ -1174,7 +1174,9 @@ proto.node.Node.ExperimentalFlags.toObject = function(includeInstance, msg) {
     storageClientEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 11, false),
     storageHostEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 12, false),
     strategicProviding: jspb.Message.getBooleanFieldWithDefault(msg, 13, false),
-    urlStoreEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 14, false)
+    urlStoreEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 14, false),
+    disableAutoUpdate: jspb.Message.getBooleanFieldWithDefault(msg, 15, false),
+    graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false)
   };
 
   if (includeInstance) {
@@ -1266,6 +1268,14 @@ proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader = function(msg, re
     case 14:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setUrlStoreEnabled(value);
+      break;
+    case 15:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setDisableAutoUpdate(value);
+      break;
+    case 16:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setGraphsyncEnabled(value);
       break;
     default:
       reader.skipField();
@@ -1391,6 +1401,20 @@ proto.node.Node.ExperimentalFlags.serializeBinaryToWriter = function(message, wr
   if (f) {
     writer.writeBool(
       14,
+      f
+    );
+  }
+  f = message.getDisableAutoUpdate();
+  if (f) {
+    writer.writeBool(
+      15,
+      f
+    );
+  }
+  f = message.getGraphsyncEnabled();
+  if (f) {
+    writer.writeBool(
+      16,
       f
     );
   }
@@ -1646,6 +1670,42 @@ proto.node.Node.ExperimentalFlags.prototype.getUrlStoreEnabled = function() {
  */
 proto.node.Node.ExperimentalFlags.prototype.setUrlStoreEnabled = function(value) {
   return jspb.Message.setProto3BooleanField(this, 14, value);
+};
+
+
+/**
+ * optional bool disable_auto_update = 15;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getDisableAutoUpdate = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 15, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setDisableAutoUpdate = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 15, value);
+};
+
+
+/**
+ * optional bool graphsync_enabled = 16;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getGraphsyncEnabled = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 16, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setGraphsyncEnabled = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 16, value);
 };
 
 

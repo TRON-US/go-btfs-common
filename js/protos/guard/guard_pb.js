@@ -5280,6 +5280,7 @@ proto.guard.ListRenterFileInfoRequest.toObject = function(includeInstance, msg) 
     requestPageSize: jspb.Message.getFieldWithDefault(msg, 3, 0),
     requestPageIndex: jspb.Message.getFieldWithDefault(msg, 4, 0),
     requestTime: (f = msg.getRequestTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    lastModifyTime: (f = msg.getLastModifyTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     signature: msg.getSignature_asB64()
   };
 
@@ -5339,6 +5340,11 @@ proto.guard.ListRenterFileInfoRequest.deserializeBinaryFromReader = function(msg
       msg.setRequestTime(value);
       break;
     case 6:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastModifyTime(value);
+      break;
+    case 7:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSignature(value);
       break;
@@ -5407,10 +5413,18 @@ proto.guard.ListRenterFileInfoRequest.serializeBinaryToWriter = function(message
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
+  f = message.getLastModifyTime();
+  if (f != null) {
+    writer.writeMessage(
+      6,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
   f = message.getSignature_asU8();
   if (f.length > 0) {
     writer.writeBytes(
-      6,
+      7,
       f
     );
   }
@@ -5527,16 +5541,53 @@ proto.guard.ListRenterFileInfoRequest.prototype.hasRequestTime = function() {
 
 
 /**
- * optional bytes signature = 6;
- * @return {!(string|Uint8Array)}
+ * optional google.protobuf.Timestamp last_modify_time = 6;
+ * @return {?proto.google.protobuf.Timestamp}
  */
-proto.guard.ListRenterFileInfoRequest.prototype.getSignature = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+proto.guard.ListRenterFileInfoRequest.prototype.getLastModifyTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 6));
 };
 
 
 /**
- * optional bytes signature = 6;
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.guard.ListRenterFileInfoRequest} returns this
+*/
+proto.guard.ListRenterFileInfoRequest.prototype.setLastModifyTime = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.guard.ListRenterFileInfoRequest} returns this
+ */
+proto.guard.ListRenterFileInfoRequest.prototype.clearLastModifyTime = function() {
+  return this.setLastModifyTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.guard.ListRenterFileInfoRequest.prototype.hasLastModifyTime = function() {
+  return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * optional bytes signature = 7;
+ * @return {!(string|Uint8Array)}
+ */
+proto.guard.ListRenterFileInfoRequest.prototype.getSignature = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * optional bytes signature = 7;
  * This is a type-conversion wrapper around `getSignature()`
  * @return {string}
  */
@@ -5547,7 +5598,7 @@ proto.guard.ListRenterFileInfoRequest.prototype.getSignature_asB64 = function() 
 
 
 /**
- * optional bytes signature = 6;
+ * optional bytes signature = 7;
  * Note that Uint8Array is not supported on all browsers.
  * @see http://caniuse.com/Uint8Array
  * This is a type-conversion wrapper around `getSignature()`
@@ -5564,7 +5615,7 @@ proto.guard.ListRenterFileInfoRequest.prototype.getSignature_asU8 = function() {
  * @return {!proto.guard.ListRenterFileInfoRequest} returns this
  */
 proto.guard.ListRenterFileInfoRequest.prototype.setSignature = function(value) {
-  return jspb.Message.setProto3BytesField(this, 6, value);
+  return jspb.Message.setProto3BytesField(this, 7, value);
 };
 
 
