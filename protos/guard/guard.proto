@@ -268,7 +268,11 @@ message ListRenterFileInfoRequest {
     (gogoproto.nullable) = true,
     (gogoproto.stdtime) = true
   ];
-  bytes signature = 6;
+  google.protobuf.Timestamp last_modify_time = 6 [
+    (gogoproto.nullable) = true,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 7;
 }
 
 message ListHostContractsRequest {
