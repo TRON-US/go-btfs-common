@@ -2703,7 +2703,7 @@ proto.hub.RecycleReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setEsIndex(value);
       break;
     case 2:
-      var value = /** @type {number} */ (reader.readUint64());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setTimeScopeInHours(value);
       break;
     default:
@@ -2744,7 +2744,7 @@ proto.hub.RecycleReq.serializeBinaryToWriter = function(message, writer) {
   }
   f = message.getTimeScopeInHours();
   if (f !== 0) {
-    writer.writeUint64(
+    writer.writeInt64(
       2,
       f
     );
@@ -2780,7 +2780,7 @@ proto.hub.RecycleReq.prototype.setEsIndex = function(value) {
 
 
 /**
- * optional uint64 time_scope_in_hours = 2;
+ * optional int64 time_scope_in_hours = 2;
  * @return {number}
  */
 proto.hub.RecycleReq.prototype.getTimeScopeInHours = function() {
