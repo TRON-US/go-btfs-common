@@ -124,6 +124,10 @@ message Contract {
   int32 challenge_times = 14; //total challenge times till now
   int32 challenge_warn_times = 15; //record times of timeout response after last success challenge time
   int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
+  google.protobuf.Timestamp first_challenge_success = 17 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message FileStoreListResponse {

@@ -1323,7 +1323,8 @@ proto.guard.Contract.toObject = function(includeInstance, msg) {
     lastChallengeTime: (f = msg.getLastChallengeTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     challengeTimes: jspb.Message.getFieldWithDefault(msg, 14, 0),
     challengeWarnTimes: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    challengeSuccessTimes: jspb.Message.getFieldWithDefault(msg, 16, 0)
+    challengeSuccessTimes: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    firstChallengeSuccess: (f = msg.getFirstChallengeSuccess()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1429,6 +1430,11 @@ proto.guard.Contract.deserializeBinaryFromReader = function(msg, reader) {
     case 16:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setChallengeSuccessTimes(value);
+      break;
+    case 17:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setFirstChallengeSuccess(value);
       break;
     default:
       reader.skipField();
@@ -1575,6 +1581,14 @@ proto.guard.Contract.serializeBinaryToWriter = function(message, writer) {
     writer.writeInt32(
       16,
       f
+    );
+  }
+  f = message.getFirstChallengeSuccess();
+  if (f != null) {
+    writer.writeMessage(
+      17,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -2118,6 +2132,43 @@ proto.guard.Contract.prototype.getChallengeSuccessTimes = function() {
  */
 proto.guard.Contract.prototype.setChallengeSuccessTimes = function(value) {
   return jspb.Message.setProto3IntField(this, 16, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp first_challenge_success = 17;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.guard.Contract.prototype.getFirstChallengeSuccess = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 17));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.guard.Contract} returns this
+*/
+proto.guard.Contract.prototype.setFirstChallengeSuccess = function(value) {
+  return jspb.Message.setWrapperField(this, 17, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.guard.Contract} returns this
+ */
+proto.guard.Contract.prototype.clearFirstChallengeSuccess = function() {
+  return this.setFirstChallengeSuccess(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.guard.Contract.prototype.hasFirstChallengeSuccess = function() {
+  return jspb.Message.getField(this, 17) != null;
 };
 
 
