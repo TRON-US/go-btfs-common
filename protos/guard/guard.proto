@@ -28,6 +28,8 @@ service GuardService {
   rpc ForceRepair(ForceRepairRequest) returns (Result);
   rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
   rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreListResponse);
+  rpc RequestChallenge(ReadyForChallengeRequest) returns (RequestChallengeQuestion);
+  rpc ResponseChallenge(ResponseChallengeQuestion) returns (Result);
 }
 
 message Log {
@@ -327,6 +329,25 @@ message ReadyForChallengeRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 7;
+}
+
+message RequestChallengeQuestion {
+  ChallengeQuestion questions = 1;
+  google.protobuf.Timestamp prepare_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 3;
+}
+
+message ResponseChallengeQuestion {
+  ChallengeQuestion questions = 1;
+  string host_pid = 2;
+  google.protobuf.Timestamp resolve_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 4;
 }
 
 message ForceRepairRequest {
