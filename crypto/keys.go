@@ -27,20 +27,10 @@ type Keys struct {
 	Base64PubKey  string
 }
 
-func FromPrivateKey(key string) (*Keys, error) {
+func FromIcPrivateKey(privKey ic.PrivKey) (*Keys, error) {
 	keys := &Keys{}
-	privKey, err := ToPrivKey(key)
-	if err != nil {
-		priv_key, err := Hex64ToBase64(key)
-		if err != nil {
-			return nil, err
-		}
-		privKey, err = ToPrivKey(priv_key)
-		if err != nil {
-			return nil, err
-		}
-	}
 	pubKey := privKey.GetPublic()
+	var err error
 	keys.Base64PubKey, err = FromPubKey(pubKey)
 	if err != nil {
 		return nil, err
@@ -76,6 +66,21 @@ func FromPrivateKey(key string) (*Keys, error) {
 		return nil, err
 	}
 	return keys, nil
+}
+
+func FromPrivateKey(key string) (*Keys, error) {
+	privKey, err := ToPrivKey(key)
+	if err != nil {
+		priv_key, err := Hex64ToBase64(key)
+		if err != nil {
+			return nil, err
+		}
+		privKey, err = ToPrivKey(priv_key)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return FromIcPrivateKey(privKey)
 }
 
 // ecdsa key to Tron address
