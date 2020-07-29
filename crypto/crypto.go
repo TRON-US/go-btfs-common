@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/ecdsa"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
@@ -12,6 +14,7 @@ import (
 	"io"
 	"strings"
 
+	eth "github.com/ethereum/go-ethereum/crypto"
 	"github.com/gogo/protobuf/proto"
 	ic "github.com/libp2p/go-libp2p-core/crypto"
 	pb "github.com/libp2p/go-libp2p-core/crypto/pb"
@@ -24,6 +27,15 @@ func Sign(key ic.PrivKey, channelMessage proto.Message) ([]byte, error) {
 		return nil, err
 	}
 	return key.Sign(raw)
+}
+
+func EcdsaSign(ecdsa *ecdsa.PrivateKey, bytes []byte) ([]byte, error) {
+	sum := sha256.Sum256(bytes)
+	return eth.Sign(sum[:], ecdsa)
+}
+
+func HexToECDSA(hexkey string) (*ecdsa.PrivateKey, error) {
+	return eth.HexToECDSA(hexkey)
 }
 
 func Verify(key ic.PubKey, channelMessage proto.Message, sig []byte) (bool, error) {

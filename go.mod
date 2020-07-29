@@ -3,6 +3,8 @@ module github.com/tron-us/go-btfs-common
 go 1.13
 
 require (
+	github.com/btcsuite/btcutil v0.0.0-20190425235716-9e5f4b9a998d
+	github.com/ethereum/go-ethereum v1.9.17
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.3
 	github.com/libp2p/go-libp2p-core v0.0.6
