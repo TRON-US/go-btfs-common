@@ -332,7 +332,7 @@ message ReadyForChallengeRequest {
 }
 
 message RequestChallengeQuestion {
-  ChallengeQuestion questions = 1;
+  ChallengeQuestion question = 1;
   google.protobuf.Timestamp prepare_time = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -341,7 +341,7 @@ message RequestChallengeQuestion {
 }
 
 message ResponseChallengeQuestion {
-  ChallengeQuestion questions = 1;
+  ChallengeQuestion answer = 1;
   string host_pid = 2;
   google.protobuf.Timestamp resolve_time = 3 [
     (gogoproto.nullable) = false,
