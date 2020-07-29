@@ -26,6 +26,7 @@ service EscrowService {
   // buyer can submit multiple contracts in one request
   // return same number of results as request contracts
   rpc SubmitContracts(EscrowContractRequest) returns (SignedSubmitContractResult);
+  rpc StartEscrow(EscrowContractRequest) returns (SignedStartEscrowResult);
   // after submit contract, buyer request to pay in
   // escrow will transfer contract amount from buyer wallet to escrow wallet
   rpc PayIn(SignedPayinRequest) returns (SignedPayinResult);
@@ -48,6 +49,8 @@ service EscrowService {
   rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
   //use escrow as proxy to do the payment
   rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
+  //use escrow as proxy to do the createAccount
+  rpc SignedCreateAccount(ledger.SignedCreateAccountRequest) returns (ledger.SignedCreateAccountResult);
 }
 
 enum TokenType {
@@ -59,6 +62,12 @@ enum Schedule {
   QUARTERLY = 1;
   ANNUALLY = 2;
   CUSTOMIZED = 3;
+}
+
+enum ContractType {
+  REGULAR = 0;
+  PLAN = 1;
+  REVISE = 2;
 }
 
 message ContractID {
@@ -94,6 +103,8 @@ message EscrowContract {
   int32 num_payouts = 10; // numbers of payouts
   bytes reference = 11; // reference like hash value etc
   int32 customize_payout_period = 12; // customized payout period in days
+  ContractType type = 13;
+  int64 contingent_amount = 14;
 }
 
 message SignedEscrowContract {
@@ -114,6 +125,8 @@ message Escrow {
   bytes to_address = 4;
   int64 amount = 5;
   int64 collateral_amount = 6;
+  int32 error_code = 7;
+  string error_message = 8;
 }
 
 message SubmitContractResult {
@@ -129,6 +142,20 @@ message SubmitContractResult {
 
 message SignedSubmitContractResult {
   SubmitContractResult result = 1;
+  bytes escrow_signature = 2;
+}
+
+message StartEscrowResult {
+  repeated Escrow escrow = 1;
+  bytes escrow_address = 2;
+  google.protobuf.Timestamp escrow_signed_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedStartEscrowResult {
+  StartEscrowResult result = 1;
   bytes escrow_signature = 2;
 }
 
@@ -179,6 +206,8 @@ enum EscrowStatus {
   ACTIVE = 1;
   CANCELED = 2;
   CLOSED = 3;
+  NOTSTART = 4;
+  NOTSTART_PAID = 5;
 }
 
 message PayoutStatus {

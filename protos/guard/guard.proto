@@ -28,6 +28,8 @@ service GuardService {
   rpc ForceRepair(ForceRepairRequest) returns (Result);
   rpc ListHostContracts(ListHostContractsRequest) returns (ContractsList);
   rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreListResponse);
+  rpc RequestChallenge(ReadyForChallengeRequest) returns (RequestChallengeQuestion);
+  rpc ResponseChallenge(ResponseChallengeQuestion) returns (Result);
 }
 
 message Log {
@@ -74,6 +76,7 @@ message ContractMeta {
   }
   Schedule payout_schedule = 15; // schedule for payouts
   int32 num_payouts = 16; // numbers of payouts
+  int64 contingent_amount = 17;
 }
 
 message Contract {
@@ -123,6 +126,10 @@ message Contract {
   int32 challenge_times = 14; //total challenge times till now
   int32 challenge_warn_times = 15; //record times of timeout response after last success challenge time
   int32 challenge_success_times = 16; //record times of success after the contract was put into the warn status
+  google.protobuf.Timestamp first_challenge_success = 17 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message FileStoreListResponse {
@@ -322,6 +329,25 @@ message ReadyForChallengeRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 7;
+}
+
+message RequestChallengeQuestion {
+  ChallengeQuestion question = 1;
+  google.protobuf.Timestamp prepare_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 3;
+}
+
+message ResponseChallengeQuestion {
+  ChallengeQuestion answer = 1;
+  string host_pid = 2;
+  google.protobuf.Timestamp resolve_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 4;
 }
 
 message ForceRepairRequest {

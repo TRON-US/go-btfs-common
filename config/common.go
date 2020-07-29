@@ -35,3 +35,7 @@ func GetMinimumQuestionsCountPerShard(status *guard.FileStoreStatus) (val int) {
 	//return int(status.FileStoreMeta.CheckFrequency) * ConstMinQuestionsCountPerChallenge
 	return ConstMinQuestionsCountPerShard
 }
+
+func GetRenewContingencyPercentage() (percent int) {
+	return 10
+}
