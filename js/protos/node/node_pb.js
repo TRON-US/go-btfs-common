@@ -695,7 +695,8 @@ proto.node.Node.Settings.toObject = function(includeInstance, msg) {
     bandwidthPriceAsk: jspb.Message.getFieldWithDefault(msg, 2, 0),
     storageTimeMin: jspb.Message.getFieldWithDefault(msg, 3, 0),
     bandwidthLimit: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
-    collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    role: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -751,6 +752,10 @@ proto.node.Node.Settings.deserializeBinaryFromReader = function(msg, reader) {
     case 5:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setCollateralStake(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRole(value);
       break;
     default:
       reader.skipField();
@@ -813,6 +818,13 @@ proto.node.Node.Settings.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeUint64(
       5,
+      f
+    );
+  }
+  f = message.getRole();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -906,6 +918,24 @@ proto.node.Node.Settings.prototype.getCollateralStake = function() {
  */
 proto.node.Node.Settings.prototype.setCollateralStake = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional string role = 6;
+ * @return {string}
+ */
+proto.node.Node.Settings.prototype.getRole = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setRole = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
