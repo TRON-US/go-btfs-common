@@ -98,6 +98,7 @@ message Contract {
     DRAFT_WARN = 9; // get the warn status before the first success challenge
     READY_CHALLENGE = 10; //got the host's request it is ready for challenge
     RECREATED = 11; //renew the specific contract for new duration
+    REQUEST_CHALLENGE = 12; //host request challenge
   }
   ContractState state = 2;
   bytes renter_signature = 3; //renter’s signature for the sub contract
