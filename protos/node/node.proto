@@ -29,7 +29,8 @@ message Node {
     double bandwidth_limit = 4;
     uint64 collateral_stake = 5;
     string role = 6 [
-      (gogoproto.jsontag) = "-", // "pg:-" hack
+      (gogoproto.jsontag) = "-",
+      // "pg:-" hack
       (gogoproto.moretags) = "json:\"role\""
     ];
   }

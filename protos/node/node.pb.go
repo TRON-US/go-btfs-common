@@ -295,7 +295,7 @@ type Node_Settings struct {
 	StorageTimeMin       uint64   `protobuf:"varint,3,opt,name=storage_time_min,json=storageTimeMin,proto3" json:"storage_time_min,omitempty" pg:"storage_time_min"`
 	BandwidthLimit       float64  `protobuf:"fixed64,4,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty" pg:"bandwidth_limit"`
 	CollateralStake      uint64   `protobuf:"varint,5,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty" pg:"collateral_stake"`
-	Role                 string   `protobuf:"bytes,6,opt,name=role,proto3" pg:"-" json:"role"`
+	Role                 string   `protobuf:"bytes,6,opt,name=role,proto3" json:"-" pg:"-" json:"role"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
