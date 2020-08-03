@@ -695,7 +695,9 @@ proto.node.Node.Settings.toObject = function(includeInstance, msg) {
     bandwidthPriceAsk: jspb.Message.getFieldWithDefault(msg, 2, 0),
     storageTimeMin: jspb.Message.getFieldWithDefault(msg, 3, 0),
     bandwidthLimit: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
-    collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    storagePriceDefault: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    customizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
   };
 
   if (includeInstance) {
@@ -751,6 +753,14 @@ proto.node.Node.Settings.deserializeBinaryFromReader = function(msg, reader) {
     case 5:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setCollateralStake(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setStoragePriceDefault(value);
+      break;
+    case 7:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setCustomizedPricing(value);
       break;
     default:
       reader.skipField();
@@ -813,6 +823,20 @@ proto.node.Node.Settings.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeUint64(
       5,
+      f
+    );
+  }
+  f = message.getStoragePriceDefault();
+  if (f !== 0) {
+    writer.writeUint64(
+      6,
+      f
+    );
+  }
+  f = message.getCustomizedPricing();
+  if (f) {
+    writer.writeBool(
+      7,
       f
     );
   }
@@ -906,6 +930,42 @@ proto.node.Node.Settings.prototype.getCollateralStake = function() {
  */
 proto.node.Node.Settings.prototype.setCollateralStake = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional uint64 storage_price_default = 6;
+ * @return {number}
+ */
+proto.node.Node.Settings.prototype.getStoragePriceDefault = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setStoragePriceDefault = function(value) {
+  return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional bool customized_pricing = 7;
+ * @return {boolean}
+ */
+proto.node.Node.Settings.prototype.getCustomizedPricing = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setCustomizedPricing = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
 

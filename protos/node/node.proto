@@ -28,6 +28,8 @@ message Node {
     uint64 storage_time_min = 3;
     double bandwidth_limit = 4;
     uint64 collateral_stake = 5;
+    uint64 storage_price_default = 6; // network default
+    bool customized_pricing = 7; // whether to use storage_price_ask
   }
   message Geo {
     string country_short = 1;
