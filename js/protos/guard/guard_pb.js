@@ -1653,7 +1653,8 @@ proto.guard.Contract.ContractState = {
   WARN: 8,
   DRAFT_WARN: 9,
   READY_CHALLENGE: 10,
-  RECREATED: 11
+  RECREATED: 11,
+  REQUEST_CHALLENGE: 12
 };
 
 /**
