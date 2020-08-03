@@ -28,10 +28,7 @@ message Node {
     uint64 storage_time_min = 3;
     double bandwidth_limit = 4;
     uint64 collateral_stake = 5;
-    string role = 6 [
-      (gogoproto.jsontag) = "-", // "pg:-" hack
-      (gogoproto.moretags) = "json:\"role\""
-    ];
+    string role = 6;
   }
   message Geo {
     string country_short = 1;
