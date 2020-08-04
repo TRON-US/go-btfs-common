@@ -26,6 +26,7 @@ goog.exportSymbol('proto.node.Node', null, global);
 goog.exportSymbol('proto.node.Node.ExperimentalFlags', null, global);
 goog.exportSymbol('proto.node.Node.Geo', null, global);
 goog.exportSymbol('proto.node.Node.Settings', null, global);
+goog.exportSymbol('proto.node.NodeRole', null, global);
 goog.exportSymbol('proto.node.StorageStat', null, global);
 goog.exportSymbol('proto.node.StorageStat.Host', null, global);
 goog.exportSymbol('proto.node.StorageStat.Renter', null, global);
@@ -61,7 +62,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.node.Node.Settings = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.node.Node.Settings.repeatedFields_, null);
 };
 goog.inherits(proto.node.Node.Settings, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -660,6 +661,13 @@ proto.node.Node.serializeBinaryToWriter = function(message, writer) {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.node.Node.Settings.repeatedFields_ = [8];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -697,7 +705,8 @@ proto.node.Node.Settings.toObject = function(includeInstance, msg) {
     bandwidthLimit: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
     collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0),
     storagePriceDefault: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    customizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    customizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
+    rolesList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -761,6 +770,10 @@ proto.node.Node.Settings.deserializeBinaryFromReader = function(msg, reader) {
     case 7:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setCustomizedPricing(value);
+      break;
+    case 8:
+      var value = /** @type {!Array<!proto.node.NodeRole>} */ (reader.readPackedEnum());
+      msg.setRolesList(value);
       break;
     default:
       reader.skipField();
@@ -837,6 +850,13 @@ proto.node.Node.Settings.serializeBinaryToWriter = function(message, writer) {
   if (f) {
     writer.writeBool(
       7,
+      f
+    );
+  }
+  f = message.getRolesList();
+  if (f.length > 0) {
+    writer.writePackedEnum(
+      8,
       f
     );
   }
@@ -966,6 +986,43 @@ proto.node.Node.Settings.prototype.getCustomizedPricing = function() {
  */
 proto.node.Node.Settings.prototype.setCustomizedPricing = function(value) {
   return jspb.Message.setProto3BooleanField(this, 7, value);
+};
+
+
+/**
+ * repeated NodeRole roles = 8;
+ * @return {!Array<!proto.node.NodeRole>}
+ */
+proto.node.Node.Settings.prototype.getRolesList = function() {
+  return /** @type {!Array<!proto.node.NodeRole>} */ (jspb.Message.getRepeatedField(this, 8));
+};
+
+
+/**
+ * @param {!Array<!proto.node.NodeRole>} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setRolesList = function(value) {
+  return jspb.Message.setField(this, 8, value || []);
+};
+
+
+/**
+ * @param {!proto.node.NodeRole} value
+ * @param {number=} opt_index
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.addRoles = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 8, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.clearRolesList = function() {
+  return this.setRolesList([]);
 };
 
 
@@ -3998,5 +4055,19 @@ proto.node.Contracts.prototype.clearContractsList = function() {
   return this.setContractsList([]);
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.node.NodeRole = {
+  RENTER: 0,
+  HOST: 1,
+  REPAIRER: 2,
+  CHALLENGER: 3,
+  NETWORK_CHECKER: 4,
+  REPUTATION_CHECKER: 5,
+  CDN_PROVIDER: 6,
+  OTHER: 20
+};
 
 goog.object.extend(exports, proto.node);
