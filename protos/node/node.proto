@@ -21,6 +21,17 @@ import "github.com/tron-us/go-btfs-common/protos/guard/guard.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
+enum NodeRole {
+  RENTER = 0;
+  HOST = 1;
+  REPAIRER = 2;
+  CHALLENGER = 3;
+  NETWORK_CHECKER = 4;
+  REPUTATION_CHECKER = 5;
+  CDN_PROVIDER = 6;
+  OTHER = 20;
+}
+
 message Node {
   message Settings {
     uint64 storage_price_ask = 1;
@@ -30,6 +41,7 @@ message Node {
     uint64 collateral_stake = 5;
     uint64 storage_price_default = 6; // network default
     bool customized_pricing = 7; // whether to use storage_price_ask
+    repeated NodeRole roles = 8;
   }
   message Geo {
     string country_short = 1;
