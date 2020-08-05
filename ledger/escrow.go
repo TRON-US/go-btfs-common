@@ -56,7 +56,6 @@ func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, a
 		hostAddr, err = ic.RawFull(hostPubKey)
 		if err != nil {
 			return nil, err
-
 		}
 	}
 	authAddress, err := ic.RawFull(authPubKey)
