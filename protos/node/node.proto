@@ -118,6 +118,14 @@ message StorageStat {
     int64 storage_cap = 5;
     int64 storage_disk_total = 6;
     int64 storage_disk_available = 7;
+    float uptime_score = 8;
+    float age_score = 9;
+    float version_score = 10;
+    float speed_score = 11;
+    float uptime_weight = 12;
+    float age_weight = 13;
+    float version_weight = 14;
+    float speed_weight = 15;
   }
   message Renter {
     option (gogoproto.json_no_omit_empty) = true;

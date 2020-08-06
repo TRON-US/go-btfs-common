@@ -104,6 +104,14 @@ message StatsResp {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  float uptime_score = 6;
+  float age_score = 7;
+  float version_score = 8;
+  float speed_score = 9;
+  float uptime_weight = 10;
+  float age_weight = 11;
+  float version_weight = 12;
+  float speed_weight = 13;
 }
 
 // HubParserService are interface for hub-parser
