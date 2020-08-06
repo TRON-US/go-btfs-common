@@ -1953,7 +1953,15 @@ proto.hub.StatsResp.toObject = function(includeInstance, msg) {
     message: jspb.Message.getFieldWithDefault(msg, 2, ""),
     uptime: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
     score: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
-    responseTime: (f = msg.getResponseTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    responseTime: (f = msg.getResponseTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    uptimeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 6, 0.0),
+    ageScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 7, 0.0),
+    versionScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
+    speedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0),
+    uptimeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
+    ageWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
+    versionWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
+    speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0)
   };
 
   if (includeInstance) {
@@ -2010,6 +2018,38 @@ proto.hub.StatsResp.deserializeBinaryFromReader = function(msg, reader) {
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setResponseTime(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUptimeScore(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setAgeScore(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setVersionScore(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setSpeedScore(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUptimeWeight(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setAgeWeight(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setVersionWeight(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setSpeedWeight(value);
       break;
     default:
       reader.skipField();
@@ -2074,6 +2114,62 @@ proto.hub.StatsResp.serializeBinaryToWriter = function(message, writer) {
       5,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getUptimeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      6,
+      f
+    );
+  }
+  f = message.getAgeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      7,
+      f
+    );
+  }
+  f = message.getVersionScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      8,
+      f
+    );
+  }
+  f = message.getSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      9,
+      f
+    );
+  }
+  f = message.getUptimeWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      10,
+      f
+    );
+  }
+  f = message.getAgeWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      11,
+      f
+    );
+  }
+  f = message.getVersionWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      12,
+      f
+    );
+  }
+  f = message.getSpeedWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      13,
+      f
     );
   }
 };
@@ -2185,6 +2281,150 @@ proto.hub.StatsResp.prototype.clearResponseTime = function() {
  */
 proto.hub.StatsResp.prototype.hasResponseTime = function() {
   return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional float uptime_score = 6;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getUptimeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 6, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setUptimeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 6, value);
+};
+
+
+/**
+ * optional float age_score = 7;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getAgeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 7, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setAgeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 7, value);
+};
+
+
+/**
+ * optional float version_score = 8;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getVersionScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 8, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setVersionScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 8, value);
+};
+
+
+/**
+ * optional float speed_score = 9;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 9, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 9, value);
+};
+
+
+/**
+ * optional float uptime_weight = 10;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getUptimeWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 10, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setUptimeWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 10, value);
+};
+
+
+/**
+ * optional float age_weight = 11;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getAgeWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 11, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setAgeWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 11, value);
+};
+
+
+/**
+ * optional float version_weight = 12;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getVersionWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 12, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setVersionWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 12, value);
+};
+
+
+/**
+ * optional float speed_weight = 13;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getSpeedWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 13, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setSpeedWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 13, value);
 };
 
 
