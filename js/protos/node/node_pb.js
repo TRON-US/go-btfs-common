@@ -2536,7 +2536,15 @@ proto.node.StorageStat.Host.toObject = function(includeInstance, msg) {
     storageUsed: jspb.Message.getFieldWithDefault(msg, 4, 0),
     storageCap: jspb.Message.getFieldWithDefault(msg, 5, 0),
     storageDiskTotal: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    storageDiskAvailable: jspb.Message.getFieldWithDefault(msg, 7, 0)
+    storageDiskAvailable: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    uptimeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
+    ageScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0),
+    versionScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
+    speedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
+    uptimeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
+    ageWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
+    versionWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
+    speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 15, 0.0)
   };
 
   if (includeInstance) {
@@ -2600,6 +2608,38 @@ proto.node.StorageStat.Host.deserializeBinaryFromReader = function(msg, reader) 
     case 7:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setStorageDiskAvailable(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUptimeScore(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setAgeScore(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setVersionScore(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setSpeedScore(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUptimeWeight(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setAgeWeight(value);
+      break;
+    case 14:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setVersionWeight(value);
+      break;
+    case 15:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setSpeedWeight(value);
       break;
     default:
       reader.skipField();
@@ -2676,6 +2716,62 @@ proto.node.StorageStat.Host.serializeBinaryToWriter = function(message, writer) 
   if (f !== 0) {
     writer.writeInt64(
       7,
+      f
+    );
+  }
+  f = message.getUptimeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      8,
+      f
+    );
+  }
+  f = message.getAgeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      9,
+      f
+    );
+  }
+  f = message.getVersionScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      10,
+      f
+    );
+  }
+  f = message.getSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      11,
+      f
+    );
+  }
+  f = message.getUptimeWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      12,
+      f
+    );
+  }
+  f = message.getAgeWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      13,
+      f
+    );
+  }
+  f = message.getVersionWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      14,
+      f
+    );
+  }
+  f = message.getSpeedWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      15,
       f
     );
   }
@@ -2805,6 +2901,150 @@ proto.node.StorageStat.Host.prototype.getStorageDiskAvailable = function() {
  */
 proto.node.StorageStat.Host.prototype.setStorageDiskAvailable = function(value) {
   return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional float uptime_score = 8;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getUptimeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 8, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setUptimeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 8, value);
+};
+
+
+/**
+ * optional float age_score = 9;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getAgeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 9, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setAgeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 9, value);
+};
+
+
+/**
+ * optional float version_score = 10;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getVersionScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 10, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setVersionScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 10, value);
+};
+
+
+/**
+ * optional float speed_score = 11;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 11, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 11, value);
+};
+
+
+/**
+ * optional float uptime_weight = 12;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getUptimeWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 12, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setUptimeWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 12, value);
+};
+
+
+/**
+ * optional float age_weight = 13;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getAgeWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 13, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setAgeWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 13, value);
+};
+
+
+/**
+ * optional float version_weight = 14;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getVersionWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 14, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setVersionWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 14, value);
+};
+
+
+/**
+ * optional float speed_weight = 15;
+ * @return {number}
+ */
+proto.node.StorageStat.Host.prototype.getSpeedWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 15, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.Host} returns this
+ */
+proto.node.StorageStat.Host.prototype.setSpeedWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 15, value);
 };
 
 
