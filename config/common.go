@@ -13,6 +13,8 @@ import (
 var (
 	ConstMinQuestionsCountPerChallenge = 100
 	ConstMinQuestionsCountPerShard     = 100
+
+	ConstRequestPayoutBatchPageSize = 100
 )
 
 func init() {
