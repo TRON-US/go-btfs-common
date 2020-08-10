@@ -13,6 +13,8 @@ import (
 	ic "github.com/libp2p/go-libp2p-core/crypto"
 )
 
+const LedgerVersion = "BTFS_Escrow_1.0.0"
+
 type Client struct {
 	addr string
 }
@@ -103,7 +105,11 @@ func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pu
 	if err != nil {
 		return nil, err
 	}
-	signedPubkey := &ledgerpb.SignedCreateAccountRequest{Key: singedPubKey, Signature: signature}
+	signedPubkey := &ledgerpb.SignedCreateAccountRequest{
+		Key:                 singedPubKey,
+		Signature:           signature,
+		ClientVersionNumber: LedgerVersion,
+	}
 
 	var result *ledgerpb.SignedCreateAccountResult
 	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
