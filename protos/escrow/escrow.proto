@@ -49,8 +49,6 @@ service EscrowService {
   rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
   //use escrow as proxy to do the payment
   rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
-  //use escrow as proxy to do the createAccount
-  rpc SignedCreateAccount(ledger.SignedCreateAccountRequest) returns (ledger.SignedCreateAccountResult);
 }
 
 enum TokenType {
