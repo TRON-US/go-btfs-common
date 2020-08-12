@@ -42,6 +42,10 @@ message Node {
     uint64 storage_price_default = 6; // network default
     bool customized_pricing = 7; // whether to use storage_price_ask
     repeated NodeRole roles = 8;
+    uint64 repair_market_price = 9;
+    uint64 repair_customized_price = 10;
+    uint64 challenge_market_price = 11;
+    uint64 challenge_customized_price = 12;
   }
   message Geo {
     string country_short = 1;
@@ -107,10 +111,6 @@ message Node {
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
   ];
-  uint64 repair_market_price = 28;
-  uint64 repair_customized_price = 29;
-  uint64 challenge_market_price = 30;
-  uint64 challenge_customized_price = 31;
 }
 
 message StorageStat {
