@@ -1342,8 +1342,8 @@ proto.node.Node.ExperimentalFlags.toObject = function(includeInstance, msg) {
     urlStoreEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 14, false),
     disableAutoUpdate: jspb.Message.getBooleanFieldWithDefault(msg, 15, false),
     graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false),
-    repairHostEnable: jspb.Message.getBooleanFieldWithDefault(msg, 17, false),
-    challengeHostEnable: jspb.Message.getBooleanFieldWithDefault(msg, 18, false)
+    repairHostEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 17, false),
+    challengeHostEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 18, false)
   };
 
   if (includeInstance) {
@@ -1446,11 +1446,11 @@ proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader = function(msg, re
       break;
     case 17:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setRepairHostEnable(value);
+      msg.setRepairHostEnabled(value);
       break;
     case 18:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setChallengeHostEnable(value);
+      msg.setChallengeHostEnabled(value);
       break;
     default:
       reader.skipField();
@@ -1593,14 +1593,14 @@ proto.node.Node.ExperimentalFlags.serializeBinaryToWriter = function(message, wr
       f
     );
   }
-  f = message.getRepairHostEnable();
+  f = message.getRepairHostEnabled();
   if (f) {
     writer.writeBool(
       17,
       f
     );
   }
-  f = message.getChallengeHostEnable();
+  f = message.getChallengeHostEnabled();
   if (f) {
     writer.writeBool(
       18,
@@ -1899,10 +1899,10 @@ proto.node.Node.ExperimentalFlags.prototype.setGraphsyncEnabled = function(value
 
 
 /**
- * optional bool repair_host_enable = 17;
+ * optional bool repair_host_enabled = 17;
  * @return {boolean}
  */
-proto.node.Node.ExperimentalFlags.prototype.getRepairHostEnable = function() {
+proto.node.Node.ExperimentalFlags.prototype.getRepairHostEnabled = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 17, false));
 };
 
@@ -1911,16 +1911,16 @@ proto.node.Node.ExperimentalFlags.prototype.getRepairHostEnable = function() {
  * @param {boolean} value
  * @return {!proto.node.Node.ExperimentalFlags} returns this
  */
-proto.node.Node.ExperimentalFlags.prototype.setRepairHostEnable = function(value) {
+proto.node.Node.ExperimentalFlags.prototype.setRepairHostEnabled = function(value) {
   return jspb.Message.setProto3BooleanField(this, 17, value);
 };
 
 
 /**
- * optional bool challenge_host_enable = 18;
+ * optional bool challenge_host_enabled = 18;
  * @return {boolean}
  */
-proto.node.Node.ExperimentalFlags.prototype.getChallengeHostEnable = function() {
+proto.node.Node.ExperimentalFlags.prototype.getChallengeHostEnabled = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 18, false));
 };
 
@@ -1929,7 +1929,7 @@ proto.node.Node.ExperimentalFlags.prototype.getChallengeHostEnable = function() 
  * @param {boolean} value
  * @return {!proto.node.Node.ExperimentalFlags} returns this
  */
-proto.node.Node.ExperimentalFlags.prototype.setChallengeHostEnable = function(value) {
+proto.node.Node.ExperimentalFlags.prototype.setChallengeHostEnabled = function(value) {
   return jspb.Message.setProto3BooleanField(this, 18, value);
 };
 

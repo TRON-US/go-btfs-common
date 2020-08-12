@@ -66,8 +66,8 @@ message Node {
     bool url_store_enabled = 14;
     bool disable_auto_update = 15;
     bool graphsync_enabled = 16;
-    bool repair_host_enable = 17;
-    bool challenge_host_enable = 18;
+    bool repair_host_enabled = 17;
+    bool challenge_host_enabled = 18;
   }
   string table_name = 1 [(gogoproto.moretags) = "pg:\"node_metrics,alias:t,discard_unknown_columns\""];
   string node_id = 2;
