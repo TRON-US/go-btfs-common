@@ -75,6 +75,14 @@ func NewSignedChannelCommit(commit *ledgerpb.ChannelCommit, sig []byte) *ledgerp
 	}
 }
 
+func NewSignedCreateAccountRequest(key *ledgerpb.PublicKey, sig []byte) *ledgerpb.SignedCreateAccountRequest {
+	return &ledgerpb.SignedCreateAccountRequest{
+		Key:                 key,
+		Signature:           sig,
+		ClientVersionNumber: LedgerVersion,
+	}
+}
+
 func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb.Account, error) {
 	keyBytes, err := ic.RawFull(pubKey)
 	if err != nil {
@@ -96,8 +104,8 @@ func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pu
 	if err != nil {
 		return nil, err
 	}
-	singedPubKey := &ledgerpb.PublicKey{Key: pubKeyBytes}
-	sigBytes, err := proto.Marshal(singedPubKey)
+	signedPubKey := &ledgerpb.PublicKey{Key: pubKeyBytes}
+	sigBytes, err := proto.Marshal(signedPubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -105,11 +113,7 @@ func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pu
 	if err != nil {
 		return nil, err
 	}
-	signedPubkey := &ledgerpb.SignedCreateAccountRequest{
-		Key:                 singedPubKey,
-		Signature:           signature,
-		ClientVersionNumber: LedgerVersion,
-	}
+	signedPubkey := NewSignedCreateAccountRequest(signedPubKey, signature)
 
 	var result *ledgerpb.SignedCreateAccountResult
 	err = grpc.LedgerClient(c.addr).WithContext(ctx, func(ctx context.Context, client ledgerpb.ChannelsClient) error {
