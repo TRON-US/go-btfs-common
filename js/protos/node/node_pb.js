@@ -297,7 +297,11 @@ proto.node.Node.toObject = function(includeInstance, msg) {
     timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     hVal: jspb.Message.getFieldWithDefault(msg, 25, ""),
     geo: (f = msg.getGeo()) && proto.node.Node.Geo.toObject(includeInstance, f),
-    flg: (f = msg.getFlg()) && proto.node.Node.ExperimentalFlags.toObject(includeInstance, f)
+    flg: (f = msg.getFlg()) && proto.node.Node.ExperimentalFlags.toObject(includeInstance, f),
+    repairMarketPrice: jspb.Message.getFieldWithDefault(msg, 28, 0),
+    repairCustomizedPrice: jspb.Message.getFieldWithDefault(msg, 29, 0),
+    challengeMarketPrice: jspb.Message.getFieldWithDefault(msg, 30, 0),
+    challengeCustomizedPrice: jspb.Message.getFieldWithDefault(msg, 31, 0)
   };
 
   if (includeInstance) {
@@ -441,6 +445,22 @@ proto.node.Node.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.node.Node.ExperimentalFlags;
       reader.readMessage(value,proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader);
       msg.setFlg(value);
+      break;
+    case 28:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setRepairMarketPrice(value);
+      break;
+    case 29:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setRepairCustomizedPrice(value);
+      break;
+    case 30:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setChallengeMarketPrice(value);
+      break;
+    case 31:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setChallengeCustomizedPrice(value);
       break;
     default:
       reader.skipField();
@@ -655,6 +675,34 @@ proto.node.Node.serializeBinaryToWriter = function(message, writer) {
       27,
       f,
       proto.node.Node.ExperimentalFlags.serializeBinaryToWriter
+    );
+  }
+  f = message.getRepairMarketPrice();
+  if (f !== 0) {
+    writer.writeUint64(
+      28,
+      f
+    );
+  }
+  f = message.getRepairCustomizedPrice();
+  if (f !== 0) {
+    writer.writeUint64(
+      29,
+      f
+    );
+  }
+  f = message.getChallengeMarketPrice();
+  if (f !== 0) {
+    writer.writeUint64(
+      30,
+      f
+    );
+  }
+  f = message.getChallengeCustomizedPrice();
+  if (f !== 0) {
+    writer.writeUint64(
+      31,
+      f
     );
   }
 };
@@ -1293,7 +1341,9 @@ proto.node.Node.ExperimentalFlags.toObject = function(includeInstance, msg) {
     strategicProviding: jspb.Message.getBooleanFieldWithDefault(msg, 13, false),
     urlStoreEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 14, false),
     disableAutoUpdate: jspb.Message.getBooleanFieldWithDefault(msg, 15, false),
-    graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false)
+    graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false),
+    repairHostEnable: jspb.Message.getBooleanFieldWithDefault(msg, 17, false),
+    challengeHostEnable: jspb.Message.getBooleanFieldWithDefault(msg, 18, false)
   };
 
   if (includeInstance) {
@@ -1393,6 +1443,14 @@ proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader = function(msg, re
     case 16:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setGraphsyncEnabled(value);
+      break;
+    case 17:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setRepairHostEnable(value);
+      break;
+    case 18:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setChallengeHostEnable(value);
       break;
     default:
       reader.skipField();
@@ -1532,6 +1590,20 @@ proto.node.Node.ExperimentalFlags.serializeBinaryToWriter = function(message, wr
   if (f) {
     writer.writeBool(
       16,
+      f
+    );
+  }
+  f = message.getRepairHostEnable();
+  if (f) {
+    writer.writeBool(
+      17,
+      f
+    );
+  }
+  f = message.getChallengeHostEnable();
+  if (f) {
+    writer.writeBool(
+      18,
       f
     );
   }
@@ -1823,6 +1895,42 @@ proto.node.Node.ExperimentalFlags.prototype.getGraphsyncEnabled = function() {
  */
 proto.node.Node.ExperimentalFlags.prototype.setGraphsyncEnabled = function(value) {
   return jspb.Message.setProto3BooleanField(this, 16, value);
+};
+
+
+/**
+ * optional bool repair_host_enable = 17;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getRepairHostEnable = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 17, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setRepairHostEnable = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 17, value);
+};
+
+
+/**
+ * optional bool challenge_host_enable = 18;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getChallengeHostEnable = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 18, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setChallengeHostEnable = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 18, value);
 };
 
 
@@ -2367,6 +2475,78 @@ proto.node.Node.prototype.clearFlg = function() {
  */
 proto.node.Node.prototype.hasFlg = function() {
   return jspb.Message.getField(this, 27) != null;
+};
+
+
+/**
+ * optional uint64 repair_market_price = 28;
+ * @return {number}
+ */
+proto.node.Node.prototype.getRepairMarketPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 28, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node} returns this
+ */
+proto.node.Node.prototype.setRepairMarketPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 28, value);
+};
+
+
+/**
+ * optional uint64 repair_customized_price = 29;
+ * @return {number}
+ */
+proto.node.Node.prototype.getRepairCustomizedPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 29, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node} returns this
+ */
+proto.node.Node.prototype.setRepairCustomizedPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 29, value);
+};
+
+
+/**
+ * optional uint64 challenge_market_price = 30;
+ * @return {number}
+ */
+proto.node.Node.prototype.getChallengeMarketPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 30, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node} returns this
+ */
+proto.node.Node.prototype.setChallengeMarketPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 30, value);
+};
+
+
+/**
+ * optional uint64 challenge_customized_price = 31;
+ * @return {number}
+ */
+proto.node.Node.prototype.getChallengeCustomizedPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 31, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node} returns this
+ */
+proto.node.Node.prototype.setChallengeCustomizedPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 31, value);
 };
 
 
