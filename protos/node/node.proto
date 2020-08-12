@@ -42,10 +42,12 @@ message Node {
     uint64 storage_price_default = 6; // network default
     bool customized_pricing = 7; // whether to use storage_price_ask
     repeated NodeRole roles = 8;
-    uint64 repair_price_market = 9;
-    uint64 repair_price_customize = 10;
-    uint64 challenge_price_market = 11;
-    uint64 challenge_price_customize = 12;
+    uint64 repair_price_default = 9;
+    uint64 repair_price_customized = 10;
+    bool repair_customized_pricing = 11;
+    uint64 challenge_price_default = 12;
+    uint64 challenge_price_customized = 13;
+    bool challenge_customized_pricing = 14;
   }
   message Geo {
     string country_short = 1;
