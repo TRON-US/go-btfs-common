@@ -707,10 +707,10 @@ proto.node.Node.Settings.toObject = function(includeInstance, msg) {
     storagePriceDefault: jspb.Message.getFieldWithDefault(msg, 6, 0),
     customizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
     rolesList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
-    repairMarketPrice: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    repairCustomizedPrice: jspb.Message.getFieldWithDefault(msg, 10, 0),
-    challengeMarketPrice: jspb.Message.getFieldWithDefault(msg, 11, 0),
-    challengeCustomizedPrice: jspb.Message.getFieldWithDefault(msg, 12, 0)
+    repairPriceMarket: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    repairPriceCustomize: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    challengePriceMarket: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    challengePriceCustomize: jspb.Message.getFieldWithDefault(msg, 12, 0)
   };
 
   if (includeInstance) {
@@ -781,19 +781,19 @@ proto.node.Node.Settings.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 9:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setRepairMarketPrice(value);
+      msg.setRepairPriceMarket(value);
       break;
     case 10:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setRepairCustomizedPrice(value);
+      msg.setRepairPriceCustomize(value);
       break;
     case 11:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setChallengeMarketPrice(value);
+      msg.setChallengePriceMarket(value);
       break;
     case 12:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setChallengeCustomizedPrice(value);
+      msg.setChallengePriceCustomize(value);
       break;
     default:
       reader.skipField();
@@ -880,28 +880,28 @@ proto.node.Node.Settings.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getRepairMarketPrice();
+  f = message.getRepairPriceMarket();
   if (f !== 0) {
     writer.writeUint64(
       9,
       f
     );
   }
-  f = message.getRepairCustomizedPrice();
+  f = message.getRepairPriceCustomize();
   if (f !== 0) {
     writer.writeUint64(
       10,
       f
     );
   }
-  f = message.getChallengeMarketPrice();
+  f = message.getChallengePriceMarket();
   if (f !== 0) {
     writer.writeUint64(
       11,
       f
     );
   }
-  f = message.getChallengeCustomizedPrice();
+  f = message.getChallengePriceCustomize();
   if (f !== 0) {
     writer.writeUint64(
       12,
@@ -1075,10 +1075,10 @@ proto.node.Node.Settings.prototype.clearRolesList = function() {
 
 
 /**
- * optional uint64 repair_market_price = 9;
+ * optional uint64 repair_price_market = 9;
  * @return {number}
  */
-proto.node.Node.Settings.prototype.getRepairMarketPrice = function() {
+proto.node.Node.Settings.prototype.getRepairPriceMarket = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
@@ -1087,16 +1087,16 @@ proto.node.Node.Settings.prototype.getRepairMarketPrice = function() {
  * @param {number} value
  * @return {!proto.node.Node.Settings} returns this
  */
-proto.node.Node.Settings.prototype.setRepairMarketPrice = function(value) {
+proto.node.Node.Settings.prototype.setRepairPriceMarket = function(value) {
   return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
 /**
- * optional uint64 repair_customized_price = 10;
+ * optional uint64 repair_price_customize = 10;
  * @return {number}
  */
-proto.node.Node.Settings.prototype.getRepairCustomizedPrice = function() {
+proto.node.Node.Settings.prototype.getRepairPriceCustomize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
@@ -1105,16 +1105,16 @@ proto.node.Node.Settings.prototype.getRepairCustomizedPrice = function() {
  * @param {number} value
  * @return {!proto.node.Node.Settings} returns this
  */
-proto.node.Node.Settings.prototype.setRepairCustomizedPrice = function(value) {
+proto.node.Node.Settings.prototype.setRepairPriceCustomize = function(value) {
   return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
 /**
- * optional uint64 challenge_market_price = 11;
+ * optional uint64 challenge_price_market = 11;
  * @return {number}
  */
-proto.node.Node.Settings.prototype.getChallengeMarketPrice = function() {
+proto.node.Node.Settings.prototype.getChallengePriceMarket = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
@@ -1123,16 +1123,16 @@ proto.node.Node.Settings.prototype.getChallengeMarketPrice = function() {
  * @param {number} value
  * @return {!proto.node.Node.Settings} returns this
  */
-proto.node.Node.Settings.prototype.setChallengeMarketPrice = function(value) {
+proto.node.Node.Settings.prototype.setChallengePriceMarket = function(value) {
   return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 
 /**
- * optional uint64 challenge_customized_price = 12;
+ * optional uint64 challenge_price_customize = 12;
  * @return {number}
  */
-proto.node.Node.Settings.prototype.getChallengeCustomizedPrice = function() {
+proto.node.Node.Settings.prototype.getChallengePriceCustomize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
 };
 
@@ -1141,7 +1141,7 @@ proto.node.Node.Settings.prototype.getChallengeCustomizedPrice = function() {
  * @param {number} value
  * @return {!proto.node.Node.Settings} returns this
  */
-proto.node.Node.Settings.prototype.setChallengeCustomizedPrice = function(value) {
+proto.node.Node.Settings.prototype.setChallengePriceCustomize = function(value) {
   return jspb.Message.setProto3IntField(this, 12, value);
 };
 
