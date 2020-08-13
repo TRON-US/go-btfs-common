@@ -36,6 +36,8 @@ service EscrowService {
   rpc GetPayOutStatus(SignedContractID) returns (SignedPayoutStatus);
   //get the payout status in batch
   rpc GetPayOutStatusBatch(SignedContractIDBatch) returns (SignedPayoutStatusBatch);
+  //get the modified payout status in batch
+  rpc GetModifyPayOutStatusBatch(SignedModifyContractIDBatch) returns (SignedPayoutStatusBatch);
   // auth request to cancel the contract
   // escrow will cancel the left payments to seller
   rpc CancelContracts(SignedCancelRequest) returns (SignedCancelContractResult);
@@ -86,6 +88,15 @@ message SignedContractID {
 message SignedContractIDBatch {
   ContractIDBatch data = 1;
   bytes signature = 2;
+}
+
+message SignedModifyContractIDBatch {
+  ContractIDBatch data = 1;
+  google.protobuf.Timestamp last_modify_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 3;
 }
 
 message EscrowContract {
