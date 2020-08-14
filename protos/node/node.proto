@@ -190,6 +190,10 @@ message Contracts {
     int64 shard_size = 11;
     string shard_hash = 12;
     string file_hash = 13;
+    google.protobuf.Timestamp last_modify_time = 14 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
   }
   repeated Contract contracts = 1;
 }

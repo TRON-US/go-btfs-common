@@ -3989,7 +3989,8 @@ proto.node.Contracts.Contract.toObject = function(includeInstance, msg) {
     unitPrice: jspb.Message.getFieldWithDefault(msg, 10, 0),
     shardSize: jspb.Message.getFieldWithDefault(msg, 11, 0),
     shardHash: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    fileHash: jspb.Message.getFieldWithDefault(msg, 13, "")
+    fileHash: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    lastModifyTime: (f = msg.getLastModifyTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4080,6 +4081,11 @@ proto.node.Contracts.Contract.deserializeBinaryFromReader = function(msg, reader
     case 13:
       var value = /** @type {string} */ (reader.readString());
       msg.setFileHash(value);
+      break;
+    case 14:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastModifyTime(value);
       break;
     default:
       reader.skipField();
@@ -4202,6 +4208,14 @@ proto.node.Contracts.Contract.serializeBinaryToWriter = function(message, writer
     writer.writeString(
       13,
       f
+    );
+  }
+  f = message.getLastModifyTime();
+  if (f != null) {
+    writer.writeMessage(
+      14,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -4495,6 +4509,43 @@ proto.node.Contracts.Contract.prototype.getFileHash = function() {
  */
 proto.node.Contracts.Contract.prototype.setFileHash = function(value) {
   return jspb.Message.setProto3StringField(this, 13, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp last_modify_time = 14;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.Contracts.Contract.prototype.getLastModifyTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 14));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.Contracts.Contract} returns this
+*/
+proto.node.Contracts.Contract.prototype.setLastModifyTime = function(value) {
+  return jspb.Message.setWrapperField(this, 14, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.Contracts.Contract} returns this
+ */
+proto.node.Contracts.Contract.prototype.clearLastModifyTime = function() {
+  return this.setLastModifyTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.Contracts.Contract.prototype.hasLastModifyTime = function() {
+  return jspb.Message.getField(this, 14) != null;
 };
 
 
