@@ -5763,7 +5763,8 @@ proto.escrow.PayoutStatus.toObject = function(includeInstance, msg) {
     nextPayoutTime: (f = msg.getNextPayoutTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     escrowAddress: msg.getEscrowAddress_asB64(),
     escrowSignTime: (f = msg.getEscrowSignTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    errorMsg: jspb.Message.getFieldWithDefault(msg, 19, "")
+    errorMsg: jspb.Message.getFieldWithDefault(msg, 19, ""),
+    lastModifyTime: (f = msg.getLastModifyTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5878,6 +5879,11 @@ proto.escrow.PayoutStatus.deserializeBinaryFromReader = function(msg, reader) {
     case 19:
       var value = /** @type {string} */ (reader.readString());
       msg.setErrorMsg(value);
+      break;
+    case 20:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastModifyTime(value);
       break;
     default:
       reader.skipField();
@@ -6042,6 +6048,14 @@ proto.escrow.PayoutStatus.serializeBinaryToWriter = function(message, writer) {
     writer.writeString(
       19,
       f
+    );
+  }
+  f = message.getLastModifyTime();
+  if (f != null) {
+    writer.writeMessage(
+      20,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -6539,6 +6553,43 @@ proto.escrow.PayoutStatus.prototype.getErrorMsg = function() {
  */
 proto.escrow.PayoutStatus.prototype.setErrorMsg = function(value) {
   return jspb.Message.setProto3StringField(this, 19, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp last_modify_time = 20;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.escrow.PayoutStatus.prototype.getLastModifyTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 20));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.escrow.PayoutStatus} returns this
+*/
+proto.escrow.PayoutStatus.prototype.setLastModifyTime = function(value) {
+  return jspb.Message.setWrapperField(this, 20, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.escrow.PayoutStatus} returns this
+ */
+proto.escrow.PayoutStatus.prototype.clearLastModifyTime = function() {
+  return this.setLastModifyTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.escrow.PayoutStatus.prototype.hasLastModifyTime = function() {
+  return jspb.Message.getField(this, 20) != null;
 };
 
 
