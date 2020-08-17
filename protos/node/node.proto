@@ -41,7 +41,7 @@ message Node {
     uint64 collateral_stake = 5;
     uint64 storage_price_default = 6; // network default
     bool customized_pricing = 7; // whether to use storage_price_ask
-    repeated NodeRole roles = 8;
+    repeated NodeRole roles = 8 [(gogoproto.pgtag) = "roles,array"];
     uint64 repair_price_default = 9;
     uint64 repair_price_customized = 10;
     bool repair_customized_pricing = 11;
