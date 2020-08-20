@@ -6685,7 +6685,8 @@ proto.guard.ReadyForChallengeRequest.toObject = function(includeInstance, msg) {
     contractId: jspb.Message.getFieldWithDefault(msg, 4, ""),
     hostPid: jspb.Message.getFieldWithDefault(msg, 5, ""),
     prepareTime: (f = msg.getPrepareTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    signature: msg.getSignature_asB64()
+    signature: msg.getSignature_asB64(),
+    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 8, false)
   };
 
   if (includeInstance) {
@@ -6750,6 +6751,10 @@ proto.guard.ReadyForChallengeRequest.deserializeBinaryFromReader = function(msg,
     case 7:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSignature(value);
+      break;
+    case 8:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsRepair(value);
       break;
     default:
       reader.skipField();
@@ -6827,6 +6832,13 @@ proto.guard.ReadyForChallengeRequest.serializeBinaryToWriter = function(message,
   if (f.length > 0) {
     writer.writeBytes(
       7,
+      f
+    );
+  }
+  f = message.getIsRepair();
+  if (f) {
+    writer.writeBool(
+      8,
       f
     );
   }
@@ -7002,6 +7014,24 @@ proto.guard.ReadyForChallengeRequest.prototype.setSignature = function(value) {
 };
 
 
+/**
+ * optional bool is_repair = 8;
+ * @return {boolean}
+ */
+proto.guard.ReadyForChallengeRequest.prototype.getIsRepair = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 8, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.guard.ReadyForChallengeRequest} returns this
+ */
+proto.guard.ReadyForChallengeRequest.prototype.setIsRepair = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 8, value);
+};
+
+
 
 
 
@@ -7036,7 +7066,8 @@ proto.guard.RequestChallengeQuestion.toObject = function(includeInstance, msg) {
   var f, obj = {
     question: (f = msg.getQuestion()) && proto.guard.ChallengeQuestion.toObject(includeInstance, f),
     prepareTime: (f = msg.getPrepareTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    signature: msg.getSignature_asB64()
+    signature: msg.getSignature_asB64(),
+    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -7087,6 +7118,10 @@ proto.guard.RequestChallengeQuestion.deserializeBinaryFromReader = function(msg,
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSignature(value);
       break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsRepair(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -7136,6 +7171,13 @@ proto.guard.RequestChallengeQuestion.serializeBinaryToWriter = function(message,
   if (f.length > 0) {
     writer.writeBytes(
       3,
+      f
+    );
+  }
+  f = message.getIsRepair();
+  if (f) {
+    writer.writeBool(
+      4,
       f
     );
   }
@@ -7258,6 +7300,24 @@ proto.guard.RequestChallengeQuestion.prototype.setSignature = function(value) {
 };
 
 
+/**
+ * optional bool is_repair = 4;
+ * @return {boolean}
+ */
+proto.guard.RequestChallengeQuestion.prototype.getIsRepair = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.guard.RequestChallengeQuestion} returns this
+ */
+proto.guard.RequestChallengeQuestion.prototype.setIsRepair = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 4, value);
+};
+
+
 
 
 
@@ -7293,7 +7353,8 @@ proto.guard.ResponseChallengeQuestion.toObject = function(includeInstance, msg) 
     answer: (f = msg.getAnswer()) && proto.guard.ChallengeQuestion.toObject(includeInstance, f),
     hostPid: jspb.Message.getFieldWithDefault(msg, 2, ""),
     resolveTime: (f = msg.getResolveTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    signature: msg.getSignature_asB64()
+    signature: msg.getSignature_asB64(),
+    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
   };
 
   if (includeInstance) {
@@ -7347,6 +7408,10 @@ proto.guard.ResponseChallengeQuestion.deserializeBinaryFromReader = function(msg
     case 4:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSignature(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsRepair(value);
       break;
     default:
       reader.skipField();
@@ -7404,6 +7469,13 @@ proto.guard.ResponseChallengeQuestion.serializeBinaryToWriter = function(message
   if (f.length > 0) {
     writer.writeBytes(
       4,
+      f
+    );
+  }
+  f = message.getIsRepair();
+  if (f) {
+    writer.writeBool(
+      5,
       f
     );
   }
@@ -7541,6 +7613,24 @@ proto.guard.ResponseChallengeQuestion.prototype.getSignature_asU8 = function() {
  */
 proto.guard.ResponseChallengeQuestion.prototype.setSignature = function(value) {
   return jspb.Message.setProto3BytesField(this, 4, value);
+};
+
+
+/**
+ * optional bool is_repair = 5;
+ * @return {boolean}
+ */
+proto.guard.ResponseChallengeQuestion.prototype.getIsRepair = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.guard.ResponseChallengeQuestion} returns this
+ */
+proto.guard.ResponseChallengeQuestion.prototype.setIsRepair = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 5, value);
 };
 
 

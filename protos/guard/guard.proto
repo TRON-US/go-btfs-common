@@ -332,6 +332,7 @@ message ReadyForChallengeRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 7;
+  bool is_repair = 8;
 }
 
 message RequestChallengeQuestion {
@@ -341,6 +342,7 @@ message RequestChallengeQuestion {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 3;
+  bool is_repair = 4;
 }
 
 message ResponseChallengeQuestion {
@@ -351,6 +353,7 @@ message ResponseChallengeQuestion {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 4;
+  bool is_repair = 5;
 }
 
 message ForceRepairRequest {
