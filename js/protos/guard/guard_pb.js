@@ -7067,7 +7067,8 @@ proto.guard.RequestChallengeQuestion.toObject = function(includeInstance, msg) {
     question: (f = msg.getQuestion()) && proto.guard.ChallengeQuestion.toObject(includeInstance, f),
     prepareTime: (f = msg.getPrepareTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     signature: msg.getSignature_asB64(),
-    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
+    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
+    fileHash: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
 
   if (includeInstance) {
@@ -7121,6 +7122,10 @@ proto.guard.RequestChallengeQuestion.deserializeBinaryFromReader = function(msg,
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsRepair(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFileHash(value);
       break;
     default:
       reader.skipField();
@@ -7178,6 +7183,13 @@ proto.guard.RequestChallengeQuestion.serializeBinaryToWriter = function(message,
   if (f) {
     writer.writeBool(
       4,
+      f
+    );
+  }
+  f = message.getFileHash();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
       f
     );
   }
@@ -7318,6 +7330,24 @@ proto.guard.RequestChallengeQuestion.prototype.setIsRepair = function(value) {
 };
 
 
+/**
+ * optional string file_hash = 5;
+ * @return {string}
+ */
+proto.guard.RequestChallengeQuestion.prototype.getFileHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.RequestChallengeQuestion} returns this
+ */
+proto.guard.RequestChallengeQuestion.prototype.setFileHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
 
 
 
@@ -7354,7 +7384,8 @@ proto.guard.ResponseChallengeQuestion.toObject = function(includeInstance, msg) 
     hostPid: jspb.Message.getFieldWithDefault(msg, 2, ""),
     resolveTime: (f = msg.getResolveTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     signature: msg.getSignature_asB64(),
-    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
+    isRepair: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
+    fileHash: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -7412,6 +7443,10 @@ proto.guard.ResponseChallengeQuestion.deserializeBinaryFromReader = function(msg
     case 5:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsRepair(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFileHash(value);
       break;
     default:
       reader.skipField();
@@ -7476,6 +7511,13 @@ proto.guard.ResponseChallengeQuestion.serializeBinaryToWriter = function(message
   if (f) {
     writer.writeBool(
       5,
+      f
+    );
+  }
+  f = message.getFileHash();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -7631,6 +7673,24 @@ proto.guard.ResponseChallengeQuestion.prototype.getIsRepair = function() {
  */
 proto.guard.ResponseChallengeQuestion.prototype.setIsRepair = function(value) {
   return jspb.Message.setProto3BooleanField(this, 5, value);
+};
+
+
+/**
+ * optional string file_hash = 6;
+ * @return {string}
+ */
+proto.guard.ResponseChallengeQuestion.prototype.getFileHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.ResponseChallengeQuestion} returns this
+ */
+proto.guard.ResponseChallengeQuestion.prototype.setFileHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 

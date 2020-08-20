@@ -343,6 +343,7 @@ message RequestChallengeQuestion {
   ];
   bytes signature = 3;
   bool is_repair = 4;
+  string file_hash = 5;
 }
 
 message ResponseChallengeQuestion {
@@ -354,6 +355,7 @@ message ResponseChallengeQuestion {
   ];
   bytes signature = 4;
   bool is_repair = 5;
+  string file_hash = 6;
 }
 
 message ForceRepairRequest {
