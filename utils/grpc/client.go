@@ -47,30 +47,37 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 	}
 	switch v := f.(type) {
 	case func(context.Context, statuspb.StatusServiceClient) error:
-		return v(ctx, statuspb.NewStatusServiceClient(conn))
+		return wrapError("StatusClient", v(ctx, statuspb.NewStatusServiceClient(conn)))
 	case func(context.Context, hubpb.HubQueryServiceClient) error:
-		return v(ctx, hubpb.NewHubQueryServiceClient(conn))
+		return wrapError("HubQueryClient", v(ctx, hubpb.NewHubQueryServiceClient(conn)))
 	case func(context.Context, hubpb.HubParseServiceClient) error:
-		return v(ctx, hubpb.NewHubParseServiceClient(conn))
+		return wrapError("HubParseClient", v(ctx, hubpb.NewHubParseServiceClient(conn)))
 	case func(context.Context, guardpb.GuardServiceClient) error:
-		return v(ctx, guardpb.NewGuardServiceClient(conn))
+		return wrapError("GuardClient", v(ctx, guardpb.NewGuardServiceClient(conn)))
 	case func(context.Context, escrowpb.EscrowServiceClient) error:
-		return v(ctx, escrowpb.NewEscrowServiceClient(conn))
+		return wrapError("EscrowClient", v(ctx, escrowpb.NewEscrowServiceClient(conn)))
 	case func(ctx context.Context, client sharedpb.RuntimeServiceClient) error:
-		return v(ctx, sharedpb.NewRuntimeServiceClient(conn))
+		return wrapError("RuntimeClient", v(ctx, sharedpb.NewRuntimeServiceClient(conn)))
 	case func(ctx context.Context, client grpc_health_v1.HealthClient) error:
-		return v(ctx, grpc_health_v1.NewHealthClient(conn))
+		return wrapError("HealthClient", v(ctx, grpc_health_v1.NewHealthClient(conn)))
 	case func(ctx context.Context, client ledgerpb.ChannelsClient) error:
-		return v(ctx, ledgerpb.NewChannelsClient(conn))
+		return wrapError("LedgerClient", v(ctx, ledgerpb.NewChannelsClient(conn)))
 	case func(ctx context.Context, client exchangepb.ExchangeClient) error:
-		return v(ctx, exchangepb.NewExchangeClient(conn))
+		return wrapError("ExchangeClient", v(ctx, exchangepb.NewExchangeClient(conn)))
 	case func(ctx context.Context, client tronpb.WalletSolidityClient) error:
-		return v(ctx, tronpb.NewWalletSolidityClient(conn))
+		return wrapError("WalletSolidityClient", v(ctx, tronpb.NewWalletSolidityClient(conn)))
 	case func(ctx context.Context, client tronpb.WalletClient) error:
-		return v(ctx, tronpb.NewWalletClient(conn))
+		return wrapError("WalletClient", v(ctx, tronpb.NewWalletClient(conn)))
 	default:
 		return fmt.Errorf("illegal function: %T", f)
 	}
+}
+
+func wrapError(prefix string, err error) error {
+	if err == nil {
+		return nil
+	}
+	return fmt.Errorf("%v: %v", prefix, err)
 }
 
 type ClientBuilder struct {

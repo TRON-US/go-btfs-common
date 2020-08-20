@@ -41,7 +41,13 @@ message Node {
     uint64 collateral_stake = 5;
     uint64 storage_price_default = 6; // network default
     bool customized_pricing = 7; // whether to use storage_price_ask
-    repeated NodeRole roles = 8;
+    repeated NodeRole roles = 8 [(gogoproto.pgtag) = "roles,array"];
+    uint64 repair_price_default = 9;
+    uint64 repair_price_customized = 10;
+    bool repair_customized_pricing = 11;
+    uint64 challenge_price_default = 12;
+    uint64 challenge_price_customized = 13;
+    bool challenge_customized_pricing = 14;
   }
   message Geo {
     string country_short = 1;
@@ -66,6 +72,8 @@ message Node {
     bool url_store_enabled = 14;
     bool disable_auto_update = 15;
     bool graphsync_enabled = 16;
+    bool repair_host_enabled = 17;
+    bool challenge_host_enabled = 18;
   }
   string table_name = 1 [(gogoproto.moretags) = "pg:\"node_metrics,alias:t,discard_unknown_columns\""];
   string node_id = 2;
@@ -182,6 +190,10 @@ message Contracts {
     int64 shard_size = 11;
     string shard_hash = 12;
     string file_hash = 13;
+    google.protobuf.Timestamp last_modify_time = 14 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
   }
   repeated Contract contracts = 1;
 }

@@ -706,7 +706,13 @@ proto.node.Node.Settings.toObject = function(includeInstance, msg) {
     collateralStake: jspb.Message.getFieldWithDefault(msg, 5, 0),
     storagePriceDefault: jspb.Message.getFieldWithDefault(msg, 6, 0),
     customizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
-    rolesList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f
+    rolesList: (f = jspb.Message.getRepeatedField(msg, 8)) == null ? undefined : f,
+    repairPriceDefault: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    repairPriceCustomized: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    repairCustomizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 11, false),
+    challengePriceDefault: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    challengePriceCustomized: jspb.Message.getFieldWithDefault(msg, 13, 0),
+    challengeCustomizedPricing: jspb.Message.getBooleanFieldWithDefault(msg, 14, false)
   };
 
   if (includeInstance) {
@@ -774,6 +780,30 @@ proto.node.Node.Settings.deserializeBinaryFromReader = function(msg, reader) {
     case 8:
       var value = /** @type {!Array<!proto.node.NodeRole>} */ (reader.readPackedEnum());
       msg.setRolesList(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setRepairPriceDefault(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setRepairPriceCustomized(value);
+      break;
+    case 11:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setRepairCustomizedPricing(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setChallengePriceDefault(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setChallengePriceCustomized(value);
+      break;
+    case 14:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setChallengeCustomizedPricing(value);
       break;
     default:
       reader.skipField();
@@ -857,6 +887,48 @@ proto.node.Node.Settings.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writePackedEnum(
       8,
+      f
+    );
+  }
+  f = message.getRepairPriceDefault();
+  if (f !== 0) {
+    writer.writeUint64(
+      9,
+      f
+    );
+  }
+  f = message.getRepairPriceCustomized();
+  if (f !== 0) {
+    writer.writeUint64(
+      10,
+      f
+    );
+  }
+  f = message.getRepairCustomizedPricing();
+  if (f) {
+    writer.writeBool(
+      11,
+      f
+    );
+  }
+  f = message.getChallengePriceDefault();
+  if (f !== 0) {
+    writer.writeUint64(
+      12,
+      f
+    );
+  }
+  f = message.getChallengePriceCustomized();
+  if (f !== 0) {
+    writer.writeUint64(
+      13,
+      f
+    );
+  }
+  f = message.getChallengeCustomizedPricing();
+  if (f) {
+    writer.writeBool(
+      14,
       f
     );
   }
@@ -1023,6 +1095,114 @@ proto.node.Node.Settings.prototype.addRoles = function(value, opt_index) {
  */
 proto.node.Node.Settings.prototype.clearRolesList = function() {
   return this.setRolesList([]);
+};
+
+
+/**
+ * optional uint64 repair_price_default = 9;
+ * @return {number}
+ */
+proto.node.Node.Settings.prototype.getRepairPriceDefault = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setRepairPriceDefault = function(value) {
+  return jspb.Message.setProto3IntField(this, 9, value);
+};
+
+
+/**
+ * optional uint64 repair_price_customized = 10;
+ * @return {number}
+ */
+proto.node.Node.Settings.prototype.getRepairPriceCustomized = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setRepairPriceCustomized = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional bool repair_customized_pricing = 11;
+ * @return {boolean}
+ */
+proto.node.Node.Settings.prototype.getRepairCustomizedPricing = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 11, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setRepairCustomizedPricing = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 11, value);
+};
+
+
+/**
+ * optional uint64 challenge_price_default = 12;
+ * @return {number}
+ */
+proto.node.Node.Settings.prototype.getChallengePriceDefault = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setChallengePriceDefault = function(value) {
+  return jspb.Message.setProto3IntField(this, 12, value);
+};
+
+
+/**
+ * optional uint64 challenge_price_customized = 13;
+ * @return {number}
+ */
+proto.node.Node.Settings.prototype.getChallengePriceCustomized = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setChallengePriceCustomized = function(value) {
+  return jspb.Message.setProto3IntField(this, 13, value);
+};
+
+
+/**
+ * optional bool challenge_customized_pricing = 14;
+ * @return {boolean}
+ */
+proto.node.Node.Settings.prototype.getChallengeCustomizedPricing = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 14, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.Settings} returns this
+ */
+proto.node.Node.Settings.prototype.setChallengeCustomizedPricing = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 14, value);
 };
 
 
@@ -1293,7 +1473,9 @@ proto.node.Node.ExperimentalFlags.toObject = function(includeInstance, msg) {
     strategicProviding: jspb.Message.getBooleanFieldWithDefault(msg, 13, false),
     urlStoreEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 14, false),
     disableAutoUpdate: jspb.Message.getBooleanFieldWithDefault(msg, 15, false),
-    graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false)
+    graphsyncEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 16, false),
+    repairHostEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 17, false),
+    challengeHostEnabled: jspb.Message.getBooleanFieldWithDefault(msg, 18, false)
   };
 
   if (includeInstance) {
@@ -1393,6 +1575,14 @@ proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader = function(msg, re
     case 16:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setGraphsyncEnabled(value);
+      break;
+    case 17:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setRepairHostEnabled(value);
+      break;
+    case 18:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setChallengeHostEnabled(value);
       break;
     default:
       reader.skipField();
@@ -1532,6 +1722,20 @@ proto.node.Node.ExperimentalFlags.serializeBinaryToWriter = function(message, wr
   if (f) {
     writer.writeBool(
       16,
+      f
+    );
+  }
+  f = message.getRepairHostEnabled();
+  if (f) {
+    writer.writeBool(
+      17,
+      f
+    );
+  }
+  f = message.getChallengeHostEnabled();
+  if (f) {
+    writer.writeBool(
+      18,
       f
     );
   }
@@ -1823,6 +2027,42 @@ proto.node.Node.ExperimentalFlags.prototype.getGraphsyncEnabled = function() {
  */
 proto.node.Node.ExperimentalFlags.prototype.setGraphsyncEnabled = function(value) {
   return jspb.Message.setProto3BooleanField(this, 16, value);
+};
+
+
+/**
+ * optional bool repair_host_enabled = 17;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getRepairHostEnabled = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 17, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setRepairHostEnabled = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 17, value);
+};
+
+
+/**
+ * optional bool challenge_host_enabled = 18;
+ * @return {boolean}
+ */
+proto.node.Node.ExperimentalFlags.prototype.getChallengeHostEnabled = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 18, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.node.Node.ExperimentalFlags} returns this
+ */
+proto.node.Node.ExperimentalFlags.prototype.setChallengeHostEnabled = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 18, value);
 };
 
 
@@ -3749,7 +3989,8 @@ proto.node.Contracts.Contract.toObject = function(includeInstance, msg) {
     unitPrice: jspb.Message.getFieldWithDefault(msg, 10, 0),
     shardSize: jspb.Message.getFieldWithDefault(msg, 11, 0),
     shardHash: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    fileHash: jspb.Message.getFieldWithDefault(msg, 13, "")
+    fileHash: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    lastModifyTime: (f = msg.getLastModifyTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3840,6 +4081,11 @@ proto.node.Contracts.Contract.deserializeBinaryFromReader = function(msg, reader
     case 13:
       var value = /** @type {string} */ (reader.readString());
       msg.setFileHash(value);
+      break;
+    case 14:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastModifyTime(value);
       break;
     default:
       reader.skipField();
@@ -3962,6 +4208,14 @@ proto.node.Contracts.Contract.serializeBinaryToWriter = function(message, writer
     writer.writeString(
       13,
       f
+    );
+  }
+  f = message.getLastModifyTime();
+  if (f != null) {
+    writer.writeMessage(
+      14,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -4255,6 +4509,43 @@ proto.node.Contracts.Contract.prototype.getFileHash = function() {
  */
 proto.node.Contracts.Contract.prototype.setFileHash = function(value) {
   return jspb.Message.setProto3StringField(this, 13, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp last_modify_time = 14;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.Contracts.Contract.prototype.getLastModifyTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 14));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.Contracts.Contract} returns this
+*/
+proto.node.Contracts.Contract.prototype.setLastModifyTime = function(value) {
+  return jspb.Message.setWrapperField(this, 14, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.Contracts.Contract} returns this
+ */
+proto.node.Contracts.Contract.prototype.clearLastModifyTime = function() {
+  return this.setLastModifyTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.Contracts.Contract.prototype.hasLastModifyTime = function() {
+  return jspb.Message.getField(this, 14) != null;
 };
 
 
