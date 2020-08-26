@@ -3468,7 +3468,12 @@ proto.hub.Host.toObject = function(includeInstance, msg) {
     collateralBurn: jspb.Message.getFieldWithDefault(msg, 26, 0),
     countryShort: jspb.Message.getFieldWithDefault(msg, 27, ""),
     flg: (f = msg.getFlg()) && github_com_tron$us_go$btfs$common_protos_node_node_pb.Node.ExperimentalFlags.toObject(includeInstance, f),
-    discovery: jspb.Message.getFloatingPointFieldWithDefault(msg, 29, 0.0)
+    discovery: jspb.Message.getFloatingPointFieldWithDefault(msg, 29, 0.0),
+    uptimeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 30, 0.0),
+    ageScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 31, 0.0),
+    versionScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 32, 0.0),
+    uploadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 33, 0.0),
+    downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 34, 0.0)
   };
 
   if (includeInstance) {
@@ -3624,6 +3629,26 @@ proto.hub.Host.deserializeBinaryFromReader = function(msg, reader) {
     case 29:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setDiscovery(value);
+      break;
+    case 30:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUptimeScore(value);
+      break;
+    case 31:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setAgeScore(value);
+      break;
+    case 32:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setVersionScore(value);
+      break;
+    case 33:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUploadSpeedScore(value);
+      break;
+    case 34:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setDownloadSpeedScore(value);
       break;
     default:
       reader.skipField();
@@ -3858,6 +3883,41 @@ proto.hub.Host.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       29,
+      f
+    );
+  }
+  f = message.getUptimeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      30,
+      f
+    );
+  }
+  f = message.getAgeScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      31,
+      f
+    );
+  }
+  f = message.getVersionScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      32,
+      f
+    );
+  }
+  f = message.getUploadSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      33,
+      f
+    );
+  }
+  f = message.getDownloadSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      34,
       f
     );
   }
@@ -4459,6 +4519,96 @@ proto.hub.Host.prototype.getDiscovery = function() {
  */
 proto.hub.Host.prototype.setDiscovery = function(value) {
   return jspb.Message.setProto3FloatField(this, 29, value);
+};
+
+
+/**
+ * optional float uptime_score = 30;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getUptimeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 30, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setUptimeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 30, value);
+};
+
+
+/**
+ * optional float age_score = 31;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getAgeScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 31, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setAgeScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 31, value);
+};
+
+
+/**
+ * optional float version_score = 32;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getVersionScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 32, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setVersionScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 32, value);
+};
+
+
+/**
+ * optional float upload_speed_score = 33;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getUploadSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 33, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setUploadSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 33, value);
+};
+
+
+/**
+ * optional float download_speed_score = 34;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getDownloadSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 34, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setDownloadSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 34, value);
 };
 
 

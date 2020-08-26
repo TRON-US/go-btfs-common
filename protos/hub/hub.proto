@@ -199,6 +199,11 @@ message Host {
     (gogoproto.nullable) = false
   ];
   float discovery = 29;
+  float uptime_score = 30;
+  float age_score = 31;
+  float version_score = 32;
+  float upload_speed_score = 33;
+  float download_speed_score = 34;
 }
 
 message Location {
