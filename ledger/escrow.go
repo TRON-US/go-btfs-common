@@ -1,6 +1,8 @@
 package ledger
 
 import (
+	"fmt"
+
 	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
 
@@ -46,7 +48,8 @@ func NewSingedContractID(id *escrowpb.ContractID, sig []byte) *escrowpb.SignedCo
 }
 
 func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, authPubKey ic.PubKey,
-	amount int64, ps escrowpb.Schedule, period int32, contrType escrowpb.ContractType, contingentAmount int64) (*escrowpb.EscrowContract, error) {
+	amount int64, ps escrowpb.Schedule, period int32, contrType escrowpb.ContractType,
+	contingentAmount int64, storageLength int) (*escrowpb.EscrowContract, error) {
 	payerAddr, err := ic.RawFull(payerPubKey)
 	if err != nil {
 		return nil, err
@@ -62,6 +65,22 @@ func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, a
 	if err != nil {
 		return nil, err
 	}
+	numPayouts := 1
+	switch ps {
+	case escrowpb.Schedule_MONTHLY:
+		numPayouts = storageLength / 30
+	case escrowpb.Schedule_QUARTERLY:
+		numPayouts = storageLength / 30 / 3
+	case escrowpb.Schedule_ANNUALLY:
+		numPayouts = storageLength / 30 / 3 / 4
+	case escrowpb.Schedule_CUSTOMIZED:
+		numPayouts = storageLength / int(period)
+	default:
+		return nil, fmt.Errorf("invalide PayoutSchedule: %v", ps)
+	}
+	if numPayouts == 0 {
+		numPayouts = 1
+	}
 	return &escrowpb.EscrowContract{
 		ContractId:            id,
 		BuyerAddress:          payerAddr,
@@ -72,7 +91,7 @@ func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, a
 		WithholdAmount:        0,
 		TokenType:             escrowpb.TokenType_BTT,
 		PayoutSchedule:        ps,
-		NumPayouts:            1,
+		NumPayouts:            int32(numPayouts),
 		CustomizePayoutPeriod: period,
 		Type:                  contrType,
 		ContingentAmount:      contingentAmount,
