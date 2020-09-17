@@ -26,6 +26,7 @@ service HubQueryService {
   rpc GetHosts(HostsReq) returns (HostsResp);
   rpc GetStats(StatsReq) returns (StatsResp);
   rpc QueryNodes(NodesReq) returns (HostsResp); //used by internal services
+  rpc GetHostsByRoles(RolesHostsReq) returns (HostsResp);
 }
 
 message NodesReq {
@@ -77,6 +78,12 @@ message HostsReq {
     TESTNET = 5;
   }
   Mode mode = 3;
+}
+
+message RolesHostsReq {
+  string id = 1;
+  int32 resp_size = 2;
+  node.NodeRole role = 3;
 }
 
 message HostsResp {
