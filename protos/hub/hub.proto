@@ -204,6 +204,7 @@ message Host {
   float version_score = 32;
   float upload_speed_score = 33;
   float download_speed_score = 34;
+  repeated node.NodeRole roles = 35 [(gogoproto.pgtag) = "roles,array"];
 }
 
 message Location {

@@ -320,7 +320,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.hub.Host = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.hub.Host.repeatedFields_, null);
 };
 goog.inherits(proto.hub.Host, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -3409,6 +3409,13 @@ proto.hub.HostsData.prototype.clearHostsList = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.hub.Host.repeatedFields_ = [35];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -3473,7 +3480,8 @@ proto.hub.Host.toObject = function(includeInstance, msg) {
     ageScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 31, 0.0),
     versionScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 32, 0.0),
     uploadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 33, 0.0),
-    downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 34, 0.0)
+    downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 34, 0.0),
+    rolesList: (f = jspb.Message.getRepeatedField(msg, 35)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -3649,6 +3657,10 @@ proto.hub.Host.deserializeBinaryFromReader = function(msg, reader) {
     case 34:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setDownloadSpeedScore(value);
+      break;
+    case 35:
+      var value = /** @type {!Array<!proto.node.NodeRole>} */ (reader.readPackedEnum());
+      msg.setRolesList(value);
       break;
     default:
       reader.skipField();
@@ -3918,6 +3930,13 @@ proto.hub.Host.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       34,
+      f
+    );
+  }
+  f = message.getRolesList();
+  if (f.length > 0) {
+    writer.writePackedEnum(
+      35,
       f
     );
   }
@@ -4609,6 +4628,43 @@ proto.hub.Host.prototype.getDownloadSpeedScore = function() {
  */
 proto.hub.Host.prototype.setDownloadSpeedScore = function(value) {
   return jspb.Message.setProto3FloatField(this, 34, value);
+};
+
+
+/**
+ * repeated node.NodeRole roles = 35;
+ * @return {!Array<!proto.node.NodeRole>}
+ */
+proto.hub.Host.prototype.getRolesList = function() {
+  return /** @type {!Array<!proto.node.NodeRole>} */ (jspb.Message.getRepeatedField(this, 35));
+};
+
+
+/**
+ * @param {!Array<!proto.node.NodeRole>} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setRolesList = function(value) {
+  return jspb.Message.setField(this, 35, value || []);
+};
+
+
+/**
+ * @param {!proto.node.NodeRole} value
+ * @param {number=} opt_index
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.addRoles = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 35, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.clearRolesList = function() {
+  return this.setRolesList([]);
 };
 
 
