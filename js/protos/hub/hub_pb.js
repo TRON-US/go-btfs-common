@@ -2173,7 +2173,11 @@ proto.hub.StatsResp.toObject = function(includeInstance, msg) {
     uptimeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
     ageWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
     versionWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
-    speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0)
+    speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
+    uploadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
+    uploadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 15, 0.0),
+    downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
+    downloadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 17, 0.0)
   };
 
   if (includeInstance) {
@@ -2262,6 +2266,22 @@ proto.hub.StatsResp.deserializeBinaryFromReader = function(msg, reader) {
     case 13:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setSpeedWeight(value);
+      break;
+    case 14:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUploadSpeedScore(value);
+      break;
+    case 15:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setUploadSpeedWeight(value);
+      break;
+    case 16:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setDownloadSpeedScore(value);
+      break;
+    case 17:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setDownloadSpeedWeight(value);
       break;
     default:
       reader.skipField();
@@ -2381,6 +2401,34 @@ proto.hub.StatsResp.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       13,
+      f
+    );
+  }
+  f = message.getUploadSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      14,
+      f
+    );
+  }
+  f = message.getUploadSpeedWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      15,
+      f
+    );
+  }
+  f = message.getDownloadSpeedScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      16,
+      f
+    );
+  }
+  f = message.getDownloadSpeedWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      17,
       f
     );
   }
@@ -2637,6 +2685,78 @@ proto.hub.StatsResp.prototype.getSpeedWeight = function() {
  */
 proto.hub.StatsResp.prototype.setSpeedWeight = function(value) {
   return jspb.Message.setProto3FloatField(this, 13, value);
+};
+
+
+/**
+ * optional float upload_speed_score = 14;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getUploadSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 14, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setUploadSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 14, value);
+};
+
+
+/**
+ * optional float upload_speed_weight = 15;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getUploadSpeedWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 15, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setUploadSpeedWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 15, value);
+};
+
+
+/**
+ * optional float download_speed_score = 16;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getDownloadSpeedScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 16, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setDownloadSpeedScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 16, value);
+};
+
+
+/**
+ * optional float download_speed_weight = 17;
+ * @return {number}
+ */
+proto.hub.StatsResp.prototype.getDownloadSpeedWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 17, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.StatsResp} returns this
+ */
+proto.hub.StatsResp.prototype.setDownloadSpeedWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 17, value);
 };
 
 

@@ -119,6 +119,10 @@ message StatsResp {
   float age_weight = 11;
   float version_weight = 12;
   float speed_weight = 13;
+  float upload_speed_score = 14;
+  float upload_speed_weight = 15;
+  float download_speed_score = 16;
+  float download_speed_weight = 17;
 }
 
 // HubParserService are interface for hub-parser
