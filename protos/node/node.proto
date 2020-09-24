@@ -117,23 +117,33 @@ message Node {
 
 message StorageStat {
   option (gogoproto.json_no_omit_empty) = true;
+  message HostStats {
+    float uptime = 1;
+    float score = 2;
+    float uptime_score = 3;
+    float age_score = 4;
+    float version_score = 5;
+    float speed_score = 6;
+    float upload_speed_score = 7;
+    float download_speed_score = 8;
+    float uptime_weight = 9;
+    float age_weight = 10;
+    float version_weight = 11;
+    float speed_weight = 12;
+    float upload_speed_weight = 13;
+    float download_speed_weight = 14;
+  }
   message Host {
     option (gogoproto.json_no_omit_empty) = true;
     bool online = 1;
-    float uptime = 2;
-    float score = 3;
-    int64 storage_used = 4;
-    int64 storage_cap = 5;
-    int64 storage_disk_total = 6;
-    int64 storage_disk_available = 7;
-    float uptime_score = 8;
-    float age_score = 9;
-    float version_score = 10;
-    float speed_score = 11;
-    float uptime_weight = 12;
-    float age_weight = 13;
-    float version_weight = 14;
-    float speed_weight = 15;
+    int64 storage_used = 2;
+    int64 storage_cap = 3;
+    int64 storage_disk_total = 4;
+    int64 storage_disk_available = 5;
+    HostStats stats = 6 [
+      (gogoproto.embed) = true,
+      (gogoproto.nullable) = false
+    ];
   }
   message Renter {
     option (gogoproto.json_no_omit_empty) = true;
