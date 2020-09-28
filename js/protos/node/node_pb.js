@@ -2805,7 +2805,8 @@ proto.node.StorageStat.HostStats.toObject = function(includeInstance, msg) {
     versionWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
     speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
     uploadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
-    downloadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0)
+    downloadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
+    lastUpdated: (f = msg.getLastUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2897,6 +2898,11 @@ proto.node.StorageStat.HostStats.deserializeBinaryFromReader = function(msg, rea
     case 14:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setDownloadSpeedWeight(value);
+      break;
+    case 15:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastUpdated(value);
       break;
     default:
       reader.skipField();
@@ -3023,6 +3029,14 @@ proto.node.StorageStat.HostStats.serializeBinaryToWriter = function(message, wri
     writer.writeFloat(
       14,
       f
+    );
+  }
+  f = message.getLastUpdated();
+  if (f != null) {
+    writer.writeMessage(
+      15,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -3277,6 +3291,43 @@ proto.node.StorageStat.HostStats.prototype.getDownloadSpeedWeight = function() {
  */
 proto.node.StorageStat.HostStats.prototype.setDownloadSpeedWeight = function(value) {
   return jspb.Message.setProto3FloatField(this, 14, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp last_updated = 15;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.StorageStat.HostStats.prototype.getLastUpdated = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 15));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+*/
+proto.node.StorageStat.HostStats.prototype.setLastUpdated = function(value) {
+  return jspb.Message.setWrapperField(this, 15, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.clearLastUpdated = function() {
+  return this.setLastUpdated(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.StorageStat.HostStats.prototype.hasLastUpdated = function() {
+  return jspb.Message.getField(this, 15) != null;
 };
 
 

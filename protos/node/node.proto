@@ -133,6 +133,10 @@ message StorageStat {
     float speed_weight = 12;
     float upload_speed_weight = 13;
     float download_speed_weight = 14;
+    google.protobuf.Timestamp last_updated = 15 [
+      (gogoproto.nullable) = false,
+      (gogoproto.stdtime) = true
+    ];
   }
   message Host {
     option (gogoproto.json_no_omit_empty) = true;
