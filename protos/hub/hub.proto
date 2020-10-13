@@ -105,24 +105,14 @@ message StatsReq {
 message StatsResp {
   ResponseCode code = 1;
   string message = 2;
-  float uptime = 3;
-  float score = 4;
-  google.protobuf.Timestamp response_time = 5 [
+  google.protobuf.Timestamp response_time = 3 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  float uptime_score = 6;
-  float age_score = 7;
-  float version_score = 8;
-  float speed_score = 9;
-  float uptime_weight = 10;
-  float age_weight = 11;
-  float version_weight = 12;
-  float speed_weight = 13;
-  float upload_speed_score = 14;
-  float upload_speed_weight = 15;
-  float download_speed_score = 16;
-  float download_speed_weight = 17;
+  node.StorageStat.HostStats stats = 4 [
+    (gogoproto.embed) = true,
+    (gogoproto.nullable) = false
+  ];
 }
 
 // HubParserService are interface for hub-parser
