@@ -30,6 +30,8 @@ service GuardService {
   rpc RetrieveFileInfo(ListRenterFileInfoRequest) returns (FileStoreListResponse);
   rpc RequestChallenge(ReadyForChallengeRequest) returns (RequestChallengeQuestion);
   rpc ResponseChallenge(ResponseChallengeQuestion) returns (Result);
+  rpc SubmitRepairContract(RepairContract) returns (RepairContractResponse);
+  rpc RequestForRepairContracts(RequestRepairContracts) returns (ResponseRepairContracts);
 }
 
 message Log {
@@ -330,6 +332,7 @@ message ReadyForChallengeRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 7;
+  bool is_repair = 8;
 }
 
 message RequestChallengeQuestion {
@@ -339,6 +342,8 @@ message RequestChallengeQuestion {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 3;
+  bool is_repair = 4;
+  string file_hash = 5;
 }
 
 message ResponseChallengeQuestion {
@@ -349,6 +354,8 @@ message ResponseChallengeQuestion {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 4;
+  bool is_repair = 5;
+  string file_hash = 6;
 }
 
 message ForceRepairRequest {
@@ -372,4 +379,64 @@ message Result {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+}
+
+message RepairContract {
+  string file_hash = 1;
+  repeated string lost_shard_hash = 2;
+  int64 file_size = 3;
+  int64 download_reward_amount = 4;
+  int64 repair_reward_amount = 5;
+  string repair_pid = 6;
+  google.protobuf.Timestamp repair_sign_time = 7 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes repair_signature = 8;
+  string download_contract_id = 9;
+  string repair_contract_id = 10;
+  google.protobuf.Timestamp guard_sign_time = 11 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes guard_signature = 12;
+}
+
+message RepairContractResponse {
+  RepairContract contract = 1;
+  enum ContractResponseStatus {
+    BOTH_SIGNED = 0; //the contract signed with guard signature
+    WAIT_LIST = 1; //guard cannot sign the contract now for some reason,
+    REJECTED = 2;
+  }
+  ContractResponseStatus status = 2;
+}
+
+message RequestRepairContracts {
+  string file_hash = 1;
+  string repair_node = 2;
+  google.protobuf.Timestamp repair_sign_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes repair_signature = 4;
+}
+
+message ResponseRepairContracts {
+  string file_hash = 1;
+  string repair_node = 2;
+  enum RepairStat {
+    CONTRACT_READY = 0;
+    DOWNLOAD_NOT_DONE = 1; //repair node need to pass the requestChallenge for the download file
+    REQUEST_AGAIN = 2; //the contract is uploading by another repair node which download file before, and the contracts can assigned to current repair node if that node did not complete work in given time
+    CONTRACT_CLOSED = 3; //the contract is done by another repair node, and current repair node can get the download reward
+  }
+  RepairStat state = 3;
+  FileStoreStatus status = 4;
+  string guard_pid = 5;
+  google.protobuf.Timestamp sign_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes guard_signature = 7;
 }
