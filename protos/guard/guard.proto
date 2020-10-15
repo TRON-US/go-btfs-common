@@ -32,6 +32,7 @@ service GuardService {
   rpc ResponseChallenge(ResponseChallengeQuestion) returns (Result);
   rpc SubmitRepairContract(RepairContract) returns (RepairContractResponse);
   rpc RequestForRepairContracts(RequestRepairContracts) returns (ResponseRepairContracts);
+  rpc ReportFailToDownload(CancelContractRequest) returns (Result);
 }
 
 message Log {
@@ -439,4 +440,24 @@ message ResponseRepairContracts {
     (gogoproto.stdtime) = true
   ];
   bytes guard_signature = 7;
+}
+
+message CancelContractRequest {
+  string file_hash = 1;
+  string shard_hash = 2;
+  string contract_id = 3;
+  string renter_pid = 4;
+  string host_pid = 5;
+  enum CancelReason {
+    HOST_REQUEST = 0;
+    DOWNLOAD_FAIL = 1;
+    RENTER_REQUEST = 2;
+    OTHER = 3;
+  }
+  CancelReason reason = 6;
+  google.protobuf.Timestamp sign_time = 7 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 8;
 }
