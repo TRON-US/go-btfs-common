@@ -10343,7 +10343,7 @@ proto.guard.ChallengeJobResponse.toObject = function(includeInstance, msg) {
     issuerPid: jspb.Message.getFieldWithDefault(msg, 2, ""),
     jobId: jspb.Message.getFieldWithDefault(msg, 3, ""),
     packageUrl: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    packageQuestionsCoung: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    packageQuestionsCount: jspb.Message.getFieldWithDefault(msg, 5, 0),
     sendTime: (f = msg.getSendTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     jobFinishDeadline: (f = msg.getJobFinishDeadline()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     signature: msg.getSignature_asB64()
@@ -10401,7 +10401,7 @@ proto.guard.ChallengeJobResponse.deserializeBinaryFromReader = function(msg, rea
       break;
     case 5:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setPackageQuestionsCoung(value);
+      msg.setPackageQuestionsCount(value);
       break;
     case 6:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -10474,7 +10474,7 @@ proto.guard.ChallengeJobResponse.serializeBinaryToWriter = function(message, wri
       f
     );
   }
-  f = message.getPackageQuestionsCoung();
+  f = message.getPackageQuestionsCount();
   if (f !== 0) {
     writer.writeInt32(
       5,
@@ -10580,10 +10580,10 @@ proto.guard.ChallengeJobResponse.prototype.setPackageUrl = function(value) {
 
 
 /**
- * optional int32 package_questions_coung = 5;
+ * optional int32 package_questions_count = 5;
  * @return {number}
  */
-proto.guard.ChallengeJobResponse.prototype.getPackageQuestionsCoung = function() {
+proto.guard.ChallengeJobResponse.prototype.getPackageQuestionsCount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
@@ -10592,7 +10592,7 @@ proto.guard.ChallengeJobResponse.prototype.getPackageQuestionsCoung = function()
  * @param {number} value
  * @return {!proto.guard.ChallengeJobResponse} returns this
  */
-proto.guard.ChallengeJobResponse.prototype.setPackageQuestionsCoung = function(value) {
+proto.guard.ChallengeJobResponse.prototype.setPackageQuestionsCount = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
 };
 

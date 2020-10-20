@@ -478,7 +478,7 @@ message ChallengeJobResponse {
   string issuer_pid = 2;
   string job_id = 3;
   string package_url = 4;
-  int32 package_questions_coung = 5;
+  int32 package_questions_count = 5;
   google.protobuf.Timestamp send_time = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
