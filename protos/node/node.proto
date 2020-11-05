@@ -33,9 +33,13 @@ enum NodeRole {
 }
 
 message PayLoadInfo {
-  Node node = 1;
-  string node_id = 2;
+  string node_id = 1;
+  Node node = 2;
   repeated DiscoveryNode discovery_nodes = 3;
+  google.protobuf.Timestamp last_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 enum DiscoveryErrorCode {
@@ -50,10 +54,6 @@ message DiscoveryNode {
   string to_node_id = 1;
   int32 node_connect_latency = 2;
   DiscoveryErrorCode err_code = 3;
-  google.protobuf.Timestamp last_time = 4 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
 }
 
 message DiscoveryTab {
