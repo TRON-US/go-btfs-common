@@ -368,10 +368,11 @@ proto.node.PayLoadInfo.prototype.toObject = function(opt_includeInstance) {
  */
 proto.node.PayLoadInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
+    nodeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     node: (f = msg.getNode()) && proto.node.Node.toObject(includeInstance, f),
-    nodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     discoveryNodesList: jspb.Message.toObjectList(msg.getDiscoveryNodesList(),
-    proto.node.DiscoveryNode.toObject, includeInstance)
+    proto.node.DiscoveryNode.toObject, includeInstance),
+    lastTime: (f = msg.getLastTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -409,18 +410,23 @@ proto.node.PayLoadInfo.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNodeId(value);
+      break;
+    case 2:
       var value = new proto.node.Node;
       reader.readMessage(value,proto.node.Node.deserializeBinaryFromReader);
       msg.setNode(value);
-      break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setNodeId(value);
       break;
     case 3:
       var value = new proto.node.DiscoveryNode;
       reader.readMessage(value,proto.node.DiscoveryNode.deserializeBinaryFromReader);
       msg.addDiscoveryNodes(value);
+      break;
+    case 4:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setLastTime(value);
       break;
     default:
       reader.skipField();
@@ -451,19 +457,19 @@ proto.node.PayLoadInfo.prototype.serializeBinary = function() {
  */
 proto.node.PayLoadInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getNode();
-  if (f != null) {
-    writer.writeMessage(
-      1,
-      f,
-      proto.node.Node.serializeBinaryToWriter
-    );
-  }
   f = message.getNodeId();
   if (f.length > 0) {
     writer.writeString(
-      2,
+      1,
       f
+    );
+  }
+  f = message.getNode();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.node.Node.serializeBinaryToWriter
     );
   }
   f = message.getDiscoveryNodesList();
@@ -474,16 +480,42 @@ proto.node.PayLoadInfo.serializeBinaryToWriter = function(message, writer) {
       proto.node.DiscoveryNode.serializeBinaryToWriter
     );
   }
+  f = message.getLastTime();
+  if (f != null) {
+    writer.writeMessage(
+      4,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
 };
 
 
 /**
- * optional Node node = 1;
+ * optional string node_id = 1;
+ * @return {string}
+ */
+proto.node.PayLoadInfo.prototype.getNodeId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.node.PayLoadInfo} returns this
+ */
+proto.node.PayLoadInfo.prototype.setNodeId = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional Node node = 2;
  * @return {?proto.node.Node}
  */
 proto.node.PayLoadInfo.prototype.getNode = function() {
   return /** @type{?proto.node.Node} */ (
-    jspb.Message.getWrapperField(this, proto.node.Node, 1));
+    jspb.Message.getWrapperField(this, proto.node.Node, 2));
 };
 
 
@@ -492,7 +524,7 @@ proto.node.PayLoadInfo.prototype.getNode = function() {
  * @return {!proto.node.PayLoadInfo} returns this
 */
 proto.node.PayLoadInfo.prototype.setNode = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
@@ -510,25 +542,7 @@ proto.node.PayLoadInfo.prototype.clearNode = function() {
  * @return {boolean}
  */
 proto.node.PayLoadInfo.prototype.hasNode = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional string node_id = 2;
- * @return {string}
- */
-proto.node.PayLoadInfo.prototype.getNodeId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.node.PayLoadInfo} returns this
- */
-proto.node.PayLoadInfo.prototype.setNodeId = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -570,6 +584,43 @@ proto.node.PayLoadInfo.prototype.clearDiscoveryNodesList = function() {
 };
 
 
+/**
+ * optional google.protobuf.Timestamp last_time = 4;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.PayLoadInfo.prototype.getLastTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.PayLoadInfo} returns this
+*/
+proto.node.PayLoadInfo.prototype.setLastTime = function(value) {
+  return jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.PayLoadInfo} returns this
+ */
+proto.node.PayLoadInfo.prototype.clearLastTime = function() {
+  return this.setLastTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.PayLoadInfo.prototype.hasLastTime = function() {
+  return jspb.Message.getField(this, 4) != null;
+};
+
+
 
 
 
@@ -604,8 +655,7 @@ proto.node.DiscoveryNode.toObject = function(includeInstance, msg) {
   var f, obj = {
     toNodeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     nodeConnectLatency: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    errCode: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    lastTime: (f = msg.getLastTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    errCode: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -653,11 +703,6 @@ proto.node.DiscoveryNode.deserializeBinaryFromReader = function(msg, reader) {
     case 3:
       var value = /** @type {!proto.node.DiscoveryErrorCode} */ (reader.readEnum());
       msg.setErrCode(value);
-      break;
-    case 4:
-      var value = new google_protobuf_timestamp_pb.Timestamp;
-      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setLastTime(value);
       break;
     default:
       reader.skipField();
@@ -707,14 +752,6 @@ proto.node.DiscoveryNode.serializeBinaryToWriter = function(message, writer) {
     writer.writeEnum(
       3,
       f
-    );
-  }
-  f = message.getLastTime();
-  if (f != null) {
-    writer.writeMessage(
-      4,
-      f,
-      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -771,43 +808,6 @@ proto.node.DiscoveryNode.prototype.getErrCode = function() {
  */
 proto.node.DiscoveryNode.prototype.setErrCode = function(value) {
   return jspb.Message.setProto3EnumField(this, 3, value);
-};
-
-
-/**
- * optional google.protobuf.Timestamp last_time = 4;
- * @return {?proto.google.protobuf.Timestamp}
- */
-proto.node.DiscoveryNode.prototype.getLastTime = function() {
-  return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
-};
-
-
-/**
- * @param {?proto.google.protobuf.Timestamp|undefined} value
- * @return {!proto.node.DiscoveryNode} returns this
-*/
-proto.node.DiscoveryNode.prototype.setLastTime = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.node.DiscoveryNode} returns this
- */
-proto.node.DiscoveryNode.prototype.clearLastTime = function() {
-  return this.setLastTime(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.node.DiscoveryNode.prototype.hasLastTime = function() {
-  return jspb.Message.getField(this, 4) != null;
 };
 
 
