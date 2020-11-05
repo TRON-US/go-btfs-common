@@ -39,11 +39,11 @@ message PayLoadInfo {
 
 message Discovery {
   message DiscoveryNode {
-    string from_node_id = 1;
-    string to_node_id = 2;
-    uint64 node_connected = 3;
+    string to_node_id = 1;
+    uint64 node_connected = 2;
   }
-  repeated DiscoveryNode discovery_nodes = 1;
+  string from_node_id = 1;
+  repeated DiscoveryNode discovery_nodes = 2;
 }
 
 message Node {

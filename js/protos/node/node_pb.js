@@ -536,7 +536,7 @@ proto.node.PayLoadInfo.prototype.hasDiscovery = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.node.Discovery.repeatedFields_ = [1];
+proto.node.Discovery.repeatedFields_ = [2];
 
 
 
@@ -569,6 +569,7 @@ proto.node.Discovery.prototype.toObject = function(opt_includeInstance) {
  */
 proto.node.Discovery.toObject = function(includeInstance, msg) {
   var f, obj = {
+    fromNodeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     discoveryNodesList: jspb.Message.toObjectList(msg.getDiscoveryNodesList(),
     proto.node.Discovery.DiscoveryNode.toObject, includeInstance)
   };
@@ -608,6 +609,10 @@ proto.node.Discovery.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFromNodeId(value);
+      break;
+    case 2:
       var value = new proto.node.Discovery.DiscoveryNode;
       reader.readMessage(value,proto.node.Discovery.DiscoveryNode.deserializeBinaryFromReader);
       msg.addDiscoveryNodes(value);
@@ -641,10 +646,17 @@ proto.node.Discovery.prototype.serializeBinary = function() {
  */
 proto.node.Discovery.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getFromNodeId();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
   f = message.getDiscoveryNodesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      1,
+      2,
       f,
       proto.node.Discovery.DiscoveryNode.serializeBinaryToWriter
     );
@@ -684,9 +696,8 @@ proto.node.Discovery.DiscoveryNode.prototype.toObject = function(opt_includeInst
  */
 proto.node.Discovery.DiscoveryNode.toObject = function(includeInstance, msg) {
   var f, obj = {
-    fromNodeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    toNodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    nodeConnected: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    toNodeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    nodeConnected: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -725,13 +736,9 @@ proto.node.Discovery.DiscoveryNode.deserializeBinaryFromReader = function(msg, r
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFromNodeId(value);
-      break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
       msg.setToNodeId(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setNodeConnected(value);
       break;
@@ -764,24 +771,17 @@ proto.node.Discovery.DiscoveryNode.prototype.serializeBinary = function() {
  */
 proto.node.Discovery.DiscoveryNode.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getFromNodeId();
+  f = message.getToNodeId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getToNodeId();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
   f = message.getNodeConnected();
   if (f !== 0) {
     writer.writeUint64(
-      3,
+      2,
       f
     );
   }
@@ -789,10 +789,10 @@ proto.node.Discovery.DiscoveryNode.serializeBinaryToWriter = function(message, w
 
 
 /**
- * optional string from_node_id = 1;
+ * optional string to_node_id = 1;
  * @return {string}
  */
-proto.node.Discovery.DiscoveryNode.prototype.getFromNodeId = function() {
+proto.node.Discovery.DiscoveryNode.prototype.getToNodeId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -801,35 +801,17 @@ proto.node.Discovery.DiscoveryNode.prototype.getFromNodeId = function() {
  * @param {string} value
  * @return {!proto.node.Discovery.DiscoveryNode} returns this
  */
-proto.node.Discovery.DiscoveryNode.prototype.setFromNodeId = function(value) {
+proto.node.Discovery.DiscoveryNode.prototype.setToNodeId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string to_node_id = 2;
- * @return {string}
- */
-proto.node.Discovery.DiscoveryNode.prototype.getToNodeId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.node.Discovery.DiscoveryNode} returns this
- */
-proto.node.Discovery.DiscoveryNode.prototype.setToNodeId = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional uint64 node_connected = 3;
+ * optional uint64 node_connected = 2;
  * @return {number}
  */
 proto.node.Discovery.DiscoveryNode.prototype.getNodeConnected = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -838,17 +820,35 @@ proto.node.Discovery.DiscoveryNode.prototype.getNodeConnected = function() {
  * @return {!proto.node.Discovery.DiscoveryNode} returns this
  */
 proto.node.Discovery.DiscoveryNode.prototype.setNodeConnected = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * repeated DiscoveryNode discovery_nodes = 1;
+ * optional string from_node_id = 1;
+ * @return {string}
+ */
+proto.node.Discovery.prototype.getFromNodeId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.node.Discovery} returns this
+ */
+proto.node.Discovery.prototype.setFromNodeId = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * repeated DiscoveryNode discovery_nodes = 2;
  * @return {!Array<!proto.node.Discovery.DiscoveryNode>}
  */
 proto.node.Discovery.prototype.getDiscoveryNodesList = function() {
   return /** @type{!Array<!proto.node.Discovery.DiscoveryNode>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.node.Discovery.DiscoveryNode, 1));
+    jspb.Message.getRepeatedWrapperField(this, proto.node.Discovery.DiscoveryNode, 2));
 };
 
 
@@ -857,7 +857,7 @@ proto.node.Discovery.prototype.getDiscoveryNodesList = function() {
  * @return {!proto.node.Discovery} returns this
 */
 proto.node.Discovery.prototype.setDiscoveryNodesList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 1, value);
+  return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
@@ -867,7 +867,7 @@ proto.node.Discovery.prototype.setDiscoveryNodesList = function(value) {
  * @return {!proto.node.Discovery.DiscoveryNode}
  */
 proto.node.Discovery.prototype.addDiscoveryNodes = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.node.Discovery.DiscoveryNode, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.node.Discovery.DiscoveryNode, opt_index);
 };
 
 
