@@ -32,6 +32,20 @@ enum NodeRole {
   OTHER = 20;
 }
 
+message PayLoadInfo {
+  Node node = 1;
+  Discovery discovery = 2;
+}
+
+message Discovery {
+  message DiscoveryNode {
+    string from_node_id = 1;
+    string to_node_id = 2;
+    uint64 node_connected = 3;
+  }
+  repeated DiscoveryNode discovery_nodes = 1;
+}
+
 message Node {
   message Settings {
     uint64 storage_price_ask = 1;
