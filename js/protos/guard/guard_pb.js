@@ -11073,7 +11073,8 @@ proto.guard.ChallengeResult.toObject = function(includeInstance, msg) {
     hostPid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     shardHash: jspb.Message.getFieldWithDefault(msg, 2, ""),
     nonce: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    result: jspb.Message.getFieldWithDefault(msg, 4, "")
+    result: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    isTimeout: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
   };
 
   if (includeInstance) {
@@ -11125,6 +11126,10 @@ proto.guard.ChallengeResult.deserializeBinaryFromReader = function(msg, reader) 
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setResult(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsTimeout(value);
       break;
     default:
       reader.skipField();
@@ -11180,6 +11185,13 @@ proto.guard.ChallengeResult.serializeBinaryToWriter = function(message, writer) 
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getIsTimeout();
+  if (f) {
+    writer.writeBool(
+      5,
       f
     );
   }
@@ -11255,6 +11267,24 @@ proto.guard.ChallengeResult.prototype.getResult = function() {
  */
 proto.guard.ChallengeResult.prototype.setResult = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional bool is_timeout = 5;
+ * @return {boolean}
+ */
+proto.guard.ChallengeResult.prototype.getIsTimeout = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.guard.ChallengeResult} returns this
+ */
+proto.guard.ChallengeResult.prototype.setIsTimeout = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 5, value);
 };
 
 

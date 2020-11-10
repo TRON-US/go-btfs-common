@@ -506,4 +506,5 @@ message ChallengeResult {
   string shard_hash = 2;
   string nonce = 3;
   string result = 4;
+  bool is_timeout = 5;
 }
