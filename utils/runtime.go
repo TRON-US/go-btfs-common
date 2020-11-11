@@ -14,16 +14,52 @@ import (
 	"go.uber.org/zap"
 )
 
+// DBURLDNE database does not exist or unreachable
 const DBURLDNE = "DB URL does not exist !!"
+
+// RDURLDNE redis does not exist or unreachable
 const RDURLDNE = "RD URL does not exist !!"
 
+type dbObj struct {
+	dbConn dbConnection
+}
+
+type dbConnection interface {
+	checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport)
+}
+
+type redisObj struct {
+	url string
+}
+
+type postgresObj struct {
+	urls map[string]string
+}
+
+// CheckDBConnection checks database connections.
 func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
 	report.DbStatusExtra = make(map[string]string)
 
-	for key, url := range connection.PgURL {
+	var checker []*dbObj
+	checker = append(checker,
+		&dbObj{dbConn: &postgresObj{urls: connection.PgURL}},
+		&dbObj{dbConn: &redisObj{url: connection.RdURL}})
+
+	// Check connection for each dbObj
+	for _, check := range checker {
+		check.dbConn.checkConnection(ctx, report)
+	}
+
+	// Remaining fields will be populated by the calling service
+	// Reserve: only pass fatal error to higher level
+	return report, nil
+}
+
+func (p *postgresObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
+	for key, url := range p.urls {
 		// Assume the database connection is healthy
 		report.DbStatusExtra[key] = DBURLDNE
 
@@ -37,7 +73,8 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 				zap.String("db", pgdb.Options().Database),
 			)
 
-			// Check postgres dbWrite
+			// Ping the database.
+			// TODO: Separate function to test only ro and rw access
 			if err := pgdb.Ping(); err != nil {
 				report.DbStatusExtra[key] = constant.DBWriteConnectionError
 				report.Status = sharedpb.RuntimeInfoReport_SICK
@@ -51,14 +88,17 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 		// Log status
 		log.Info(key + ":" + report.DbStatusExtra[key])
 	}
+}
+
+func (r *redisObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
 
 	// Assume the redis connection is not present
 	report.RdStatusExtra = RDURLDNE
 
 	// Check redis environment variable
-	if connection.RdURL != "" {
+	if r.url != "" {
 		// Parse redis url
-		opts, errParse := redis.ParseRedisURL(connection.RdURL)
+		opts, errParse := redis.ParseRedisURL(r.url)
 		if errParse != nil {
 			log.Error(constant.RDURLParseError, zap.Error(errParse))
 		}
@@ -70,6 +110,7 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 		)
 
 		// Check redis connection
+		// TODO: Separate function to test only ro and rw access
 		errConn := redis.CheckRedisConnection(redis.NewRedisConn(opts))
 		if errConn != nil {
 			report.RdStatusExtra = constant.RDConnectionError
@@ -83,8 +124,4 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 
 	// Log status
 	log.Info(report.RdStatusExtra)
-
-	// Remaining fields will be populated by the calling service
-	// Reserve: only pass fatal error to higher level
-	return report, nil
 }
