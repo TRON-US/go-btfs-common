@@ -57,12 +57,13 @@ message DiscoveryNode {
 }
 
 message DiscoveryTab {
-  string node_id = 1;
-  uint32 connect_cnt = 2;
-  int32 avg_connect_latency = 3;
-  DiscoveryErrorCode err_code = 4;
-  int32 discovery_label = 5;
-  google.protobuf.Timestamp time_created = 6 [
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"node_discovery,alias:t,discard_unknown_columns\""];
+  string node_id = 2;
+  uint32 connect_cnt = 3;
+  int32 avg_connect_latency = 4;
+  DiscoveryErrorCode err_code = 5;
+  int32 discovery_label = 6;
+  google.protobuf.Timestamp time_created = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
