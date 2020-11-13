@@ -21,7 +21,6 @@ import "google/protobuf/empty.proto";
 
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
-  rpc UpdateBtfsScan(SignedMetrics) returns (google.protobuf.Empty);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
 }
 
