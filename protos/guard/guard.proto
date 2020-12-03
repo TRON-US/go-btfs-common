@@ -493,7 +493,7 @@ message ChallengeJobResponse {
 message ChallengeJobResult {
   string node_pid = 1;
   string job_id = 2;
-  repeated ChallengeResult result = 3;
+  repeated ShardChallengeResult result = 3;
   google.protobuf.Timestamp submit_time = 4 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -501,10 +501,11 @@ message ChallengeJobResult {
   bytes signature = 5;
 }
 
-message ChallengeResult {
+message ShardChallengeResult {
   string host_pid = 1;
-  string shard_hash = 2;
-  string nonce = 3;
-  string result = 4;
-  bool is_timeout = 5;
+  string file_hash = 2;
+  string shard_hash = 3;
+  string nonce = 4;
+  string result = 5;
+  bool is_timeout = 6;
 }
