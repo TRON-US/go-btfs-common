@@ -45,7 +45,7 @@ message AdminQuery {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  int32 query_count = 3; //for the daily summary query, it is always 1
+  int32 query_count = 3; //for the daily summary query, it is always 1; only the not_cheat records count, cheat records will be return same time
   google.protobuf.Timestamp request_time = 4 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
@@ -89,6 +89,7 @@ message HostStatus {
   string host_pid = 1;
   int64 file_size = 2;
   int64 airdrop_amount = 3; //only have value for new contract query
+  bool suspect_cheat = 4;
 }
 
 message Log {

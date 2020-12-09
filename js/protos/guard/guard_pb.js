@@ -1773,7 +1773,8 @@ proto.guard.HostStatus.toObject = function(includeInstance, msg) {
   var f, obj = {
     hostPid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     fileSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    airdropAmount: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    airdropAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    suspectCheat: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -1822,6 +1823,10 @@ proto.guard.HostStatus.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt64());
       msg.setAirdropAmount(value);
       break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setSuspectCheat(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1869,6 +1874,13 @@ proto.guard.HostStatus.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt64(
       3,
+      f
+    );
+  }
+  f = message.getSuspectCheat();
+  if (f) {
+    writer.writeBool(
+      4,
       f
     );
   }
@@ -1926,6 +1938,24 @@ proto.guard.HostStatus.prototype.getAirdropAmount = function() {
  */
 proto.guard.HostStatus.prototype.setAirdropAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional bool suspect_cheat = 4;
+ * @return {boolean}
+ */
+proto.guard.HostStatus.prototype.getSuspectCheat = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.guard.HostStatus} returns this
+ */
+proto.guard.HostStatus.prototype.setSuspectCheat = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 
