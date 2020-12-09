@@ -3,17 +3,19 @@ module github.com/tron-us/go-btfs-common
 go 1.13
 
 require (
-	github.com/btcsuite/btcutil v0.0.0-20190425235716-9e5f4b9a998d
-	github.com/ethereum/go-ethereum v1.9.17
+	github.com/btcsuite/btcutil v1.0.2
+	github.com/ethereum/go-ethereum v1.9.24
 	github.com/gogo/protobuf v1.3.1
-	github.com/golang/protobuf v1.3.3
+	github.com/golang/protobuf v1.4.3
+	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/libp2p/go-libp2p-core v0.0.6
-	github.com/stretchr/testify v1.4.0
-	github.com/tron-us/go-common/v2 v2.1.1
+	github.com/prometheus/client_golang v1.8.0
+	github.com/stretchr/testify v1.6.1
+	github.com/tron-us/go-common/v2 v2.2.2-0.20201209024007-37aa5dbce6c9
 	github.com/tron-us/protobuf v1.3.4
-	go.uber.org/zap v1.14.1
-	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
-	google.golang.org/grpc v1.25.1
+	go.uber.org/zap v1.16.0
+	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
+	google.golang.org/grpc v1.34.0
 )
 
 replace github.com/libp2p/go-libp2p-core => github.com/TRON-US/go-libp2p-core v0.4.1

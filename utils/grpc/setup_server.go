@@ -3,6 +3,9 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"net"
+	"net/http"
+
 	"github.com/tron-us/go-btfs-common/controller"
 	"github.com/tron-us/go-btfs-common/protos/escrow"
 	"github.com/tron-us/go-btfs-common/protos/guard"
@@ -10,13 +13,14 @@ import (
 	"github.com/tron-us/go-btfs-common/protos/shared"
 	"github.com/tron-us/go-btfs-common/protos/status"
 	"github.com/tron-us/go-btfs-common/utils"
-	"github.com/tron-us/go-common/v2/db"
-	"net"
 
 	"github.com/tron-us/go-common/v2/constant"
+	"github.com/tron-us/go-common/v2/db"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
 
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -79,16 +83,28 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		done <- true
 	}()
 
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 	req := new(shared.SignedRuntimeInfoRequest)
 	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
 
 	_, err = utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
-		log.Panic("Got error", zap.Error(err))
+		log.Panic("Unable to connect to DB", zap.Error(err))
 	}
 
 	<-done
+
+	go func() {
+		// After all your registrations, make sure all of the Prometheus metrics are initialized.
+		grpc_prometheus.Register(s.server)
+		// Register Prometheus metrics handler.
+		http.Handle("/metrics", promhttp.Handler())
+		err := http.ListenAndServe(":8080", nil)
+		if err != nil {
+			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
+		}
+	}()
 
 	return s
 }
