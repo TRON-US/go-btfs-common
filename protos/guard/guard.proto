@@ -33,6 +33,62 @@ service GuardService {
   rpc SubmitRepairContract(RepairContract) returns (RepairContractResponse);
   rpc RequestForRepairContracts(RequestRepairContracts) returns (ResponseRepairContracts);
   rpc ReportFailToDownload(CancelContractRequest) returns (Result);
+  //used by btfs scan
+  rpc AdminGetDailySummary(AdminQuery) returns (DailySummary);
+  rpc AdminGetDailyHostsRankNew(AdminQuery) returns (HostSummary); //query the hosts of the day's new contracts' file size
+  rpc AdminGetDailyHostsRankTotal(AdminQuery) returns (HostSummary); //query the hosts of total storage file size
+}
+
+message AdminQuery {
+  string requester_pid = 1;
+  google.protobuf.Timestamp query_date = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  int32 query_count = 3; //for the daily summary query, it is always 1
+  google.protobuf.Timestamp request_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 5;
+}
+
+message DailySummary {
+  google.protobuf.Timestamp query_date = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp response_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string preparer_pid = 3; //the system who generate the result, should be guard's peer id
+  bytes signature = 4;
+  int64 working_storage_size = 5; //total working storage size of the day
+  int64 new_contracts = 6; //the day's new contracts count
+  int64 new_contracts_host = 7; //count of the hosts who receive and pass challenge the day
+  int64 new_contracts_renter = 8; //count of the renters who upload contract the day
+}
+
+message HostSummary {
+  google.protobuf.Timestamp query_date = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp response_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string preparer_pid = 3; //the system who generate the result, should be guard's peer id
+  bytes signature = 4;
+  int32 record_count = 5;
+  repeated HostStatus status = 6;
+}
+
+message HostStatus {
+  string host_pid = 1;
+  int64 file_size = 2;
+  int64 airdrop_amount = 3; //only have value for new contract query
 }
 
 message Log {
