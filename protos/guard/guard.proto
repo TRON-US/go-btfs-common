@@ -88,8 +88,9 @@ message HostSummary {
 message HostStatus {
   string host_pid = 1;
   int64 file_size = 2;
-  int64 airdrop_amount = 3; //only have value for new contract query
-  bool suspect_cheat = 4;
+  int64 work_amount = 3; //amount the hosts received or will receive in the contracts
+  int64 airdrop_amount = 4; //only have value for new contract query
+  bool suspect_cheat = 5;
 }
 
 message Log {
