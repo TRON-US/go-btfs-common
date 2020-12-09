@@ -32,6 +32,43 @@ enum NodeRole {
   OTHER = 20;
 }
 
+message PayLoadInfo {
+  string node_id = 1;
+  Node node = 2;
+  repeated DiscoveryNode discovery_nodes = 3;
+  google.protobuf.Timestamp last_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+enum DiscoveryErrorCode {
+  SUCCESS = 0;
+  UNCONNECTED = 1;
+  TIMEOUT = 2;
+  ABSOLUTELY_UNOPEN = 3;
+  OTHER_REASON = 10;
+}
+
+message DiscoveryNode {
+  string to_node_id = 1;
+  int32 node_connect_latency = 2;
+  DiscoveryErrorCode err_code = 3;
+}
+
+message DiscoveryTab {
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"node_discovery,alias:t,discard_unknown_columns\""];
+  string node_id = 2;
+  uint32 connect_cnt = 3;
+  int32 avg_connect_latency = 4;
+  DiscoveryErrorCode err_code = 5;
+  int32 discovery_label = 6;
+  google.protobuf.Timestamp time_created = 7 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
 message Node {
   message Settings {
     uint64 storage_price_ask = 1;

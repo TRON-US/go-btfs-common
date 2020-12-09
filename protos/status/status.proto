@@ -21,7 +21,9 @@ import "google/protobuf/empty.proto";
 
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
+  rpc UpdateMetricsAndDiscovery(SignedMetrics) returns (google.protobuf.Empty);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
+  rpc UpdateDiscoveryAggregation(NodeDiscoveryAggrReq) returns (google.protobuf.Empty);
 }
 
 message SignedMetrics {
@@ -31,5 +33,9 @@ message SignedMetrics {
 }
 
 message NodeMetricsAggrReq {
+  string source = 1;
+}
+
+message NodeDiscoveryAggrReq {
   string source = 1;
 }
