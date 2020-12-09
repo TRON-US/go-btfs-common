@@ -99,6 +99,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 	go func() {
 		// After all your registrations, make sure all of the Prometheus metrics are initialized.
 		grpc_prometheus.Register(s.server)
+		grpc_prometheus.EnableHandlingTimeHistogram()
 		// Register Prometheus metrics handler.
 		http.Handle("/metrics", promhttp.Handler())
 		err := http.ListenAndServe(":8080", nil)
