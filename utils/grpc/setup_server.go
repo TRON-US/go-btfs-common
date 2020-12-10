@@ -79,8 +79,23 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 			RegisterServer(server).
 			RegisterHealthServer().
 			WithReflection().
-			WithGracefulTermDetectAndExec().
-			AcceptConnection()
+			WithGracefulTermDetectAndExec()
+		// After all your registrations, make sure all of the Prometheus metrics are initialized.
+		grpc_prometheus.Register(s.server)
+		grpc_prometheus.EnableHandlingTimeHistogram()
+		go func() {
+			// Register Prometheus metrics handler.
+			http.Handle("/metrics", promhttp.Handler())
+			log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
+			err := http.ListenAndServe(":8080", nil)
+			if err != nil {
+				log.Panic("Prometheus listening server is shutting down", zap.Error(err))
+			}
+		}()
+		// GRPC entry point
+		log.Info("Starting to accept connections", zap.String("service", s.serverName))
+		s.AcceptConnection()
+		// Terminated
 		done <- true
 	}()
 
@@ -95,19 +110,6 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 	}
 
 	<-done
-
-	go func() {
-		// After all your registrations, make sure all of the Prometheus metrics are initialized.
-		grpc_prometheus.Register(s.server)
-		grpc_prometheus.EnableHandlingTimeHistogram()
-		// Register Prometheus metrics handler.
-		http.Handle("/metrics", promhttp.Handler())
-		log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
-		err := http.ListenAndServe(":8080", nil)
-		if err != nil {
-			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
-		}
-	}()
 
 	return s
 }
