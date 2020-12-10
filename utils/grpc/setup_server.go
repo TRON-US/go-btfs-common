@@ -102,6 +102,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		grpc_prometheus.EnableHandlingTimeHistogram()
 		// Register Prometheus metrics handler.
 		http.Handle("/metrics", promhttp.Handler())
+		log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
 		err := http.ListenAndServe(":8080", nil)
 		if err != nil {
 			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
