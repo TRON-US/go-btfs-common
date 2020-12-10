@@ -68,6 +68,7 @@ message DailySummary {
   int64 new_contracts = 6; //the day's new contracts count
   int64 new_contracts_host = 7; //count of the hosts who receive and pass challenge the day
   int64 new_contracts_renter = 8; //count of the renters who upload contract the day
+  int64 new_contracts_average_price = 9; //average price of the day's contracts
 }
 
 message HostSummary {
@@ -89,7 +90,7 @@ message HostStatus {
   string host_pid = 1;
   int64 file_size = 2;
   int64 work_amount = 3; //amount the hosts received or will receive in the contracts
-  int64 airdrop_amount = 4; //only have value for new contract query
+  int64 reward_btt = 4; //only have value for new contract query
   bool suspect_cheat = 5;
 }
 

@@ -996,7 +996,8 @@ proto.guard.DailySummary.toObject = function(includeInstance, msg) {
     workingStorageSize: jspb.Message.getFieldWithDefault(msg, 5, 0),
     newContracts: jspb.Message.getFieldWithDefault(msg, 6, 0),
     newContractsHost: jspb.Message.getFieldWithDefault(msg, 7, 0),
-    newContractsRenter: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    newContractsRenter: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    newContractsAveragePrice: jspb.Message.getFieldWithDefault(msg, 9, 0)
   };
 
   if (includeInstance) {
@@ -1066,6 +1067,10 @@ proto.guard.DailySummary.deserializeBinaryFromReader = function(msg, reader) {
     case 8:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setNewContractsRenter(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setNewContractsAveragePrice(value);
       break;
     default:
       reader.skipField();
@@ -1151,6 +1156,13 @@ proto.guard.DailySummary.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt64(
       8,
+      f
+    );
+  }
+  f = message.getNewContractsAveragePrice();
+  if (f !== 0) {
+    writer.writeInt64(
+      9,
       f
     );
   }
@@ -1360,6 +1372,24 @@ proto.guard.DailySummary.prototype.getNewContractsRenter = function() {
  */
 proto.guard.DailySummary.prototype.setNewContractsRenter = function(value) {
   return jspb.Message.setProto3IntField(this, 8, value);
+};
+
+
+/**
+ * optional int64 new_contracts_average_price = 9;
+ * @return {number}
+ */
+proto.guard.DailySummary.prototype.getNewContractsAveragePrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.DailySummary} returns this
+ */
+proto.guard.DailySummary.prototype.setNewContractsAveragePrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
@@ -1773,8 +1803,9 @@ proto.guard.HostStatus.toObject = function(includeInstance, msg) {
   var f, obj = {
     hostPid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     fileSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    airdropAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    suspectCheat: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
+    workAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    rewardBtt: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    suspectCheat: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
   };
 
   if (includeInstance) {
@@ -1821,9 +1852,13 @@ proto.guard.HostStatus.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setAirdropAmount(value);
+      msg.setWorkAmount(value);
       break;
     case 4:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setRewardBtt(value);
+      break;
+    case 5:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setSuspectCheat(value);
       break;
@@ -1870,17 +1905,24 @@ proto.guard.HostStatus.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getAirdropAmount();
+  f = message.getWorkAmount();
   if (f !== 0) {
     writer.writeInt64(
       3,
       f
     );
   }
+  f = message.getRewardBtt();
+  if (f !== 0) {
+    writer.writeInt64(
+      4,
+      f
+    );
+  }
   f = message.getSuspectCheat();
   if (f) {
     writer.writeBool(
-      4,
+      5,
       f
     );
   }
@@ -1924,10 +1966,10 @@ proto.guard.HostStatus.prototype.setFileSize = function(value) {
 
 
 /**
- * optional int64 airdrop_amount = 3;
+ * optional int64 work_amount = 3;
  * @return {number}
  */
-proto.guard.HostStatus.prototype.getAirdropAmount = function() {
+proto.guard.HostStatus.prototype.getWorkAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1936,17 +1978,35 @@ proto.guard.HostStatus.prototype.getAirdropAmount = function() {
  * @param {number} value
  * @return {!proto.guard.HostStatus} returns this
  */
-proto.guard.HostStatus.prototype.setAirdropAmount = function(value) {
+proto.guard.HostStatus.prototype.setWorkAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional bool suspect_cheat = 4;
+ * optional int64 reward_btt = 4;
+ * @return {number}
+ */
+proto.guard.HostStatus.prototype.getRewardBtt = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.HostStatus} returns this
+ */
+proto.guard.HostStatus.prototype.setRewardBtt = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+/**
+ * optional bool suspect_cheat = 5;
  * @return {boolean}
  */
 proto.guard.HostStatus.prototype.getSuspectCheat = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
 };
 
 
@@ -1955,7 +2015,7 @@ proto.guard.HostStatus.prototype.getSuspectCheat = function() {
  * @return {!proto.guard.HostStatus} returns this
  */
 proto.guard.HostStatus.prototype.setSuspectCheat = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 4, value);
+  return jspb.Message.setProto3BooleanField(this, 5, value);
 };
 
 
