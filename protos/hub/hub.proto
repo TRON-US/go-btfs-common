@@ -27,7 +27,6 @@ service HubQueryService {
   rpc GetStats(StatsReq) returns (StatsResp);
   rpc QueryNodes(NodesReq) returns (HostsResp); //used by internal services
   rpc GetHostsByRoles(RolesHostsReq) returns (HostsResp);
-  rpc UpdateBtfsScan(ParseReq) returns (ParseResp);
 }
 
 message NodesReq {
@@ -122,6 +121,7 @@ service HubParseService {
   rpc UpdateScore(ParseReq) returns (ParseResp);
   rpc UpdateNetwork(ParseReq) returns (ParseResp);
   rpc Recycle(RecycleReq) returns (ParseResp);
+  rpc UpdateBtfsScan(ParseReq) returns (ParseResp);
 }
 
 message Candidate {
