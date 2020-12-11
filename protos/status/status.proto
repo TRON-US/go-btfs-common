@@ -16,12 +16,15 @@ option java_multiple_files = true;
 option java_outer_classname = "StatusProto";
 option java_package = "io.btfs.status";
 
+import "github.com/tron-us/go-btfs-common/protos/hub/hub.proto";
+import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
 
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
+  rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (BtfsScanAggrResp);
 }
 
 message SignedMetrics {
@@ -32,4 +35,13 @@ message SignedMetrics {
 
 message NodeMetricsAggrReq {
   string source = 1;
+}
+
+message BtfsScanAggrReq {
+  node.BtfsScanTab info = 1;
+}
+
+message BtfsScanAggrResp {
+  hub.ResponseCode code = 1;
+  string message = 2;
 }
