@@ -250,3 +250,15 @@ message Contracts {
   }
   repeated Contract contracts = 1;
 }
+
+message BtfsScanTab {
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"btfs_scan,alias:t,discard_unknown_columns\""];
+  double storage_volume_left = 2;
+  uint32 online_miners_number = 3;
+  map<string, int32> country_distribute = 4;
+  map<string, int32> score_distribute = 5;
+  google.protobuf.Timestamp time_created = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
