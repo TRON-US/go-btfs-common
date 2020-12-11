@@ -106,7 +106,7 @@ func (r *redisObj) checkConnection(ctx context.Context, report *sharedpb.Runtime
 		// Log connection string
 		log.Info("Redis URL",
 			zap.String("host", opts.Addr),
-			zap.String("db", string(opts.DB)),
+			zap.Int("db", opts.DB),
 		)
 
 		// Check redis connection
