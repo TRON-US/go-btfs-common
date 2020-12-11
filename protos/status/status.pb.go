@@ -5,17 +5,20 @@ package status
 
 import (
 	context "context"
+	encoding_binary "encoding/binary"
 	fmt "fmt"
 	types "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	_ "github.com/tron-us/protobuf/gogoproto"
 	proto "github.com/tron-us/protobuf/proto"
+	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -23,6 +26,7 @@ var _ = proto.Marshal
 var _ = golang_proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -198,6 +202,97 @@ func (m *NodeDiscoveryAggrReq) GetSource() string {
 func (*NodeDiscoveryAggrReq) XXX_MessageName() string {
 	return "status.NodeDiscoveryAggrReq"
 }
+
+type BtfsScanAggrReq struct {
+	tableName            string           `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name"`
+	StorageVolumeLeft    float64          `protobuf:"fixed64,2,opt,name=storage_volume_left,json=storageVolumeLeft,proto3" json:"storage_volume_left,omitempty" pg:"storage_volume_left"`
+	OnlineMinersNumber   uint32           `protobuf:"varint,3,opt,name=online_miners_number,json=onlineMinersNumber,proto3" json:"online_miners_number,omitempty" pg:"online_miners_number"`
+	CountryDistribute    map[string]int32 `protobuf:"bytes,4,rep,name=country_distribute,json=countryDistribute,proto3" json:"country_distribute,omitempty" pg:"country_distribute" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+	ScoreDistribute      map[string]int32 `protobuf:"bytes,5,rep,name=score_distribute,json=scoreDistribute,proto3" json:"score_distribute,omitempty" pg:"score_distribute" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+	TimeCreated          time.Time        `protobuf:"bytes,6,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-" pg:"-"`
+	XXX_unrecognized     []byte           `json:"-" pg:"-"`
+	XXX_sizecache        int32            `json:"-" pg:"-"`
+}
+
+func (m *BtfsScanAggrReq) Reset()         { *m = BtfsScanAggrReq{} }
+func (m *BtfsScanAggrReq) String() string { return proto.CompactTextString(m) }
+func (*BtfsScanAggrReq) ProtoMessage()    {}
+func (*BtfsScanAggrReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9255cc60c5ca429, []int{3}
+}
+func (m *BtfsScanAggrReq) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BtfsScanAggrReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BtfsScanAggrReq.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BtfsScanAggrReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BtfsScanAggrReq.Merge(m, src)
+}
+func (m *BtfsScanAggrReq) XXX_Size() int {
+	return m.Size()
+}
+func (m *BtfsScanAggrReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_BtfsScanAggrReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BtfsScanAggrReq proto.InternalMessageInfo
+
+func (m *BtfsScanAggrReq) GettableName() string {
+	if m != nil {
+		return m.tableName
+	}
+	return ""
+}
+
+func (m *BtfsScanAggrReq) GetStorageVolumeLeft() float64 {
+	if m != nil {
+		return m.StorageVolumeLeft
+	}
+	return 0
+}
+
+func (m *BtfsScanAggrReq) GetOnlineMinersNumber() uint32 {
+	if m != nil {
+		return m.OnlineMinersNumber
+	}
+	return 0
+}
+
+func (m *BtfsScanAggrReq) GetCountryDistribute() map[string]int32 {
+	if m != nil {
+		return m.CountryDistribute
+	}
+	return nil
+}
+
+func (m *BtfsScanAggrReq) GetScoreDistribute() map[string]int32 {
+	if m != nil {
+		return m.ScoreDistribute
+	}
+	return nil
+}
+
+func (m *BtfsScanAggrReq) GetTimeCreated() time.Time {
+	if m != nil {
+		return m.TimeCreated
+	}
+	return time.Time{}
+}
+
+func (*BtfsScanAggrReq) XXX_MessageName() string {
+	return "status.BtfsScanAggrReq"
+}
 func init() {
 	proto.RegisterType((*SignedMetrics)(nil), "status.SignedMetrics")
 	golang_proto.RegisterType((*SignedMetrics)(nil), "status.SignedMetrics")
@@ -205,37 +300,60 @@ func init() {
 	golang_proto.RegisterType((*NodeMetricsAggrReq)(nil), "status.NodeMetricsAggrReq")
 	proto.RegisterType((*NodeDiscoveryAggrReq)(nil), "status.NodeDiscoveryAggrReq")
 	golang_proto.RegisterType((*NodeDiscoveryAggrReq)(nil), "status.NodeDiscoveryAggrReq")
+	proto.RegisterType((*BtfsScanAggrReq)(nil), "status.BtfsScanAggrReq")
+	golang_proto.RegisterType((*BtfsScanAggrReq)(nil), "status.BtfsScanAggrReq")
+	proto.RegisterMapType((map[string]int32)(nil), "status.BtfsScanAggrReq.CountryDistributeEntry")
+	golang_proto.RegisterMapType((map[string]int32)(nil), "status.BtfsScanAggrReq.CountryDistributeEntry")
+	proto.RegisterMapType((map[string]int32)(nil), "status.BtfsScanAggrReq.ScoreDistributeEntry")
+	golang_proto.RegisterMapType((map[string]int32)(nil), "status.BtfsScanAggrReq.ScoreDistributeEntry")
 }
 
 func init() { proto.RegisterFile("protos/status/status.proto", fileDescriptor_e9255cc60c5ca429) }
 func init() { golang_proto.RegisterFile("protos/status/status.proto", fileDescriptor_e9255cc60c5ca429) }
 
 var fileDescriptor_e9255cc60c5ca429 = []byte{
-	// 375 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcf, 0x4e, 0xdb, 0x30,
-	0x18, 0xc0, 0xe5, 0x4e, 0xea, 0xd4, 0x6f, 0xeb, 0x0e, 0xd6, 0x56, 0x65, 0x59, 0x17, 0x4d, 0x3d,
-	0xed, 0x00, 0x0e, 0x82, 0x3b, 0xa8, 0x15, 0x5c, 0x40, 0x54, 0x55, 0x2a, 0x2e, 0x5c, 0x50, 0xfe,
-	0xb8, 0xc6, 0xa2, 0x8d, 0x83, 0xed, 0x54, 0xca, 0x9b, 0xf0, 0x36, 0x70, 0xec, 0x91, 0x47, 0x40,
-	0xed, 0x8b, 0xa0, 0xda, 0x49, 0x21, 0xa0, 0x0a, 0x71, 0x4a, 0xbe, 0x7f, 0xbf, 0xcf, 0xfe, 0xc9,
-	0xe0, 0x66, 0x52, 0x68, 0xa1, 0x7c, 0xa5, 0x43, 0x9d, 0x57, 0x1f, 0x62, 0x92, 0xb8, 0x69, 0x23,
-	0x77, 0x8f, 0x71, 0x7d, 0x9d, 0x47, 0x24, 0x16, 0x33, 0x5f, 0x4b, 0x91, 0xee, 0xe6, 0xca, 0x37,
-	0x1d, 0x51, 0x3e, 0xf1, 0x99, 0x60, 0xc2, 0x04, 0xe6, 0xcf, 0x4e, 0xba, 0x7f, 0x98, 0x10, 0x6c,
-	0x4a, 0x5f, 0xba, 0xe8, 0x2c, 0xd3, 0x85, 0x2d, 0xf6, 0x26, 0xd0, 0x1e, 0x73, 0x96, 0xd2, 0xe4,
-	0x9c, 0x6a, 0xc9, 0x63, 0x85, 0xff, 0x02, 0x64, 0x79, 0x34, 0xe5, 0xf1, 0xd5, 0x0d, 0x2d, 0x1c,
-	0xf4, 0x0f, 0xfd, 0xff, 0x1e, 0xb4, 0x6c, 0xe6, 0x8c, 0x16, 0xb8, 0x0b, 0x2d, 0xc5, 0x59, 0x1a,
-	0xea, 0x5c, 0x52, 0xa7, 0x61, 0xab, 0x9b, 0x04, 0x76, 0xe0, 0x6b, 0x16, 0x16, 0x53, 0x11, 0x26,
-	0xce, 0x17, 0x53, 0xab, 0xc2, 0xde, 0x0e, 0xe0, 0xa1, 0x48, 0x68, 0xb9, 0xa5, 0xcf, 0x98, 0x0c,
-	0xe8, 0x2d, 0xee, 0x40, 0x53, 0x89, 0x5c, 0xc6, 0xd4, 0x2c, 0x6a, 0x05, 0x65, 0xd4, 0x23, 0xf0,
-	0x73, 0xdd, 0x7d, 0xcc, 0x55, 0x2c, 0xe6, 0x54, 0x16, 0x1f, 0xf4, 0xef, 0xdf, 0x37, 0xa0, 0x3d,
-	0x36, 0x7e, 0xc6, 0x54, 0xce, 0x79, 0x4c, 0xf1, 0x21, 0xb4, 0x2f, 0xb2, 0x24, 0xd4, 0xd5, 0x46,
-	0xfc, 0x8b, 0x94, 0x3a, 0x6b, 0xd7, 0x75, 0x3b, 0xc4, 0xda, 0x21, 0x95, 0x1d, 0x72, 0xb2, 0xb6,
-	0x83, 0x4f, 0xe1, 0x77, 0x6d, 0xbe, 0x9f, 0x26, 0x9b, 0xd3, 0x7c, 0x96, 0x35, 0x04, 0xa7, 0xce,
-	0x62, 0x4c, 0x52, 0x16, 0x6a, 0x2e, 0x52, 0xec, 0x56, 0xa8, 0xf7, 0x76, 0xb6, 0xf2, 0x02, 0x70,
-	0x2d, 0xaf, 0xe6, 0xa7, 0x22, 0x76, 0x5f, 0x13, 0xdf, 0x1a, 0xdc, 0xc6, 0x1c, 0x1c, 0x2d, 0x96,
-	0x1e, 0x7a, 0x5c, 0x7a, 0xe8, 0x69, 0xe9, 0xa1, 0xbb, 0x95, 0x87, 0x1e, 0x56, 0x1e, 0x5a, 0xac,
-	0x3c, 0x04, 0x3f, 0xb8, 0x20, 0x91, 0x9e, 0xa8, 0x12, 0x3b, 0xf8, 0x66, 0x45, 0x8f, 0xd6, 0xf3,
-	0x23, 0x74, 0x59, 0xbe, 0xcb, 0xa8, 0x69, 0x80, 0x07, 0xcf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xa6,
-	0xe7, 0xeb, 0xce, 0xc4, 0x02, 0x00, 0x00,
+	// 641 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x94, 0xcf, 0x6e, 0xd3, 0x4a,
+	0x14, 0xc6, 0xaf, 0x9b, 0x36, 0xf7, 0xe6, 0xa4, 0xb9, 0x6d, 0x87, 0x50, 0x82, 0x69, 0xd3, 0xaa,
+	0xab, 0x2e, 0x8a, 0x53, 0x95, 0x0d, 0x62, 0x01, 0x6a, 0xda, 0x0a, 0x09, 0x68, 0x54, 0x39, 0xfc,
+	0x91, 0x90, 0x90, 0x35, 0xb6, 0x4f, 0xcc, 0x08, 0xdb, 0x13, 0x66, 0xc6, 0x91, 0xf2, 0x02, 0xac,
+	0x59, 0xb2, 0xe1, 0x5d, 0x58, 0x76, 0xc9, 0x13, 0x00, 0x6a, 0x5f, 0x04, 0x79, 0xc6, 0x2e, 0x4d,
+	0xda, 0x08, 0x75, 0x15, 0x9f, 0xf3, 0x7d, 0xe7, 0x67, 0x8f, 0xfd, 0x9d, 0x80, 0x3d, 0x14, 0x5c,
+	0x71, 0xd9, 0x91, 0x8a, 0xaa, 0xac, 0xfc, 0x71, 0x74, 0x93, 0x54, 0x4d, 0x65, 0xef, 0x46, 0x4c,
+	0xbd, 0xcf, 0x7c, 0x27, 0xe0, 0x49, 0x47, 0x09, 0x9e, 0xde, 0xcf, 0x64, 0x47, 0x3b, 0xfc, 0x6c,
+	0xd0, 0x89, 0x78, 0xc4, 0x75, 0xa1, 0xaf, 0xcc, 0xa4, 0x7d, 0x2f, 0xe2, 0x3c, 0x8a, 0xf1, 0x8f,
+	0x0b, 0x93, 0xa1, 0x1a, 0x17, 0xe2, 0xc6, 0xb4, 0xa8, 0x58, 0x82, 0x52, 0xd1, 0x64, 0x68, 0x0c,
+	0x5b, 0x03, 0x68, 0xf4, 0x59, 0x94, 0x62, 0x78, 0x8c, 0x4a, 0xb0, 0x40, 0x92, 0x75, 0x80, 0x61,
+	0xe6, 0xc7, 0x2c, 0xf0, 0x3e, 0xe0, 0xb8, 0x65, 0x6d, 0x5a, 0xdb, 0x8b, 0x6e, 0xcd, 0x74, 0x9e,
+	0xe3, 0x98, 0xac, 0x41, 0x4d, 0xb2, 0x28, 0xa5, 0x2a, 0x13, 0xd8, 0x9a, 0x33, 0xea, 0x45, 0x83,
+	0xb4, 0xe0, 0xdf, 0x21, 0x1d, 0xc7, 0x9c, 0x86, 0xad, 0x8a, 0xd6, 0xca, 0x72, 0x6b, 0x07, 0x48,
+	0x8f, 0x87, 0x58, 0xdc, 0x65, 0x3f, 0x8a, 0x84, 0x8b, 0x1f, 0xc9, 0x2a, 0x54, 0x25, 0xcf, 0x44,
+	0x80, 0xfa, 0x46, 0x35, 0xb7, 0xa8, 0xb6, 0x1c, 0x68, 0xe6, 0xee, 0x43, 0x26, 0x03, 0x3e, 0x42,
+	0x31, 0xfe, 0x9b, 0xff, 0xeb, 0x3c, 0x2c, 0x75, 0xd5, 0x40, 0xf6, 0x03, 0x9a, 0x96, 0xde, 0x75,
+	0x00, 0x45, 0xfd, 0x18, 0xbd, 0x94, 0x26, 0xa5, 0xbf, 0xa6, 0x3b, 0x3d, 0x9a, 0x20, 0x71, 0xe0,
+	0x96, 0x54, 0x5c, 0xd0, 0x08, 0xbd, 0x11, 0x8f, 0xb3, 0x04, 0xbd, 0x18, 0x07, 0x4a, 0x1f, 0xc9,
+	0x72, 0x57, 0x0a, 0xe9, 0xb5, 0x56, 0x5e, 0xe0, 0x40, 0x91, 0x5d, 0x68, 0xf2, 0x34, 0x66, 0x29,
+	0x7a, 0x09, 0x4b, 0x51, 0x48, 0x2f, 0xcd, 0x12, 0x1f, 0x85, 0x3e, 0x67, 0xc3, 0x25, 0x46, 0x3b,
+	0xd6, 0x52, 0x4f, 0x2b, 0xe4, 0x1d, 0x90, 0x80, 0x67, 0xa9, 0x12, 0x63, 0x2f, 0x64, 0x52, 0x09,
+	0xe6, 0x67, 0x0a, 0x5b, 0xf3, 0x9b, 0x95, 0xed, 0xfa, 0x9e, 0xe3, 0x14, 0x5f, 0x7f, 0xea, 0xa9,
+	0x9d, 0x03, 0x33, 0x71, 0x78, 0x31, 0x70, 0x94, 0x97, 0xee, 0x4a, 0x30, 0xdd, 0x27, 0x6f, 0x60,
+	0x59, 0x06, 0x5c, 0xe0, 0x65, 0xf8, 0x82, 0x86, 0xef, 0xcc, 0x82, 0xf7, 0x73, 0xff, 0x34, 0x7a,
+	0x49, 0x4e, 0x76, 0xc9, 0x53, 0x58, 0xcc, 0x53, 0xe2, 0x05, 0x02, 0xa9, 0xc2, 0xb0, 0x55, 0xdd,
+	0xb4, 0xb6, 0xeb, 0x7b, 0xb6, 0x63, 0xa2, 0xe4, 0x94, 0x51, 0x72, 0x5e, 0x96, 0x51, 0xea, 0xfe,
+	0x77, 0xfa, 0x63, 0xe3, 0x9f, 0xcf, 0x3f, 0x37, 0x2c, 0xb7, 0x9e, 0x4f, 0x1e, 0x98, 0x41, 0xfb,
+	0x10, 0x56, 0xaf, 0x3f, 0x0e, 0x59, 0x86, 0x4a, 0x99, 0xae, 0x9a, 0x9b, 0x5f, 0x92, 0x26, 0x2c,
+	0x8c, 0x68, 0x9c, 0x99, 0x4c, 0x2d, 0xb8, 0xa6, 0x78, 0x34, 0xf7, 0xd0, 0xb2, 0xbb, 0xd0, 0xbc,
+	0xee, 0xb9, 0x6f, 0xc2, 0xd8, 0xfb, 0x54, 0x81, 0x46, 0x5f, 0xbf, 0x93, 0x3e, 0x8a, 0x11, 0x0b,
+	0x90, 0x3c, 0x86, 0xc6, 0xab, 0x61, 0x48, 0x55, 0x99, 0x48, 0x72, 0xbb, 0x7c, 0x69, 0x13, 0xeb,
+	0x60, 0xaf, 0x5e, 0x39, 0xf6, 0x51, 0xbe, 0x5e, 0xe4, 0x19, 0xdc, 0x9d, 0x98, 0xdf, 0x4f, 0xc3,
+	0x8b, 0xb4, 0xde, 0x94, 0xd5, 0x83, 0xd6, 0x24, 0x2b, 0x8a, 0x04, 0x46, 0x54, 0x31, 0x9e, 0x12,
+	0xbb, 0x44, 0x5d, 0xdd, 0x9e, 0x99, 0x3c, 0x17, 0x6c, 0xc3, 0x9b, 0xd8, 0x9f, 0x92, 0xb8, 0x76,
+	0x99, 0x38, 0xbd, 0x61, 0x33, 0x99, 0x47, 0x40, 0x0c, 0xf3, 0x72, 0xa6, 0xc8, 0x9d, 0x19, 0x49,
+	0x9b, 0x85, 0xe9, 0x3e, 0x39, 0x3d, 0x6b, 0x5b, 0xdf, 0xcf, 0xda, 0xd6, 0xaf, 0xb3, 0xb6, 0xf5,
+	0xe5, 0xbc, 0x6d, 0x7d, 0x3b, 0x6f, 0x5b, 0xa7, 0xe7, 0x6d, 0x0b, 0xfe, 0x67, 0xdc, 0xf1, 0xd5,
+	0x40, 0x16, 0xc4, 0x6e, 0xdd, 0x7c, 0xaf, 0x93, 0x7c, 0xfe, 0xc4, 0x7a, 0x5b, 0xfc, 0x3f, 0xfa,
+	0x55, 0x0d, 0x7c, 0xf0, 0x3b, 0x00, 0x00, 0xff, 0xff, 0x79, 0xd2, 0x0d, 0xa7, 0x4c, 0x05, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -254,6 +372,7 @@ type StatusServiceClient interface {
 	UpdateMetricsAndDiscovery(ctx context.Context, in *SignedMetrics, opts ...grpc.CallOption) (*types.Empty, error)
 	UpdateMetricsAggregation(ctx context.Context, in *NodeMetricsAggrReq, opts ...grpc.CallOption) (*types.Empty, error)
 	UpdateDiscoveryAggregation(ctx context.Context, in *NodeDiscoveryAggrReq, opts ...grpc.CallOption) (*types.Empty, error)
+	UpdateBtfsScanAggr(ctx context.Context, in *BtfsScanAggrReq, opts ...grpc.CallOption) (*types.Empty, error)
 }
 
 type statusServiceClient struct {
@@ -300,12 +419,22 @@ func (c *statusServiceClient) UpdateDiscoveryAggregation(ctx context.Context, in
 	return out, nil
 }
 
+func (c *statusServiceClient) UpdateBtfsScanAggr(ctx context.Context, in *BtfsScanAggrReq, opts ...grpc.CallOption) (*types.Empty, error) {
+	out := new(types.Empty)
+	err := c.cc.Invoke(ctx, "/status.StatusService/UpdateBtfsScanAggr", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StatusServiceServer is the server API for StatusService service.
 type StatusServiceServer interface {
 	UpdateMetrics(context.Context, *SignedMetrics) (*types.Empty, error)
 	UpdateMetricsAndDiscovery(context.Context, *SignedMetrics) (*types.Empty, error)
 	UpdateMetricsAggregation(context.Context, *NodeMetricsAggrReq) (*types.Empty, error)
 	UpdateDiscoveryAggregation(context.Context, *NodeDiscoveryAggrReq) (*types.Empty, error)
+	UpdateBtfsScanAggr(context.Context, *BtfsScanAggrReq) (*types.Empty, error)
 }
 
 // UnimplementedStatusServiceServer can be embedded to have forward compatible implementations.
@@ -323,6 +452,9 @@ func (*UnimplementedStatusServiceServer) UpdateMetricsAggregation(ctx context.Co
 }
 func (*UnimplementedStatusServiceServer) UpdateDiscoveryAggregation(ctx context.Context, req *NodeDiscoveryAggrReq) (*types.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDiscoveryAggregation not implemented")
+}
+func (*UnimplementedStatusServiceServer) UpdateBtfsScanAggr(ctx context.Context, req *BtfsScanAggrReq) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBtfsScanAggr not implemented")
 }
 
 func RegisterStatusServiceServer(s *grpc.Server, srv StatusServiceServer) {
@@ -401,6 +533,24 @@ func _StatusService_UpdateDiscoveryAggregation_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StatusService_UpdateBtfsScanAggr_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BtfsScanAggrReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StatusServiceServer).UpdateBtfsScanAggr(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/status.StatusService/UpdateBtfsScanAggr",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StatusServiceServer).UpdateBtfsScanAggr(ctx, req.(*BtfsScanAggrReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _StatusService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "status.StatusService",
 	HandlerType: (*StatusServiceServer)(nil),
@@ -420,6 +570,10 @@ var _StatusService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateDiscoveryAggregation",
 			Handler:    _StatusService_UpdateDiscoveryAggregation_Handler,
+		},
+		{
+			MethodName: "UpdateBtfsScanAggr",
+			Handler:    _StatusService_UpdateBtfsScanAggr_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -542,6 +696,93 @@ func (m *NodeDiscoveryAggrReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *BtfsScanAggrReq) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BtfsScanAggrReq) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BtfsScanAggrReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	if err1 != nil {
+		return 0, err1
+	}
+	i -= n1
+	i = encodeVarintStatus(dAtA, i, uint64(n1))
+	i--
+	dAtA[i] = 0x32
+	if len(m.ScoreDistribute) > 0 {
+		for k := range m.ScoreDistribute {
+			v := m.ScoreDistribute[k]
+			baseI := i
+			i = encodeVarintStatus(dAtA, i, uint64(v))
+			i--
+			dAtA[i] = 0x10
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintStatus(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintStatus(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if len(m.CountryDistribute) > 0 {
+		for k := range m.CountryDistribute {
+			v := m.CountryDistribute[k]
+			baseI := i
+			i = encodeVarintStatus(dAtA, i, uint64(v))
+			i--
+			dAtA[i] = 0x10
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintStatus(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintStatus(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if m.OnlineMinersNumber != 0 {
+		i = encodeVarintStatus(dAtA, i, uint64(m.OnlineMinersNumber))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.StorageVolumeLeft != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.StorageVolumeLeft))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintStatus(dAtA, i, uint64(len(m.tableName)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintStatus(dAtA []byte, offset int, v uint64) int {
 	offset -= sovStatus(v)
 	base := offset
@@ -603,6 +844,46 @@ func (m *NodeDiscoveryAggrReq) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovStatus(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *BtfsScanAggrReq) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.tableName)
+	if l > 0 {
+		n += 1 + l + sovStatus(uint64(l))
+	}
+	if m.StorageVolumeLeft != 0 {
+		n += 9
+	}
+	if m.OnlineMinersNumber != 0 {
+		n += 1 + sovStatus(uint64(m.OnlineMinersNumber))
+	}
+	if len(m.CountryDistribute) > 0 {
+		for k, v := range m.CountryDistribute {
+			_ = k
+			_ = v
+			mapEntrySize := 1 + len(k) + sovStatus(uint64(len(k))) + 1 + sovStatus(uint64(v))
+			n += mapEntrySize + 1 + sovStatus(uint64(mapEntrySize))
+		}
+	}
+	if len(m.ScoreDistribute) > 0 {
+		for k, v := range m.ScoreDistribute {
+			_ = k
+			_ = v
+			mapEntrySize := 1 + len(k) + sovStatus(uint64(len(k))) + 1 + sovStatus(uint64(v))
+			n += mapEntrySize + 1 + sovStatus(uint64(mapEntrySize))
+		}
+	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	n += 1 + l + sovStatus(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -917,6 +1198,381 @@ func (m *NodeDiscoveryAggrReq) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Source = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipStatus(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BtfsScanAggrReq) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowStatus
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BtfsScanAggrReq: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BtfsScanAggrReq: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStatus
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthStatus
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.tableName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StorageVolumeLeft", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.StorageVolumeLeft = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OnlineMinersNumber", wireType)
+			}
+			m.OnlineMinersNumber = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStatus
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.OnlineMinersNumber |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CountryDistribute", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStatus
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthStatus
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.CountryDistribute == nil {
+				m.CountryDistribute = make(map[string]int32)
+			}
+			var mapkey string
+			var mapvalue int32
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowStatus
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowStatus
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthStatus
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthStatus
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowStatus
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapvalue |= int32(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipStatus(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if skippy < 0 {
+						return ErrInvalidLengthStatus
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.CountryDistribute[mapkey] = mapvalue
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ScoreDistribute", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStatus
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthStatus
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ScoreDistribute == nil {
+				m.ScoreDistribute = make(map[string]int32)
+			}
+			var mapkey string
+			var mapvalue int32
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowStatus
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowStatus
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthStatus
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthStatus
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowStatus
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapvalue |= int32(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipStatus(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if skippy < 0 {
+						return ErrInvalidLengthStatus
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.ScoreDistribute[mapkey] = mapvalue
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimeCreated", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStatus
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthStatus
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthStatus
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
