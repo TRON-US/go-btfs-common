@@ -11,7 +11,7 @@ require (
 	github.com/libp2p/go-libp2p-core v0.0.6
 	github.com/prometheus/client_golang v1.8.0
 	github.com/stretchr/testify v1.6.1
-	github.com/tron-us/go-common/v2 v2.2.2-0.20201209024007-37aa5dbce6c9
+	github.com/tron-us/go-common/v2 v2.3.0
 	github.com/tron-us/protobuf v1.3.4
 	go.uber.org/zap v1.16.0
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013

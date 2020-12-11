@@ -557,8 +557,8 @@ github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca/go.mod h1:u2MKkTVTVJWe5D1rCvame8WqhBd88EuIwODJZ1VHCPM=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20170815181823-89b8d40f7ca8/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
-github.com/tron-us/go-common/v2 v2.2.2-0.20201209024007-37aa5dbce6c9 h1:wPZAGMxuhRzn3McRvLatPTkz5nD+KdZIqqaLU5GJLFw=
-github.com/tron-us/go-common/v2 v2.2.2-0.20201209024007-37aa5dbce6c9/go.mod h1:/ktTJfsQWnrtSsoAvT3ybJR1nw7qMSEX+dcDxcv0xro=
+github.com/tron-us/go-common/v2 v2.3.0 h1:bt7WYyOWG6NleHsBB1B/iR1m+mwe3JsaTv/HFbFgxYw=
+github.com/tron-us/go-common/v2 v2.3.0/go.mod h1:/ktTJfsQWnrtSsoAvT3ybJR1nw7qMSEX+dcDxcv0xro=
 github.com/tron-us/protobuf v1.3.4 h1:oqokl6jMAfe1fb/B6t1UMllbw/KtfdJcCn8plxPkHM8=
 github.com/tron-us/protobuf v1.3.4/go.mod h1:INMJF54ZV6c8ZMc3imHsMl1kqIpe4VnbCUK4zYcVHqE=
 github.com/tyler-smith/go-bip39 v1.0.1-0.20181017060643-dbb3b84ba2ef/go.mod h1:sJ5fKU0s6JVwZjjcUEX2zFOnvq0ASQ2K9Zr6cf67kNs=
