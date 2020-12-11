@@ -12,12 +12,12 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var github_com_tron$us_go$btfs$common_protos_node_node_pb = require('../../github.com/tron-us/go-btfs-common/protos/node/node_pb.js');
-goog.object.extend(proto, github_com_tron$us_go$btfs$common_protos_node_node_pb);
 var github_com_tron$us_protobuf_gogoproto_gogo_pb = require('../../github.com/tron-us/protobuf/gogoproto/gogo_pb.js');
 goog.object.extend(proto, github_com_tron$us_protobuf_gogoproto_gogo_pb);
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
 goog.object.extend(proto, google_protobuf_empty_pb);
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
+goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.status.BtfsScanAggrReq', null, global);
 goog.exportSymbol('proto.status.NodeMetricsAggrReq', null, global);
 goog.exportSymbol('proto.status.SignedMetrics', null, global);
@@ -508,7 +508,12 @@ proto.status.BtfsScanAggrReq.prototype.toObject = function(opt_includeInstance) 
  */
 proto.status.BtfsScanAggrReq.toObject = function(includeInstance, msg) {
   var f, obj = {
-    info: (f = msg.getInfo()) && github_com_tron$us_go$btfs$common_protos_node_node_pb.BtfsScanTab.toObject(includeInstance, f)
+    tableName: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    storageVolumeLeft: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
+    onlineMinersNumber: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    countryDistributeMap: (f = msg.getCountryDistributeMap()) ? f.toObject(includeInstance, undefined) : [],
+    scoreDistributeMap: (f = msg.getScoreDistributeMap()) ? f.toObject(includeInstance, undefined) : [],
+    timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -546,9 +551,33 @@ proto.status.BtfsScanAggrReq.deserializeBinaryFromReader = function(msg, reader)
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new github_com_tron$us_go$btfs$common_protos_node_node_pb.BtfsScanTab;
-      reader.readMessage(value,github_com_tron$us_go$btfs$common_protos_node_node_pb.BtfsScanTab.deserializeBinaryFromReader);
-      msg.setInfo(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTableName(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setStorageVolumeLeft(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setOnlineMinersNumber(value);
+      break;
+    case 4:
+      var value = msg.getCountryDistributeMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readInt32, null, "", 0);
+         });
+      break;
+    case 5:
+      var value = msg.getScoreDistributeMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readInt32, null, "", 0);
+         });
+      break;
+    case 6:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setTimeCreated(value);
       break;
     default:
       reader.skipField();
@@ -579,33 +608,160 @@ proto.status.BtfsScanAggrReq.prototype.serializeBinary = function() {
  */
 proto.status.BtfsScanAggrReq.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getInfo();
+  f = message.getTableName();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getStorageVolumeLeft();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      2,
+      f
+    );
+  }
+  f = message.getOnlineMinersNumber();
+  if (f !== 0) {
+    writer.writeUint32(
+      3,
+      f
+    );
+  }
+  f = message.getCountryDistributeMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeInt32);
+  }
+  f = message.getScoreDistributeMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(5, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeInt32);
+  }
+  f = message.getTimeCreated();
   if (f != null) {
     writer.writeMessage(
-      1,
+      6,
       f,
-      github_com_tron$us_go$btfs$common_protos_node_node_pb.BtfsScanTab.serializeBinaryToWriter
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional node.BtfsScanTab info = 1;
- * @return {?proto.node.BtfsScanTab}
+ * optional string table_name = 1;
+ * @return {string}
  */
-proto.status.BtfsScanAggrReq.prototype.getInfo = function() {
-  return /** @type{?proto.node.BtfsScanTab} */ (
-    jspb.Message.getWrapperField(this, github_com_tron$us_go$btfs$common_protos_node_node_pb.BtfsScanTab, 1));
+proto.status.BtfsScanAggrReq.prototype.getTableName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {?proto.node.BtfsScanTab|undefined} value
+ * @param {string} value
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.setTableName = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional double storage_volume_left = 2;
+ * @return {number}
+ */
+proto.status.BtfsScanAggrReq.prototype.getStorageVolumeLeft = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 2, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.setStorageVolumeLeft = function(value) {
+  return jspb.Message.setProto3FloatField(this, 2, value);
+};
+
+
+/**
+ * optional uint32 online_miners_number = 3;
+ * @return {number}
+ */
+proto.status.BtfsScanAggrReq.prototype.getOnlineMinersNumber = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.setOnlineMinersNumber = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * map<string, int32> country_distribute = 4;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,number>}
+ */
+proto.status.BtfsScanAggrReq.prototype.getCountryDistributeMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,number>} */ (
+      jspb.Message.getMapField(this, 4, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.clearCountryDistributeMap = function() {
+  this.getCountryDistributeMap().clear();
+  return this;};
+
+
+/**
+ * map<string, int32> score_distribute = 5;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,number>}
+ */
+proto.status.BtfsScanAggrReq.prototype.getScoreDistributeMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,number>} */ (
+      jspb.Message.getMapField(this, 5, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.clearScoreDistributeMap = function() {
+  this.getScoreDistributeMap().clear();
+  return this;};
+
+
+/**
+ * optional google.protobuf.Timestamp time_created = 6;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.status.BtfsScanAggrReq.prototype.getTimeCreated = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 6));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
  * @return {!proto.status.BtfsScanAggrReq} returns this
 */
-proto.status.BtfsScanAggrReq.prototype.setInfo = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+proto.status.BtfsScanAggrReq.prototype.setTimeCreated = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
@@ -613,8 +769,8 @@ proto.status.BtfsScanAggrReq.prototype.setInfo = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
-proto.status.BtfsScanAggrReq.prototype.clearInfo = function() {
-  return this.setInfo(undefined);
+proto.status.BtfsScanAggrReq.prototype.clearTimeCreated = function() {
+  return this.setTimeCreated(undefined);
 };
 
 
@@ -622,8 +778,8 @@ proto.status.BtfsScanAggrReq.prototype.clearInfo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.status.BtfsScanAggrReq.prototype.hasInfo = function() {
-  return jspb.Message.getField(this, 1) != null;
+proto.status.BtfsScanAggrReq.prototype.hasTimeCreated = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 
