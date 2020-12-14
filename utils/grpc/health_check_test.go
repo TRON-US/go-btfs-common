@@ -18,7 +18,7 @@ func TestHealthCheckClient(t *testing.T) {
 	}{
 		{addr: "escrow", name: "escrow"},
 		{addr: "guard", name: "guard-interceptor"},
-		{addr: "hub", name: "hub"},
+		{addr: "hub", name: "hub-query"},
 		{addr: "status", name: "status-server"},
 	}
 	for _, srv := range srvs {

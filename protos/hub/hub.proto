@@ -121,6 +121,7 @@ service HubParseService {
   rpc UpdateScore(ParseReq) returns (ParseResp);
   rpc UpdateNetwork(ParseReq) returns (ParseResp);
   rpc Recycle(RecycleReq) returns (ParseResp);
+  rpc UpdateBtfsScan(ParseReq) returns (ParseResp);
 }
 
 message Candidate {
