@@ -33,6 +33,9 @@ service GuardService {
   rpc SubmitRepairContract(RepairContract) returns (RepairContractResponse);
   rpc RequestForRepairContracts(RequestRepairContracts) returns (ResponseRepairContracts);
   rpc ReportFailToDownload(CancelContractRequest) returns (Result);
+  //used for decentral challenge
+  rpc RequestForChallengeJob(ChallengeJobRequest) returns (ChallengeJobResponse);
+  rpc SubmitChallengeJobResult(ChallengeJobResult) returns (Result);
   //used by btfs scan
   rpc AdminGetDailySummary(AdminQuery) returns (DailySummary);
   rpc AdminGetDailyHostsRankNew(AdminQuery) returns (HostSummary); //query the hosts of the day's new contracts' file size
@@ -92,8 +95,6 @@ message HostStatus {
   int64 work_amount = 3; //amount the hosts received or will receive in the contracts
   int64 reward_btt = 4; //only have value for new contract query
   bool suspect_cheat = 5;
-  rpc RequestForChallengeJob(ChallengeJobRequest) returns (ChallengeJobResponse);
-  rpc SubmitChallengeJobResult(ChallengeJobResult) returns (Result);
 }
 
 message Log {
