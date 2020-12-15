@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"net/http"
 	"time"
 
 	"github.com/tron-us/go-btfs-common/controller"
@@ -21,7 +20,6 @@ import (
 	"github.com/tron-us/go-common/v2/middleware"
 
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -83,15 +81,15 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		// After all your registrations, make sure all of the Prometheus metrics are initialized.
 		grpc_prometheus.Register(s.server)
 		grpc_prometheus.EnableHandlingTimeHistogram()
-		go func() {
-			// Register Prometheus metrics handler.
-			http.Handle("/metrics", promhttp.Handler())
-			log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
-			err := http.ListenAndServe(":8080", nil)
-			if err != nil {
-				log.Panic("Prometheus listening server is shutting down", zap.Error(err))
-			}
-		}()
+		//go func() {
+		//	// Register Prometheus metrics handler.
+		//	http.Handle("/metrics", promhttp.Handler())
+		//	log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
+		//	err := http.ListenAndServe(":8080", nil)
+		//	if err != nil {
+		//		log.Panic("Prometheus listening server is shutting down", zap.Error(err))
+		//	}
+		//}()
 		// GRPC entry point
 		log.Info("Starting to accept connections", zap.String("service", s.serverName))
 		s.AcceptConnection()
