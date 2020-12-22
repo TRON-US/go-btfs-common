@@ -33,6 +33,8 @@ service GuardService {
   rpc SubmitRepairContract(RepairContract) returns (RepairContractResponse);
   rpc RequestForRepairContracts(RequestRepairContracts) returns (ResponseRepairContracts);
   rpc ReportFailToDownload(CancelContractRequest) returns (Result);
+  rpc RequestForChallengeJob(ChallengeJobRequest) returns (ChallengeJobResponse);
+  rpc SubmitChallengeJobResult(ChallengeJobResult) returns (Result);
 }
 
 message Log {
@@ -460,4 +462,50 @@ message CancelContractRequest {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 8;
+}
+
+message ChallengeJobRequest {
+  string node_pid = 1;
+  google.protobuf.Timestamp request_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 3;
+}
+
+message ChallengeJobResponse {
+  string node_pid = 1;
+  string issuer_pid = 2;
+  string job_id = 3;
+  string package_url = 4;
+  int32 package_questions_count = 5;
+  google.protobuf.Timestamp send_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp job_finish_deadline = 7 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 8;
+}
+
+message ChallengeJobResult {
+  string node_pid = 1;
+  string job_id = 2;
+  repeated ShardChallengeResult result = 3;
+  google.protobuf.Timestamp submit_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  bytes signature = 5;
+}
+
+message ShardChallengeResult {
+  string host_pid = 1;
+  string file_hash = 2;
+  string shard_hash = 3;
+  string nonce = 4;
+  string result = 5;
+  bool is_timeout = 6;
 }
