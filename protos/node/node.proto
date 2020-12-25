@@ -260,13 +260,13 @@ message BtfsScanTab {
   google.protobuf.Timestamp time_created = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
-  ],
-  double storage_already_used = 7,
-  double price = 8,
+  ];
+  double storage_already_used = 7;
+  double price = 8;
   google.protobuf.Timestamp date_created = 9 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
-  ],
-  double new_rank = 10,
-  double total_rank = 11,
+  ];
+  string new_rank = 10;
+  string total_rank = 11;
 }
