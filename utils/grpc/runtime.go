@@ -42,7 +42,7 @@ func (s *RuntimeServer) CheckRuntime(ctx context.Context, req *sharedpb.SignedRu
 	}
 
 	//check runtime in shared
-	res, err := utils.CheckDBConnection(ctx, req, connection)
+	res, _, err := utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
 		return nil, err
 	}

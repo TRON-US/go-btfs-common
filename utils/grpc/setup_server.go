@@ -57,8 +57,8 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
-
+func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string,
+	server interface{}, options ...grpc.ServerOption) *GrpcServer {
 	s.serverTypeToServerName(server)
 
 	s.dBURLs = dbURLs
@@ -83,6 +83,8 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		// After all your registrations, make sure all of the Prometheus metrics are initialized.
 		grpc_prometheus.Register(s.server)
 		grpc_prometheus.EnableHandlingTimeHistogram()
+		// Add pg metrics to Prometheus
+
 		go func() {
 			// Register Prometheus metrics handler.
 			http.Handle("/metrics", promhttp.Handler())
@@ -104,7 +106,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 	req := new(shared.SignedRuntimeInfoRequest)
 	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
 
-	_, err = utils.CheckDBConnection(ctx, req, connection)
+	_, _, err = utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
 		log.Panic("Unable to connect to DB", zap.Error(err))
 	}
