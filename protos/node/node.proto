@@ -261,4 +261,12 @@ message BtfsScanTab {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  double storage_already_used = 7;
+  double price = 8;
+  google.protobuf.Timestamp date_created = 9 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string new_rank = 10;
+  string total_rank = 11;
 }
