@@ -34,7 +34,7 @@ func TestCheckDBConnection(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
-	runtimeInfoReportPass, err := CheckDBConnection(ctx, shared, connection)
+	runtimeInfoReportPass, _, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportPass.DbStatusExtra["DB_URL_STATUS"], constant.DBConnectionHealthy), "connection not successful")
 	assert.True(t, strings.Contains(runtimeInfoReportPass.DbStatusExtra["DB_URL_GUARD"], constant.DBConnectionHealthy), "connection not successful")
@@ -45,7 +45,7 @@ func TestCheckDBConnection(t *testing.T) {
 		PgURL: pgEmptyConMaps,
 		RdURL: "",
 	}
-	runtimeInfoReportFail, err := CheckDBConnection(ctx, shared, emptyConnection)
+	runtimeInfoReportFail, _, err := CheckDBConnection(ctx, shared, emptyConnection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportFail.DbStatusExtra["DB_URL_STATUS"], "DB URL does not exist !!"), "DB URL does not exist !!")
 	assert.True(t, strings.Contains(runtimeInfoReportFail.DbStatusExtra["DB_URL_GUARD"], "DB URL does not exist !!"), "DB URL does not exist !!")
@@ -60,12 +60,12 @@ func TestCheckDBConnectionRD(t *testing.T) {
 	shared := new(sharedpb.SignedRuntimeInfoRequest)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	runtimeInfoReportPass, err := CheckDBConnection(ctx, shared, connection)
+	runtimeInfoReportPass, _, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportPass.RdStatusExtra, constant.RDConnectionHealthy), "Redis is not running")
 	//disable connection string
 	connection.RdURL = ""
-	runtimeInfoReportFail, err := CheckDBConnection(ctx, shared, connection)
+	runtimeInfoReportFail, _, err := CheckDBConnection(ctx, shared, connection)
 	assert.Nil(t, err, zap.Error(err))
 	assert.True(t, strings.Contains(runtimeInfoReportFail.RdStatusExtra, RDURLDNE), "Redis connection is still provided, error!")
 }

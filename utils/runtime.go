@@ -21,23 +21,26 @@ const DBURLDNE = "DB URL does not exist !!"
 const RDURLDNE = "RD URL does not exist !!"
 
 type dbObj struct {
-	dbConn dbConnection
+	dbConn DbConnection
 }
 
-type dbConnection interface {
+type DbConnection interface {
 	checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport)
 }
 
-type redisObj struct {
+type RedisObj struct {
 	url string
+	DB  *redis.TGRDDB
 }
 
-type postgresObj struct {
+type PostgresObj struct {
 	urls map[string]string
+	DBs  map[string]*postgres.TGPGDB
 }
 
 // CheckDBConnection checks database connections.
-func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest, connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, error) {
+func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoRequest,
+	connection db.ConnectionUrls) (*sharedpb.RuntimeInfoReport, []DbConnection, error) {
 	// db runtime
 	report := new(sharedpb.RuntimeInfoReport)
 	report.Status = sharedpb.RuntimeInfoReport_RUNNING
@@ -45,20 +48,29 @@ func CheckDBConnection(ctx context.Context, runtime *sharedpb.SignedRuntimeInfoR
 
 	var checker []*dbObj
 	checker = append(checker,
-		&dbObj{dbConn: &postgresObj{urls: connection.PgURL}},
-		&dbObj{dbConn: &redisObj{url: connection.RdURL}})
+		&dbObj{dbConn: &PostgresObj{
+			urls: connection.PgURL,
+			DBs:  map[string]*postgres.TGPGDB{},
+		}},
+		&dbObj{dbConn: &RedisObj{
+			url: connection.RdURL,
+			DB:  nil,
+		}},
+	)
 
 	// Check connection for each dbObj
+	var dbConns []DbConnection
 	for _, check := range checker {
 		check.dbConn.checkConnection(ctx, report)
+		dbConns = append(dbConns, check.dbConn)
 	}
 
 	// Remaining fields will be populated by the calling service
 	// Reserve: only pass fatal error to higher level
-	return report, nil
+	return report, dbConns, nil
 }
 
-func (p *postgresObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
+func (p *PostgresObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
 	for key, url := range p.urls {
 		// Assume the database connection is healthy
 		report.DbStatusExtra[key] = DBURLDNE
@@ -74,15 +86,18 @@ func (p *postgresObj) checkConnection(ctx context.Context, report *sharedpb.Runt
 			)
 
 			// Ping the database.
-			// TODO: Separate function to test only ro and rw access
 			if err := pgdb.Ping(); err != nil {
 				report.DbStatusExtra[key] = constant.DBWriteConnectionError
 				report.Status = sharedpb.RuntimeInfoReport_SICK
 				log.Error(constant.DBWriteConnectionError, zap.Error(err))
+				// Do not set object as it is error - report back up
+			} else {
+				// Set the database connection is healthy
+				report.DbStatusExtra[key] = constant.DBConnectionHealthy
+				report.Status = sharedpb.RuntimeInfoReport_RUNNING
+				// Set conn object
+				p.DBs[key] = pgdb
 			}
-
-			// Set the database connection is healthy
-			report.DbStatusExtra[key] = constant.DBConnectionHealthy
 		}
 
 		// Log status
@@ -90,7 +105,7 @@ func (p *postgresObj) checkConnection(ctx context.Context, report *sharedpb.Runt
 	}
 }
 
-func (r *redisObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
+func (r *RedisObj) checkConnection(ctx context.Context, report *sharedpb.RuntimeInfoReport) {
 
 	// Assume the redis connection is not present
 	report.RdStatusExtra = RDURLDNE
@@ -104,22 +119,26 @@ func (r *redisObj) checkConnection(ctx context.Context, report *sharedpb.Runtime
 		}
 
 		// Log connection string
+		rddb := redis.NewRedisConn(opts)
 		log.Info("Redis URL",
 			zap.String("host", opts.Addr),
 			zap.Int("db", opts.DB),
 		)
 
 		// Check redis connection
-		// TODO: Separate function to test only ro and rw access
-		errConn := redis.CheckRedisConnection(redis.NewRedisConn(opts))
+		errConn := redis.CheckRedisConnection(rddb)
 		if errConn != nil {
 			report.RdStatusExtra = constant.RDConnectionError
 			report.Status = sharedpb.RuntimeInfoReport_SICK
 			log.Error(constant.RDConnectionError, zap.Error(errConn))
+			// Do not set object as it is error - report back up
+		} else {
+			// Set redis connection to healthy
+			report.RdStatusExtra = constant.RDConnectionHealthy
+			report.Status = sharedpb.RuntimeInfoReport_RUNNING
+			// Set conn object
+			r.DB = rddb
 		}
-
-		// Set redis connection to healthy
-		report.RdStatusExtra = constant.RDConnectionHealthy
 	}
 
 	// Log status
