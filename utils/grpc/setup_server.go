@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/tron-us/go-btfs-common/controller"
@@ -30,6 +31,16 @@ import (
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
+
+var (
+	promMetricsServer = ":8080"
+)
+
+func init() {
+	if pms := os.Getenv("PROM_METRICS_SERVER"); pms != "" {
+		promMetricsServer = pms
+	}
+}
 
 type GrpcServer struct {
 	server       *grpc.Server
@@ -116,8 +127,9 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 	go func() {
 		// Register Prometheus metrics handler.
 		http.Handle("/metrics", promhttp.Handler())
-		log.Info("Starting Prometheus /metrics at :8080", zap.String("service", s.serverName))
-		err := http.ListenAndServe(":8080", nil)
+		log.Info("Starting Prometheus /metrics",
+			zap.String("service", s.serverName), zap.String("address", promMetricsServer))
+		err := http.ListenAndServe(promMetricsServer, nil)
 		if err != nil {
 			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
 		}
