@@ -18,6 +18,8 @@ import (
 
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/db"
+	"github.com/tron-us/go-common/v2/db/postgres"
+	"github.com/tron-us/go-common/v2/db/redis"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
 
@@ -71,7 +73,8 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 }
 
 func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string,
-	server interface{}, options ...grpc.ServerOption) *GrpcServer {
+	server interface{}, options ...grpc.ServerOption) (
+	map[string]*postgres.TGPGDB, *redis.TGRDDB) {
 	s.serverTypeToServerName(server)
 
 	s.dBURLs = dbURLs
@@ -104,6 +107,8 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		WithGracefulTermDetectAndExec()
 
 	// Add pg metrics to Prometheus
+	pgObjs := map[string]*postgres.TGPGDB{}
+	var rdObj *redis.TGRDDB
 	for _, co := range connObjs {
 		if po, ok := co.(*utils.PostgresObj); ok {
 			for key, dbObj := range po.DBs {
@@ -116,7 +121,11 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 				log.Info("Starting Postgres DB Prometheus monitoring", zap.String("db", key))
 				mon.Open()
 				defer mon.Close()
+				// Add
+				pgObjs[key] = dbObj
 			}
+		} else if ro, ok := co.(*utils.RedisObj); ok {
+			rdObj = ro.DB
 		}
 	}
 
@@ -137,10 +146,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 
 	// GRPC entry point
 	log.Info("Starting to accept connections", zap.String("service", s.serverName))
-	s.AcceptConnection()
-	// Terminated
-
-	return s
+	return pgObjs, rdObj
 }
 
 func (s *GrpcServer) AcceptConnection() *GrpcServer {
