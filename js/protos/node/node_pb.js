@@ -5870,7 +5870,12 @@ proto.node.BtfsScanTab.toObject = function(includeInstance, msg) {
     onlineMinersNumber: jspb.Message.getFieldWithDefault(msg, 3, 0),
     countryDistributeMap: (f = msg.getCountryDistributeMap()) ? f.toObject(includeInstance, undefined) : [],
     scoreDistributeMap: (f = msg.getScoreDistributeMap()) ? f.toObject(includeInstance, undefined) : [],
-    timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    storageAlreadyUsed: jspb.Message.getFloatingPointFieldWithDefault(msg, 7, 0.0),
+    price: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
+    dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    newRank: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    totalRank: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -5936,6 +5941,27 @@ proto.node.BtfsScanTab.deserializeBinaryFromReader = function(msg, reader) {
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setTimeCreated(value);
       break;
+    case 7:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setStorageAlreadyUsed(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setPrice(value);
+      break;
+    case 9:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setDateCreated(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewRank(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTotalRank(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -6000,6 +6026,42 @@ proto.node.BtfsScanTab.serializeBinaryToWriter = function(message, writer) {
       6,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getStorageAlreadyUsed();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      7,
+      f
+    );
+  }
+  f = message.getPrice();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      8,
+      f
+    );
+  }
+  f = message.getDateCreated();
+  if (f != null) {
+    writer.writeMessage(
+      9,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getNewRank();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+  f = message.getTotalRank();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
+      f
     );
   }
 };
@@ -6137,6 +6199,115 @@ proto.node.BtfsScanTab.prototype.clearTimeCreated = function() {
  */
 proto.node.BtfsScanTab.prototype.hasTimeCreated = function() {
   return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * optional double storage_already_used = 7;
+ * @return {number}
+ */
+proto.node.BtfsScanTab.prototype.getStorageAlreadyUsed = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 7, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setStorageAlreadyUsed = function(value) {
+  return jspb.Message.setProto3FloatField(this, 7, value);
+};
+
+
+/**
+ * optional double price = 8;
+ * @return {number}
+ */
+proto.node.BtfsScanTab.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 8, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setPrice = function(value) {
+  return jspb.Message.setProto3FloatField(this, 8, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp date_created = 9;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.BtfsScanTab.prototype.getDateCreated = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 9));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.BtfsScanTab} returns this
+*/
+proto.node.BtfsScanTab.prototype.setDateCreated = function(value) {
+  return jspb.Message.setWrapperField(this, 9, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.clearDateCreated = function() {
+  return this.setDateCreated(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.BtfsScanTab.prototype.hasDateCreated = function() {
+  return jspb.Message.getField(this, 9) != null;
+};
+
+
+/**
+ * optional string new_rank = 10;
+ * @return {string}
+ */
+proto.node.BtfsScanTab.prototype.getNewRank = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setNewRank = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional string total_rank = 11;
+ * @return {string}
+ */
+proto.node.BtfsScanTab.prototype.getTotalRank = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setTotalRank = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
