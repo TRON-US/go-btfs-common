@@ -8,6 +8,8 @@ require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.4.3
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
+	github.com/hypnoglow/go-pg-monitor v0.1.0
+	github.com/hypnoglow/go-pg-monitor/gopgv9 v0.1.0
 	github.com/libp2p/go-libp2p-core v0.0.6
 	github.com/prometheus/client_golang v1.8.0
 	github.com/stretchr/testify v1.6.1

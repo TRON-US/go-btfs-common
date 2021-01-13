@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net"
-	//"net/http"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/tron-us/go-btfs-common/controller"
@@ -17,17 +18,31 @@ import (
 
 	"github.com/tron-us/go-common/v2/constant"
 	"github.com/tron-us/go-common/v2/db"
+	"github.com/tron-us/go-common/v2/db/postgres"
+	"github.com/tron-us/go-common/v2/db/redis"
 	"github.com/tron-us/go-common/v2/log"
 	"github.com/tron-us/go-common/v2/middleware"
 
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	//"github.com/prometheus/client_golang/prometheus/promhttp"
+	monitor "github.com/hypnoglow/go-pg-monitor"
+	"github.com/hypnoglow/go-pg-monitor/gopgv9"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
+
+var (
+	promMetricsServer = ":8080"
+)
+
+func init() {
+	if pms := os.Getenv("PROM_METRICS_SERVER"); pms != "" {
+		promMetricsServer = pms
+	}
+}
 
 type GrpcServer struct {
 	server       *grpc.Server
@@ -57,8 +72,9 @@ func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	}
 }
 
-func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string, server interface{}, options ...grpc.ServerOption) *GrpcServer {
-
+func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL string,
+	server interface{}, options ...grpc.ServerOption) (
+	map[string]*postgres.TGPGDB, *redis.TGRDDB) {
 	s.serverTypeToServerName(server)
 
 	s.dBURLs = dbURLs
@@ -98,20 +114,66 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 		// Terminated
 		done <- true
 	}()
-
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-	req := new(shared.SignedRuntimeInfoRequest)
-	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
 
-	_, err = utils.CheckDBConnection(ctx, req, connection)
+	// Check connections first
+	connection := db.ConnectionUrls{RdURL: rdURL, PgURL: dbURLs}
+	req := new(shared.SignedRuntimeInfoRequest)
+	_, connObjs, err := utils.CheckDBConnection(ctx, req, connection)
 	if err != nil {
 		log.Panic("Unable to connect to DB", zap.Error(err))
 	}
 
-	<-done
+	// Create server
+	s.CreateServer(s.serverName, options...).
+		CreateHealthServer().
+		RegisterServer(server).
+		RegisterHealthServer().
+		WithReflection().
+		WithGracefulTermDetectAndExec()
 
-	return s
+	// Add pg metrics to Prometheus
+	pgObjs := map[string]*postgres.TGPGDB{}
+	var rdObj *redis.TGRDDB
+	for _, co := range connObjs {
+		if po, ok := co.(*utils.PostgresObj); ok {
+			for key, dbObj := range po.DBs {
+				mon := monitor.NewMonitor(
+					gopgv9.NewObserver(dbObj.DB),
+					monitor.NewMetrics(
+						monitor.MetricsWithSubsystem("go_pg_"+key),
+					),
+				)
+				log.Info("Starting Postgres DB Prometheus monitoring", zap.String("db", key))
+				mon.Open()
+				defer mon.Close()
+				// Add
+				pgObjs[key] = dbObj
+			}
+		} else if ro, ok := co.(*utils.RedisObj); ok {
+			rdObj = ro.DB
+		}
+	}
+
+	// After all your registrations, make sure all of the Prometheus metrics are initialized.
+	grpc_prometheus.Register(s.server)
+	grpc_prometheus.EnableHandlingTimeHistogram()
+
+	go func() {
+		// Register Prometheus metrics handler.
+		http.Handle("/metrics", promhttp.Handler())
+		log.Info("Starting Prometheus /metrics",
+			zap.String("service", s.serverName), zap.String("address", promMetricsServer))
+		err := http.ListenAndServe(promMetricsServer, nil)
+		if err != nil {
+			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
+		}
+	}()
+
+	// GRPC entry point
+	log.Info("Starting to accept connections", zap.String("service", s.serverName))
+	return pgObjs, rdObj
 }
 
 func (s *GrpcServer) AcceptConnection() *GrpcServer {
