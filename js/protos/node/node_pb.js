@@ -6367,7 +6367,7 @@ proto.node.ScoreHistoryTab.toObject = function(includeInstance, msg) {
   var f, obj = {
     tableName: jspb.Message.getFieldWithDefault(msg, 1, ""),
     nodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    storageAlreadyCap: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    storageVolumeCap: jspb.Message.getFieldWithDefault(msg, 3, 0),
     storageVolumeLeft: jspb.Message.getFieldWithDefault(msg, 4, 0),
     score: jspb.Message.getFieldWithDefault(msg, 5, 0),
     dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
@@ -6418,7 +6418,7 @@ proto.node.ScoreHistoryTab.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setStorageAlreadyCap(value);
+      msg.setStorageVolumeCap(value);
       break;
     case 4:
       var value = /** @type {number} */ (reader.readUint64());
@@ -6481,7 +6481,7 @@ proto.node.ScoreHistoryTab.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getStorageAlreadyCap();
+  f = message.getStorageVolumeCap();
   if (f !== 0) {
     writer.writeUint64(
       3,
@@ -6558,10 +6558,10 @@ proto.node.ScoreHistoryTab.prototype.setNodeId = function(value) {
 
 
 /**
- * optional uint64 storage_already_cap = 3;
+ * optional uint64 storage_volume_cap = 3;
  * @return {number}
  */
-proto.node.ScoreHistoryTab.prototype.getStorageAlreadyCap = function() {
+proto.node.ScoreHistoryTab.prototype.getStorageVolumeCap = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -6570,7 +6570,7 @@ proto.node.ScoreHistoryTab.prototype.getStorageAlreadyCap = function() {
  * @param {number} value
  * @return {!proto.node.ScoreHistoryTab} returns this
  */
-proto.node.ScoreHistoryTab.prototype.setStorageAlreadyCap = function(value) {
+proto.node.ScoreHistoryTab.prototype.setStorageVolumeCap = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
