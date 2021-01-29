@@ -272,11 +272,11 @@ message BtfsScanTab {
 }
 
 message ScoreHistoryTab {
-  string table_name = 1 [(gogoproto.moretags) = "pg:\"btfs_scan,alias:t,discard_unknown_columns\""];
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"score_history,alias:t,discard_unknown_columns\""];
   string node_id = 2;
-  double storage_already_used = 3;
-  double storage_volume_left = 4;
-  double score = 5;
+  uint64 storage_already_cap = 3;
+  uint64 storage_volume_left = 4;
+  uint32 score = 5;
   google.protobuf.Timestamp date_created = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true

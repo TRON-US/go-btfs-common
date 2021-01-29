@@ -6367,9 +6367,9 @@ proto.node.ScoreHistoryTab.toObject = function(includeInstance, msg) {
   var f, obj = {
     tableName: jspb.Message.getFieldWithDefault(msg, 1, ""),
     nodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    storageAlreadyUsed: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
-    storageVolumeLeft: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
-    score: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0),
+    storageAlreadyCap: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    storageVolumeLeft: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    score: jspb.Message.getFieldWithDefault(msg, 5, 0),
     dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
@@ -6417,15 +6417,15 @@ proto.node.ScoreHistoryTab.deserializeBinaryFromReader = function(msg, reader) {
       msg.setNodeId(value);
       break;
     case 3:
-      var value = /** @type {number} */ (reader.readDouble());
-      msg.setStorageAlreadyUsed(value);
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setStorageAlreadyCap(value);
       break;
     case 4:
-      var value = /** @type {number} */ (reader.readDouble());
+      var value = /** @type {number} */ (reader.readUint64());
       msg.setStorageVolumeLeft(value);
       break;
     case 5:
-      var value = /** @type {number} */ (reader.readDouble());
+      var value = /** @type {number} */ (reader.readUint32());
       msg.setScore(value);
       break;
     case 6:
@@ -6481,23 +6481,23 @@ proto.node.ScoreHistoryTab.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getStorageAlreadyUsed();
-  if (f !== 0.0) {
-    writer.writeDouble(
+  f = message.getStorageAlreadyCap();
+  if (f !== 0) {
+    writer.writeUint64(
       3,
       f
     );
   }
   f = message.getStorageVolumeLeft();
-  if (f !== 0.0) {
-    writer.writeDouble(
+  if (f !== 0) {
+    writer.writeUint64(
       4,
       f
     );
   }
   f = message.getScore();
-  if (f !== 0.0) {
-    writer.writeDouble(
+  if (f !== 0) {
+    writer.writeUint32(
       5,
       f
     );
@@ -6558,11 +6558,11 @@ proto.node.ScoreHistoryTab.prototype.setNodeId = function(value) {
 
 
 /**
- * optional double storage_already_used = 3;
+ * optional uint64 storage_already_cap = 3;
  * @return {number}
  */
-proto.node.ScoreHistoryTab.prototype.getStorageAlreadyUsed = function() {
-  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 3, 0.0));
+proto.node.ScoreHistoryTab.prototype.getStorageAlreadyCap = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
@@ -6570,17 +6570,17 @@ proto.node.ScoreHistoryTab.prototype.getStorageAlreadyUsed = function() {
  * @param {number} value
  * @return {!proto.node.ScoreHistoryTab} returns this
  */
-proto.node.ScoreHistoryTab.prototype.setStorageAlreadyUsed = function(value) {
-  return jspb.Message.setProto3FloatField(this, 3, value);
+proto.node.ScoreHistoryTab.prototype.setStorageAlreadyCap = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional double storage_volume_left = 4;
+ * optional uint64 storage_volume_left = 4;
  * @return {number}
  */
 proto.node.ScoreHistoryTab.prototype.getStorageVolumeLeft = function() {
-  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 4, 0.0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
@@ -6589,16 +6589,16 @@ proto.node.ScoreHistoryTab.prototype.getStorageVolumeLeft = function() {
  * @return {!proto.node.ScoreHistoryTab} returns this
  */
 proto.node.ScoreHistoryTab.prototype.setStorageVolumeLeft = function(value) {
-  return jspb.Message.setProto3FloatField(this, 4, value);
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional double score = 5;
+ * optional uint32 score = 5;
  * @return {number}
  */
 proto.node.ScoreHistoryTab.prototype.getScore = function() {
-  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 5, 0.0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
@@ -6607,7 +6607,7 @@ proto.node.ScoreHistoryTab.prototype.getScore = function() {
  * @return {!proto.node.ScoreHistoryTab} returns this
  */
 proto.node.ScoreHistoryTab.prototype.setScore = function(value) {
-  return jspb.Message.setProto3FloatField(this, 5, value);
+  return jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
