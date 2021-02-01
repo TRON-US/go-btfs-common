@@ -7,6 +7,7 @@ option (gogoproto.gogoproto_import) = true;
 option (gogoproto.goproto_registration) = true;
 option (gogoproto.marshaler_all) = true;
 option (gogoproto.messagename_all) = true;
+option (gogoproto.populate_all) = true;
 option (gogoproto.sizer_all) = true;
 option (gogoproto.unmarshaler_all) = true;
 // golang option
