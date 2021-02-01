@@ -28,6 +28,7 @@ service StatusService {
   rpc UpdateDiscoveryAggregation(NodeDiscoveryAggrReq) returns (google.protobuf.Empty);
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
   rpc UpdateScoreHistory(ScoreHistoryReq) returns (google.protobuf.Empty);
+  rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (AirdropRewardHistoryResp);
 }
 
 message SignedMetrics {
@@ -66,4 +67,17 @@ message BtfsScanAggrReq {
 
 message ScoreHistoryReq {
   repeated node.ScoreHistoryTab scores = 1;
+}
+
+message AirdropRewardHistoryReq {
+  repeated node.AirdropRewardHistoryTab rewards = 1;
+}
+
+message AirdropRewardHistoryResp {
+  int32 code = 1;
+  string message = 2;
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
