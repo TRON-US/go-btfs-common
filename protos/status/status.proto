@@ -69,8 +69,28 @@ message ScoreHistoryReq {
   repeated node.ScoreHistoryTab scores = 1;
 }
 
+enum RewardType {
+  FILESIZE = 0;
+  REPAIR = 1;
+}
+
+message RewardInfo {
+  RewardType type = 1;
+  string node_id = 2;
+  uint64 reward = 3;
+  bool is_suspect = 4;
+  uint32 weight = 5;
+  uint32 stake = 6;
+}
+
 message AirdropRewardHistoryReq {
-  repeated node.AirdropRewardHistoryTab rewards = 1;
+  repeated RewardInfo rewards = 1;
+  uint32 page_num = 2;
+  uint32 total = 3;
+  google.protobuf.Timestamp date_created = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message AirdropRewardHistoryResp {
