@@ -272,7 +272,6 @@ message BtfsScanTab {
 }
 
 message ScoreHistoryTab {
-  option (gogoproto.json_no_omit_empty) = true;
   string table_name = 1 [(gogoproto.moretags) = "pg:\"score_history,alias:t,discard_unknown_columns\""];
   string node_id = 2;
   uint64 storage_volume_cap = 3;
