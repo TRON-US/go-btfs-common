@@ -28,7 +28,7 @@ service StatusService {
   rpc UpdateDiscoveryAggregation(NodeDiscoveryAggrReq) returns (google.protobuf.Empty);
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
   rpc UpdateScoreHistory(ScoreHistoryReq) returns (google.protobuf.Empty);
-  rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (AirdropRewardHistoryResp);
+  rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
 }
 
 message SignedMetrics {

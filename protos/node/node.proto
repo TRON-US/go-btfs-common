@@ -289,14 +289,17 @@ message ScoreHistoryTab {
 
 message AirdropRewardHistoryTab {
   string table_name = 1 [(gogoproto.moretags) = "pg:\"airdrop_reward_history,alias:t,discard_unknown_columns\""];
-  string node_id = 2;
-  uint64 reward = 3;
-  bool is_suspect = 4;
-  google.protobuf.Timestamp date_created = 5 [
+  uint32 type = 2;
+  string node_id = 3;
+  uint64 reward = 4;
+  bool is_suspect = 5;
+  uint32 weight = 6;
+  uint32 stake = 7;
+  google.protobuf.Timestamp date_created = 8 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  google.protobuf.Timestamp time_created = 6 [
+  google.protobuf.Timestamp time_created = 9 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
