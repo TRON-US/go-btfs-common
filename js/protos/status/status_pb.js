@@ -1643,7 +1643,7 @@ proto.status.RewardInfo.prototype.setStake = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.status.AirdropRewardHistoryReq.repeatedFields_ = [1];
+proto.status.AirdropRewardHistoryReq.repeatedFields_ = [2];
 
 
 
@@ -1676,11 +1676,13 @@ proto.status.AirdropRewardHistoryReq.prototype.toObject = function(opt_includeIn
  */
 proto.status.AirdropRewardHistoryReq.toObject = function(includeInstance, msg) {
   var f, obj = {
+    requesterPid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     rewardsList: jspb.Message.toObjectList(msg.getRewardsList(),
     proto.status.RewardInfo.toObject, includeInstance),
-    pageNum: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    total: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    pageNum: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    total: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    signature: msg.getSignature_asB64()
   };
 
   if (includeInstance) {
@@ -1718,22 +1720,30 @@ proto.status.AirdropRewardHistoryReq.deserializeBinaryFromReader = function(msg,
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRequesterPid(value);
+      break;
+    case 2:
       var value = new proto.status.RewardInfo;
       reader.readMessage(value,proto.status.RewardInfo.deserializeBinaryFromReader);
       msg.addRewards(value);
       break;
-    case 2:
+    case 3:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setPageNum(value);
       break;
-    case 3:
+    case 4:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setTotal(value);
       break;
-    case 4:
+    case 5:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setDateCreated(value);
+      break;
+    case 6:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setSignature(value);
       break;
     default:
       reader.skipField();
@@ -1764,10 +1774,17 @@ proto.status.AirdropRewardHistoryReq.prototype.serializeBinary = function() {
  */
 proto.status.AirdropRewardHistoryReq.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getRequesterPid();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
   f = message.getRewardsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      1,
+      2,
       f,
       proto.status.RewardInfo.serializeBinaryToWriter
     );
@@ -1775,35 +1792,60 @@ proto.status.AirdropRewardHistoryReq.serializeBinaryToWriter = function(message,
   f = message.getPageNum();
   if (f !== 0) {
     writer.writeUint32(
-      2,
+      3,
       f
     );
   }
   f = message.getTotal();
   if (f !== 0) {
     writer.writeUint32(
-      3,
+      4,
       f
     );
   }
   f = message.getDateCreated();
   if (f != null) {
     writer.writeMessage(
-      4,
+      5,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getSignature_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
+      6,
+      f
     );
   }
 };
 
 
 /**
- * repeated RewardInfo rewards = 1;
+ * optional string requester_pid = 1;
+ * @return {string}
+ */
+proto.status.AirdropRewardHistoryReq.prototype.getRequesterPid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.status.AirdropRewardHistoryReq} returns this
+ */
+proto.status.AirdropRewardHistoryReq.prototype.setRequesterPid = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * repeated RewardInfo rewards = 2;
  * @return {!Array<!proto.status.RewardInfo>}
  */
 proto.status.AirdropRewardHistoryReq.prototype.getRewardsList = function() {
   return /** @type{!Array<!proto.status.RewardInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.status.RewardInfo, 1));
+    jspb.Message.getRepeatedWrapperField(this, proto.status.RewardInfo, 2));
 };
 
 
@@ -1812,7 +1854,7 @@ proto.status.AirdropRewardHistoryReq.prototype.getRewardsList = function() {
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
 */
 proto.status.AirdropRewardHistoryReq.prototype.setRewardsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 1, value);
+  return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
@@ -1822,7 +1864,7 @@ proto.status.AirdropRewardHistoryReq.prototype.setRewardsList = function(value) 
  * @return {!proto.status.RewardInfo}
  */
 proto.status.AirdropRewardHistoryReq.prototype.addRewards = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.status.RewardInfo, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.status.RewardInfo, opt_index);
 };
 
 
@@ -1836,28 +1878,10 @@ proto.status.AirdropRewardHistoryReq.prototype.clearRewardsList = function() {
 
 
 /**
- * optional uint32 page_num = 2;
+ * optional uint32 page_num = 3;
  * @return {number}
  */
 proto.status.AirdropRewardHistoryReq.prototype.getPageNum = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.status.AirdropRewardHistoryReq} returns this
- */
-proto.status.AirdropRewardHistoryReq.prototype.setPageNum = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional uint32 total = 3;
- * @return {number}
- */
-proto.status.AirdropRewardHistoryReq.prototype.getTotal = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1866,18 +1890,36 @@ proto.status.AirdropRewardHistoryReq.prototype.getTotal = function() {
  * @param {number} value
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
  */
-proto.status.AirdropRewardHistoryReq.prototype.setTotal = function(value) {
+proto.status.AirdropRewardHistoryReq.prototype.setPageNum = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional google.protobuf.Timestamp date_created = 4;
+ * optional uint32 total = 4;
+ * @return {number}
+ */
+proto.status.AirdropRewardHistoryReq.prototype.getTotal = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.AirdropRewardHistoryReq} returns this
+ */
+proto.status.AirdropRewardHistoryReq.prototype.setTotal = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp date_created = 5;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.status.AirdropRewardHistoryReq.prototype.getDateCreated = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
 };
 
 
@@ -1886,7 +1928,7 @@ proto.status.AirdropRewardHistoryReq.prototype.getDateCreated = function() {
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
 */
 proto.status.AirdropRewardHistoryReq.prototype.setDateCreated = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 5, value);
 };
 
 
@@ -1904,7 +1946,49 @@ proto.status.AirdropRewardHistoryReq.prototype.clearDateCreated = function() {
  * @return {boolean}
  */
 proto.status.AirdropRewardHistoryReq.prototype.hasDateCreated = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional bytes signature = 6;
+ * @return {!(string|Uint8Array)}
+ */
+proto.status.AirdropRewardHistoryReq.prototype.getSignature = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * optional bytes signature = 6;
+ * This is a type-conversion wrapper around `getSignature()`
+ * @return {string}
+ */
+proto.status.AirdropRewardHistoryReq.prototype.getSignature_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getSignature()));
+};
+
+
+/**
+ * optional bytes signature = 6;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getSignature()`
+ * @return {!Uint8Array}
+ */
+proto.status.AirdropRewardHistoryReq.prototype.getSignature_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getSignature()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.status.AirdropRewardHistoryReq} returns this
+ */
+proto.status.AirdropRewardHistoryReq.prototype.setSignature = function(value) {
+  return jspb.Message.setProto3BytesField(this, 6, value);
 };
 
 
