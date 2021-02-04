@@ -86,9 +86,9 @@ message RewardInfo {
 message AirdropRewardHistoryReq {
   string requester_pid = 1;
   repeated RewardInfo rewards = 2;
-  uint32 page_num = 3;
-  uint32 total = 4;
-  google.protobuf.Timestamp date_created = 5 [
+  uint32 page_index = 3;
+  uint32 page_total = 4;
+  google.protobuf.Timestamp date_airdroped = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];

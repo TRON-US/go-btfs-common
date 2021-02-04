@@ -1657,9 +1657,9 @@ proto.status.AirdropRewardHistoryReq.toObject = function(includeInstance, msg) {
     requesterPid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     rewardsList: jspb.Message.toObjectList(msg.getRewardsList(),
     proto.status.RewardInfo.toObject, includeInstance),
-    pageNum: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    total: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    pageIndex: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    pageTotal: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    dateAirdroped: (f = msg.getDateAirdroped()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     signature: msg.getSignature_asB64()
   };
 
@@ -1708,16 +1708,16 @@ proto.status.AirdropRewardHistoryReq.deserializeBinaryFromReader = function(msg,
       break;
     case 3:
       var value = /** @type {number} */ (reader.readUint32());
-      msg.setPageNum(value);
+      msg.setPageIndex(value);
       break;
     case 4:
       var value = /** @type {number} */ (reader.readUint32());
-      msg.setTotal(value);
+      msg.setPageTotal(value);
       break;
     case 5:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setDateCreated(value);
+      msg.setDateAirdroped(value);
       break;
     case 6:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
@@ -1767,21 +1767,21 @@ proto.status.AirdropRewardHistoryReq.serializeBinaryToWriter = function(message,
       proto.status.RewardInfo.serializeBinaryToWriter
     );
   }
-  f = message.getPageNum();
+  f = message.getPageIndex();
   if (f !== 0) {
     writer.writeUint32(
       3,
       f
     );
   }
-  f = message.getTotal();
+  f = message.getPageTotal();
   if (f !== 0) {
     writer.writeUint32(
       4,
       f
     );
   }
-  f = message.getDateCreated();
+  f = message.getDateAirdroped();
   if (f != null) {
     writer.writeMessage(
       5,
@@ -1856,10 +1856,10 @@ proto.status.AirdropRewardHistoryReq.prototype.clearRewardsList = function() {
 
 
 /**
- * optional uint32 page_num = 3;
+ * optional uint32 page_index = 3;
  * @return {number}
  */
-proto.status.AirdropRewardHistoryReq.prototype.getPageNum = function() {
+proto.status.AirdropRewardHistoryReq.prototype.getPageIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1868,16 +1868,16 @@ proto.status.AirdropRewardHistoryReq.prototype.getPageNum = function() {
  * @param {number} value
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
  */
-proto.status.AirdropRewardHistoryReq.prototype.setPageNum = function(value) {
+proto.status.AirdropRewardHistoryReq.prototype.setPageIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional uint32 total = 4;
+ * optional uint32 page_total = 4;
  * @return {number}
  */
-proto.status.AirdropRewardHistoryReq.prototype.getTotal = function() {
+proto.status.AirdropRewardHistoryReq.prototype.getPageTotal = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -1886,16 +1886,16 @@ proto.status.AirdropRewardHistoryReq.prototype.getTotal = function() {
  * @param {number} value
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
  */
-proto.status.AirdropRewardHistoryReq.prototype.setTotal = function(value) {
+proto.status.AirdropRewardHistoryReq.prototype.setPageTotal = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional google.protobuf.Timestamp date_created = 5;
+ * optional google.protobuf.Timestamp date_airdroped = 5;
  * @return {?proto.google.protobuf.Timestamp}
  */
-proto.status.AirdropRewardHistoryReq.prototype.getDateCreated = function() {
+proto.status.AirdropRewardHistoryReq.prototype.getDateAirdroped = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
     jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
 };
@@ -1905,7 +1905,7 @@ proto.status.AirdropRewardHistoryReq.prototype.getDateCreated = function() {
  * @param {?proto.google.protobuf.Timestamp|undefined} value
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
 */
-proto.status.AirdropRewardHistoryReq.prototype.setDateCreated = function(value) {
+proto.status.AirdropRewardHistoryReq.prototype.setDateAirdroped = function(value) {
   return jspb.Message.setWrapperField(this, 5, value);
 };
 
@@ -1914,8 +1914,8 @@ proto.status.AirdropRewardHistoryReq.prototype.setDateCreated = function(value) 
  * Clears the message field making it undefined.
  * @return {!proto.status.AirdropRewardHistoryReq} returns this
  */
-proto.status.AirdropRewardHistoryReq.prototype.clearDateCreated = function() {
-  return this.setDateCreated(undefined);
+proto.status.AirdropRewardHistoryReq.prototype.clearDateAirdroped = function() {
+  return this.setDateAirdroped(undefined);
 };
 
 
@@ -1923,7 +1923,7 @@ proto.status.AirdropRewardHistoryReq.prototype.clearDateCreated = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.status.AirdropRewardHistoryReq.prototype.hasDateCreated = function() {
+proto.status.AirdropRewardHistoryReq.prototype.hasDateAirdroped = function() {
   return jspb.Message.getField(this, 5) != null;
 };
 
