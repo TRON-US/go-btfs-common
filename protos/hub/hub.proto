@@ -164,6 +164,7 @@ message HostsData {
 }
 
 message Host {
+  option (gogoproto.json_no_omit_empty) = true;
   string node_id = 1;
   google.protobuf.Timestamp create_timestamp = 2 [
     (gogoproto.nullable) = false,

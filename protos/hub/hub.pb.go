@@ -1082,41 +1082,41 @@ func (*HostsData) XXX_MessageName() string {
 }
 
 type Host struct {
-	NodeId                      string    `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
+	NodeId                      string    `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id" pg:"node_id"`
 	CreateTimestamp             time.Time `protobuf:"bytes,2,opt,name=create_timestamp,json=createTimestamp,proto3,stdtime" json:"create_timestamp" pg:"create_timestamp"`
 	UpdateTimestamp             time.Time `protobuf:"bytes,3,opt,name=update_timestamp,json=updateTimestamp,proto3,stdtime" json:"update_timestamp" pg:"update_timestamp"`
-	Region                      string    `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty" pg:"region"`
-	BtfsVersion                 string    `protobuf:"bytes,5,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version,omitempty" pg:"btfs_version"`
-	Score                       float32   `protobuf:"fixed32,6,opt,name=score,proto3" json:"score,omitempty" pg:"score"`
-	HeartBeats                  uint64    `protobuf:"varint,7,opt,name=heart_beats,json=heartBeats,proto3" json:"heart_beats,omitempty" pg:"heart_beats"`
-	Uptime                      float32   `protobuf:"fixed32,8,opt,name=uptime,proto3" json:"uptime,omitempty" pg:"uptime"`
-	Age                         uint64    `protobuf:"varint,9,opt,name=age,proto3" json:"age,omitempty" pg:"age"`
-	Reputation                  float32   `protobuf:"fixed32,10,opt,name=reputation,proto3" json:"reputation,omitempty" pg:"reputation"`
-	UploadAverage               float32   `protobuf:"fixed32,11,opt,name=upload_average,json=uploadAverage,proto3" json:"upload_average,omitempty" pg:"upload_average"`
-	UploadVariance              float32   `protobuf:"fixed32,12,opt,name=upload_variance,json=uploadVariance,proto3" json:"upload_variance,omitempty" pg:"upload_variance"`
-	DownloadAverage             float32   `protobuf:"fixed32,13,opt,name=download_average,json=downloadAverage,proto3" json:"download_average,omitempty" pg:"download_average"`
-	DownloadVariance            float32   `protobuf:"fixed32,14,opt,name=download_variance,json=downloadVariance,proto3" json:"download_variance,omitempty" pg:"download_variance"`
+	Region                      string    `protobuf:"bytes,4,opt,name=region,proto3" json:"region" pg:"region"`
+	BtfsVersion                 string    `protobuf:"bytes,5,opt,name=btfs_version,json=btfsVersion,proto3" json:"btfs_version" pg:"btfs_version"`
+	Score                       float32   `protobuf:"fixed32,6,opt,name=score,proto3" json:"score" pg:"score"`
+	HeartBeats                  uint64    `protobuf:"varint,7,opt,name=heart_beats,json=heartBeats,proto3" json:"heart_beats" pg:"heart_beats"`
+	Uptime                      float32   `protobuf:"fixed32,8,opt,name=uptime,proto3" json:"uptime" pg:"uptime"`
+	Age                         uint64    `protobuf:"varint,9,opt,name=age,proto3" json:"age" pg:"age"`
+	Reputation                  float32   `protobuf:"fixed32,10,opt,name=reputation,proto3" json:"reputation" pg:"reputation"`
+	UploadAverage               float32   `protobuf:"fixed32,11,opt,name=upload_average,json=uploadAverage,proto3" json:"upload_average" pg:"upload_average"`
+	UploadVariance              float32   `protobuf:"fixed32,12,opt,name=upload_variance,json=uploadVariance,proto3" json:"upload_variance" pg:"upload_variance"`
+	DownloadAverage             float32   `protobuf:"fixed32,13,opt,name=download_average,json=downloadAverage,proto3" json:"download_average" pg:"download_average"`
+	DownloadVariance            float32   `protobuf:"fixed32,14,opt,name=download_variance,json=downloadVariance,proto3" json:"download_variance" pg:"download_variance"`
 	Location                    Location  `protobuf:"bytes,15,opt,name=location,proto3" json:"location" pg:"location"`
-	StorageVolumeCap            float32   `protobuf:"fixed32,16,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap,omitempty" pg:"storage_volume_cap"`
-	StorageVolumeLeft           float32   `protobuf:"fixed32,17,opt,name=storage_volume_left,json=storageVolumeLeft,proto3" json:"storage_volume_left,omitempty" pg:"storage_volume_left"`
-	StorageTimeMin              uint64    `protobuf:"varint,18,opt,name=storage_time_min,json=storageTimeMin,proto3" json:"storage_time_min,omitempty" pg:"storage_time_min"`
-	StoragePriceAsk             uint64    `protobuf:"varint,19,opt,name=storage_price_ask,json=storagePriceAsk,proto3" json:"storage_price_ask,omitempty" pg:"storage_price_ask"`
-	StoragePriceEst             uint64    `protobuf:"varint,20,opt,name=storage_price_est,json=storagePriceEst,proto3" json:"storage_price_est,omitempty" pg:"storage_price_est"`
-	BandwidthLimit              float64   `protobuf:"fixed64,21,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit,omitempty" pg:"bandwidth_limit"`
-	BandwidthPriceAsk           uint64    `protobuf:"varint,22,opt,name=bandwidth_price_ask,json=bandwidthPriceAsk,proto3" json:"bandwidth_price_ask,omitempty" pg:"bandwidth_price_ask"`
-	BandwidthPriceEst           uint64    `protobuf:"varint,23,opt,name=bandwidth_price_est,json=bandwidthPriceEst,proto3" json:"bandwidth_price_est,omitempty" pg:"bandwidth_price_est"`
-	CollateralStake             uint64    `protobuf:"varint,24,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake,omitempty" pg:"collateral_stake"`
-	CollateralLost              uint64    `protobuf:"varint,25,opt,name=collateral_lost,json=collateralLost,proto3" json:"collateral_lost,omitempty" pg:"collateral_lost"`
-	CollateralBurn              uint64    `protobuf:"varint,26,opt,name=collateral_burn,json=collateralBurn,proto3" json:"collateral_burn,omitempty" pg:"collateral_burn"`
-	CountryShort                string    `protobuf:"bytes,27,opt,name=country_short,json=countryShort,proto3" json:"country_short,omitempty" pg:"country_short"`
+	StorageVolumeCap            float32   `protobuf:"fixed32,16,opt,name=storage_volume_cap,json=storageVolumeCap,proto3" json:"storage_volume_cap" pg:"storage_volume_cap"`
+	StorageVolumeLeft           float32   `protobuf:"fixed32,17,opt,name=storage_volume_left,json=storageVolumeLeft,proto3" json:"storage_volume_left" pg:"storage_volume_left"`
+	StorageTimeMin              uint64    `protobuf:"varint,18,opt,name=storage_time_min,json=storageTimeMin,proto3" json:"storage_time_min" pg:"storage_time_min"`
+	StoragePriceAsk             uint64    `protobuf:"varint,19,opt,name=storage_price_ask,json=storagePriceAsk,proto3" json:"storage_price_ask" pg:"storage_price_ask"`
+	StoragePriceEst             uint64    `protobuf:"varint,20,opt,name=storage_price_est,json=storagePriceEst,proto3" json:"storage_price_est" pg:"storage_price_est"`
+	BandwidthLimit              float64   `protobuf:"fixed64,21,opt,name=bandwidth_limit,json=bandwidthLimit,proto3" json:"bandwidth_limit" pg:"bandwidth_limit"`
+	BandwidthPriceAsk           uint64    `protobuf:"varint,22,opt,name=bandwidth_price_ask,json=bandwidthPriceAsk,proto3" json:"bandwidth_price_ask" pg:"bandwidth_price_ask"`
+	BandwidthPriceEst           uint64    `protobuf:"varint,23,opt,name=bandwidth_price_est,json=bandwidthPriceEst,proto3" json:"bandwidth_price_est" pg:"bandwidth_price_est"`
+	CollateralStake             uint64    `protobuf:"varint,24,opt,name=collateral_stake,json=collateralStake,proto3" json:"collateral_stake" pg:"collateral_stake"`
+	CollateralLost              uint64    `protobuf:"varint,25,opt,name=collateral_lost,json=collateralLost,proto3" json:"collateral_lost" pg:"collateral_lost"`
+	CollateralBurn              uint64    `protobuf:"varint,26,opt,name=collateral_burn,json=collateralBurn,proto3" json:"collateral_burn" pg:"collateral_burn"`
+	CountryShort                string    `protobuf:"bytes,27,opt,name=country_short,json=countryShort,proto3" json:"country_short" pg:"country_short"`
 	node.Node_ExperimentalFlags `protobuf:"bytes,28,opt,name=flg,proto3,embedded=flg" json:"flg" pg:"flg"`
-	Discovery                   float32         `protobuf:"fixed32,29,opt,name=discovery,proto3" json:"discovery,omitempty" pg:"discovery"`
-	UptimeScore                 float32         `protobuf:"fixed32,30,opt,name=uptime_score,json=uptimeScore,proto3" json:"uptime_score,omitempty" pg:"uptime_score"`
-	AgeScore                    float32         `protobuf:"fixed32,31,opt,name=age_score,json=ageScore,proto3" json:"age_score,omitempty" pg:"age_score"`
-	VersionScore                float32         `protobuf:"fixed32,32,opt,name=version_score,json=versionScore,proto3" json:"version_score,omitempty" pg:"version_score"`
-	UploadSpeedScore            float32         `protobuf:"fixed32,33,opt,name=upload_speed_score,json=uploadSpeedScore,proto3" json:"upload_speed_score,omitempty" pg:"upload_speed_score"`
-	DownloadSpeedScore          float32         `protobuf:"fixed32,34,opt,name=download_speed_score,json=downloadSpeedScore,proto3" json:"download_speed_score,omitempty" pg:"download_speed_score"`
-	Roles                       []node.NodeRole `protobuf:"varint,35,rep,packed,name=roles,proto3,enum=node.NodeRole" json:"roles,omitempty" pg:"roles,array"`
+	Discovery                   float32         `protobuf:"fixed32,29,opt,name=discovery,proto3" json:"discovery" pg:"discovery"`
+	UptimeScore                 float32         `protobuf:"fixed32,30,opt,name=uptime_score,json=uptimeScore,proto3" json:"uptime_score" pg:"uptime_score"`
+	AgeScore                    float32         `protobuf:"fixed32,31,opt,name=age_score,json=ageScore,proto3" json:"age_score" pg:"age_score"`
+	VersionScore                float32         `protobuf:"fixed32,32,opt,name=version_score,json=versionScore,proto3" json:"version_score" pg:"version_score"`
+	UploadSpeedScore            float32         `protobuf:"fixed32,33,opt,name=upload_speed_score,json=uploadSpeedScore,proto3" json:"upload_speed_score" pg:"upload_speed_score"`
+	DownloadSpeedScore          float32         `protobuf:"fixed32,34,opt,name=download_speed_score,json=downloadSpeedScore,proto3" json:"download_speed_score" pg:"download_speed_score"`
+	Roles                       []node.NodeRole `protobuf:"varint,35,rep,packed,name=roles,proto3,enum=node.NodeRole" json:"roles" pg:"roles,array"`
 	XXX_NoUnkeyedLiteral        struct{}        `json:"-" pg:"-"`
 	XXX_unrecognized            []byte          `json:"-" pg:"-"`
 	XXX_sizecache               int32           `json:"-" pg:"-"`
