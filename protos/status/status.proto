@@ -94,12 +94,3 @@ message AirdropRewardHistoryReq {
   ];
   bytes signature = 6;
 }
-
-message AirdropRewardHistoryResp {
-  int32 code = 1;
-  string message = 2;
-  google.protobuf.Timestamp response_time = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-}
