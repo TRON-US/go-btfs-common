@@ -1,12 +1,10 @@
-package utils
+package crypto
 
 import (
 	"crypto/ecdsa"
 	"crypto/sha256"
 	"encoding/hex"
-	"errors"
 
-	cr "github.com/tron-us/go-btfs-common/crypto"
 	"github.com/tron-us/go-common/v2/crypto"
 	"github.com/tron-us/protobuf/proto"
 
@@ -16,11 +14,7 @@ import (
 )
 
 func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
-	//pid, err := peer.IDB58Decode(peerId)
-	//if err != nil {
-	//	return nil, err
-	//}
-	pubkey, err := cr.ToPubKey(pubkeyS)
+	pubkey, err := ToPubKey(pubkeyS)
 	if err != nil {
 		return nil, err
 	}
@@ -106,53 +100,20 @@ func GetTronPubKeyFromIcPubKey(pubkey ic.PubKey) (*string, error) {
 
 	return result, err
 }
-func EcdsaPublicKeyToAddress(p ecdsa.PublicKey) (TronAddress, error) {
+func EcdsaPublicKeyToAddress(p ecdsa.PublicKey) (Address, error) {
 	addr := eth.PubkeyToAddress(p)
 
 	addressTron := make([]byte, AddressLength)
 
 	addressPrefix, err := FromHex(AddressPrefix)
 	if err != nil {
-		return TronAddress{}, err
+		return Address{}, err
 	}
 
 	addressTron = append(addressTron, addressPrefix...)
 	addressTron = append(addressTron, addr.Bytes()...)
 
 	return BytesToAddress(addressTron), nil
-}
-
-const (
-	AddressLength = 21
-	AddressPrefix = "41"
-)
-
-type TronAddress [AddressLength]byte
-
-func BytesToAddress(b []byte) TronAddress {
-	var a TronAddress
-	a.SetBytes(b)
-	return a
-}
-
-func (a *TronAddress) Bytes() []byte {
-	return a[:]
-}
-
-// Convert byte to address.
-func (a *TronAddress) SetBytes(b []byte) {
-	if len(b) > len(a) {
-		b = b[len(b)-AddressLength:]
-	}
-	copy(a[AddressLength-len(b):], b)
-}
-
-func FromHex(input string) ([]byte, error) {
-	if len(input) == 0 {
-		return nil, errors.New("empty hex string")
-	}
-
-	return hex.DecodeString(input[:])
 }
 
 func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
@@ -165,16 +126,4 @@ func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
 		return nil, err
 	}
 	return pubkey.Raw()
-}
-
-func GetPubKeyFromPeerId(pId string) (ic.PubKey, error) {
-	peerId, err := peer.IDB58Decode(pId)
-	if err != nil {
-		return nil, err
-	}
-	pubKey, err2 := peerId.ExtractPublicKey()
-	if err2 != nil {
-		return nil, err2
-	}
-	return pubKey, nil
 }
