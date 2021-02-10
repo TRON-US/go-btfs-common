@@ -51,6 +51,8 @@ service EscrowService {
   rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
   //use escrow as proxy to do the payment
   rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
+  rpc Stake(SignedStakeRequest) returns (SignedStakeResult);
+  rpc StakePenalty(SignedStakePenaltyRequest) returns (StakeResult);
 }
 
 enum TokenType {
@@ -345,4 +347,81 @@ message BalanceResult {
 message SignedBalanceResult {
   BalanceResult result = 1;
   bytes escrow_signature = 2;
+}
+
+message SignedStakeRequest {
+  StakeRequest data = 1;
+  bytes signature = 2;
+}
+
+message StakeRequest {
+  string staker_id = 1;
+  int64 stake_amount = 2; //the amount can be 0 which mean query only, if negative means withdraw, positive means deposit
+  ledger.SignedTransferRequest transfer_request = 3; //if the request is used for deposit, need to fill this object
+  bool show_spending = 4; //show the spending ledger or not, if false, means only show un-spending
+  google.protobuf.Timestamp request_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message StakeResult {
+  string staker_id = 1;
+  int64 balance = 2;
+  int64 mature_amount = 3; //the amount can be withdraw now
+  repeated StakeLedger ledgers = 4;
+  google.protobuf.Timestamp result_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  ledger.TransferResult transfer_result = 6; //set only on deposit request
+}
+
+message SignedStakeResult {
+  StakeResult data = 1;
+  bytes signature = 2;
+}
+
+message StakeLedger {
+  string staker_id = 1;
+  int64 amount = 2;
+  int64 remaining_amount = 3;
+  google.protobuf.Timestamp start_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp mature_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp end_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string operator_id = 7;
+  PenaltyReason reason = 8;
+  string operation_log = 9;
+}
+
+message SignedStakePenaltyRequest {
+  StakePenaltyRequest data = 1;
+  bytes signature = 2;
+}
+
+enum PenaltyReason {
+  NO_PENALTY = 0;
+  CHEAT = 1;
+  LOST_SHARD = 2;
+}
+
+message StakePenaltyRequest {
+  string staker_id = 1;
+  string operator_id = 2;
+  PenaltyReason reason = 3;
+  string operation_log = 4;
+  int64 amount = 5;
+  google.protobuf.Timestamp operate_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
