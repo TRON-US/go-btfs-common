@@ -569,3 +569,19 @@ message ShardChallengeResult {
   string result = 5;
   bool is_timeout = 6;
 }
+
+message DeCentralQuestions {
+  repeated DeQuestion qs = 1;
+  int32 count = 2;
+  string uuid = 3;
+  string url = 4;
+  google.protobuf.Timestamp end_time = 5 [(gogoproto.stdtime) = true];
+}
+
+message DeQuestion {
+  string shard_hash = 1; //shard hash
+  string host_pid = 2; //host's peerId
+  int32 chunk_index = 3; //the chunk's index for calculation
+  string nonce = 4; //the challenge questions's random nonce
+  string file_hash = 5;
+}
