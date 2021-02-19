@@ -28,6 +28,7 @@ goog.exportSymbol('proto.escrow.Escrow', null, global);
 goog.exportSymbol('proto.escrow.EscrowContract', null, global);
 goog.exportSymbol('proto.escrow.EscrowContractRequest', null, global);
 goog.exportSymbol('proto.escrow.EscrowStatus', null, global);
+goog.exportSymbol('proto.escrow.OperationType', null, global);
 goog.exportSymbol('proto.escrow.PayinRequest', null, global);
 goog.exportSymbol('proto.escrow.PayinResult', null, global);
 goog.exportSymbol('proto.escrow.PayinStatus', null, global);
@@ -35,7 +36,6 @@ goog.exportSymbol('proto.escrow.Payment', null, global);
 goog.exportSymbol('proto.escrow.PaymentResult', null, global);
 goog.exportSymbol('proto.escrow.PayoutAddress', null, global);
 goog.exportSymbol('proto.escrow.PayoutStatus', null, global);
-goog.exportSymbol('proto.escrow.PenaltyReason', null, global);
 goog.exportSymbol('proto.escrow.Schedule', null, global);
 goog.exportSymbol('proto.escrow.SignedBalanceResult', null, global);
 goog.exportSymbol('proto.escrow.SignedCancelContractResult', null, global);
@@ -10933,13 +10933,11 @@ proto.escrow.StakeLedger.toObject = function(includeInstance, msg) {
   var f, obj = {
     stakerId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     amount: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    remainingAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
     startTime: (f = msg.getStartTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     matureTime: (f = msg.getMatureTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    endTime: (f = msg.getEndTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    operatorId: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    reason: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    operationLog: jspb.Message.getFieldWithDefault(msg, 9, "")
+    operatorId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    operationLog: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -10985,33 +10983,24 @@ proto.escrow.StakeLedger.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAmount(value);
       break;
     case 3:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setRemainingAmount(value);
-      break;
-    case 4:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setStartTime(value);
       break;
-    case 5:
+    case 4:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setMatureTime(value);
       break;
-    case 6:
-      var value = new google_protobuf_timestamp_pb.Timestamp;
-      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setEndTime(value);
-      break;
-    case 7:
+    case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setOperatorId(value);
       break;
-    case 8:
-      var value = /** @type {!proto.escrow.PenaltyReason} */ (reader.readEnum());
-      msg.setReason(value);
+    case 6:
+      var value = /** @type {!proto.escrow.OperationType} */ (reader.readEnum());
+      msg.setType(value);
       break;
-    case 9:
+    case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.setOperationLog(value);
       break;
@@ -11058,17 +11047,10 @@ proto.escrow.StakeLedger.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getRemainingAmount();
-  if (f !== 0) {
-    writer.writeInt64(
-      3,
-      f
-    );
-  }
   f = message.getStartTime();
   if (f != null) {
     writer.writeMessage(
-      4,
+      3,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
@@ -11076,15 +11058,7 @@ proto.escrow.StakeLedger.serializeBinaryToWriter = function(message, writer) {
   f = message.getMatureTime();
   if (f != null) {
     writer.writeMessage(
-      5,
-      f,
-      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
-    );
-  }
-  f = message.getEndTime();
-  if (f != null) {
-    writer.writeMessage(
-      6,
+      4,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
@@ -11092,21 +11066,21 @@ proto.escrow.StakeLedger.serializeBinaryToWriter = function(message, writer) {
   f = message.getOperatorId();
   if (f.length > 0) {
     writer.writeString(
-      7,
+      5,
       f
     );
   }
-  f = message.getReason();
+  f = message.getType();
   if (f !== 0.0) {
     writer.writeEnum(
-      8,
+      6,
       f
     );
   }
   f = message.getOperationLog();
   if (f.length > 0) {
     writer.writeString(
-      9,
+      7,
       f
     );
   }
@@ -11150,30 +11124,12 @@ proto.escrow.StakeLedger.prototype.setAmount = function(value) {
 
 
 /**
- * optional int64 remaining_amount = 3;
- * @return {number}
- */
-proto.escrow.StakeLedger.prototype.getRemainingAmount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.escrow.StakeLedger} returns this
- */
-proto.escrow.StakeLedger.prototype.setRemainingAmount = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
-};
-
-
-/**
- * optional google.protobuf.Timestamp start_time = 4;
+ * optional google.protobuf.Timestamp start_time = 3;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.escrow.StakeLedger.prototype.getStartTime = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 3));
 };
 
 
@@ -11182,7 +11138,7 @@ proto.escrow.StakeLedger.prototype.getStartTime = function() {
  * @return {!proto.escrow.StakeLedger} returns this
 */
 proto.escrow.StakeLedger.prototype.setStartTime = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
@@ -11200,17 +11156,17 @@ proto.escrow.StakeLedger.prototype.clearStartTime = function() {
  * @return {boolean}
  */
 proto.escrow.StakeLedger.prototype.hasStartTime = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
 /**
- * optional google.protobuf.Timestamp mature_time = 5;
+ * optional google.protobuf.Timestamp mature_time = 4;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.escrow.StakeLedger.prototype.getMatureTime = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
 };
 
 
@@ -11219,7 +11175,7 @@ proto.escrow.StakeLedger.prototype.getMatureTime = function() {
  * @return {!proto.escrow.StakeLedger} returns this
 */
 proto.escrow.StakeLedger.prototype.setMatureTime = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
@@ -11237,53 +11193,16 @@ proto.escrow.StakeLedger.prototype.clearMatureTime = function() {
  * @return {boolean}
  */
 proto.escrow.StakeLedger.prototype.hasMatureTime = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.getField(this, 4) != null;
 };
 
 
 /**
- * optional google.protobuf.Timestamp end_time = 6;
- * @return {?proto.google.protobuf.Timestamp}
- */
-proto.escrow.StakeLedger.prototype.getEndTime = function() {
-  return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 6));
-};
-
-
-/**
- * @param {?proto.google.protobuf.Timestamp|undefined} value
- * @return {!proto.escrow.StakeLedger} returns this
-*/
-proto.escrow.StakeLedger.prototype.setEndTime = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.escrow.StakeLedger} returns this
- */
-proto.escrow.StakeLedger.prototype.clearEndTime = function() {
-  return this.setEndTime(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.escrow.StakeLedger.prototype.hasEndTime = function() {
-  return jspb.Message.getField(this, 6) != null;
-};
-
-
-/**
- * optional string operator_id = 7;
+ * optional string operator_id = 5;
  * @return {string}
  */
 proto.escrow.StakeLedger.prototype.getOperatorId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
@@ -11292,34 +11211,34 @@ proto.escrow.StakeLedger.prototype.getOperatorId = function() {
  * @return {!proto.escrow.StakeLedger} returns this
  */
 proto.escrow.StakeLedger.prototype.setOperatorId = function(value) {
-  return jspb.Message.setProto3StringField(this, 7, value);
+  return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional PenaltyReason reason = 8;
- * @return {!proto.escrow.PenaltyReason}
+ * optional OperationType type = 6;
+ * @return {!proto.escrow.OperationType}
  */
-proto.escrow.StakeLedger.prototype.getReason = function() {
-  return /** @type {!proto.escrow.PenaltyReason} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+proto.escrow.StakeLedger.prototype.getType = function() {
+  return /** @type {!proto.escrow.OperationType} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {!proto.escrow.PenaltyReason} value
+ * @param {!proto.escrow.OperationType} value
  * @return {!proto.escrow.StakeLedger} returns this
  */
-proto.escrow.StakeLedger.prototype.setReason = function(value) {
-  return jspb.Message.setProto3EnumField(this, 8, value);
+proto.escrow.StakeLedger.prototype.setType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 6, value);
 };
 
 
 /**
- * optional string operation_log = 9;
+ * optional string operation_log = 7;
  * @return {string}
  */
 proto.escrow.StakeLedger.prototype.getOperationLog = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
@@ -11328,7 +11247,7 @@ proto.escrow.StakeLedger.prototype.getOperationLog = function() {
  * @return {!proto.escrow.StakeLedger} returns this
  */
 proto.escrow.StakeLedger.prototype.setOperationLog = function(value) {
-  return jspb.Message.setProto3StringField(this, 9, value);
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
@@ -11620,7 +11539,7 @@ proto.escrow.StakePenaltyRequest.deserializeBinaryFromReader = function(msg, rea
       msg.setOperatorId(value);
       break;
     case 3:
-      var value = /** @type {!proto.escrow.PenaltyReason} */ (reader.readEnum());
+      var value = /** @type {!proto.escrow.OperationType} */ (reader.readEnum());
       msg.setReason(value);
       break;
     case 4:
@@ -11748,16 +11667,16 @@ proto.escrow.StakePenaltyRequest.prototype.setOperatorId = function(value) {
 
 
 /**
- * optional PenaltyReason reason = 3;
- * @return {!proto.escrow.PenaltyReason}
+ * optional OperationType reason = 3;
+ * @return {!proto.escrow.OperationType}
  */
 proto.escrow.StakePenaltyRequest.prototype.getReason = function() {
-  return /** @type {!proto.escrow.PenaltyReason} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+  return /** @type {!proto.escrow.OperationType} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
- * @param {!proto.escrow.PenaltyReason} value
+ * @param {!proto.escrow.OperationType} value
  * @return {!proto.escrow.StakePenaltyRequest} returns this
  */
 proto.escrow.StakePenaltyRequest.prototype.setReason = function(value) {
@@ -11879,10 +11798,10 @@ proto.escrow.EscrowStatus = {
 /**
  * @enum {number}
  */
-proto.escrow.PenaltyReason = {
-  NO_PENALTY: 0,
-  CHEAT: 1,
-  LOST_SHARD: 2
+proto.escrow.OperationType = {
+  STAKE: 0,
+  CHEAT_PENALTY: 1,
+  LOST_SHARD_PENALTY: 2
 };
 
 goog.object.extend(exports, proto.escrow);
