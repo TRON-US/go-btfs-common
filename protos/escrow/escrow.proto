@@ -385,18 +385,17 @@ message SignedStakeResult {
 message StakeLedger {
   string staker_id = 1;
   int64 amount = 2;
-  int64 remaining_amount = 3;
-  google.protobuf.Timestamp start_time = 4 [
+  google.protobuf.Timestamp start_time = 3 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  google.protobuf.Timestamp mature_time = 5 [
+  google.protobuf.Timestamp mature_time = 4 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  string operator_id = 6;
-  OperationType type = 7;
-  string operation_log = 8;
+  string operator_id = 5;
+  OperationType type = 6;
+  string operation_log = 7;
 }
 
 message SignedStakePenaltyRequest {
