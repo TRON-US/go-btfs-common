@@ -369,13 +369,14 @@ message StakeResult {
   string staker_id = 1;
   int64 balance = 2;
   int64 mature_amount = 3; //the amount can be stake now
-  repeated StakeLedger ledgers = 4;
-  repeated StakeRequest unfinish_requests = 5;
-  google.protobuf.Timestamp result_time = 6 [
+  int64 pending_amount = 4;
+  repeated StakeLedger ledgers = 5;
+  repeated UnfinishStakeLedger unfinish_ledgers = 6;
+  google.protobuf.Timestamp result_time = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  ledger.TransferResult transfer_result = 7; //set only on un-stake request
+  ledger.TransferResult transfer_result = 8; //set only on un-stake request
 }
 
 message SignedStakeResult {
@@ -397,6 +398,26 @@ message StakeLedger {
   string operator_id = 5;
   OperationType type = 6;
   string operation_log = 7;
+}
+
+enum StakeStatus {
+  PROCEEDING = 0;
+  FAIL = 1;
+}
+
+message UnfinishStakeLedger {
+  string staker_id = 1;
+  int64 amount = 2;
+  StakeStatus status = 3;
+  string fail_reason = 4;
+  google.protobuf.Timestamp submit_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp fail_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message SignedStakePenaltyRequest {
