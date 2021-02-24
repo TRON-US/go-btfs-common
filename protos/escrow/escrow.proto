@@ -370,11 +370,12 @@ message StakeResult {
   int64 balance = 2;
   int64 mature_amount = 3; //the amount can be stake now
   repeated StakeLedger ledgers = 4;
-  google.protobuf.Timestamp result_time = 5 [
+  repeated StakeRequest unfinish_requests = 5;
+  google.protobuf.Timestamp result_time = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  ledger.TransferResult transfer_result = 6; //set only on un-stake request
+  ledger.TransferResult transfer_result = 7; //set only on un-stake request
 }
 
 message SignedStakeResult {

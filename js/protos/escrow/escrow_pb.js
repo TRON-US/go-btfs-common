@@ -10348,7 +10348,7 @@ proto.escrow.StakeRequest.prototype.hasRequestTime = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.escrow.StakeResult.repeatedFields_ = [4];
+proto.escrow.StakeResult.repeatedFields_ = [4,5];
 
 
 
@@ -10386,6 +10386,8 @@ proto.escrow.StakeResult.toObject = function(includeInstance, msg) {
     matureAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
     ledgersList: jspb.Message.toObjectList(msg.getLedgersList(),
     proto.escrow.StakeLedger.toObject, includeInstance),
+    unfinishRequestsList: jspb.Message.toObjectList(msg.getUnfinishRequestsList(),
+    proto.escrow.StakeRequest.toObject, includeInstance),
     resultTime: (f = msg.getResultTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     transferResult: (f = msg.getTransferResult()) && protos_ledger_ledger_pb.TransferResult.toObject(includeInstance, f)
   };
@@ -10442,11 +10444,16 @@ proto.escrow.StakeResult.deserializeBinaryFromReader = function(msg, reader) {
       msg.addLedgers(value);
       break;
     case 5:
+      var value = new proto.escrow.StakeRequest;
+      reader.readMessage(value,proto.escrow.StakeRequest.deserializeBinaryFromReader);
+      msg.addUnfinishRequests(value);
+      break;
+    case 6:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setResultTime(value);
       break;
-    case 6:
+    case 7:
       var value = new protos_ledger_ledger_pb.TransferResult;
       reader.readMessage(value,protos_ledger_ledger_pb.TransferResult.deserializeBinaryFromReader);
       msg.setTransferResult(value);
@@ -10509,10 +10516,18 @@ proto.escrow.StakeResult.serializeBinaryToWriter = function(message, writer) {
       proto.escrow.StakeLedger.serializeBinaryToWriter
     );
   }
+  f = message.getUnfinishRequestsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      5,
+      f,
+      proto.escrow.StakeRequest.serializeBinaryToWriter
+    );
+  }
   f = message.getResultTime();
   if (f != null) {
     writer.writeMessage(
-      5,
+      6,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
@@ -10520,7 +10535,7 @@ proto.escrow.StakeResult.serializeBinaryToWriter = function(message, writer) {
   f = message.getTransferResult();
   if (f != null) {
     writer.writeMessage(
-      6,
+      7,
       f,
       protos_ledger_ledger_pb.TransferResult.serializeBinaryToWriter
     );
@@ -10621,12 +10636,50 @@ proto.escrow.StakeResult.prototype.clearLedgersList = function() {
 
 
 /**
- * optional google.protobuf.Timestamp result_time = 5;
+ * repeated StakeRequest unfinish_requests = 5;
+ * @return {!Array<!proto.escrow.StakeRequest>}
+ */
+proto.escrow.StakeResult.prototype.getUnfinishRequestsList = function() {
+  return /** @type{!Array<!proto.escrow.StakeRequest>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.escrow.StakeRequest, 5));
+};
+
+
+/**
+ * @param {!Array<!proto.escrow.StakeRequest>} value
+ * @return {!proto.escrow.StakeResult} returns this
+*/
+proto.escrow.StakeResult.prototype.setUnfinishRequestsList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 5, value);
+};
+
+
+/**
+ * @param {!proto.escrow.StakeRequest=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.escrow.StakeRequest}
+ */
+proto.escrow.StakeResult.prototype.addUnfinishRequests = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.escrow.StakeRequest, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.escrow.StakeResult} returns this
+ */
+proto.escrow.StakeResult.prototype.clearUnfinishRequestsList = function() {
+  return this.setUnfinishRequestsList([]);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp result_time = 6;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.escrow.StakeResult.prototype.getResultTime = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 6));
 };
 
 
@@ -10635,7 +10688,7 @@ proto.escrow.StakeResult.prototype.getResultTime = function() {
  * @return {!proto.escrow.StakeResult} returns this
 */
 proto.escrow.StakeResult.prototype.setResultTime = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
@@ -10653,17 +10706,17 @@ proto.escrow.StakeResult.prototype.clearResultTime = function() {
  * @return {boolean}
  */
 proto.escrow.StakeResult.prototype.hasResultTime = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.getField(this, 6) != null;
 };
 
 
 /**
- * optional ledger.TransferResult transfer_result = 6;
+ * optional ledger.TransferResult transfer_result = 7;
  * @return {?proto.ledger.TransferResult}
  */
 proto.escrow.StakeResult.prototype.getTransferResult = function() {
   return /** @type{?proto.ledger.TransferResult} */ (
-    jspb.Message.getWrapperField(this, protos_ledger_ledger_pb.TransferResult, 6));
+    jspb.Message.getWrapperField(this, protos_ledger_ledger_pb.TransferResult, 7));
 };
 
 
@@ -10672,7 +10725,7 @@ proto.escrow.StakeResult.prototype.getTransferResult = function() {
  * @return {!proto.escrow.StakeResult} returns this
 */
 proto.escrow.StakeResult.prototype.setTransferResult = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
+  return jspb.Message.setWrapperField(this, 7, value);
 };
 
 
@@ -10690,7 +10743,7 @@ proto.escrow.StakeResult.prototype.clearTransferResult = function() {
  * @return {boolean}
  */
 proto.escrow.StakeResult.prototype.hasTransferResult = function() {
-  return jspb.Message.getField(this, 6) != null;
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
