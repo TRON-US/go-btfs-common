@@ -10152,7 +10152,6 @@ proto.escrow.StakeRequest.toObject = function(includeInstance, msg) {
     stakerId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     stakeAmount: jspb.Message.getFieldWithDefault(msg, 2, 0),
     transferRequest: (f = msg.getTransferRequest()) && protos_ledger_ledger_pb.SignedTransferRequest.toObject(includeInstance, f),
-    showSpending: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     requestTime: (f = msg.getRequestTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
@@ -10204,10 +10203,6 @@ proto.escrow.StakeRequest.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTransferRequest(value);
       break;
     case 4:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setShowSpending(value);
-      break;
-    case 5:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setRequestTime(value);
@@ -10263,17 +10258,10 @@ proto.escrow.StakeRequest.serializeBinaryToWriter = function(message, writer) {
       protos_ledger_ledger_pb.SignedTransferRequest.serializeBinaryToWriter
     );
   }
-  f = message.getShowSpending();
-  if (f) {
-    writer.writeBool(
-      4,
-      f
-    );
-  }
   f = message.getRequestTime();
   if (f != null) {
     writer.writeMessage(
-      5,
+      4,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
@@ -10355,30 +10343,12 @@ proto.escrow.StakeRequest.prototype.hasTransferRequest = function() {
 
 
 /**
- * optional bool show_spending = 4;
- * @return {boolean}
- */
-proto.escrow.StakeRequest.prototype.getShowSpending = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.escrow.StakeRequest} returns this
- */
-proto.escrow.StakeRequest.prototype.setShowSpending = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 4, value);
-};
-
-
-/**
- * optional google.protobuf.Timestamp request_time = 5;
+ * optional google.protobuf.Timestamp request_time = 4;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.escrow.StakeRequest.prototype.getRequestTime = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
 };
 
 
@@ -10387,7 +10357,7 @@ proto.escrow.StakeRequest.prototype.getRequestTime = function() {
  * @return {!proto.escrow.StakeRequest} returns this
 */
 proto.escrow.StakeRequest.prototype.setRequestTime = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
@@ -10405,7 +10375,7 @@ proto.escrow.StakeRequest.prototype.clearRequestTime = function() {
  * @return {boolean}
  */
 proto.escrow.StakeRequest.prototype.hasRequestTime = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.getField(this, 4) != null;
 };
 
 
