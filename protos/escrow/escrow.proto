@@ -52,7 +52,7 @@ service EscrowService {
   //use escrow as proxy to do the payment
   rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
   rpc Stake(SignedStakeRequest) returns (SignedStakeResult);
-  rpc StakePenalty(SignedStakePenaltyRequest) returns (StakeResult);
+  rpc StakePenalty(SignedStakePenaltyRequest) returns (SignedStakePenaltyResult);
 }
 
 enum TokenType {
@@ -372,11 +372,6 @@ message StakeResult {
   int64 pending_amount = 4;
   repeated StakeLedger ledgers = 5;
   repeated UnfinishStakeLedger unfinish_ledgers = 6;
-  google.protobuf.Timestamp result_time = 7 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
-  ledger.TransferResult transfer_result = 8; //set only on un-stake request
 }
 
 message SignedStakeResult {
@@ -437,8 +432,24 @@ message StakePenaltyRequest {
   OperationType reason = 3;
   string operation_log = 4;
   int64 amount = 5;
-  google.protobuf.Timestamp operate_time = 6 [
+  google.protobuf.Timestamp submit_time = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+}
+
+message StakePenaltyResult {
+  string staker_id = 1;
+  string request_penalty_amount = 2;
+  string operate_penalty_amount = 3;
+  string operator_id = 4;
+  google.protobuf.Timestamp receive_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedStakePenaltyResult {
+  StakePenaltyResult data = 1;
+  bytes signature = 2;
 }
