@@ -12160,8 +12160,8 @@ proto.escrow.StakePenaltyResult.prototype.toObject = function(opt_includeInstanc
 proto.escrow.StakePenaltyResult.toObject = function(includeInstance, msg) {
   var f, obj = {
     stakerId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    requestPenaltyAmount: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    operatePenaltyAmount: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    requestPenaltyAmount: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    operatePenaltyAmount: jspb.Message.getFieldWithDefault(msg, 3, 0),
     operatorId: jspb.Message.getFieldWithDefault(msg, 4, ""),
     receiveTime: (f = msg.getReceiveTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
@@ -12205,11 +12205,11 @@ proto.escrow.StakePenaltyResult.deserializeBinaryFromReader = function(msg, read
       msg.setStakerId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setRequestPenaltyAmount(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setOperatePenaltyAmount(value);
       break;
     case 4:
@@ -12258,15 +12258,15 @@ proto.escrow.StakePenaltyResult.serializeBinaryToWriter = function(message, writ
     );
   }
   f = message.getRequestPenaltyAmount();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0) {
+    writer.writeInt64(
       2,
       f
     );
   }
   f = message.getOperatePenaltyAmount();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0) {
+    writer.writeInt64(
       3,
       f
     );
@@ -12308,38 +12308,38 @@ proto.escrow.StakePenaltyResult.prototype.setStakerId = function(value) {
 
 
 /**
- * optional string request_penalty_amount = 2;
- * @return {string}
+ * optional int64 request_penalty_amount = 2;
+ * @return {number}
  */
 proto.escrow.StakePenaltyResult.prototype.getRequestPenaltyAmount = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.escrow.StakePenaltyResult} returns this
  */
 proto.escrow.StakePenaltyResult.prototype.setRequestPenaltyAmount = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * optional string operate_penalty_amount = 3;
- * @return {string}
+ * optional int64 operate_penalty_amount = 3;
+ * @return {number}
  */
 proto.escrow.StakePenaltyResult.prototype.getOperatePenaltyAmount = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.escrow.StakePenaltyResult} returns this
  */
 proto.escrow.StakePenaltyResult.prototype.setOperatePenaltyAmount = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
