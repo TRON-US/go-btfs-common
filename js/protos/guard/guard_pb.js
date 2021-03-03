@@ -1129,7 +1129,9 @@ proto.guard.DailySummary.toObject = function(includeInstance, msg) {
     newContracts: jspb.Message.getFieldWithDefault(msg, 6, 0),
     newContractsHost: jspb.Message.getFieldWithDefault(msg, 7, 0),
     newContractsRenter: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    newContractsAveragePrice: jspb.Message.getFieldWithDefault(msg, 9, 0)
+    newContractsAveragePrice: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    newFiles: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    newShardsSize: jspb.Message.getFieldWithDefault(msg, 11, 0)
   };
 
   if (includeInstance) {
@@ -1203,6 +1205,14 @@ proto.guard.DailySummary.deserializeBinaryFromReader = function(msg, reader) {
     case 9:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setNewContractsAveragePrice(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setNewFiles(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setNewShardsSize(value);
       break;
     default:
       reader.skipField();
@@ -1295,6 +1305,20 @@ proto.guard.DailySummary.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt64(
       9,
+      f
+    );
+  }
+  f = message.getNewFiles();
+  if (f !== 0) {
+    writer.writeInt64(
+      10,
+      f
+    );
+  }
+  f = message.getNewShardsSize();
+  if (f !== 0) {
+    writer.writeInt64(
+      11,
       f
     );
   }
@@ -1522,6 +1546,42 @@ proto.guard.DailySummary.prototype.getNewContractsAveragePrice = function() {
  */
 proto.guard.DailySummary.prototype.setNewContractsAveragePrice = function(value) {
   return jspb.Message.setProto3IntField(this, 9, value);
+};
+
+
+/**
+ * optional int64 new_files = 10;
+ * @return {number}
+ */
+proto.guard.DailySummary.prototype.getNewFiles = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.DailySummary} returns this
+ */
+proto.guard.DailySummary.prototype.setNewFiles = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional int64 new_shards_size = 11;
+ * @return {number}
+ */
+proto.guard.DailySummary.prototype.getNewShardsSize = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.DailySummary} returns this
+ */
+proto.guard.DailySummary.prototype.setNewShardsSize = function(value) {
+  return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 

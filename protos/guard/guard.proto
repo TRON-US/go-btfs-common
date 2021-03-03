@@ -72,6 +72,8 @@ message DailySummary {
   int64 new_contracts_host = 7; //count of the hosts who receive and pass challenge the day
   int64 new_contracts_renter = 8; //count of the renters who upload contract the day
   int64 new_contracts_average_price = 9; //average price of the day's contracts
+  int64 new_files = 10; //files count of the day
+  int64 new_shards_size = 11; //all shards file size of the day
 }
 
 message HostSummary {
