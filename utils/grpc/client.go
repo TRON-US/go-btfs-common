@@ -28,6 +28,7 @@ import (
 const (
 	defaultSchema  = "http"
 	defaultTimeout = 30 * time.Second
+	InjectedConn   = "injected-connection"
 )
 
 func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error {
@@ -35,15 +36,18 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 	if cancel != nil {
 		defer cancel()
 	}
-	conn, err := newGRPCConn(newCtx, g.addr)
-	if conn != nil {
-		defer conn.Close()
-	}
-	if err != nil {
+	var conn *grpc.ClientConn
+	if instance := ctx.Value(InjectedConn); instance != nil {
+		conn = instance.(*grpc.ClientConn)
+	} else if c, err := newGRPCConn(newCtx, g.addr); err == nil {
+		if c != nil {
+			defer c.Close()
+		} else if c.GetState() != connectivity.Ready {
+			return errors.New("failed to get connection")
+		}
+		conn = c
+	} else {
 		return err
-	}
-	if conn == nil || conn.GetState() != connectivity.Ready {
-		return errors.New("failed to get connection")
 	}
 	switch v := f.(type) {
 	case func(context.Context, statuspb.StatusServiceClient) error:
