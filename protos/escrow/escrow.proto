@@ -51,6 +51,8 @@ service EscrowService {
   rpc CloseChannel(ledger.SignedChannelState) returns (ledger.ChannelClosed);
   //use escrow as proxy to do the payment
   rpc Pay(ledger.SignedTransferRequest) returns (ledger.TransferResult);
+  rpc Stake(SignedStakeRequest) returns (SignedStakeResult);
+  rpc StakePenalty(SignedStakePenaltyRequest) returns (SignedStakePenaltyResult);
 }
 
 enum TokenType {
@@ -345,4 +347,108 @@ message BalanceResult {
 message SignedBalanceResult {
   BalanceResult result = 1;
   bytes escrow_signature = 2;
+}
+
+message SignedStakeRequest {
+  StakeRequest data = 1;
+  bytes signature = 2;
+}
+
+message StakeRequest {
+  string staker_id = 1;
+  int64 stake_amount = 2; //the amount can be 0 which mean query only, if negative means stake, positive means un-stake
+  ledger.SignedTransferRequest transfer_request = 3; //if the request is used for stake, need to fill this object
+  google.protobuf.Timestamp request_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message StakeResult {
+  string staker_id = 1;
+  int64 balance = 2;
+  int64 mature_amount = 3; //the amount can be stake now
+  int64 pending_amount = 4; //the amount which is in request, but not finalized
+  repeated StakeLedger ledgers = 5;
+  repeated UnfinishStakeLedger unfinish_ledgers = 6;
+}
+
+message SignedStakeResult {
+  StakeResult data = 1;
+  bytes signature = 2;
+}
+
+message StakeLedger {
+  string staker_id = 1;
+  int64 amount = 2;
+  google.protobuf.Timestamp start_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp mature_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string operator_id = 5;
+  OperationType type = 6;
+  string operation_log = 7;
+}
+
+enum StakeStatus {
+  PROCEEDING = 0;
+  FAIL = 1;
+}
+
+message UnfinishStakeLedger {
+  string staker_id = 1;
+  int64 amount = 2;
+  StakeStatus status = 3;
+  string fail_reason = 4;
+  google.protobuf.Timestamp submit_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp fail_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedStakePenaltyRequest {
+  StakePenaltyRequest data = 1;
+  bytes signature = 2;
+}
+
+enum OperationType {
+  STAKE = 0;
+  CHEAT_PENALTY = 1;
+  LOST_SHARD_PENALTY = 2;
+}
+
+message StakePenaltyRequest {
+  string staker_id = 1;
+  string operator_id = 2;
+  OperationType reason = 3;
+  string operation_log = 4;
+  int64 amount = 5;
+  google.protobuf.Timestamp submit_time = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message StakePenaltyResult {
+  string staker_id = 1;
+  int64 request_penalty_amount = 2;
+  int64 operate_penalty_amount = 3;
+  string operator_id = 4;
+  google.protobuf.Timestamp receive_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message SignedStakePenaltyResult {
+  StakePenaltyResult data = 1;
+  bytes signature = 2;
 }
