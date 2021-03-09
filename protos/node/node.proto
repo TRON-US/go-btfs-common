@@ -291,15 +291,18 @@ message AirdropRewardHistoryTab {
   string table_name = 1 [(gogoproto.moretags) = "pg:\"airdrop_reward_history,alias:t,discard_unknown_columns\""];
   uint32 type = 2;
   string node_id = 3;
-  uint64 reward = 4;
-  bool is_suspect = 5;
-  uint32 weight = 6;
-  uint32 stake = 7;
-  google.protobuf.Timestamp date_created = 8 [
+  uint32 file_count = 4;
+  uint64 file_size = 5;
+  uint64 should_reward = 6;
+  uint64 actual_reward = 7;
+  bool is_suspect = 8;
+  uint32 weight = 9;
+  uint32 stake = 10;
+  google.protobuf.Timestamp date_created = 11 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
-  google.protobuf.Timestamp time_created = 9 [
+  google.protobuf.Timestamp time_created = 12 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
