@@ -1369,10 +1369,13 @@ proto.status.RewardInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     type: jspb.Message.getFieldWithDefault(msg, 1, 0),
     nodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    reward: jspb.Message.getFieldWithDefault(msg, 3, 0),
     isSuspect: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     weight: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    stake: jspb.Message.getFieldWithDefault(msg, 6, 0)
+    stake: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    fileCount: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    fileSize: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    shouldReward: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    actualReward: jspb.Message.getFieldWithDefault(msg, 10, 0)
   };
 
   if (includeInstance) {
@@ -1417,10 +1420,6 @@ proto.status.RewardInfo.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setNodeId(value);
       break;
-    case 3:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setReward(value);
-      break;
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsSuspect(value);
@@ -1432,6 +1431,22 @@ proto.status.RewardInfo.deserializeBinaryFromReader = function(msg, reader) {
     case 6:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setStake(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setFileCount(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setFileSize(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setShouldReward(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setActualReward(value);
       break;
     default:
       reader.skipField();
@@ -1476,13 +1491,6 @@ proto.status.RewardInfo.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getReward();
-  if (f !== 0) {
-    writer.writeUint64(
-      3,
-      f
-    );
-  }
   f = message.getIsSuspect();
   if (f) {
     writer.writeBool(
@@ -1501,6 +1509,34 @@ proto.status.RewardInfo.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeUint32(
       6,
+      f
+    );
+  }
+  f = message.getFileCount();
+  if (f !== 0) {
+    writer.writeUint32(
+      7,
+      f
+    );
+  }
+  f = message.getFileSize();
+  if (f !== 0) {
+    writer.writeUint64(
+      8,
+      f
+    );
+  }
+  f = message.getShouldReward();
+  if (f !== 0) {
+    writer.writeUint64(
+      9,
+      f
+    );
+  }
+  f = message.getActualReward();
+  if (f !== 0) {
+    writer.writeUint64(
+      10,
       f
     );
   }
@@ -1540,24 +1576,6 @@ proto.status.RewardInfo.prototype.getNodeId = function() {
  */
 proto.status.RewardInfo.prototype.setNodeId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional uint64 reward = 3;
- * @return {number}
- */
-proto.status.RewardInfo.prototype.getReward = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.status.RewardInfo} returns this
- */
-proto.status.RewardInfo.prototype.setReward = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
@@ -1612,6 +1630,78 @@ proto.status.RewardInfo.prototype.getStake = function() {
  */
 proto.status.RewardInfo.prototype.setStake = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional uint32 file_count = 7;
+ * @return {number}
+ */
+proto.status.RewardInfo.prototype.getFileCount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.RewardInfo} returns this
+ */
+proto.status.RewardInfo.prototype.setFileCount = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional uint64 file_size = 8;
+ * @return {number}
+ */
+proto.status.RewardInfo.prototype.getFileSize = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.RewardInfo} returns this
+ */
+proto.status.RewardInfo.prototype.setFileSize = function(value) {
+  return jspb.Message.setProto3IntField(this, 8, value);
+};
+
+
+/**
+ * optional uint64 should_reward = 9;
+ * @return {number}
+ */
+proto.status.RewardInfo.prototype.getShouldReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.RewardInfo} returns this
+ */
+proto.status.RewardInfo.prototype.setShouldReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 9, value);
+};
+
+
+/**
+ * optional uint64 actual_reward = 10;
+ * @return {number}
+ */
+proto.status.RewardInfo.prototype.getActualReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.RewardInfo} returns this
+ */
+proto.status.RewardInfo.prototype.setActualReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
