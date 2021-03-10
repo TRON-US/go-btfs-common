@@ -6742,15 +6742,15 @@ proto.node.AirdropRewardHistoryTab.toObject = function(includeInstance, msg) {
     tableName: jspb.Message.getFieldWithDefault(msg, 1, ""),
     type: jspb.Message.getFieldWithDefault(msg, 2, 0),
     nodeId: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    isSuspect: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
-    weight: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    stake: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    isSuspect: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
+    weight: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    stake: jspb.Message.getFieldWithDefault(msg, 7, 0),
     dateCreated: (f = msg.getDateCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    fileCount: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    fileSize: jspb.Message.getFieldWithDefault(msg, 10, 0),
-    shouldReward: jspb.Message.getFieldWithDefault(msg, 11, 0),
-    actualReward: jspb.Message.getFieldWithDefault(msg, 12, 0)
+    fileCount: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    fileSize: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    shouldReward: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    actualReward: jspb.Message.getFieldWithDefault(msg, 13, 0)
   };
 
   if (includeInstance) {
@@ -6799,41 +6799,41 @@ proto.node.AirdropRewardHistoryTab.deserializeBinaryFromReader = function(msg, r
       var value = /** @type {string} */ (reader.readString());
       msg.setNodeId(value);
       break;
-    case 4:
+    case 5:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsSuspect(value);
       break;
-    case 5:
+    case 6:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setWeight(value);
       break;
-    case 6:
+    case 7:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setStake(value);
-      break;
-    case 7:
-      var value = new google_protobuf_timestamp_pb.Timestamp;
-      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setDateCreated(value);
       break;
     case 8:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setTimeCreated(value);
+      msg.setDateCreated(value);
       break;
     case 9:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setTimeCreated(value);
+      break;
+    case 10:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setFileCount(value);
       break;
-    case 10:
+    case 11:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setFileSize(value);
       break;
-    case 11:
+    case 12:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setShouldReward(value);
       break;
-    case 12:
+    case 13:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setActualReward(value);
       break;
@@ -6890,33 +6890,25 @@ proto.node.AirdropRewardHistoryTab.serializeBinaryToWriter = function(message, w
   f = message.getIsSuspect();
   if (f) {
     writer.writeBool(
-      4,
+      5,
       f
     );
   }
   f = message.getWeight();
   if (f !== 0) {
     writer.writeUint32(
-      5,
+      6,
       f
     );
   }
   f = message.getStake();
   if (f !== 0) {
     writer.writeUint32(
-      6,
+      7,
       f
     );
   }
   f = message.getDateCreated();
-  if (f != null) {
-    writer.writeMessage(
-      7,
-      f,
-      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
-    );
-  }
-  f = message.getTimeCreated();
   if (f != null) {
     writer.writeMessage(
       8,
@@ -6924,31 +6916,39 @@ proto.node.AirdropRewardHistoryTab.serializeBinaryToWriter = function(message, w
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
+  f = message.getTimeCreated();
+  if (f != null) {
+    writer.writeMessage(
+      9,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
   f = message.getFileCount();
   if (f !== 0) {
     writer.writeUint32(
-      9,
+      10,
       f
     );
   }
   f = message.getFileSize();
   if (f !== 0) {
     writer.writeUint64(
-      10,
+      11,
       f
     );
   }
   f = message.getShouldReward();
   if (f !== 0) {
     writer.writeUint64(
-      11,
+      12,
       f
     );
   }
   f = message.getActualReward();
   if (f !== 0) {
     writer.writeUint64(
-      12,
+      13,
       f
     );
   }
@@ -7010,11 +7010,11 @@ proto.node.AirdropRewardHistoryTab.prototype.setNodeId = function(value) {
 
 
 /**
- * optional bool is_suspect = 4;
+ * optional bool is_suspect = 5;
  * @return {boolean}
  */
 proto.node.AirdropRewardHistoryTab.prototype.getIsSuspect = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
 };
 
 
@@ -7023,33 +7023,15 @@ proto.node.AirdropRewardHistoryTab.prototype.getIsSuspect = function() {
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
  */
 proto.node.AirdropRewardHistoryTab.prototype.setIsSuspect = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 4, value);
+  return jspb.Message.setProto3BooleanField(this, 5, value);
 };
 
 
 /**
- * optional uint32 weight = 5;
+ * optional uint32 weight = 6;
  * @return {number}
  */
 proto.node.AirdropRewardHistoryTab.prototype.getWeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.node.AirdropRewardHistoryTab} returns this
- */
-proto.node.AirdropRewardHistoryTab.prototype.setWeight = function(value) {
-  return jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-/**
- * optional uint32 stake = 6;
- * @return {number}
- */
-proto.node.AirdropRewardHistoryTab.prototype.getStake = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
@@ -7058,18 +7040,36 @@ proto.node.AirdropRewardHistoryTab.prototype.getStake = function() {
  * @param {number} value
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
  */
-proto.node.AirdropRewardHistoryTab.prototype.setStake = function(value) {
+proto.node.AirdropRewardHistoryTab.prototype.setWeight = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
 /**
- * optional google.protobuf.Timestamp date_created = 7;
+ * optional uint32 stake = 7;
+ * @return {number}
+ */
+proto.node.AirdropRewardHistoryTab.prototype.getStake = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.AirdropRewardHistoryTab} returns this
+ */
+proto.node.AirdropRewardHistoryTab.prototype.setStake = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp date_created = 8;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.node.AirdropRewardHistoryTab.prototype.getDateCreated = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 7));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 8));
 };
 
 
@@ -7078,7 +7078,7 @@ proto.node.AirdropRewardHistoryTab.prototype.getDateCreated = function() {
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
 */
 proto.node.AirdropRewardHistoryTab.prototype.setDateCreated = function(value) {
-  return jspb.Message.setWrapperField(this, 7, value);
+  return jspb.Message.setWrapperField(this, 8, value);
 };
 
 
@@ -7096,17 +7096,17 @@ proto.node.AirdropRewardHistoryTab.prototype.clearDateCreated = function() {
  * @return {boolean}
  */
 proto.node.AirdropRewardHistoryTab.prototype.hasDateCreated = function() {
-  return jspb.Message.getField(this, 7) != null;
+  return jspb.Message.getField(this, 8) != null;
 };
 
 
 /**
- * optional google.protobuf.Timestamp time_created = 8;
+ * optional google.protobuf.Timestamp time_created = 9;
  * @return {?proto.google.protobuf.Timestamp}
  */
 proto.node.AirdropRewardHistoryTab.prototype.getTimeCreated = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 8));
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 9));
 };
 
 
@@ -7115,7 +7115,7 @@ proto.node.AirdropRewardHistoryTab.prototype.getTimeCreated = function() {
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
 */
 proto.node.AirdropRewardHistoryTab.prototype.setTimeCreated = function(value) {
-  return jspb.Message.setWrapperField(this, 8, value);
+  return jspb.Message.setWrapperField(this, 9, value);
 };
 
 
@@ -7133,33 +7133,15 @@ proto.node.AirdropRewardHistoryTab.prototype.clearTimeCreated = function() {
  * @return {boolean}
  */
 proto.node.AirdropRewardHistoryTab.prototype.hasTimeCreated = function() {
-  return jspb.Message.getField(this, 8) != null;
+  return jspb.Message.getField(this, 9) != null;
 };
 
 
 /**
- * optional uint32 file_count = 9;
+ * optional uint32 file_count = 10;
  * @return {number}
  */
 proto.node.AirdropRewardHistoryTab.prototype.getFileCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.node.AirdropRewardHistoryTab} returns this
- */
-proto.node.AirdropRewardHistoryTab.prototype.setFileCount = function(value) {
-  return jspb.Message.setProto3IntField(this, 9, value);
-};
-
-
-/**
- * optional uint64 file_size = 10;
- * @return {number}
- */
-proto.node.AirdropRewardHistoryTab.prototype.getFileSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
@@ -7168,16 +7150,16 @@ proto.node.AirdropRewardHistoryTab.prototype.getFileSize = function() {
  * @param {number} value
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
  */
-proto.node.AirdropRewardHistoryTab.prototype.setFileSize = function(value) {
+proto.node.AirdropRewardHistoryTab.prototype.setFileCount = function(value) {
   return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
 /**
- * optional uint64 should_reward = 11;
+ * optional uint64 file_size = 11;
  * @return {number}
  */
-proto.node.AirdropRewardHistoryTab.prototype.getShouldReward = function() {
+proto.node.AirdropRewardHistoryTab.prototype.getFileSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
@@ -7186,16 +7168,16 @@ proto.node.AirdropRewardHistoryTab.prototype.getShouldReward = function() {
  * @param {number} value
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
  */
-proto.node.AirdropRewardHistoryTab.prototype.setShouldReward = function(value) {
+proto.node.AirdropRewardHistoryTab.prototype.setFileSize = function(value) {
   return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 
 /**
- * optional uint64 actual_reward = 12;
+ * optional uint64 should_reward = 12;
  * @return {number}
  */
-proto.node.AirdropRewardHistoryTab.prototype.getActualReward = function() {
+proto.node.AirdropRewardHistoryTab.prototype.getShouldReward = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
 };
 
@@ -7204,8 +7186,26 @@ proto.node.AirdropRewardHistoryTab.prototype.getActualReward = function() {
  * @param {number} value
  * @return {!proto.node.AirdropRewardHistoryTab} returns this
  */
-proto.node.AirdropRewardHistoryTab.prototype.setActualReward = function(value) {
+proto.node.AirdropRewardHistoryTab.prototype.setShouldReward = function(value) {
   return jspb.Message.setProto3IntField(this, 12, value);
+};
+
+
+/**
+ * optional uint64 actual_reward = 13;
+ * @return {number}
+ */
+proto.node.AirdropRewardHistoryTab.prototype.getActualReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.AirdropRewardHistoryTab} returns this
+ */
+proto.node.AirdropRewardHistoryTab.prototype.setActualReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 13, value);
 };
 
 

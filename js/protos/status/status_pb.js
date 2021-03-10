@@ -1369,7 +1369,6 @@ proto.status.RewardInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     type: jspb.Message.getFieldWithDefault(msg, 1, 0),
     nodeId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    reward: jspb.Message.getFieldWithDefault(msg, 3, 0),
     isSuspect: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     weight: jspb.Message.getFieldWithDefault(msg, 5, 0),
     stake: jspb.Message.getFieldWithDefault(msg, 6, 0),
@@ -1420,10 +1419,6 @@ proto.status.RewardInfo.deserializeBinaryFromReader = function(msg, reader) {
     case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setNodeId(value);
-      break;
-    case 3:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setReward(value);
       break;
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
@@ -1493,13 +1488,6 @@ proto.status.RewardInfo.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       2,
-      f
-    );
-  }
-  f = message.getReward();
-  if (f !== 0) {
-    writer.writeUint64(
-      3,
       f
     );
   }
@@ -1588,24 +1576,6 @@ proto.status.RewardInfo.prototype.getNodeId = function() {
  */
 proto.status.RewardInfo.prototype.setNodeId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional uint64 reward = 3;
- * @return {number}
- */
-proto.status.RewardInfo.prototype.getReward = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.status.RewardInfo} returns this
- */
-proto.status.RewardInfo.prototype.setReward = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 

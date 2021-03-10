@@ -77,7 +77,6 @@ enum RewardType {
 message RewardInfo {
   RewardType type = 1;
   string node_id = 2;
-  uint64 reward = 3;
   bool is_suspect = 4;
   uint32 weight = 5;
   uint32 stake = 6;
