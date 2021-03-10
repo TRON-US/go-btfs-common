@@ -77,13 +77,14 @@ enum RewardType {
 message RewardInfo {
   RewardType type = 1;
   string node_id = 2;
-  uint32 file_count = 3;
-  uint64 file_size = 4;
-  uint64 should_reward = 5;
-  uint64 actual_reward = 6;
-  bool is_suspect = 7;
-  uint32 weight = 8;
-  uint32 stake = 9;
+  uint64 reward = 3;
+  bool is_suspect = 4;
+  uint32 weight = 5;
+  uint32 stake = 6;
+  uint32 file_count = 7;
+  uint64 file_size = 8;
+  uint64 should_reward = 9;
+  uint64 actual_reward = 10;
 }
 
 message AirdropRewardHistoryReq {
