@@ -40,6 +40,7 @@ service GuardService {
   rpc AdminGetDailySummary(AdminQuery) returns (DailySummary);
   rpc AdminGetDailyHostsRankNew(AdminQuery) returns (HostSummary); //query the hosts of the day's new contracts' file size
   rpc AdminGetDailyHostsRankTotal(AdminQuery) returns (HostSummary); //query the hosts of total storage file size
+  rpc AdminGetDailyTotalState(AdminQuery) returns (TotalStateSummary); //query the shard size and contracts for total storage
 }
 
 message AdminQuery {
@@ -89,6 +90,23 @@ message HostSummary {
   bytes signature = 4;
   int32 record_count = 5;
   repeated HostStatus status = 6;
+}
+
+message TotalStateSummary {
+  google.protobuf.Timestamp query_date = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  google.protobuf.Timestamp response_time = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  string preparer_pid = 3;
+  bytes signature = 4;
+  int64 valid_contract_count = 5;
+  int64 existed_shard_size = 6;
+  int64 invalid_contract_count = 7;
+  int64 lost_shard_size = 8;
 }
 
 message HostStatus {
