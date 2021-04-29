@@ -742,10 +742,11 @@ proto.status.BtfsScanAggrReq.toObject = function(includeInstance, msg) {
     totalRank: jspb.Message.getFieldWithDefault(msg, 11, ""),
     contractAllCount: jspb.Message.getFieldWithDefault(msg, 12, 0),
     contractFailCount: jspb.Message.getFieldWithDefault(msg, 13, 0),
-    storageContractUsed: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
-    storageContractLeft: jspb.Message.getFloatingPointFieldWithDefault(msg, 15, 0.0),
-    superOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    newOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 17, 0)
+    contractAllStorage: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
+    contractFailStorage: jspb.Message.getFloatingPointFieldWithDefault(msg, 15, 0.0),
+    storageLeftWhenContract: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
+    superOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 17, 0),
+    newOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 18, 0)
   };
 
   if (includeInstance) {
@@ -842,17 +843,21 @@ proto.status.BtfsScanAggrReq.deserializeBinaryFromReader = function(msg, reader)
       break;
     case 14:
       var value = /** @type {number} */ (reader.readDouble());
-      msg.setStorageContractUsed(value);
+      msg.setContractAllStorage(value);
       break;
     case 15:
       var value = /** @type {number} */ (reader.readDouble());
-      msg.setStorageContractLeft(value);
+      msg.setContractFailStorage(value);
       break;
     case 16:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setStorageLeftWhenContract(value);
+      break;
+    case 17:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setSuperOnlineMinersCount(value);
       break;
-    case 17:
+    case 18:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setNewOnlineMinersCount(value);
       break;
@@ -972,31 +977,38 @@ proto.status.BtfsScanAggrReq.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
-  f = message.getStorageContractUsed();
+  f = message.getContractAllStorage();
   if (f !== 0.0) {
     writer.writeDouble(
       14,
       f
     );
   }
-  f = message.getStorageContractLeft();
+  f = message.getContractFailStorage();
   if (f !== 0.0) {
     writer.writeDouble(
       15,
       f
     );
   }
+  f = message.getStorageLeftWhenContract();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      16,
+      f
+    );
+  }
   f = message.getSuperOnlineMinersCount();
   if (f !== 0) {
     writer.writeUint32(
-      16,
+      17,
       f
     );
   }
   f = message.getNewOnlineMinersCount();
   if (f !== 0) {
     writer.writeUint32(
-      17,
+      18,
       f
     );
   }
@@ -1284,10 +1296,10 @@ proto.status.BtfsScanAggrReq.prototype.setContractFailCount = function(value) {
 
 
 /**
- * optional double storage_contract_used = 14;
+ * optional double contract_all_storage = 14;
  * @return {number}
  */
-proto.status.BtfsScanAggrReq.prototype.getStorageContractUsed = function() {
+proto.status.BtfsScanAggrReq.prototype.getContractAllStorage = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 14, 0.0));
 };
 
@@ -1296,16 +1308,16 @@ proto.status.BtfsScanAggrReq.prototype.getStorageContractUsed = function() {
  * @param {number} value
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
-proto.status.BtfsScanAggrReq.prototype.setStorageContractUsed = function(value) {
+proto.status.BtfsScanAggrReq.prototype.setContractAllStorage = function(value) {
   return jspb.Message.setProto3FloatField(this, 14, value);
 };
 
 
 /**
- * optional double storage_contract_left = 15;
+ * optional double contract_fail_storage = 15;
  * @return {number}
  */
-proto.status.BtfsScanAggrReq.prototype.getStorageContractLeft = function() {
+proto.status.BtfsScanAggrReq.prototype.getContractFailStorage = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 15, 0.0));
 };
 
@@ -1314,17 +1326,17 @@ proto.status.BtfsScanAggrReq.prototype.getStorageContractLeft = function() {
  * @param {number} value
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
-proto.status.BtfsScanAggrReq.prototype.setStorageContractLeft = function(value) {
+proto.status.BtfsScanAggrReq.prototype.setContractFailStorage = function(value) {
   return jspb.Message.setProto3FloatField(this, 15, value);
 };
 
 
 /**
- * optional uint32 super_online_miners_count = 16;
+ * optional double storage_left_when_contract = 16;
  * @return {number}
  */
-proto.status.BtfsScanAggrReq.prototype.getSuperOnlineMinersCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
+proto.status.BtfsScanAggrReq.prototype.getStorageLeftWhenContract = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 16, 0.0));
 };
 
 
@@ -1332,16 +1344,16 @@ proto.status.BtfsScanAggrReq.prototype.getSuperOnlineMinersCount = function() {
  * @param {number} value
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
-proto.status.BtfsScanAggrReq.prototype.setSuperOnlineMinersCount = function(value) {
-  return jspb.Message.setProto3IntField(this, 16, value);
+proto.status.BtfsScanAggrReq.prototype.setStorageLeftWhenContract = function(value) {
+  return jspb.Message.setProto3FloatField(this, 16, value);
 };
 
 
 /**
- * optional uint32 new_online_miners_count = 17;
+ * optional uint32 super_online_miners_count = 17;
  * @return {number}
  */
-proto.status.BtfsScanAggrReq.prototype.getNewOnlineMinersCount = function() {
+proto.status.BtfsScanAggrReq.prototype.getSuperOnlineMinersCount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
 };
 
@@ -1350,8 +1362,26 @@ proto.status.BtfsScanAggrReq.prototype.getNewOnlineMinersCount = function() {
  * @param {number} value
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
-proto.status.BtfsScanAggrReq.prototype.setNewOnlineMinersCount = function(value) {
+proto.status.BtfsScanAggrReq.prototype.setSuperOnlineMinersCount = function(value) {
   return jspb.Message.setProto3IntField(this, 17, value);
+};
+
+
+/**
+ * optional uint32 new_online_miners_count = 18;
+ * @return {number}
+ */
+proto.status.BtfsScanAggrReq.prototype.getNewOnlineMinersCount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 18, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.BtfsScanAggrReq} returns this
+ */
+proto.status.BtfsScanAggrReq.prototype.setNewOnlineMinersCount = function(value) {
+  return jspb.Message.setProto3IntField(this, 18, value);
 };
 
 

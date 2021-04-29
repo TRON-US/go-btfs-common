@@ -65,10 +65,11 @@ message BtfsScanAggrReq {
   string total_rank = 11;
   uint32 contract_all_count = 12;
   uint32 contract_fail_count = 13;
-  double storage_contract_used = 14;
-  double storage_contract_left = 15;
-  uint32 super_online_miners_count = 16;
-  uint32 new_online_miners_count = 17;
+  double contract_all_storage = 14;
+  double contract_fail_storage = 15;
+  double storage_left_when_contract = 16;
+  uint32 super_online_miners_count = 17;
+  uint32 new_online_miners_count = 18;
 }
 
 message ScoreHistoryReq {
