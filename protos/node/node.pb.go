@@ -1697,7 +1697,7 @@ type BtfsScanTab struct {
 	StorageLeftWhenContract float64          `protobuf:"fixed64,16,opt,name=storage_left_when_contract,json=storageLeftWhenContract,proto3" json:"storage_left_when_contract,omitempty" pg:"storage_left_when_contract"`
 	SuperOnlineMinersCount  uint32           `protobuf:"varint,17,opt,name=super_online_miners_count,json=superOnlineMinersCount,proto3" json:"super_online_miners_count,omitempty" pg:"super_online_miners_count"`
 	NewOnlineMinersCount    uint32           `protobuf:"varint,18,opt,name=new_online_miners_count,json=newOnlineMinersCount,proto3" json:"new_online_miners_count,omitempty" pg:"new_online_miners_count"`
-	MinersAllAmount         float64          `protobuf:"fixed64,19,opt,name=miners_all_amount,json=minersAllAmount,proto3" json:"miners_all_amount,omitempty" pg:"miners_all_amount"`
+	MinersAllAmount         int64            `protobuf:"varint,19,opt,name=miners_all_amount,json=minersAllAmount,proto3" json:"miners_all_amount,omitempty" pg:"miners_all_amount"`
 	XXX_NoUnkeyedLiteral    struct{}         `json:"-" pg:"-"`
 	XXX_unrecognized        []byte           `json:"-" pg:"-"`
 	XXX_sizecache           int32            `json:"-" pg:"-"`
@@ -1862,7 +1862,7 @@ func (m *BtfsScanTab) GetNewOnlineMinersCount() uint32 {
 	return 0
 }
 
-func (m *BtfsScanTab) GetMinersAllAmount() float64 {
+func (m *BtfsScanTab) GetMinersAllAmount() int64 {
 	if m != nil {
 		return m.MinersAllAmount
 	}
@@ -2335,7 +2335,7 @@ var fileDescriptor_35f8e1f5ec2240a2 = []byte{
 	0xa7, 0x70, 0x5f, 0x26, 0x91, 0x88, 0xed, 0xd9, 0xc4, 0xd7, 0x86, 0xb5, 0xc8, 0xb0, 0x55, 0x62,
 	0x38, 0xca, 0x25, 0xbf, 0xb6, 0xee, 0x63, 0x58, 0x43, 0xaf, 0xdf, 0x26, 0xc8, 0x48, 0x70, 0x25,
 	0x10, 0x97, 0x37, 0xc5, 0x1e, 0x43, 0xcb, 0xf0, 0xa2, 0x4b, 0x38, 0xdd, 0x9d, 0xe9, 0x65, 0xb2,
-	0x60, 0x35, 0x34, 0xb0, 0xe3, 0xfb, 0x3b, 0x44, 0x5e, 0xdf, 0x83, 0xd5, 0xdb, 0x4b, 0x86, 0x35,
+	0x68, 0x35, 0x34, 0xb0, 0xe3, 0xfb, 0x3b, 0x44, 0x5e, 0xdf, 0x83, 0xd5, 0xdb, 0x4b, 0x86, 0x35,
 	0xa1, 0x78, 0x2e, 0xae, 0xcc, 0xb9, 0x86, 0xff, 0x62, 0x8e, 0x5d, 0x70, 0x3f, 0x11, 0xe6, 0x17,
 	0x17, 0xbd, 0x78, 0x3e, 0xf7, 0x93, 0xc2, 0xfa, 0x2e, 0xac, 0xdc, 0x56, 0x21, 0x77, 0xd1, 0xb1,
 	0xf5, 0x17, 0x45, 0x68, 0x90, 0x92, 0x7d, 0x0f, 0x5d, 0x49, 0x3f, 0xbd, 0x9c, 0xdc, 0xd2, 0xb1,
@@ -2366,7 +2366,7 @@ var fileDescriptor_35f8e1f5ec2240a2 = []byte{
 	0x8d, 0xc2, 0x2f, 0xbf, 0xd9, 0x28, 0xfc, 0xfa, 0x9b, 0x8d, 0xc2, 0xdf, 0x7d, 0xbb, 0x51, 0xf8,
 	0xf7, 0x6f, 0x37, 0x0a, 0x5f, 0x7f, 0xbb, 0x51, 0x80, 0x9a, 0x17, 0x76, 0x70, 0x5e, 0xa2, 0x39,
 	0x61, 0xb7, 0x82, 0xde, 0x39, 0xc6, 0xa8, 0x1e, 0x17, 0xfe, 0x84, 0x7e, 0x5b, 0x3f, 0x5d, 0xa0,
-	0x20, 0x7f, 0xf8, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0x53, 0x38, 0x33, 0x3e, 0x5a, 0x20, 0x00,
+	0x20, 0x7f, 0xf8, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0x9d, 0x4f, 0x2f, 0x65, 0x5a, 0x20, 0x00,
 	0x00,
 }
 
@@ -3668,12 +3668,11 @@ func (m *BtfsScanTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.MinersAllAmount != 0 {
-		i -= 8
-		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.MinersAllAmount))))
+		i = encodeVarintNode(dAtA, i, uint64(m.MinersAllAmount))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x99
+		dAtA[i] = 0x98
 	}
 	if m.NewOnlineMinersCount != 0 {
 		i = encodeVarintNode(dAtA, i, uint64(m.NewOnlineMinersCount))
@@ -4427,7 +4426,7 @@ func NewPopulatedBtfsScanTab(r randyNode, easy bool) *BtfsScanTab {
 	}
 	this.SuperOnlineMinersCount = uint32(r.Uint32())
 	this.NewOnlineMinersCount = uint32(r.Uint32())
-	this.MinersAllAmount = float64(r.Float64())
+	this.MinersAllAmount = int64(r.Int63())
 	if r.Intn(2) == 0 {
 		this.MinersAllAmount *= -1
 	}
@@ -5166,7 +5165,7 @@ func (m *BtfsScanTab) Size() (n int) {
 		n += 2 + sovNode(uint64(m.NewOnlineMinersCount))
 	}
 	if m.MinersAllAmount != 0 {
-		n += 10
+		n += 2 + sovNode(uint64(m.MinersAllAmount))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -9345,16 +9344,24 @@ func (m *BtfsScanTab) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 19:
-			if wireType != 1 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field MinersAllAmount", wireType)
 			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
+			m.MinersAllAmount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNode
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MinersAllAmount |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
 			}
-			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
-			iNdEx += 8
-			m.MinersAllAmount = float64(math.Float64frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNode(dAtA[iNdEx:])

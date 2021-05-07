@@ -747,7 +747,7 @@ proto.status.BtfsScanAggrReq.toObject = function(includeInstance, msg) {
     storageLeftWhenContract: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
     superOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 17, 0),
     newOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 18, 0),
-    minersAllAmount: jspb.Message.getFloatingPointFieldWithDefault(msg, 19, 0.0)
+    minersAllAmount: jspb.Message.getFieldWithDefault(msg, 19, 0)
   };
 
   if (includeInstance) {
@@ -863,7 +863,7 @@ proto.status.BtfsScanAggrReq.deserializeBinaryFromReader = function(msg, reader)
       msg.setNewOnlineMinersCount(value);
       break;
     case 19:
-      var value = /** @type {number} */ (reader.readDouble());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setMinersAllAmount(value);
       break;
     default:
@@ -1018,8 +1018,8 @@ proto.status.BtfsScanAggrReq.serializeBinaryToWriter = function(message, writer)
     );
   }
   f = message.getMinersAllAmount();
-  if (f !== 0.0) {
-    writer.writeDouble(
+  if (f !== 0) {
+    writer.writeInt64(
       19,
       f
     );
@@ -1398,11 +1398,11 @@ proto.status.BtfsScanAggrReq.prototype.setNewOnlineMinersCount = function(value)
 
 
 /**
- * optional double miners_all_amount = 19;
+ * optional int64 miners_all_amount = 19;
  * @return {number}
  */
 proto.status.BtfsScanAggrReq.prototype.getMinersAllAmount = function() {
-  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 19, 0.0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
 };
 
 
@@ -1411,7 +1411,7 @@ proto.status.BtfsScanAggrReq.prototype.getMinersAllAmount = function() {
  * @return {!proto.status.BtfsScanAggrReq} returns this
  */
 proto.status.BtfsScanAggrReq.prototype.setMinersAllAmount = function(value) {
-  return jspb.Message.setProto3FloatField(this, 19, value);
+  return jspb.Message.setProto3IntField(this, 19, value);
 };
 
 
