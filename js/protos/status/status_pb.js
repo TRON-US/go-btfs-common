@@ -863,7 +863,7 @@ proto.status.BtfsScanAggrReq.deserializeBinaryFromReader = function(msg, reader)
       msg.setNewOnlineMinersCount(value);
       break;
     case 19:
-      var value = /** @type {number} */ (reader.readUint32());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setMinersAllAmount(value);
       break;
     default:
@@ -1019,7 +1019,7 @@ proto.status.BtfsScanAggrReq.serializeBinaryToWriter = function(message, writer)
   }
   f = message.getMinersAllAmount();
   if (f !== 0) {
-    writer.writeUint32(
+    writer.writeInt64(
       19,
       f
     );
@@ -1398,7 +1398,7 @@ proto.status.BtfsScanAggrReq.prototype.setNewOnlineMinersCount = function(value)
 
 
 /**
- * optional uint32 miners_all_amount = 19;
+ * optional int64 miners_all_amount = 19;
  * @return {number}
  */
 proto.status.BtfsScanAggrReq.prototype.getMinersAllAmount = function() {
