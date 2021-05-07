@@ -70,7 +70,7 @@ message BtfsScanAggrReq {
   double storage_left_when_contract = 16;
   uint32 super_online_miners_count = 17;
   uint32 new_online_miners_count = 18;
-  uint32 miners_all_amount = 19;
+  double miners_all_amount = 19;
 }
 
 message ScoreHistoryReq {
