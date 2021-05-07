@@ -107,6 +107,7 @@ message TotalStateSummary {
   int64 existed_shard_size = 6;
   int64 invalid_contract_count = 7;
   int64 lost_shard_size = 8;
+  int64 total_host_reward = 9;
 }
 
 message HostStatus {
