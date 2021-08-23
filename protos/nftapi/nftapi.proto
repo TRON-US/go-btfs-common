@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package status;
+
+// gogo plugin toggles
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.messagename_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+// golang option
+option go_package = "nftapi";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "NftApiProto";
+option java_package = "io.btfs.nftapi";
+
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+service StatusService {
+  rpc UpLoad(ReqUpLoad) returns (RespUpLoad);
+  rpc Download(ReqCheckDownload) returns (RespCheckDownload);
+  rpc GetFiles(ReqGetFiles) returns (RespGetFiles);
+  rpc Subscribe(ReqSubscribe) returns (RespSubscribe);
+}
+
+// upload
+message ReqUpLoad {
+  string address = 1;
+  string chain_id = 2;
+  string file_hash = 3;
+  string file_name = 4;
+  int32 file_size = 5;
+  string thumbnail = 6;
+  string transaction_id = 7;
+  string signature = 8;
+  string description = 9;
+}
+
+message RespUpLoad {
+  string code = 1;
+  string message = 2;
+  string address = 3;
+  string chain_id = 4;
+}
+
+// check download
+message ReqCheckDownload {
+  string address = 2;
+  string chain_id = 3;
+  string signature = 4;
+}
+
+message RespCheckDownload {
+  string code = 1;
+  string message = 2;
+  string address = 3;
+}
+
+// get files
+message FileInfo {
+  string file_hash = 1;
+  string file_name = 2;
+  int32 file_size = 3;
+  string thumbnail = 4;
+  string transaction_id = 5;
+  string signature = 6;
+  string description = 7;
+  google.protobuf.Timestamp time_created = 8 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message ReqGetFiles {
+  string address = 1;
+  string chain_id = 2;
+  string signature = 3;
+  int32 start = 4;
+}
+
+message RespGetFiles {
+  string code = 1;
+  string message = 2;
+  repeated FileInfo files = 3;
+}
+
+// subscribe
+message ReqSubscribe {
+  string address = 1;
+  string chain_id = 2;
+  string email = 3;
+}
+
+message RespSubscribe {
+  string code = 1;
+  string message = 2;
+}
