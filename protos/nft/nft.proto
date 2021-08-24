@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package node;
+package nft;
 
 // gogo plugin toggles
 option (gogoproto.gogoproto_import) = true;
@@ -38,12 +38,99 @@ message NftTab {
 }
 
 message UserTab {
-  string table_name = 1 [(gogoproto.moretags) = "pg:\"user,alias:t,discard_unknown_columns\""];
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"nft_user,alias:t,discard_unknown_columns\""];
   string address = 2;
   string chain_id = 3;
   string email = 4;
-  google.protobuf.Timestamp time_created = 5 [
+  int32 is_subscribed = 5;
+  google.protobuf.Timestamp time_created = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+}
+
+service NftService {
+  rpc UpLoad(ReqUpLoad) returns (RespUpLoad);
+  rpc CheckDownload(ReqCheckDownload) returns (RespCheckDownload);
+  rpc GetFiles(ReqGetFiles) returns (RespGetFiles);
+  rpc Subscribe(ReqSubscribe) returns (RespSubscribe);
+}
+
+// upload
+message ReqUpLoad {
+  string address = 1;
+  string chain_id = 2;
+  string file_hash = 3;
+  string file_name = 4;
+  int32 file_size = 5;
+  string thumbnail = 6;
+  string transaction_id = 7;
+  string signature = 8;
+  string description = 9;
+}
+
+message RespUpLoad {
+  int32 code = 1;
+  string message = 2;
+  string address = 3;
+}
+
+// check download
+message ReqCheckDownload {
+  string address = 1;
+  string chain_id = 2;
+  string signature = 3;
+  string file_hash = 4;
+}
+
+message RespCheckDownload {
+  int32 code = 1;
+  string message = 2;
+  string address = 3;
+  string file_hash = 4;
+  bool exists = 5;
+}
+
+// get files
+//message FileInfo {
+//  string file_hash = 1;
+//  string file_name = 2;
+//  int32 file_size = 3;
+//  string thumbnail = 4;
+//  string transaction_id = 5;
+//  string signature = 6;
+//  string description = 7;
+//  google.protobuf.Timestamp time_created = 8 [
+//    (gogoproto.nullable) = false,
+//    (gogoproto.stdtime) = true
+//  ];
+//}
+
+message ReqGetFiles {
+  string address = 1;
+  string chain_id = 2;
+  string signature = 3;
+  int32 start = 4;
+  int32 limit = 5;
+}
+
+message RespGetFiles {
+  int32 code = 1;
+  string message = 2;
+  string address = 3;
+  int32 total = 4;
+  repeated NftTab files = 5;
+}
+
+// subscribe
+message ReqSubscribe {
+  string address = 1;
+  string chain_id = 2;
+  string email = 3;
+}
+
+message RespSubscribe {
+  int32 code = 1;
+  string message = 2;
+  string address = 3;
 }

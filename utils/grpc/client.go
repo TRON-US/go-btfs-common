@@ -15,6 +15,7 @@ import (
 	guardpb "github.com/tron-us/go-btfs-common/protos/guard"
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
+	nftpb "github.com/tron-us/go-btfs-common/protos/nft"
 	tronpb "github.com/tron-us/go-btfs-common/protos/protocol/api"
 	sharedpb "github.com/tron-us/go-btfs-common/protos/shared"
 	statuspb "github.com/tron-us/go-btfs-common/protos/status"
@@ -50,6 +51,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return err
 	}
 	switch v := f.(type) {
+	case func(context.Context, nftpb.NftServiceClient) error:
+		return wrapError("NftClient", v(ctx, nftpb.NewNftServiceClient(conn)))
 	case func(context.Context, statuspb.StatusServiceClient) error:
 		return wrapError("StatusClient", v(ctx, statuspb.NewStatusServiceClient(conn)))
 	case func(context.Context, hubpb.HubQueryServiceClient) error:

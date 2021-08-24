@@ -21,6 +21,7 @@ PG_FIX_CANDIDATES=./protos/node/node.pb.go \
 			./protos/status/status.pb.go \
 			./protos/escrow/escrow.pb.go \
 			./protos/guard/guard.pb.go \
+			./protos/nft/nft.pb.go \
 
 install: brew trongogo
 

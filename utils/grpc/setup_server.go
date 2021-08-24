@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+	"github.com/tron-us/go-btfs-common/protos/nft"
 	"net"
 	"net/http"
 	"os"
@@ -55,6 +56,8 @@ type GrpcServer struct {
 
 func (s *GrpcServer) serverTypeToServerName(server interface{}) {
 	switch t := server.(type) {
+	case nft.NftServiceServer:
+		s.serverName = "nft-server"
 	case status.StatusServiceServer:
 		s.serverName = "status-server"
 	case escrow.EscrowServiceServer:
@@ -173,6 +176,8 @@ func (s *GrpcServer) CreateHealthServer() *GrpcServer {
 func (s *GrpcServer) RegisterServer(server interface{}) *GrpcServer {
 
 	switch server.(type) {
+	case nft.NftServiceServer:
+		nft.RegisterNftServiceServer(s.server, server.(nft.NftServiceServer))
 	case status.StatusServiceServer:
 		status.RegisterStatusServiceServer(s.server, server.(status.StatusServiceServer))
 	case escrow.EscrowServiceServer:

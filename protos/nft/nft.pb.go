@@ -4,12 +4,16 @@
 package nft
 
 import (
+	context "context"
 	fmt "fmt"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	_ "github.com/tron-us/protobuf/gogoproto"
 	proto "github.com/tron-us/protobuf/proto"
 	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -30,7 +34,7 @@ var _ = time.Kitchen
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type NftTab struct {
-	TableName            string    `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name" pg:"nft,alias:t,discard_unknown_columns"`
+	tableName            string    `pg:"nft,alias:t,discard_unknown_columns"`
 	Address              string    `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
 	ChainId              string    `protobuf:"bytes,3,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
 	FileHash             string    `protobuf:"bytes,4,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
@@ -79,9 +83,9 @@ func (m *NftTab) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_NftTab proto.InternalMessageInfo
 
-func (m *NftTab) GetTableName() string {
+func (m *NftTab) GettableName() string {
 	if m != nil {
-		return m.TableName
+		return m.tableName
 	}
 	return ""
 }
@@ -157,15 +161,16 @@ func (m *NftTab) GetTimeCreated() time.Time {
 }
 
 func (*NftTab) XXX_MessageName() string {
-	return "node.NftTab"
+	return "nft.NftTab"
 }
 
 type UserTab struct {
-	TableName            string    `protobuf:"bytes,1,opt,name=table_name,json=tableName,proto3" json:"table_name,omitempty" pg:"table_name" pg:"user,alias:t,discard_unknown_columns"`
+	tableName            string    `pg:"nft_user,alias:t,discard_unknown_columns"`
 	Address              string    `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
 	ChainId              string    `protobuf:"bytes,3,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
 	Email                string    `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" pg:"email"`
-	TimeCreated          time.Time `protobuf:"bytes,5,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
+	IsSubscribed         int32     `protobuf:"varint,5,opt,name=is_subscribed,json=isSubscribed,proto3" json:"is_subscribed,omitempty" pg:"is_subscribed"`
+	TimeCreated          time.Time `protobuf:"bytes,6,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
 	XXX_unrecognized     []byte    `json:"-" pg:"-"`
 	XXX_sizecache        int32     `json:"-" pg:"-"`
@@ -204,9 +209,9 @@ func (m *UserTab) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UserTab proto.InternalMessageInfo
 
-func (m *UserTab) GetTableName() string {
+func (m *UserTab) GettableName() string {
 	if m != nil {
-		return m.TableName
+		return m.tableName
 	}
 	return ""
 }
@@ -232,6 +237,13 @@ func (m *UserTab) GetEmail() string {
 	return ""
 }
 
+func (m *UserTab) GetIsSubscribed() int32 {
+	if m != nil {
+		return m.IsSubscribed
+	}
+	return 0
+}
+
 func (m *UserTab) GetTimeCreated() time.Time {
 	if m != nil {
 		return m.TimeCreated
@@ -240,51 +252,919 @@ func (m *UserTab) GetTimeCreated() time.Time {
 }
 
 func (*UserTab) XXX_MessageName() string {
-	return "node.UserTab"
+	return "nft.UserTab"
+}
+
+// upload
+type ReqUpLoad struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
+	FileHash             string   `protobuf:"bytes,3,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	FileName             string   `protobuf:"bytes,4,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty" pg:"file_name"`
+	FileSize             int32    `protobuf:"varint,5,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
+	Thumbnail            string   `protobuf:"bytes,6,opt,name=thumbnail,proto3" json:"thumbnail,omitempty" pg:"thumbnail"`
+	TransactionId        string   `protobuf:"bytes,7,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty" pg:"transaction_id"`
+	Signature            string   `protobuf:"bytes,8,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	Description          string   `protobuf:"bytes,9,opt,name=description,proto3" json:"description,omitempty" pg:"description"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqUpLoad) Reset()         { *m = ReqUpLoad{} }
+func (m *ReqUpLoad) String() string { return proto.CompactTextString(m) }
+func (*ReqUpLoad) ProtoMessage()    {}
+func (*ReqUpLoad) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{2}
+}
+func (m *ReqUpLoad) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqUpLoad) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqUpLoad.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqUpLoad) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqUpLoad.Merge(m, src)
+}
+func (m *ReqUpLoad) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqUpLoad) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqUpLoad.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqUpLoad proto.InternalMessageInfo
+
+func (m *ReqUpLoad) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetChainId() string {
+	if m != nil {
+		return m.ChainId
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetFileHash() string {
+	if m != nil {
+		return m.FileHash
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetFileName() string {
+	if m != nil {
+		return m.FileName
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetFileSize() int32 {
+	if m != nil {
+		return m.FileSize
+	}
+	return 0
+}
+
+func (m *ReqUpLoad) GetThumbnail() string {
+	if m != nil {
+		return m.Thumbnail
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetTransactionId() string {
+	if m != nil {
+		return m.TransactionId
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetSignature() string {
+	if m != nil {
+		return m.Signature
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (*ReqUpLoad) XXX_MessageName() string {
+	return "nft.ReqUpLoad"
+}
+
+type RespUpLoad struct {
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	Address              string   `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *RespUpLoad) Reset()         { *m = RespUpLoad{} }
+func (m *RespUpLoad) String() string { return proto.CompactTextString(m) }
+func (*RespUpLoad) ProtoMessage()    {}
+func (*RespUpLoad) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{3}
+}
+func (m *RespUpLoad) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RespUpLoad) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RespUpLoad.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RespUpLoad) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RespUpLoad.Merge(m, src)
+}
+func (m *RespUpLoad) XXX_Size() int {
+	return m.Size()
+}
+func (m *RespUpLoad) XXX_DiscardUnknown() {
+	xxx_messageInfo_RespUpLoad.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RespUpLoad proto.InternalMessageInfo
+
+func (m *RespUpLoad) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *RespUpLoad) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RespUpLoad) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (*RespUpLoad) XXX_MessageName() string {
+	return "nft.RespUpLoad"
+}
+
+// check download
+type ReqCheckDownload struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
+	Signature            string   `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	FileHash             string   `protobuf:"bytes,4,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqCheckDownload) Reset()         { *m = ReqCheckDownload{} }
+func (m *ReqCheckDownload) String() string { return proto.CompactTextString(m) }
+func (*ReqCheckDownload) ProtoMessage()    {}
+func (*ReqCheckDownload) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{4}
+}
+func (m *ReqCheckDownload) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqCheckDownload) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqCheckDownload.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqCheckDownload) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqCheckDownload.Merge(m, src)
+}
+func (m *ReqCheckDownload) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqCheckDownload) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqCheckDownload.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqCheckDownload proto.InternalMessageInfo
+
+func (m *ReqCheckDownload) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ReqCheckDownload) GetChainId() string {
+	if m != nil {
+		return m.ChainId
+	}
+	return ""
+}
+
+func (m *ReqCheckDownload) GetSignature() string {
+	if m != nil {
+		return m.Signature
+	}
+	return ""
+}
+
+func (m *ReqCheckDownload) GetFileHash() string {
+	if m != nil {
+		return m.FileHash
+	}
+	return ""
+}
+
+func (*ReqCheckDownload) XXX_MessageName() string {
+	return "nft.ReqCheckDownload"
+}
+
+type RespCheckDownload struct {
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	Address              string   `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	FileHash             string   `protobuf:"bytes,4,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	Exists               bool     `protobuf:"varint,5,opt,name=exists,proto3" json:"exists,omitempty" pg:"exists"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *RespCheckDownload) Reset()         { *m = RespCheckDownload{} }
+func (m *RespCheckDownload) String() string { return proto.CompactTextString(m) }
+func (*RespCheckDownload) ProtoMessage()    {}
+func (*RespCheckDownload) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{5}
+}
+func (m *RespCheckDownload) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RespCheckDownload) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RespCheckDownload.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RespCheckDownload) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RespCheckDownload.Merge(m, src)
+}
+func (m *RespCheckDownload) XXX_Size() int {
+	return m.Size()
+}
+func (m *RespCheckDownload) XXX_DiscardUnknown() {
+	xxx_messageInfo_RespCheckDownload.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RespCheckDownload proto.InternalMessageInfo
+
+func (m *RespCheckDownload) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *RespCheckDownload) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetFileHash() string {
+	if m != nil {
+		return m.FileHash
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetExists() bool {
+	if m != nil {
+		return m.Exists
+	}
+	return false
+}
+
+func (*RespCheckDownload) XXX_MessageName() string {
+	return "nft.RespCheckDownload"
+}
+
+type ReqGetFiles struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
+	Signature            string   `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	Start                int32    `protobuf:"varint,4,opt,name=start,proto3" json:"start,omitempty" pg:"start"`
+	Limit                int32    `protobuf:"varint,5,opt,name=limit,proto3" json:"limit,omitempty" pg:"limit"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqGetFiles) Reset()         { *m = ReqGetFiles{} }
+func (m *ReqGetFiles) String() string { return proto.CompactTextString(m) }
+func (*ReqGetFiles) ProtoMessage()    {}
+func (*ReqGetFiles) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{6}
+}
+func (m *ReqGetFiles) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqGetFiles) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqGetFiles.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqGetFiles) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetFiles.Merge(m, src)
+}
+func (m *ReqGetFiles) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqGetFiles) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetFiles.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetFiles proto.InternalMessageInfo
+
+func (m *ReqGetFiles) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ReqGetFiles) GetChainId() string {
+	if m != nil {
+		return m.ChainId
+	}
+	return ""
+}
+
+func (m *ReqGetFiles) GetSignature() string {
+	if m != nil {
+		return m.Signature
+	}
+	return ""
+}
+
+func (m *ReqGetFiles) GetStart() int32 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *ReqGetFiles) GetLimit() int32 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+func (*ReqGetFiles) XXX_MessageName() string {
+	return "nft.ReqGetFiles"
+}
+
+type RespGetFiles struct {
+	Code                 int32     `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
+	Message              string    `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	Address              string    `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	Total                int32     `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty" pg:"total"`
+	Files                []*NftTab `protobuf:"bytes,5,rep,name=files,proto3" json:"files,omitempty" pg:"files"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
+	XXX_unrecognized     []byte    `json:"-" pg:"-"`
+	XXX_sizecache        int32     `json:"-" pg:"-"`
+}
+
+func (m *RespGetFiles) Reset()         { *m = RespGetFiles{} }
+func (m *RespGetFiles) String() string { return proto.CompactTextString(m) }
+func (*RespGetFiles) ProtoMessage()    {}
+func (*RespGetFiles) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{7}
+}
+func (m *RespGetFiles) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RespGetFiles) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RespGetFiles.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RespGetFiles) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RespGetFiles.Merge(m, src)
+}
+func (m *RespGetFiles) XXX_Size() int {
+	return m.Size()
+}
+func (m *RespGetFiles) XXX_DiscardUnknown() {
+	xxx_messageInfo_RespGetFiles.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RespGetFiles proto.InternalMessageInfo
+
+func (m *RespGetFiles) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *RespGetFiles) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RespGetFiles) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *RespGetFiles) GetTotal() int32 {
+	if m != nil {
+		return m.Total
+	}
+	return 0
+}
+
+func (m *RespGetFiles) GetFiles() []*NftTab {
+	if m != nil {
+		return m.Files
+	}
+	return nil
+}
+
+func (*RespGetFiles) XXX_MessageName() string {
+	return "nft.RespGetFiles"
+}
+
+// subscribe
+type ReqSubscribe struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
+	Email                string   `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty" pg:"email"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqSubscribe) Reset()         { *m = ReqSubscribe{} }
+func (m *ReqSubscribe) String() string { return proto.CompactTextString(m) }
+func (*ReqSubscribe) ProtoMessage()    {}
+func (*ReqSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{8}
+}
+func (m *ReqSubscribe) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqSubscribe.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSubscribe.Merge(m, src)
+}
+func (m *ReqSubscribe) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqSubscribe proto.InternalMessageInfo
+
+func (m *ReqSubscribe) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ReqSubscribe) GetChainId() string {
+	if m != nil {
+		return m.ChainId
+	}
+	return ""
+}
+
+func (m *ReqSubscribe) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (*ReqSubscribe) XXX_MessageName() string {
+	return "nft.ReqSubscribe"
+}
+
+type RespSubscribe struct {
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	Address              string   `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *RespSubscribe) Reset()         { *m = RespSubscribe{} }
+func (m *RespSubscribe) String() string { return proto.CompactTextString(m) }
+func (*RespSubscribe) ProtoMessage()    {}
+func (*RespSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{9}
+}
+func (m *RespSubscribe) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RespSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RespSubscribe.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RespSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RespSubscribe.Merge(m, src)
+}
+func (m *RespSubscribe) XXX_Size() int {
+	return m.Size()
+}
+func (m *RespSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_RespSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RespSubscribe proto.InternalMessageInfo
+
+func (m *RespSubscribe) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *RespSubscribe) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RespSubscribe) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (*RespSubscribe) XXX_MessageName() string {
+	return "nft.RespSubscribe"
 }
 func init() {
-	proto.RegisterType((*NftTab)(nil), "node.NftTab")
-	golang_proto.RegisterType((*NftTab)(nil), "node.NftTab")
-	proto.RegisterType((*UserTab)(nil), "node.UserTab")
-	golang_proto.RegisterType((*UserTab)(nil), "node.UserTab")
+	proto.RegisterType((*NftTab)(nil), "nft.NftTab")
+	golang_proto.RegisterType((*NftTab)(nil), "nft.NftTab")
+	proto.RegisterType((*UserTab)(nil), "nft.UserTab")
+	golang_proto.RegisterType((*UserTab)(nil), "nft.UserTab")
+	proto.RegisterType((*ReqUpLoad)(nil), "nft.ReqUpLoad")
+	golang_proto.RegisterType((*ReqUpLoad)(nil), "nft.ReqUpLoad")
+	proto.RegisterType((*RespUpLoad)(nil), "nft.RespUpLoad")
+	golang_proto.RegisterType((*RespUpLoad)(nil), "nft.RespUpLoad")
+	proto.RegisterType((*ReqCheckDownload)(nil), "nft.ReqCheckDownload")
+	golang_proto.RegisterType((*ReqCheckDownload)(nil), "nft.ReqCheckDownload")
+	proto.RegisterType((*RespCheckDownload)(nil), "nft.RespCheckDownload")
+	golang_proto.RegisterType((*RespCheckDownload)(nil), "nft.RespCheckDownload")
+	proto.RegisterType((*ReqGetFiles)(nil), "nft.ReqGetFiles")
+	golang_proto.RegisterType((*ReqGetFiles)(nil), "nft.ReqGetFiles")
+	proto.RegisterType((*RespGetFiles)(nil), "nft.RespGetFiles")
+	golang_proto.RegisterType((*RespGetFiles)(nil), "nft.RespGetFiles")
+	proto.RegisterType((*ReqSubscribe)(nil), "nft.ReqSubscribe")
+	golang_proto.RegisterType((*ReqSubscribe)(nil), "nft.ReqSubscribe")
+	proto.RegisterType((*RespSubscribe)(nil), "nft.RespSubscribe")
+	golang_proto.RegisterType((*RespSubscribe)(nil), "nft.RespSubscribe")
 }
 
 func init() { proto.RegisterFile("protos/nft/nft.proto", fileDescriptor_bbb523e0dae4ed64) }
 func init() { golang_proto.RegisterFile("protos/nft/nft.proto", fileDescriptor_bbb523e0dae4ed64) }
 
 var fileDescriptor_bbb523e0dae4ed64 = []byte{
-	// 483 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x51, 0x3f, 0x8f, 0xd3, 0x30,
-	0x1c, 0xc5, 0xdc, 0xf5, 0x4f, 0x1c, 0x60, 0x88, 0x6e, 0x30, 0x05, 0x25, 0x55, 0x25, 0xa4, 0x22,
-	0xf5, 0x52, 0x04, 0x5b, 0xc7, 0x32, 0xc0, 0x09, 0x54, 0x9d, 0xca, 0xb1, 0xb0, 0x44, 0x4e, 0xec,
-	0x24, 0x16, 0x89, 0x5d, 0xd9, 0xbf, 0x08, 0xe9, 0x3e, 0x05, 0x23, 0xdf, 0x82, 0xaf, 0xc0, 0xd8,
-	0x91, 0x4f, 0x50, 0xa0, 0x1d, 0xd9, 0x6e, 0x62, 0x44, 0x76, 0xd4, 0xeb, 0x49, 0x30, 0x21, 0x31,
-	0x44, 0xca, 0x7b, 0xef, 0xf7, 0x9e, 0xed, 0xdf, 0xc3, 0x27, 0x2b, 0xad, 0x40, 0x99, 0xa9, 0xcc,
-	0xc1, 0x7e, 0xb1, 0x83, 0xc1, 0xb1, 0x54, 0x8c, 0x0f, 0x9e, 0x14, 0x02, 0xca, 0x26, 0x8d, 0x33,
-	0x55, 0x4f, 0x41, 0x2b, 0x79, 0xda, 0x98, 0xa9, 0xd3, 0xd3, 0x26, 0x9f, 0x16, 0xaa, 0x50, 0x0e,
-	0xb8, 0xbf, 0xd6, 0x37, 0x88, 0x0a, 0xa5, 0x8a, 0x8a, 0x1f, 0xa6, 0x40, 0xd4, 0xdc, 0x00, 0xad,
-	0x57, 0xed, 0xc0, 0xe8, 0xf3, 0x11, 0xee, 0x2e, 0x72, 0xb8, 0xa0, 0x69, 0xf0, 0x0a, 0x63, 0xa0,
-	0x69, 0xc5, 0x13, 0x49, 0x6b, 0x4e, 0xd0, 0x10, 0x8d, 0xbd, 0xf9, 0xe4, 0x6a, 0x13, 0x8d, 0x57,
-	0xc5, 0x6c, 0x24, 0x73, 0x98, 0xd0, 0x4a, 0x50, 0x33, 0x83, 0x09, 0x13, 0x26, 0xa3, 0x9a, 0x25,
-	0x8d, 0x7c, 0x2f, 0xd5, 0x07, 0x99, 0x64, 0xaa, 0x6a, 0x6a, 0x69, 0x46, 0x4b, 0xcf, 0xf9, 0x17,
-	0xb4, 0xe6, 0x01, 0xc1, 0x3d, 0xca, 0x98, 0xe6, 0xc6, 0x90, 0xdb, 0x36, 0x69, 0xb9, 0x87, 0xc1,
-	0x7d, 0xdc, 0xcf, 0x4a, 0x2a, 0x64, 0x22, 0x18, 0x39, 0x6a, 0x25, 0x87, 0xcf, 0x58, 0xf0, 0x00,
-	0x7b, 0xb9, 0xa8, 0x78, 0x52, 0x52, 0x53, 0x92, 0x63, 0xa7, 0xf5, 0x2d, 0xf1, 0x92, 0x9a, 0xf2,
-	0x5a, 0x74, 0xb7, 0xeb, 0x1c, 0x44, 0x77, 0xdc, 0x5e, 0x34, 0xe2, 0x92, 0x93, 0xee, 0x10, 0x8d,
-	0x3b, 0xad, 0xf8, 0x46, 0x5c, 0xf2, 0xe0, 0x21, 0xf6, 0xa0, 0x6c, 0xea, 0x54, 0x52, 0x51, 0x91,
-	0x9e, 0x73, 0x1e, 0x88, 0xe0, 0x11, 0xbe, 0x07, 0x9a, 0x4a, 0x43, 0x33, 0x10, 0xca, 0xdd, 0xaa,
-	0xef, 0x46, 0xee, 0xde, 0x60, 0xcf, 0x98, 0x0d, 0x31, 0xa2, 0x90, 0x14, 0x1a, 0xcd, 0x89, 0xd7,
-	0x86, 0x5c, 0x13, 0xc1, 0x10, 0xfb, 0x8c, 0x9b, 0x4c, 0x8b, 0x95, 0x1d, 0x27, 0xd8, 0xe9, 0x37,
-	0xa9, 0xe0, 0x05, 0xbe, 0x63, 0x77, 0x9f, 0x64, 0x9a, 0x53, 0xe0, 0x8c, 0xf8, 0x43, 0x34, 0xf6,
-	0x9f, 0x0e, 0xe2, 0xb6, 0xa0, 0x78, 0x5f, 0x50, 0x7c, 0xb1, 0x2f, 0x68, 0xde, 0x5f, 0x6f, 0xa2,
-	0x5b, 0x1f, 0xbf, 0x45, 0x68, 0xe9, 0x5b, 0xe7, 0xf3, 0xd6, 0x38, 0xfa, 0x89, 0x70, 0xef, 0xad,
-	0xe1, 0xda, 0x56, 0xf6, 0xfa, 0x2f, 0x95, 0x9d, 0x5e, 0x6d, 0xa2, 0xc7, 0xb6, 0xb2, 0xc6, 0x70,
-	0xfd, 0xff, 0x3b, 0x3b, 0xc1, 0x1d, 0x5e, 0xdb, 0xc5, 0xb6, 0x7d, 0xb5, 0xe0, 0x8f, 0xd7, 0x76,
-	0xfe, 0xf1, 0xb5, 0xf3, 0xd9, 0xaf, 0x1f, 0x21, 0x5a, 0x6f, 0x43, 0xf4, 0x75, 0x1b, 0xa2, 0xef,
-	0xdb, 0x10, 0x7d, 0xda, 0x85, 0xe8, 0xcb, 0x2e, 0x44, 0xeb, 0x5d, 0x88, 0xb0, 0x2f, 0x54, 0x9c,
-	0x42, 0x6e, 0x62, 0x99, 0xc3, 0xbc, 0xbf, 0xc8, 0xe1, 0xdc, 0x06, 0x9f, 0xa3, 0x77, 0x47, 0x32,
-	0x87, 0xb4, 0xeb, 0x8e, 0x79, 0xf6, 0x3b, 0x00, 0x00, 0xff, 0xff, 0xe3, 0x24, 0xfe, 0x3e, 0x53,
-	0x03, 0x00, 0x00,
+	// 830 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0x41, 0x6f, 0xe3, 0x44,
+	0x14, 0x66, 0xea, 0x3a, 0xb5, 0x9f, 0xdb, 0x65, 0xd7, 0x0a, 0x2b, 0x13, 0x50, 0x12, 0x8c, 0x90,
+	0x82, 0xd4, 0x4d, 0x20, 0xdc, 0x7a, 0xe0, 0x90, 0x45, 0x2c, 0x2b, 0x50, 0x54, 0xb9, 0x5d, 0x21,
+	0xb8, 0x58, 0x63, 0x7b, 0xec, 0x8c, 0xd6, 0xf6, 0x24, 0x9e, 0x31, 0x8b, 0xf6, 0xc8, 0x19, 0x89,
+	0x3d, 0x70, 0xe0, 0xc0, 0x7f, 0xe0, 0x2f, 0x70, 0xec, 0x91, 0x1f, 0x80, 0x0a, 0xb4, 0xff, 0x60,
+	0x4f, 0x1c, 0xd1, 0x8c, 0x63, 0x27, 0x61, 0x21, 0x95, 0xaa, 0xf6, 0x50, 0xc9, 0xef, 0xbd, 0xf9,
+	0xa6, 0xef, 0x7d, 0xdf, 0xe7, 0xe7, 0x40, 0x7b, 0x5e, 0x30, 0xc1, 0xf8, 0x28, 0x8f, 0x85, 0xfc,
+	0x1b, 0xaa, 0xd0, 0xd6, 0xf2, 0x58, 0x74, 0x3e, 0x48, 0xa8, 0x98, 0x95, 0xc1, 0x30, 0x64, 0xd9,
+	0x48, 0x14, 0x2c, 0x7f, 0x50, 0xf2, 0x91, 0x2a, 0x07, 0x65, 0x3c, 0x4a, 0x58, 0xc2, 0x54, 0xa0,
+	0x9e, 0x2a, 0x58, 0xa7, 0x97, 0x30, 0x96, 0xa4, 0x64, 0x75, 0x4a, 0xd0, 0x8c, 0x70, 0x81, 0xb3,
+	0x79, 0x75, 0xc0, 0xfd, 0x45, 0x83, 0xd6, 0x34, 0x16, 0xa7, 0x38, 0xb0, 0x3f, 0x07, 0x10, 0x38,
+	0x48, 0x89, 0x9f, 0xe3, 0x8c, 0x38, 0xa8, 0x8f, 0x06, 0xe6, 0xe4, 0xf0, 0xe5, 0x79, 0x6f, 0x30,
+	0x4f, 0x8e, 0xdc, 0x3c, 0x16, 0x87, 0x38, 0xa5, 0x98, 0x1f, 0x89, 0xc3, 0x88, 0xf2, 0x10, 0x17,
+	0x91, 0x5f, 0xe6, 0x4f, 0x73, 0xf6, 0x2c, 0xf7, 0x43, 0x96, 0x96, 0x59, 0xce, 0x5d, 0xcf, 0x54,
+	0xf8, 0x29, 0xce, 0x88, 0xed, 0xc0, 0x1e, 0x8e, 0xa2, 0x82, 0x70, 0xee, 0xec, 0xc8, 0x9b, 0xbc,
+	0x3a, 0xb4, 0xdf, 0x04, 0x23, 0x9c, 0x61, 0x9a, 0xfb, 0x34, 0x72, 0xb4, 0xaa, 0xa4, 0xe2, 0xc7,
+	0x91, 0xfd, 0x16, 0x98, 0x31, 0x4d, 0x89, 0x3f, 0xc3, 0x7c, 0xe6, 0xec, 0xaa, 0x9a, 0x21, 0x13,
+	0x9f, 0x61, 0x3e, 0x6b, 0x8a, 0xaa, 0x3b, 0x7d, 0x55, 0x54, 0xff, 0xae, 0x2e, 0x72, 0xfa, 0x9c,
+	0x38, 0xad, 0x3e, 0x1a, 0xe8, 0x55, 0xf1, 0x84, 0x3e, 0x27, 0xf6, 0xdb, 0x60, 0x8a, 0x59, 0x99,
+	0x05, 0x39, 0xa6, 0xa9, 0xb3, 0xa7, 0x90, 0xab, 0x84, 0xfd, 0x1e, 0xdc, 0x11, 0x05, 0xce, 0x39,
+	0x0e, 0x05, 0x65, 0xaa, 0x2b, 0x43, 0x1d, 0x39, 0x58, 0xcb, 0x3e, 0x8e, 0xe4, 0x25, 0x9c, 0x26,
+	0x39, 0x16, 0x65, 0x41, 0x1c, 0xb3, 0xba, 0xa4, 0x49, 0xd8, 0x7d, 0xb0, 0x22, 0xc2, 0xc3, 0x82,
+	0xce, 0xe5, 0x71, 0x07, 0x54, 0x7d, 0x3d, 0x65, 0x3f, 0x82, 0x7d, 0xc9, 0xbd, 0x1f, 0x16, 0x04,
+	0x0b, 0x12, 0x39, 0x56, 0x1f, 0x0d, 0xac, 0x71, 0x67, 0x58, 0x09, 0x34, 0xac, 0x05, 0x1a, 0x9e,
+	0xd6, 0x02, 0x4d, 0x8c, 0xb3, 0xf3, 0xde, 0x6b, 0x2f, 0xfe, 0xe8, 0x21, 0xcf, 0x92, 0xc8, 0x87,
+	0x15, 0xd0, 0xfd, 0x71, 0x07, 0xf6, 0x9e, 0x70, 0x52, 0x48, 0xc9, 0x8e, 0xff, 0x43, 0xb2, 0x0f,
+	0x5f, 0x9e, 0xf7, 0x1e, 0x2c, 0x25, 0xf3, 0x4b, 0x4e, 0x8a, 0xdb, 0xd7, 0xad, 0x0d, 0x3a, 0xc9,
+	0x24, 0xb9, 0x95, 0x66, 0x55, 0x60, 0xbf, 0x0b, 0x07, 0x94, 0xfb, 0xbc, 0x0c, 0x24, 0x09, 0x01,
+	0x89, 0x94, 0x68, 0xba, 0xb7, 0x4f, 0xf9, 0x49, 0x93, 0x7b, 0x85, 0x96, 0xd6, 0x75, 0x69, 0xf9,
+	0x79, 0x07, 0x4c, 0x8f, 0x2c, 0x9e, 0xcc, 0xbf, 0x60, 0x38, 0x5a, 0x1f, 0x03, 0xfd, 0xff, 0x18,
+	0x3b, 0x5b, 0xec, 0xa7, 0x6d, 0xb3, 0xdf, 0xee, 0x36, 0xfb, 0xe9, 0xdb, 0xec, 0xd7, 0xba, 0xda,
+	0x7e, 0x7b, 0x57, 0xda, 0xcf, 0xb8, 0xc2, 0x7e, 0xe6, 0x2b, 0xf6, 0x73, 0x4f, 0x01, 0x3c, 0xc2,
+	0xe7, 0x4b, 0x7a, 0x6c, 0xd8, 0x0d, 0x59, 0x54, 0x39, 0x46, 0xf7, 0xd4, 0xb3, 0xa4, 0x2c, 0x23,
+	0x9c, 0xe3, 0x84, 0xd4, 0xbc, 0x2c, 0xc3, 0x75, 0x32, 0xb5, 0x0d, 0x32, 0xdd, 0xef, 0x10, 0xdc,
+	0xf5, 0xc8, 0xe2, 0xe1, 0x8c, 0x84, 0x4f, 0x3f, 0x61, 0xcf, 0xf2, 0xf4, 0xda, 0xdc, 0x6f, 0xcc,
+	0xa7, 0xfd, 0x7b, 0xbe, 0x6d, 0x8b, 0xc1, 0x7d, 0x81, 0xe0, 0x9e, 0x9c, 0x6d, 0xb3, 0x8b, 0x1b,
+	0x1a, 0x71, 0xfb, 0x4e, 0xba, 0x0f, 0x2d, 0xf2, 0x2d, 0xe5, 0x82, 0x2b, 0xd1, 0x0d, 0x6f, 0x19,
+	0xb9, 0xdf, 0x23, 0xb0, 0x3c, 0xb2, 0x78, 0x44, 0xc4, 0xa7, 0x34, 0x25, 0xfc, 0x36, 0x28, 0x69,
+	0x83, 0xce, 0x05, 0x2e, 0x84, 0xea, 0x49, 0xf7, 0xaa, 0x40, 0x66, 0x53, 0x9a, 0x51, 0xb1, 0x34,
+	0x61, 0x15, 0xb8, 0x3f, 0x20, 0xd8, 0x97, 0x0c, 0x35, 0xfd, 0xdc, 0x14, 0x39, 0x6d, 0xd0, 0x05,
+	0x13, 0x38, 0xad, 0x9b, 0x50, 0x81, 0xfd, 0x0e, 0xe8, 0x92, 0x21, 0x49, 0x8a, 0x36, 0xb0, 0xc6,
+	0xd6, 0x50, 0x7e, 0xc6, 0xaa, 0x8f, 0x8c, 0x57, 0x55, 0xdc, 0xaf, 0x64, 0x43, 0x8b, 0x66, 0x0f,
+	0x5c, 0x8f, 0xa0, 0x66, 0xed, 0x68, 0x6b, 0x6b, 0xc7, 0xfd, 0x12, 0x0e, 0xe4, 0xac, 0xab, 0xbb,
+	0x6f, 0x68, 0xd8, 0xf1, 0xef, 0x08, 0x60, 0x1a, 0x8b, 0x13, 0x52, 0x7c, 0x43, 0x43, 0x62, 0xbf,
+	0x0f, 0xad, 0xe5, 0xdb, 0x74, 0x47, 0x0d, 0xd8, 0x2c, 0x9f, 0xce, 0xeb, 0xcb, 0xb8, 0x79, 0xdd,
+	0x3e, 0x86, 0x83, 0x4d, 0x73, 0xbe, 0x51, 0x23, 0x36, 0xd2, 0x9d, 0xfb, 0x0d, 0x70, 0xf3, 0xf8,
+	0x08, 0x8c, 0x46, 0xba, 0xbb, 0x35, 0xb4, 0xce, 0x74, 0xee, 0x35, 0xa8, 0xe6, 0xd0, 0x18, 0xcc,
+	0xd5, 0xfc, 0x75, 0x7d, 0x45, 0x77, 0xc7, 0x6e, 0x20, 0x4d, 0x6e, 0x72, 0xf4, 0xf7, 0x5f, 0x5d,
+	0x74, 0x76, 0xd1, 0x45, 0xbf, 0x5d, 0x74, 0xd1, 0x9f, 0x17, 0x5d, 0xf4, 0xd3, 0x65, 0x17, 0xfd,
+	0x7a, 0xd9, 0x45, 0x67, 0x97, 0x5d, 0x04, 0x16, 0x65, 0xc3, 0x40, 0xc4, 0x5c, 0x02, 0x27, 0xc6,
+	0x34, 0x16, 0xc7, 0x72, 0x33, 0x1f, 0xa3, 0xaf, 0xe5, 0x0f, 0x93, 0xa0, 0xa5, 0xf6, 0xf4, 0x47,
+	0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0x2c, 0xe2, 0x88, 0x27, 0xbc, 0x08, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// NftServiceClient is the client API for NftService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type NftServiceClient interface {
+	UpLoad(ctx context.Context, in *ReqUpLoad, opts ...grpc.CallOption) (*RespUpLoad, error)
+	CheckDownload(ctx context.Context, in *ReqCheckDownload, opts ...grpc.CallOption) (*RespCheckDownload, error)
+	GetFiles(ctx context.Context, in *ReqGetFiles, opts ...grpc.CallOption) (*RespGetFiles, error)
+	Subscribe(ctx context.Context, in *ReqSubscribe, opts ...grpc.CallOption) (*RespSubscribe, error)
+}
+
+type nftServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewNftServiceClient(cc *grpc.ClientConn) NftServiceClient {
+	return &nftServiceClient{cc}
+}
+
+func (c *nftServiceClient) UpLoad(ctx context.Context, in *ReqUpLoad, opts ...grpc.CallOption) (*RespUpLoad, error) {
+	out := new(RespUpLoad)
+	err := c.cc.Invoke(ctx, "/nft.NftService/UpLoad", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nftServiceClient) CheckDownload(ctx context.Context, in *ReqCheckDownload, opts ...grpc.CallOption) (*RespCheckDownload, error) {
+	out := new(RespCheckDownload)
+	err := c.cc.Invoke(ctx, "/nft.NftService/CheckDownload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nftServiceClient) GetFiles(ctx context.Context, in *ReqGetFiles, opts ...grpc.CallOption) (*RespGetFiles, error) {
+	out := new(RespGetFiles)
+	err := c.cc.Invoke(ctx, "/nft.NftService/GetFiles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nftServiceClient) Subscribe(ctx context.Context, in *ReqSubscribe, opts ...grpc.CallOption) (*RespSubscribe, error) {
+	out := new(RespSubscribe)
+	err := c.cc.Invoke(ctx, "/nft.NftService/Subscribe", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NftServiceServer is the server API for NftService service.
+type NftServiceServer interface {
+	UpLoad(context.Context, *ReqUpLoad) (*RespUpLoad, error)
+	CheckDownload(context.Context, *ReqCheckDownload) (*RespCheckDownload, error)
+	GetFiles(context.Context, *ReqGetFiles) (*RespGetFiles, error)
+	Subscribe(context.Context, *ReqSubscribe) (*RespSubscribe, error)
+}
+
+// UnimplementedNftServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedNftServiceServer struct {
+}
+
+func (*UnimplementedNftServiceServer) UpLoad(ctx context.Context, req *ReqUpLoad) (*RespUpLoad, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpLoad not implemented")
+}
+func (*UnimplementedNftServiceServer) CheckDownload(ctx context.Context, req *ReqCheckDownload) (*RespCheckDownload, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckDownload not implemented")
+}
+func (*UnimplementedNftServiceServer) GetFiles(ctx context.Context, req *ReqGetFiles) (*RespGetFiles, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFiles not implemented")
+}
+func (*UnimplementedNftServiceServer) Subscribe(ctx context.Context, req *ReqSubscribe) (*RespSubscribe, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+
+func RegisterNftServiceServer(s *grpc.Server, srv NftServiceServer) {
+	s.RegisterService(&_NftService_serviceDesc, srv)
+}
+
+func _NftService_UpLoad_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqUpLoad)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NftServiceServer).UpLoad(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nft.NftService/UpLoad",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NftServiceServer).UpLoad(ctx, req.(*ReqUpLoad))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NftService_CheckDownload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqCheckDownload)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NftServiceServer).CheckDownload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nft.NftService/CheckDownload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NftServiceServer).CheckDownload(ctx, req.(*ReqCheckDownload))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NftService_GetFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqGetFiles)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NftServiceServer).GetFiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nft.NftService/GetFiles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NftServiceServer).GetFiles(ctx, req.(*ReqGetFiles))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NftService_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqSubscribe)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NftServiceServer).Subscribe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nft.NftService/Subscribe",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NftServiceServer).Subscribe(ctx, req.(*ReqSubscribe))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _NftService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "nft.NftService",
+	HandlerType: (*NftServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "UpLoad",
+			Handler:    _NftService_UpLoad_Handler,
+		},
+		{
+			MethodName: "CheckDownload",
+			Handler:    _NftService_CheckDownload_Handler,
+		},
+		{
+			MethodName: "GetFiles",
+			Handler:    _NftService_GetFiles_Handler,
+		},
+		{
+			MethodName: "Subscribe",
+			Handler:    _NftService_Subscribe_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "protos/nft/nft.proto",
 }
 
 func (m *NftTab) Marshal() (dAtA []byte, err error) {
@@ -380,10 +1260,10 @@ func (m *NftTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.TableName) > 0 {
-		i -= len(m.TableName)
-		copy(dAtA[i:], m.TableName)
-		i = encodeVarintNft(dAtA, i, uint64(len(m.TableName)))
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -421,7 +1301,12 @@ func (m *UserTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n2
 	i = encodeVarintNft(dAtA, i, uint64(n2))
 	i--
-	dAtA[i] = 0x2a
+	dAtA[i] = 0x32
+	if m.IsSubscribed != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.IsSubscribed))
+		i--
+		dAtA[i] = 0x28
+	}
 	if len(m.Email) > 0 {
 		i -= len(m.Email)
 		copy(dAtA[i:], m.Email)
@@ -443,12 +1328,481 @@ func (m *UserTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.TableName) > 0 {
-		i -= len(m.TableName)
-		copy(dAtA[i:], m.TableName)
-		i = encodeVarintNft(dAtA, i, uint64(len(m.TableName)))
+	if len(m.tableName) > 0 {
+		i -= len(m.tableName)
+		copy(dAtA[i:], m.tableName)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.tableName)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ReqUpLoad) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqUpLoad) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqUpLoad) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Description) > 0 {
+		i -= len(m.Description)
+		copy(dAtA[i:], m.Description)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Description)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.TransactionId) > 0 {
+		i -= len(m.TransactionId)
+		copy(dAtA[i:], m.TransactionId)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.TransactionId)))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.Thumbnail) > 0 {
+		i -= len(m.Thumbnail)
+		copy(dAtA[i:], m.Thumbnail)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Thumbnail)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if m.FileSize != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.FileSize))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.FileName) > 0 {
+		i -= len(m.FileName)
+		copy(dAtA[i:], m.FileName)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileName)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.FileHash) > 0 {
+		i -= len(m.FileHash)
+		copy(dAtA[i:], m.FileHash)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileHash)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ChainId) > 0 {
+		i -= len(m.ChainId)
+		copy(dAtA[i:], m.ChainId)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.ChainId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RespUpLoad) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RespUpLoad) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RespUpLoad) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ReqCheckDownload) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqCheckDownload) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqCheckDownload) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.FileHash) > 0 {
+		i -= len(m.FileHash)
+		copy(dAtA[i:], m.FileHash)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileHash)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ChainId) > 0 {
+		i -= len(m.ChainId)
+		copy(dAtA[i:], m.ChainId)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.ChainId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RespCheckDownload) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RespCheckDownload) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RespCheckDownload) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Exists {
+		i--
+		if m.Exists {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.FileHash) > 0 {
+		i -= len(m.FileHash)
+		copy(dAtA[i:], m.FileHash)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileHash)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ReqGetFiles) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqGetFiles) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqGetFiles) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Limit != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Limit))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.Start != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Start))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ChainId) > 0 {
+		i -= len(m.ChainId)
+		copy(dAtA[i:], m.ChainId)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.ChainId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RespGetFiles) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RespGetFiles) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RespGetFiles) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Files) > 0 {
+		for iNdEx := len(m.Files) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Files[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintNft(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if m.Total != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Total))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ReqSubscribe) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqSubscribe) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqSubscribe) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Email) > 0 {
+		i -= len(m.Email)
+		copy(dAtA[i:], m.Email)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Email)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ChainId) > 0 {
+		i -= len(m.ChainId)
+		copy(dAtA[i:], m.ChainId)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.ChainId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RespSubscribe) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RespSubscribe) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RespSubscribe) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -466,7 +1820,7 @@ func encodeVarintNft(dAtA []byte, offset int, v uint64) int {
 }
 func NewPopulatedNftTab(r randyNft, easy bool) *NftTab {
 	this := &NftTab{}
-	this.TableName = string(randStringNft(r))
+	this.tableName = string(randStringNft(r))
 	this.Address = string(randStringNft(r))
 	this.ChainId = string(randStringNft(r))
 	this.FileHash = string(randStringNft(r))
@@ -489,14 +1843,149 @@ func NewPopulatedNftTab(r randyNft, easy bool) *NftTab {
 
 func NewPopulatedUserTab(r randyNft, easy bool) *UserTab {
 	this := &UserTab{}
-	this.TableName = string(randStringNft(r))
+	this.tableName = string(randStringNft(r))
 	this.Address = string(randStringNft(r))
 	this.ChainId = string(randStringNft(r))
 	this.Email = string(randStringNft(r))
+	this.IsSubscribed = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.IsSubscribed *= -1
+	}
 	v2 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v2
 	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 7)
+	}
+	return this
+}
+
+func NewPopulatedReqUpLoad(r randyNft, easy bool) *ReqUpLoad {
+	this := &ReqUpLoad{}
+	this.Address = string(randStringNft(r))
+	this.ChainId = string(randStringNft(r))
+	this.FileHash = string(randStringNft(r))
+	this.FileName = string(randStringNft(r))
+	this.FileSize = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.FileSize *= -1
+	}
+	this.Thumbnail = string(randStringNft(r))
+	this.TransactionId = string(randStringNft(r))
+	this.Signature = string(randStringNft(r))
+	this.Description = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 10)
+	}
+	return this
+}
+
+func NewPopulatedRespUpLoad(r randyNft, easy bool) *RespUpLoad {
+	this := &RespUpLoad{}
+	this.Code = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Code *= -1
+	}
+	this.Message = string(randStringNft(r))
+	this.Address = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 4)
+	}
+	return this
+}
+
+func NewPopulatedReqCheckDownload(r randyNft, easy bool) *ReqCheckDownload {
+	this := &ReqCheckDownload{}
+	this.Address = string(randStringNft(r))
+	this.ChainId = string(randStringNft(r))
+	this.Signature = string(randStringNft(r))
+	this.FileHash = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 5)
+	}
+	return this
+}
+
+func NewPopulatedRespCheckDownload(r randyNft, easy bool) *RespCheckDownload {
+	this := &RespCheckDownload{}
+	this.Code = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Code *= -1
+	}
+	this.Message = string(randStringNft(r))
+	this.Address = string(randStringNft(r))
+	this.FileHash = string(randStringNft(r))
+	this.Exists = bool(bool(r.Intn(2) == 0))
+	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNft(r, 6)
+	}
+	return this
+}
+
+func NewPopulatedReqGetFiles(r randyNft, easy bool) *ReqGetFiles {
+	this := &ReqGetFiles{}
+	this.Address = string(randStringNft(r))
+	this.ChainId = string(randStringNft(r))
+	this.Signature = string(randStringNft(r))
+	this.Start = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Start *= -1
+	}
+	this.Limit = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Limit *= -1
+	}
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 6)
+	}
+	return this
+}
+
+func NewPopulatedRespGetFiles(r randyNft, easy bool) *RespGetFiles {
+	this := &RespGetFiles{}
+	this.Code = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Code *= -1
+	}
+	this.Message = string(randStringNft(r))
+	this.Address = string(randStringNft(r))
+	this.Total = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Total *= -1
+	}
+	if r.Intn(5) != 0 {
+		v3 := r.Intn(5)
+		this.Files = make([]*NftTab, v3)
+		for i := 0; i < v3; i++ {
+			this.Files[i] = NewPopulatedNftTab(r, easy)
+		}
+	}
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 6)
+	}
+	return this
+}
+
+func NewPopulatedReqSubscribe(r randyNft, easy bool) *ReqSubscribe {
+	this := &ReqSubscribe{}
+	this.Address = string(randStringNft(r))
+	this.ChainId = string(randStringNft(r))
+	this.Email = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 4)
+	}
+	return this
+}
+
+func NewPopulatedRespSubscribe(r randyNft, easy bool) *RespSubscribe {
+	this := &RespSubscribe{}
+	this.Code = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Code *= -1
+	}
+	this.Message = string(randStringNft(r))
+	this.Address = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 4)
 	}
 	return this
 }
@@ -520,9 +2009,9 @@ func randUTF8RuneNft(r randyNft) rune {
 	return rune(ru + 61)
 }
 func randStringNft(r randyNft) string {
-	v3 := r.Intn(100)
-	tmps := make([]rune, v3)
-	for i := 0; i < v3; i++ {
+	v4 := r.Intn(100)
+	tmps := make([]rune, v4)
+	for i := 0; i < v4; i++ {
 		tmps[i] = randUTF8RuneNft(r)
 	}
 	return string(tmps)
@@ -544,11 +2033,11 @@ func randFieldNft(dAtA []byte, r randyNft, fieldNumber int, wire int) []byte {
 	switch wire {
 	case 0:
 		dAtA = encodeVarintPopulateNft(dAtA, uint64(key))
-		v4 := r.Int63()
+		v5 := r.Int63()
 		if r.Intn(2) == 0 {
-			v4 *= -1
+			v5 *= -1
 		}
-		dAtA = encodeVarintPopulateNft(dAtA, uint64(v4))
+		dAtA = encodeVarintPopulateNft(dAtA, uint64(v5))
 	case 1:
 		dAtA = encodeVarintPopulateNft(dAtA, uint64(key))
 		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
@@ -579,7 +2068,7 @@ func (m *NftTab) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TableName)
+	l = len(m.tableName)
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
@@ -632,7 +2121,7 @@ func (m *UserTab) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TableName)
+	l = len(m.tableName)
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
@@ -648,8 +2137,248 @@ func (m *UserTab) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
+	if m.IsSubscribed != 0 {
+		n += 1 + sovNft(uint64(m.IsSubscribed))
+	}
 	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovNft(uint64(l))
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ReqUpLoad) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.ChainId)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileHash)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileName)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.FileSize != 0 {
+		n += 1 + sovNft(uint64(m.FileSize))
+	}
+	l = len(m.Thumbnail)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.TransactionId)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Description)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RespUpLoad) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovNft(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ReqCheckDownload) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.ChainId)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileHash)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RespCheckDownload) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovNft(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileHash)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.Exists {
+		n += 2
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ReqGetFiles) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.ChainId)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.Start != 0 {
+		n += 1 + sovNft(uint64(m.Start))
+	}
+	if m.Limit != 0 {
+		n += 1 + sovNft(uint64(m.Limit))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RespGetFiles) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovNft(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.Total != 0 {
+		n += 1 + sovNft(uint64(m.Total))
+	}
+	if len(m.Files) > 0 {
+		for _, e := range m.Files {
+			l = e.Size()
+			n += 1 + l + sovNft(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ReqSubscribe) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.ChainId)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Email)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RespSubscribe) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovNft(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -693,7 +2422,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TableName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -721,7 +2450,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.TableName = string(dAtA[iNdEx:postIndex])
+			m.tableName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1087,7 +2816,7 @@ func (m *UserTab) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TableName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field tableName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1115,7 +2844,7 @@ func (m *UserTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.TableName = string(dAtA[iNdEx:postIndex])
+			m.tableName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1214,6 +2943,25 @@ func (m *UserTab) Unmarshal(dAtA []byte) error {
 			m.Email = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IsSubscribed", wireType)
+			}
+			m.IsSubscribed = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IsSubscribed |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TimeCreated", wireType)
 			}
@@ -1245,6 +2993,1508 @@ func (m *UserTab) Unmarshal(dAtA []byte) error {
 			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqUpLoad: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqUpLoad: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ChainId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileSize", wireType)
+			}
+			m.FileSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.FileSize |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Thumbnail", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Thumbnail = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransactionId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TransactionId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RespUpLoad) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RespUpLoad: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RespUpLoad: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqCheckDownload) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqCheckDownload: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqCheckDownload: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ChainId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RespCheckDownload) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RespCheckDownload: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RespCheckDownload: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileHash = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Exists", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Exists = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqGetFiles) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqGetFiles: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqGetFiles: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ChainId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Start", wireType)
+			}
+			m.Start = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Start |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Limit", wireType)
+			}
+			m.Limit = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Limit |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RespGetFiles) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RespGetFiles: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RespGetFiles: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Total", wireType)
+			}
+			m.Total = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Total |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Files", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Files = append(m.Files, &NftTab{})
+			if err := m.Files[len(m.Files)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqSubscribe) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqSubscribe: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqSubscribe: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ChainId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Email", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Email = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RespSubscribe) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RespSubscribe: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RespSubscribe: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
