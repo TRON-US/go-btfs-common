@@ -316,9 +316,9 @@ proto.nft.NftTab.toObject = function(includeInstance, msg) {
     address: jspb.Message.getFieldWithDefault(msg, 2, ""),
     chainId: jspb.Message.getFieldWithDefault(msg, 3, ""),
     fileHash: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    fileName: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    fileType: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    fileSize: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    name: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    size: jspb.Message.getFieldWithDefault(msg, 7, 0),
     thumbnail: jspb.Message.getFieldWithDefault(msg, 8, ""),
     transactionId: jspb.Message.getFieldWithDefault(msg, 9, ""),
     signature: jspb.Message.getFieldWithDefault(msg, 10, ""),
@@ -378,15 +378,15 @@ proto.nft.NftTab.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileName(value);
+      msg.setName(value);
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileType(value);
+      msg.setType(value);
       break;
     case 7:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setFileSize(value);
+      msg.setSize(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
@@ -466,21 +466,21 @@ proto.nft.NftTab.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getFileName();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getFileType();
+  f = message.getType();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getFileSize();
+  f = message.getSize();
   if (f !== 0) {
     writer.writeInt32(
       7,
@@ -599,10 +599,10 @@ proto.nft.NftTab.prototype.setFileHash = function(value) {
 
 
 /**
- * optional string file_name = 5;
+ * optional string name = 5;
  * @return {string}
  */
-proto.nft.NftTab.prototype.getFileName = function() {
+proto.nft.NftTab.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -611,16 +611,16 @@ proto.nft.NftTab.prototype.getFileName = function() {
  * @param {string} value
  * @return {!proto.nft.NftTab} returns this
  */
-proto.nft.NftTab.prototype.setFileName = function(value) {
+proto.nft.NftTab.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string file_type = 6;
+ * optional string type = 6;
  * @return {string}
  */
-proto.nft.NftTab.prototype.getFileType = function() {
+proto.nft.NftTab.prototype.getType = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -629,16 +629,16 @@ proto.nft.NftTab.prototype.getFileType = function() {
  * @param {string} value
  * @return {!proto.nft.NftTab} returns this
  */
-proto.nft.NftTab.prototype.setFileType = function(value) {
+proto.nft.NftTab.prototype.setType = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional int32 file_size = 7;
+ * optional int32 size = 7;
  * @return {number}
  */
-proto.nft.NftTab.prototype.getFileSize = function() {
+proto.nft.NftTab.prototype.getSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
 };
 
@@ -647,7 +647,7 @@ proto.nft.NftTab.prototype.getFileSize = function() {
  * @param {number} value
  * @return {!proto.nft.NftTab} returns this
  */
-proto.nft.NftTab.prototype.setFileSize = function(value) {
+proto.nft.NftTab.prototype.setSize = function(value) {
   return jspb.Message.setProto3IntField(this, 7, value);
 };
 
@@ -1097,9 +1097,9 @@ proto.nft.ReqUpLoad.toObject = function(includeInstance, msg) {
     address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     chainId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     fileHash: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    fileName: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    fileType: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    fileSize: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    name: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    size: jspb.Message.getFieldWithDefault(msg, 6, 0),
     thumbnail: jspb.Message.getFieldWithDefault(msg, 7, ""),
     transactionId: jspb.Message.getFieldWithDefault(msg, 8, ""),
     signature: jspb.Message.getFieldWithDefault(msg, 9, ""),
@@ -1154,15 +1154,15 @@ proto.nft.ReqUpLoad.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileName(value);
+      msg.setName(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileType(value);
+      msg.setType(value);
       break;
     case 6:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setFileSize(value);
+      msg.setSize(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
@@ -1230,21 +1230,21 @@ proto.nft.ReqUpLoad.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getFileName();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getFileType();
+  f = message.getType();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getFileSize();
+  f = message.getSize();
   if (f !== 0) {
     writer.writeInt32(
       6,
@@ -1337,10 +1337,10 @@ proto.nft.ReqUpLoad.prototype.setFileHash = function(value) {
 
 
 /**
- * optional string file_name = 4;
+ * optional string name = 4;
  * @return {string}
  */
-proto.nft.ReqUpLoad.prototype.getFileName = function() {
+proto.nft.ReqUpLoad.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -1349,16 +1349,16 @@ proto.nft.ReqUpLoad.prototype.getFileName = function() {
  * @param {string} value
  * @return {!proto.nft.ReqUpLoad} returns this
  */
-proto.nft.ReqUpLoad.prototype.setFileName = function(value) {
+proto.nft.ReqUpLoad.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string file_type = 5;
+ * optional string type = 5;
  * @return {string}
  */
-proto.nft.ReqUpLoad.prototype.getFileType = function() {
+proto.nft.ReqUpLoad.prototype.getType = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -1367,16 +1367,16 @@ proto.nft.ReqUpLoad.prototype.getFileType = function() {
  * @param {string} value
  * @return {!proto.nft.ReqUpLoad} returns this
  */
-proto.nft.ReqUpLoad.prototype.setFileType = function(value) {
+proto.nft.ReqUpLoad.prototype.setType = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional int32 file_size = 6;
+ * optional int32 size = 6;
  * @return {number}
  */
-proto.nft.ReqUpLoad.prototype.getFileSize = function() {
+proto.nft.ReqUpLoad.prototype.getSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
@@ -1385,7 +1385,7 @@ proto.nft.ReqUpLoad.prototype.getFileSize = function() {
  * @param {number} value
  * @return {!proto.nft.ReqUpLoad} returns this
  */
-proto.nft.ReqUpLoad.prototype.setFileSize = function(value) {
+proto.nft.ReqUpLoad.prototype.setSize = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
 };
 
@@ -1909,9 +1909,9 @@ proto.nft.RespCheckDownload.toObject = function(includeInstance, msg) {
     address: jspb.Message.getFieldWithDefault(msg, 3, ""),
     exists: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     fileHash: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    fileName: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    fileType: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    fileSize: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    name: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    size: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -1970,15 +1970,15 @@ proto.nft.RespCheckDownload.deserializeBinaryFromReader = function(msg, reader) 
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileName(value);
+      msg.setName(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setFileType(value);
+      msg.setType(value);
       break;
     case 8:
       var value = /** @type {number} */ (reader.readInt32());
-      msg.setFileSize(value);
+      msg.setSize(value);
       break;
     default:
       reader.skipField();
@@ -2044,21 +2044,21 @@ proto.nft.RespCheckDownload.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
-  f = message.getFileName();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getFileType();
+  f = message.getType();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getFileSize();
+  f = message.getSize();
   if (f !== 0) {
     writer.writeInt32(
       8,
@@ -2159,10 +2159,10 @@ proto.nft.RespCheckDownload.prototype.setFileHash = function(value) {
 
 
 /**
- * optional string file_name = 6;
+ * optional string name = 6;
  * @return {string}
  */
-proto.nft.RespCheckDownload.prototype.getFileName = function() {
+proto.nft.RespCheckDownload.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -2171,16 +2171,16 @@ proto.nft.RespCheckDownload.prototype.getFileName = function() {
  * @param {string} value
  * @return {!proto.nft.RespCheckDownload} returns this
  */
-proto.nft.RespCheckDownload.prototype.setFileName = function(value) {
+proto.nft.RespCheckDownload.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional string file_type = 7;
+ * optional string type = 7;
  * @return {string}
  */
-proto.nft.RespCheckDownload.prototype.getFileType = function() {
+proto.nft.RespCheckDownload.prototype.getType = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -2189,16 +2189,16 @@ proto.nft.RespCheckDownload.prototype.getFileType = function() {
  * @param {string} value
  * @return {!proto.nft.RespCheckDownload} returns this
  */
-proto.nft.RespCheckDownload.prototype.setFileType = function(value) {
+proto.nft.RespCheckDownload.prototype.setType = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional int32 file_size = 8;
+ * optional int32 size = 8;
  * @return {number}
  */
-proto.nft.RespCheckDownload.prototype.getFileSize = function() {
+proto.nft.RespCheckDownload.prototype.getSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
@@ -2207,7 +2207,7 @@ proto.nft.RespCheckDownload.prototype.getFileSize = function() {
  * @param {number} value
  * @return {!proto.nft.RespCheckDownload} returns this
  */
-proto.nft.RespCheckDownload.prototype.setFileSize = function(value) {
+proto.nft.RespCheckDownload.prototype.setSize = function(value) {
   return jspb.Message.setProto3IntField(this, 8, value);
 };
 

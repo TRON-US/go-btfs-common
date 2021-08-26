@@ -25,9 +25,9 @@ message NftTab {
   string address = 2;
   string chain_id = 3;
   string file_hash = 4;
-  string file_name = 5;
-  string file_type = 6;
-  int32 file_size = 7;
+  string name = 5;
+  string type = 6;
+  int32 size = 7;
   string thumbnail = 8;
   string transaction_id = 9;
   string signature = 10;
@@ -63,9 +63,9 @@ message ReqUpLoad {
   string address = 1;
   string chain_id = 2;
   string file_hash = 3;
-  string file_name = 4;
-  string file_type = 5;
-  int32 file_size = 6;
+  string name = 4;
+  string type = 5;
+  int32 size = 6;
   string thumbnail = 7;
   string transaction_id = 8;
   string signature = 9;
@@ -92,9 +92,9 @@ message RespCheckDownload {
   string address = 3;
   bool exists = 4;
   string file_hash = 5;
-  string file_name = 6;
-  string file_type = 7;
-  int32 file_size = 8;
+  string name = 6;
+  string type = 7;
+  int32 size = 8;
 }
 
 // get files
