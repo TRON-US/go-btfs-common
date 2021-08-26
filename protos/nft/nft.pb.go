@@ -39,12 +39,13 @@ type NftTab struct {
 	ChainId              string    `protobuf:"bytes,3,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
 	FileHash             string    `protobuf:"bytes,4,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
 	FileName             string    `protobuf:"bytes,5,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty" pg:"file_name"`
-	FileSize             int32     `protobuf:"varint,6,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
-	Thumbnail            string    `protobuf:"bytes,7,opt,name=thumbnail,proto3" json:"thumbnail,omitempty" pg:"thumbnail"`
-	TransactionId        string    `protobuf:"bytes,8,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty" pg:"transaction_id"`
-	Signature            string    `protobuf:"bytes,9,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
-	Description          string    `protobuf:"bytes,10,opt,name=description,proto3" json:"description,omitempty" pg:"description"`
-	TimeCreated          time.Time `protobuf:"bytes,11,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
+	FileType             string    `protobuf:"bytes,6,opt,name=file_type,json=fileType,proto3" json:"file_type,omitempty" pg:"file_type"`
+	FileSize             int32     `protobuf:"varint,7,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
+	Thumbnail            string    `protobuf:"bytes,8,opt,name=thumbnail,proto3" json:"thumbnail,omitempty" pg:"thumbnail"`
+	TransactionId        string    `protobuf:"bytes,9,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty" pg:"transaction_id"`
+	Signature            string    `protobuf:"bytes,10,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	Description          string    `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty" pg:"description"`
+	TimeCreated          time.Time `protobuf:"bytes,12,opt,name=time_created,json=timeCreated,proto3,stdtime" json:"time_created" pg:"time_created"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-" pg:"-"`
 	XXX_unrecognized     []byte    `json:"-" pg:"-"`
 	XXX_sizecache        int32     `json:"-" pg:"-"`
@@ -114,6 +115,13 @@ func (m *NftTab) GetFileHash() string {
 func (m *NftTab) GetFileName() string {
 	if m != nil {
 		return m.FileName
+	}
+	return ""
+}
+
+func (m *NftTab) GetFileType() string {
+	if m != nil {
+		return m.FileType
 	}
 	return ""
 }
@@ -261,11 +269,12 @@ type ReqUpLoad struct {
 	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
 	FileHash             string   `protobuf:"bytes,3,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
 	FileName             string   `protobuf:"bytes,4,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty" pg:"file_name"`
-	FileSize             int32    `protobuf:"varint,5,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
-	Thumbnail            string   `protobuf:"bytes,6,opt,name=thumbnail,proto3" json:"thumbnail,omitempty" pg:"thumbnail"`
-	TransactionId        string   `protobuf:"bytes,7,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty" pg:"transaction_id"`
-	Signature            string   `protobuf:"bytes,8,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
-	Description          string   `protobuf:"bytes,9,opt,name=description,proto3" json:"description,omitempty" pg:"description"`
+	FileType             string   `protobuf:"bytes,5,opt,name=file_type,json=fileType,proto3" json:"file_type,omitempty" pg:"file_type"`
+	FileSize             int32    `protobuf:"varint,6,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
+	Thumbnail            string   `protobuf:"bytes,7,opt,name=thumbnail,proto3" json:"thumbnail,omitempty" pg:"thumbnail"`
+	TransactionId        string   `protobuf:"bytes,8,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty" pg:"transaction_id"`
+	Signature            string   `protobuf:"bytes,9,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
+	Description          string   `protobuf:"bytes,10,opt,name=description,proto3" json:"description,omitempty" pg:"description"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -328,6 +337,13 @@ func (m *ReqUpLoad) GetFileHash() string {
 func (m *ReqUpLoad) GetFileName() string {
 	if m != nil {
 		return m.FileName
+	}
+	return ""
+}
+
+func (m *ReqUpLoad) GetFileType() string {
+	if m != nil {
+		return m.FileType
 	}
 	return ""
 }
@@ -518,8 +534,11 @@ type RespCheckDownload struct {
 	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
 	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
 	Address              string   `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
-	FileHash             string   `protobuf:"bytes,4,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
-	Exists               bool     `protobuf:"varint,5,opt,name=exists,proto3" json:"exists,omitempty" pg:"exists"`
+	Exists               bool     `protobuf:"varint,4,opt,name=exists,proto3" json:"exists,omitempty" pg:"exists"`
+	FileHash             string   `protobuf:"bytes,5,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty" pg:"file_hash"`
+	FileName             string   `protobuf:"bytes,6,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty" pg:"file_name"`
+	FileType             string   `protobuf:"bytes,7,opt,name=file_type,json=fileType,proto3" json:"file_type,omitempty" pg:"file_type"`
+	FileSize             int32    `protobuf:"varint,8,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty" pg:"file_size"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
 	XXX_unrecognized     []byte   `json:"-" pg:"-"`
 	XXX_sizecache        int32    `json:"-" pg:"-"`
@@ -579,13 +598,6 @@ func (m *RespCheckDownload) GetAddress() string {
 	return ""
 }
 
-func (m *RespCheckDownload) GetFileHash() string {
-	if m != nil {
-		return m.FileHash
-	}
-	return ""
-}
-
 func (m *RespCheckDownload) GetExists() bool {
 	if m != nil {
 		return m.Exists
@@ -593,10 +605,39 @@ func (m *RespCheckDownload) GetExists() bool {
 	return false
 }
 
+func (m *RespCheckDownload) GetFileHash() string {
+	if m != nil {
+		return m.FileHash
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetFileName() string {
+	if m != nil {
+		return m.FileName
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+func (m *RespCheckDownload) GetFileSize() int32 {
+	if m != nil {
+		return m.FileSize
+	}
+	return 0
+}
+
 func (*RespCheckDownload) XXX_MessageName() string {
 	return "nft.RespCheckDownload"
 }
 
+// get files
 type ReqGetFiles struct {
 	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
 	ChainId              string   `protobuf:"bytes,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty" pg:"chain_id"`
@@ -897,6 +938,133 @@ func (m *RespSubscribe) GetAddress() string {
 func (*RespSubscribe) XXX_MessageName() string {
 	return "nft.RespSubscribe"
 }
+
+// status
+type ReqStatus struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqStatus) Reset()         { *m = ReqStatus{} }
+func (m *ReqStatus) String() string { return proto.CompactTextString(m) }
+func (*ReqStatus) ProtoMessage()    {}
+func (*ReqStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{10}
+}
+func (m *ReqStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqStatus.Merge(m, src)
+}
+func (m *ReqStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqStatus proto.InternalMessageInfo
+
+func (m *ReqStatus) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (*ReqStatus) XXX_MessageName() string {
+	return "nft.ReqStatus"
+}
+
+type RespStatus struct {
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty" pg:"code"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	Address              string   `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty" pg:"address"`
+	FileCount            int32    `protobuf:"varint,4,opt,name=file_count,json=fileCount,proto3" json:"file_count,omitempty" pg:"file_count"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *RespStatus) Reset()         { *m = RespStatus{} }
+func (m *RespStatus) String() string { return proto.CompactTextString(m) }
+func (*RespStatus) ProtoMessage()    {}
+func (*RespStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bbb523e0dae4ed64, []int{11}
+}
+func (m *RespStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RespStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RespStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RespStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RespStatus.Merge(m, src)
+}
+func (m *RespStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *RespStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_RespStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RespStatus proto.InternalMessageInfo
+
+func (m *RespStatus) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *RespStatus) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RespStatus) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *RespStatus) GetFileCount() int32 {
+	if m != nil {
+		return m.FileCount
+	}
+	return 0
+}
+
+func (*RespStatus) XXX_MessageName() string {
+	return "nft.RespStatus"
+}
 func init() {
 	proto.RegisterType((*NftTab)(nil), "nft.NftTab")
 	golang_proto.RegisterType((*NftTab)(nil), "nft.NftTab")
@@ -918,65 +1086,74 @@ func init() {
 	golang_proto.RegisterType((*ReqSubscribe)(nil), "nft.ReqSubscribe")
 	proto.RegisterType((*RespSubscribe)(nil), "nft.RespSubscribe")
 	golang_proto.RegisterType((*RespSubscribe)(nil), "nft.RespSubscribe")
+	proto.RegisterType((*ReqStatus)(nil), "nft.ReqStatus")
+	golang_proto.RegisterType((*ReqStatus)(nil), "nft.ReqStatus")
+	proto.RegisterType((*RespStatus)(nil), "nft.RespStatus")
+	golang_proto.RegisterType((*RespStatus)(nil), "nft.RespStatus")
 }
 
 func init() { proto.RegisterFile("protos/nft/nft.proto", fileDescriptor_bbb523e0dae4ed64) }
 func init() { golang_proto.RegisterFile("protos/nft/nft.proto", fileDescriptor_bbb523e0dae4ed64) }
 
 var fileDescriptor_bbb523e0dae4ed64 = []byte{
-	// 830 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0x41, 0x6f, 0xe3, 0x44,
-	0x14, 0x66, 0xea, 0x3a, 0xb5, 0x9f, 0xdb, 0x65, 0xd7, 0x0a, 0x2b, 0x13, 0x50, 0x12, 0x8c, 0x90,
-	0x82, 0xd4, 0x4d, 0x20, 0xdc, 0x7a, 0xe0, 0x90, 0x45, 0x2c, 0x2b, 0x50, 0x54, 0xb9, 0x5d, 0x21,
-	0xb8, 0x58, 0x63, 0x7b, 0xec, 0x8c, 0xd6, 0xf6, 0x24, 0x9e, 0x31, 0x8b, 0xf6, 0xc8, 0x19, 0x89,
-	0x3d, 0x70, 0xe0, 0xc0, 0x7f, 0xe0, 0x2f, 0x70, 0xec, 0x91, 0x1f, 0x80, 0x0a, 0xb4, 0xff, 0x60,
-	0x4f, 0x1c, 0xd1, 0x8c, 0x63, 0x27, 0x61, 0x21, 0x95, 0xaa, 0xf6, 0x50, 0xc9, 0xef, 0xbd, 0xf9,
-	0xa6, 0xef, 0x7d, 0xdf, 0xe7, 0xe7, 0x40, 0x7b, 0x5e, 0x30, 0xc1, 0xf8, 0x28, 0x8f, 0x85, 0xfc,
-	0x1b, 0xaa, 0xd0, 0xd6, 0xf2, 0x58, 0x74, 0x3e, 0x48, 0xa8, 0x98, 0x95, 0xc1, 0x30, 0x64, 0xd9,
-	0x48, 0x14, 0x2c, 0x7f, 0x50, 0xf2, 0x91, 0x2a, 0x07, 0x65, 0x3c, 0x4a, 0x58, 0xc2, 0x54, 0xa0,
-	0x9e, 0x2a, 0x58, 0xa7, 0x97, 0x30, 0x96, 0xa4, 0x64, 0x75, 0x4a, 0xd0, 0x8c, 0x70, 0x81, 0xb3,
-	0x79, 0x75, 0xc0, 0xfd, 0x45, 0x83, 0xd6, 0x34, 0x16, 0xa7, 0x38, 0xb0, 0x3f, 0x07, 0x10, 0x38,
-	0x48, 0x89, 0x9f, 0xe3, 0x8c, 0x38, 0xa8, 0x8f, 0x06, 0xe6, 0xe4, 0xf0, 0xe5, 0x79, 0x6f, 0x30,
-	0x4f, 0x8e, 0xdc, 0x3c, 0x16, 0x87, 0x38, 0xa5, 0x98, 0x1f, 0x89, 0xc3, 0x88, 0xf2, 0x10, 0x17,
-	0x91, 0x5f, 0xe6, 0x4f, 0x73, 0xf6, 0x2c, 0xf7, 0x43, 0x96, 0x96, 0x59, 0xce, 0x5d, 0xcf, 0x54,
-	0xf8, 0x29, 0xce, 0x88, 0xed, 0xc0, 0x1e, 0x8e, 0xa2, 0x82, 0x70, 0xee, 0xec, 0xc8, 0x9b, 0xbc,
-	0x3a, 0xb4, 0xdf, 0x04, 0x23, 0x9c, 0x61, 0x9a, 0xfb, 0x34, 0x72, 0xb4, 0xaa, 0xa4, 0xe2, 0xc7,
-	0x91, 0xfd, 0x16, 0x98, 0x31, 0x4d, 0x89, 0x3f, 0xc3, 0x7c, 0xe6, 0xec, 0xaa, 0x9a, 0x21, 0x13,
-	0x9f, 0x61, 0x3e, 0x6b, 0x8a, 0xaa, 0x3b, 0x7d, 0x55, 0x54, 0xff, 0xae, 0x2e, 0x72, 0xfa, 0x9c,
-	0x38, 0xad, 0x3e, 0x1a, 0xe8, 0x55, 0xf1, 0x84, 0x3e, 0x27, 0xf6, 0xdb, 0x60, 0x8a, 0x59, 0x99,
-	0x05, 0x39, 0xa6, 0xa9, 0xb3, 0xa7, 0x90, 0xab, 0x84, 0xfd, 0x1e, 0xdc, 0x11, 0x05, 0xce, 0x39,
-	0x0e, 0x05, 0x65, 0xaa, 0x2b, 0x43, 0x1d, 0x39, 0x58, 0xcb, 0x3e, 0x8e, 0xe4, 0x25, 0x9c, 0x26,
-	0x39, 0x16, 0x65, 0x41, 0x1c, 0xb3, 0xba, 0xa4, 0x49, 0xd8, 0x7d, 0xb0, 0x22, 0xc2, 0xc3, 0x82,
-	0xce, 0xe5, 0x71, 0x07, 0x54, 0x7d, 0x3d, 0x65, 0x3f, 0x82, 0x7d, 0xc9, 0xbd, 0x1f, 0x16, 0x04,
-	0x0b, 0x12, 0x39, 0x56, 0x1f, 0x0d, 0xac, 0x71, 0x67, 0x58, 0x09, 0x34, 0xac, 0x05, 0x1a, 0x9e,
-	0xd6, 0x02, 0x4d, 0x8c, 0xb3, 0xf3, 0xde, 0x6b, 0x2f, 0xfe, 0xe8, 0x21, 0xcf, 0x92, 0xc8, 0x87,
-	0x15, 0xd0, 0xfd, 0x71, 0x07, 0xf6, 0x9e, 0x70, 0x52, 0x48, 0xc9, 0x8e, 0xff, 0x43, 0xb2, 0x0f,
-	0x5f, 0x9e, 0xf7, 0x1e, 0x2c, 0x25, 0xf3, 0x4b, 0x4e, 0x8a, 0xdb, 0xd7, 0xad, 0x0d, 0x3a, 0xc9,
-	0x24, 0xb9, 0x95, 0x66, 0x55, 0x60, 0xbf, 0x0b, 0x07, 0x94, 0xfb, 0xbc, 0x0c, 0x24, 0x09, 0x01,
-	0x89, 0x94, 0x68, 0xba, 0xb7, 0x4f, 0xf9, 0x49, 0x93, 0x7b, 0x85, 0x96, 0xd6, 0x75, 0x69, 0xf9,
-	0x79, 0x07, 0x4c, 0x8f, 0x2c, 0x9e, 0xcc, 0xbf, 0x60, 0x38, 0x5a, 0x1f, 0x03, 0xfd, 0xff, 0x18,
-	0x3b, 0x5b, 0xec, 0xa7, 0x6d, 0xb3, 0xdf, 0xee, 0x36, 0xfb, 0xe9, 0xdb, 0xec, 0xd7, 0xba, 0xda,
-	0x7e, 0x7b, 0x57, 0xda, 0xcf, 0xb8, 0xc2, 0x7e, 0xe6, 0x2b, 0xf6, 0x73, 0x4f, 0x01, 0x3c, 0xc2,
-	0xe7, 0x4b, 0x7a, 0x6c, 0xd8, 0x0d, 0x59, 0x54, 0x39, 0x46, 0xf7, 0xd4, 0xb3, 0xa4, 0x2c, 0x23,
-	0x9c, 0xe3, 0x84, 0xd4, 0xbc, 0x2c, 0xc3, 0x75, 0x32, 0xb5, 0x0d, 0x32, 0xdd, 0xef, 0x10, 0xdc,
-	0xf5, 0xc8, 0xe2, 0xe1, 0x8c, 0x84, 0x4f, 0x3f, 0x61, 0xcf, 0xf2, 0xf4, 0xda, 0xdc, 0x6f, 0xcc,
-	0xa7, 0xfd, 0x7b, 0xbe, 0x6d, 0x8b, 0xc1, 0x7d, 0x81, 0xe0, 0x9e, 0x9c, 0x6d, 0xb3, 0x8b, 0x1b,
-	0x1a, 0x71, 0xfb, 0x4e, 0xba, 0x0f, 0x2d, 0xf2, 0x2d, 0xe5, 0x82, 0x2b, 0xd1, 0x0d, 0x6f, 0x19,
-	0xb9, 0xdf, 0x23, 0xb0, 0x3c, 0xb2, 0x78, 0x44, 0xc4, 0xa7, 0x34, 0x25, 0xfc, 0x36, 0x28, 0x69,
-	0x83, 0xce, 0x05, 0x2e, 0x84, 0xea, 0x49, 0xf7, 0xaa, 0x40, 0x66, 0x53, 0x9a, 0x51, 0xb1, 0x34,
-	0x61, 0x15, 0xb8, 0x3f, 0x20, 0xd8, 0x97, 0x0c, 0x35, 0xfd, 0xdc, 0x14, 0x39, 0x6d, 0xd0, 0x05,
-	0x13, 0x38, 0xad, 0x9b, 0x50, 0x81, 0xfd, 0x0e, 0xe8, 0x92, 0x21, 0x49, 0x8a, 0x36, 0xb0, 0xc6,
-	0xd6, 0x50, 0x7e, 0xc6, 0xaa, 0x8f, 0x8c, 0x57, 0x55, 0xdc, 0xaf, 0x64, 0x43, 0x8b, 0x66, 0x0f,
-	0x5c, 0x8f, 0xa0, 0x66, 0xed, 0x68, 0x6b, 0x6b, 0xc7, 0xfd, 0x12, 0x0e, 0xe4, 0xac, 0xab, 0xbb,
-	0x6f, 0x68, 0xd8, 0xf1, 0xef, 0x08, 0x60, 0x1a, 0x8b, 0x13, 0x52, 0x7c, 0x43, 0x43, 0x62, 0xbf,
-	0x0f, 0xad, 0xe5, 0xdb, 0x74, 0x47, 0x0d, 0xd8, 0x2c, 0x9f, 0xce, 0xeb, 0xcb, 0xb8, 0x79, 0xdd,
-	0x3e, 0x86, 0x83, 0x4d, 0x73, 0xbe, 0x51, 0x23, 0x36, 0xd2, 0x9d, 0xfb, 0x0d, 0x70, 0xf3, 0xf8,
-	0x08, 0x8c, 0x46, 0xba, 0xbb, 0x35, 0xb4, 0xce, 0x74, 0xee, 0x35, 0xa8, 0xe6, 0xd0, 0x18, 0xcc,
-	0xd5, 0xfc, 0x75, 0x7d, 0x45, 0x77, 0xc7, 0x6e, 0x20, 0x4d, 0x6e, 0x72, 0xf4, 0xf7, 0x5f, 0x5d,
-	0x74, 0x76, 0xd1, 0x45, 0xbf, 0x5d, 0x74, 0xd1, 0x9f, 0x17, 0x5d, 0xf4, 0xd3, 0x65, 0x17, 0xfd,
-	0x7a, 0xd9, 0x45, 0x67, 0x97, 0x5d, 0x04, 0x16, 0x65, 0xc3, 0x40, 0xc4, 0x5c, 0x02, 0x27, 0xc6,
-	0x34, 0x16, 0xc7, 0x72, 0x33, 0x1f, 0xa3, 0xaf, 0xe5, 0x0f, 0x93, 0xa0, 0xa5, 0xf6, 0xf4, 0x47,
-	0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0x2c, 0xe2, 0x88, 0x27, 0xbc, 0x08, 0x00, 0x00,
+	// 906 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xcf, 0x6f, 0xe3, 0xc4,
+	0x17, 0xff, 0x4e, 0x52, 0x3b, 0xce, 0x4b, 0xbb, 0xdf, 0x5d, 0xab, 0xac, 0x4c, 0x80, 0x24, 0x18,
+	0xad, 0x94, 0x95, 0xba, 0x09, 0x94, 0x5b, 0x0f, 0x1c, 0x5a, 0xc4, 0xb2, 0x02, 0x55, 0x95, 0xdb,
+	0x15, 0x82, 0x4b, 0x34, 0xb6, 0xc7, 0xc9, 0x68, 0x6d, 0x4f, 0xea, 0x19, 0xb3, 0xec, 0x1e, 0xb9,
+	0x70, 0x41, 0x82, 0x03, 0x07, 0xfe, 0x15, 0x6e, 0x1c, 0x7b, 0xe0, 0xc0, 0x5f, 0x50, 0xa0, 0x3d,
+	0x70, 0xdf, 0x13, 0x47, 0x34, 0x33, 0xfe, 0x91, 0xb0, 0xe0, 0x4a, 0x55, 0xf7, 0x50, 0x29, 0xef,
+	0xd7, 0xf8, 0xbd, 0xcf, 0xe7, 0x33, 0x6f, 0x0a, 0xdb, 0xcb, 0x8c, 0x09, 0xc6, 0xa7, 0x69, 0x24,
+	0xe4, 0xdf, 0x44, 0x99, 0x76, 0x3b, 0x8d, 0x44, 0xff, 0xdd, 0x39, 0x15, 0x8b, 0xdc, 0x9f, 0x04,
+	0x2c, 0x99, 0x8a, 0x8c, 0xa5, 0x0f, 0x72, 0x3e, 0x55, 0x61, 0x3f, 0x8f, 0xa6, 0x73, 0x36, 0x67,
+	0xca, 0x50, 0xbf, 0x74, 0x59, 0x7f, 0x38, 0x67, 0x6c, 0x1e, 0x93, 0x3a, 0x4b, 0xd0, 0x84, 0x70,
+	0x81, 0x93, 0xa5, 0x4e, 0x70, 0x7f, 0x69, 0x83, 0x79, 0x18, 0x89, 0x13, 0xec, 0xdb, 0x9f, 0x00,
+	0x08, 0xec, 0xc7, 0x64, 0x96, 0xe2, 0x84, 0x38, 0x68, 0x84, 0xc6, 0xdd, 0xfd, 0x9d, 0x17, 0xe7,
+	0xc3, 0xf1, 0x72, 0xbe, 0xe7, 0xa6, 0x91, 0xd8, 0xc1, 0x31, 0xc5, 0x7c, 0x4f, 0xec, 0x84, 0x94,
+	0x07, 0x38, 0x0b, 0x67, 0x79, 0xfa, 0x24, 0x65, 0x4f, 0xd3, 0x59, 0xc0, 0xe2, 0x3c, 0x49, 0xb9,
+	0xeb, 0x75, 0x55, 0xfd, 0x21, 0x4e, 0x88, 0xed, 0x40, 0x07, 0x87, 0x61, 0x46, 0x38, 0x77, 0x5a,
+	0xf2, 0x24, 0xaf, 0x34, 0xed, 0xd7, 0xc1, 0x0a, 0x16, 0x98, 0xa6, 0x33, 0x1a, 0x3a, 0x6d, 0x1d,
+	0x52, 0xf6, 0xa3, 0xd0, 0x7e, 0x03, 0xba, 0x11, 0x8d, 0xc9, 0x6c, 0x81, 0xf9, 0xc2, 0xd9, 0x50,
+	0x31, 0x4b, 0x3a, 0x3e, 0xc6, 0x7c, 0x51, 0x05, 0x55, 0x77, 0x46, 0x1d, 0x54, 0x9f, 0x2b, 0x83,
+	0xe2, 0xd9, 0x92, 0x38, 0x66, 0x1d, 0x3c, 0x79, 0xb6, 0xac, 0x83, 0x9c, 0x3e, 0x27, 0x4e, 0x67,
+	0x84, 0xc6, 0x86, 0x0e, 0x1e, 0xd3, 0xe7, 0xc4, 0x7e, 0x13, 0xba, 0x62, 0x91, 0x27, 0x7e, 0x8a,
+	0x69, 0xec, 0x58, 0xaa, 0xb2, 0x76, 0xd8, 0xf7, 0xe0, 0x96, 0xc8, 0x70, 0xca, 0x71, 0x20, 0x28,
+	0x53, 0x2d, 0x77, 0x55, 0xca, 0xd6, 0x8a, 0xf7, 0x51, 0x28, 0x0f, 0xe1, 0x74, 0x9e, 0x62, 0x91,
+	0x67, 0xc4, 0x01, 0x7d, 0x48, 0xe5, 0xb0, 0x47, 0xd0, 0x0b, 0x09, 0x0f, 0x32, 0xba, 0x94, 0xe9,
+	0x4e, 0x4f, 0xc5, 0x57, 0x5d, 0xf6, 0x43, 0xd8, 0x94, 0xc4, 0xcc, 0x82, 0x8c, 0x60, 0x41, 0x42,
+	0x67, 0x73, 0x84, 0xc6, 0xbd, 0xdd, 0xfe, 0x44, 0xb3, 0x37, 0x29, 0xd9, 0x9b, 0x9c, 0x94, 0xec,
+	0xed, 0x5b, 0x67, 0xe7, 0xc3, 0xff, 0x7d, 0xff, 0xdb, 0x10, 0x79, 0x3d, 0x59, 0x79, 0xa0, 0x0b,
+	0xdd, 0x1f, 0x5a, 0xd0, 0x79, 0xcc, 0x49, 0x26, 0xf9, 0x3c, 0xfa, 0x17, 0x3e, 0xdf, 0x7b, 0x71,
+	0x3e, 0x7c, 0x50, 0xf0, 0x39, 0xcb, 0x39, 0xc9, 0x5e, 0x3d, 0xa9, 0xdb, 0x60, 0x90, 0x44, 0x82,
+	0xab, 0x09, 0xd5, 0x86, 0xfd, 0x0e, 0x6c, 0x51, 0x3e, 0xe3, 0xb9, 0x2f, 0x41, 0xf0, 0x49, 0xa8,
+	0x18, 0x35, 0xbc, 0x4d, 0xca, 0x8f, 0x2b, 0xdf, 0x4b, 0xb0, 0x98, 0xd7, 0x85, 0xe5, 0xa7, 0x16,
+	0x74, 0x3d, 0x72, 0xfa, 0x78, 0xf9, 0x29, 0xc3, 0xe1, 0xea, 0x18, 0xe8, 0xbf, 0xc7, 0x68, 0x35,
+	0x68, 0xb3, 0xdd, 0xa4, 0xcd, 0x8d, 0x26, 0x6d, 0x1a, 0x4d, 0xda, 0x34, 0x9b, 0xb4, 0xd9, 0xb9,
+	0x5a, 0x9b, 0xd6, 0x95, 0xda, 0xec, 0x5e, 0xa1, 0x4d, 0x78, 0x49, 0x9b, 0xee, 0x09, 0x80, 0x47,
+	0xf8, 0xb2, 0xc0, 0xce, 0x86, 0x8d, 0x80, 0x85, 0x5a, 0x4e, 0x86, 0xa7, 0x7e, 0x4b, 0x3c, 0x13,
+	0xc2, 0x39, 0x9e, 0x93, 0x12, 0xb4, 0xc2, 0x5c, 0x45, 0xba, 0xbd, 0x86, 0xb4, 0xfb, 0x35, 0x82,
+	0xdb, 0x1e, 0x39, 0x3d, 0x58, 0x90, 0xe0, 0xc9, 0x87, 0xec, 0x69, 0x1a, 0x5f, 0x9b, 0x98, 0xb5,
+	0xf9, 0xda, 0xff, 0x9c, 0xaf, 0x69, 0xa5, 0xb8, 0x7f, 0x22, 0xb8, 0x23, 0x67, 0x5b, 0xef, 0xe2,
+	0x86, 0x46, 0xb4, 0xef, 0x82, 0x49, 0xbe, 0xa2, 0x5c, 0x70, 0xf5, 0x5d, 0xcb, 0x2b, 0xac, 0xf5,
+	0x96, 0x8c, 0x26, 0x25, 0x99, 0x4d, 0x4a, 0xea, 0x34, 0x29, 0xc9, 0x5a, 0x57, 0x92, 0xfb, 0x2d,
+	0x82, 0x9e, 0x47, 0x4e, 0x1f, 0x12, 0xf1, 0x11, 0x8d, 0x09, 0x7f, 0x15, 0x48, 0x6f, 0x83, 0xc1,
+	0x05, 0xce, 0x84, 0x9a, 0xd6, 0xf0, 0xb4, 0x21, 0xbd, 0x31, 0x4d, 0xa8, 0x28, 0xee, 0xb7, 0x36,
+	0xdc, 0xef, 0x10, 0x6c, 0x4a, 0xe0, 0xab, 0x7e, 0x6e, 0x0a, 0xf3, 0x6d, 0x30, 0x04, 0x13, 0x38,
+	0x2e, 0x9b, 0x50, 0x86, 0xfd, 0x36, 0x18, 0x12, 0x09, 0xee, 0x18, 0xa3, 0xf6, 0xb8, 0xb7, 0xdb,
+	0x9b, 0xc8, 0x77, 0x55, 0xbf, 0x7a, 0x9e, 0x8e, 0xb8, 0x9f, 0xcb, 0x86, 0x4e, 0xab, 0xdd, 0x73,
+	0x3d, 0x80, 0xaa, 0x55, 0xd7, 0x5e, 0x59, 0x75, 0xee, 0x67, 0xb0, 0x25, 0x67, 0xad, 0xcf, 0xbe,
+	0xa9, 0x3b, 0x74, 0x4f, 0x2d, 0xb5, 0x63, 0x81, 0x45, 0xde, 0xc0, 0xa8, 0xcb, 0xf5, 0x05, 0x2e,
+	0xf2, 0x6e, 0x0a, 0xe9, 0xb7, 0x00, 0x94, 0xdc, 0x02, 0x96, 0xa7, 0x25, 0xe7, 0x4a, 0x80, 0x07,
+	0xd2, 0xb1, 0xfb, 0x4d, 0x0b, 0xe0, 0x30, 0x12, 0xc7, 0x24, 0xfb, 0x92, 0x06, 0xc4, 0xbe, 0x0f,
+	0x66, 0xb1, 0x40, 0x6e, 0x29, 0xf0, 0xab, 0x65, 0xdc, 0xff, 0x7f, 0x61, 0x57, 0x1b, 0xe6, 0x03,
+	0xd8, 0x5a, 0xbf, 0x8f, 0xaf, 0x95, 0x15, 0x6b, 0xee, 0xfe, 0xdd, 0xaa, 0x70, 0x3d, 0x7d, 0x0a,
+	0x56, 0x25, 0xab, 0xdb, 0x65, 0x69, 0xe9, 0xe9, 0xdf, 0xa9, 0xaa, 0xaa, 0xa4, 0x5d, 0xe8, 0xd6,
+	0xdc, 0x94, 0xf1, 0x5a, 0x0a, 0x7d, 0xbb, 0x2a, 0xa9, 0xd3, 0xee, 0x83, 0x59, 0xe0, 0x59, 0xcd,
+	0xa3, 0xed, 0x95, 0x79, 0xb4, 0x63, 0x7f, 0xef, 0xaf, 0x3f, 0x06, 0xe8, 0xec, 0x62, 0x80, 0x7e,
+	0xbd, 0x18, 0xa0, 0xdf, 0x2f, 0x06, 0xe8, 0xc7, 0xcb, 0x01, 0xfa, 0xf9, 0x72, 0x80, 0xce, 0x2e,
+	0x07, 0x08, 0x7a, 0x94, 0x4d, 0x7c, 0x11, 0x71, 0x59, 0xb5, 0x6f, 0x1d, 0x46, 0xe2, 0x48, 0x3e,
+	0x6a, 0x47, 0xe8, 0x0b, 0xf9, 0x0f, 0x9f, 0x6f, 0xaa, 0x27, 0xee, 0xfd, 0xbf, 0x03, 0x00, 0x00,
+	0xff, 0xff, 0x4a, 0xeb, 0x5a, 0x9e, 0x14, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -995,6 +1172,7 @@ type NftServiceClient interface {
 	CheckDownload(ctx context.Context, in *ReqCheckDownload, opts ...grpc.CallOption) (*RespCheckDownload, error)
 	GetFiles(ctx context.Context, in *ReqGetFiles, opts ...grpc.CallOption) (*RespGetFiles, error)
 	Subscribe(ctx context.Context, in *ReqSubscribe, opts ...grpc.CallOption) (*RespSubscribe, error)
+	Status(ctx context.Context, in *ReqStatus, opts ...grpc.CallOption) (*RespStatus, error)
 }
 
 type nftServiceClient struct {
@@ -1041,12 +1219,22 @@ func (c *nftServiceClient) Subscribe(ctx context.Context, in *ReqSubscribe, opts
 	return out, nil
 }
 
+func (c *nftServiceClient) Status(ctx context.Context, in *ReqStatus, opts ...grpc.CallOption) (*RespStatus, error) {
+	out := new(RespStatus)
+	err := c.cc.Invoke(ctx, "/nft.NftService/Status", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NftServiceServer is the server API for NftService service.
 type NftServiceServer interface {
 	UpLoad(context.Context, *ReqUpLoad) (*RespUpLoad, error)
 	CheckDownload(context.Context, *ReqCheckDownload) (*RespCheckDownload, error)
 	GetFiles(context.Context, *ReqGetFiles) (*RespGetFiles, error)
 	Subscribe(context.Context, *ReqSubscribe) (*RespSubscribe, error)
+	Status(context.Context, *ReqStatus) (*RespStatus, error)
 }
 
 // UnimplementedNftServiceServer can be embedded to have forward compatible implementations.
@@ -1064,6 +1252,9 @@ func (*UnimplementedNftServiceServer) GetFiles(ctx context.Context, req *ReqGetF
 }
 func (*UnimplementedNftServiceServer) Subscribe(ctx context.Context, req *ReqSubscribe) (*RespSubscribe, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (*UnimplementedNftServiceServer) Status(ctx context.Context, req *ReqStatus) (*RespStatus, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Status not implemented")
 }
 
 func RegisterNftServiceServer(s *grpc.Server, srv NftServiceServer) {
@@ -1142,6 +1333,24 @@ func _NftService_Subscribe_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NftService_Status_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NftServiceServer).Status(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nft.NftService/Status",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NftServiceServer).Status(ctx, req.(*ReqStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _NftService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "nft.NftService",
 	HandlerType: (*NftServiceServer)(nil),
@@ -1161,6 +1370,10 @@ var _NftService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Subscribe",
 			Handler:    _NftService_Subscribe_Handler,
+		},
+		{
+			MethodName: "Status",
+			Handler:    _NftService_Status_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1198,39 +1411,46 @@ func (m *NftTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n1
 	i = encodeVarintNft(dAtA, i, uint64(n1))
 	i--
-	dAtA[i] = 0x5a
+	dAtA[i] = 0x62
 	if len(m.Description) > 0 {
 		i -= len(m.Description)
 		copy(dAtA[i:], m.Description)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Description)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x5a
 	}
 	if len(m.Signature) > 0 {
 		i -= len(m.Signature)
 		copy(dAtA[i:], m.Signature)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Signature)))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x52
 	}
 	if len(m.TransactionId) > 0 {
 		i -= len(m.TransactionId)
 		copy(dAtA[i:], m.TransactionId)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.TransactionId)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x4a
 	}
 	if len(m.Thumbnail) > 0 {
 		i -= len(m.Thumbnail)
 		copy(dAtA[i:], m.Thumbnail)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Thumbnail)))
 		i--
-		dAtA[i] = 0x3a
+		dAtA[i] = 0x42
 	}
 	if m.FileSize != 0 {
 		i = encodeVarintNft(dAtA, i, uint64(m.FileSize))
 		i--
-		dAtA[i] = 0x30
+		dAtA[i] = 0x38
+	}
+	if len(m.FileType) > 0 {
+		i -= len(m.FileType)
+		copy(dAtA[i:], m.FileType)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileType)))
+		i--
+		dAtA[i] = 0x32
 	}
 	if len(m.FileName) > 0 {
 		i -= len(m.FileName)
@@ -1367,33 +1587,40 @@ func (m *ReqUpLoad) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.Description)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Description)))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x52
 	}
 	if len(m.Signature) > 0 {
 		i -= len(m.Signature)
 		copy(dAtA[i:], m.Signature)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Signature)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x4a
 	}
 	if len(m.TransactionId) > 0 {
 		i -= len(m.TransactionId)
 		copy(dAtA[i:], m.TransactionId)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.TransactionId)))
 		i--
-		dAtA[i] = 0x3a
+		dAtA[i] = 0x42
 	}
 	if len(m.Thumbnail) > 0 {
 		i -= len(m.Thumbnail)
 		copy(dAtA[i:], m.Thumbnail)
 		i = encodeVarintNft(dAtA, i, uint64(len(m.Thumbnail)))
 		i--
-		dAtA[i] = 0x32
+		dAtA[i] = 0x3a
 	}
 	if m.FileSize != 0 {
 		i = encodeVarintNft(dAtA, i, uint64(m.FileSize))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x30
+	}
+	if len(m.FileType) > 0 {
+		i -= len(m.FileType)
+		copy(dAtA[i:], m.FileType)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileType)))
+		i--
+		dAtA[i] = 0x2a
 	}
 	if len(m.FileName) > 0 {
 		i -= len(m.FileName)
@@ -1551,6 +1778,32 @@ func (m *RespCheckDownload) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.FileSize != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.FileSize))
+		i--
+		dAtA[i] = 0x40
+	}
+	if len(m.FileType) > 0 {
+		i -= len(m.FileType)
+		copy(dAtA[i:], m.FileType)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileType)))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.FileName) > 0 {
+		i -= len(m.FileName)
+		copy(dAtA[i:], m.FileName)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileName)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.FileHash) > 0 {
+		i -= len(m.FileHash)
+		copy(dAtA[i:], m.FileHash)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.FileHash)))
+		i--
+		dAtA[i] = 0x2a
+	}
 	if m.Exists {
 		i--
 		if m.Exists {
@@ -1559,14 +1812,7 @@ func (m *RespCheckDownload) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0
 		}
 		i--
-		dAtA[i] = 0x28
-	}
-	if len(m.FileHash) > 0 {
-		i -= len(m.FileHash)
-		copy(dAtA[i:], m.FileHash)
-		i = encodeVarintNft(dAtA, i, uint64(len(m.FileHash)))
-		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x20
 	}
 	if len(m.Address) > 0 {
 		i -= len(m.Address)
@@ -1807,6 +2053,91 @@ func (m *RespSubscribe) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *ReqStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RespStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RespStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RespStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.FileCount != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.FileCount))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintNft(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintNft(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintNft(dAtA []byte, offset int, v uint64) int {
 	offset -= sovNft(v)
 	base := offset
@@ -1825,6 +2156,7 @@ func NewPopulatedNftTab(r randyNft, easy bool) *NftTab {
 	this.ChainId = string(randStringNft(r))
 	this.FileHash = string(randStringNft(r))
 	this.FileName = string(randStringNft(r))
+	this.FileType = string(randStringNft(r))
 	this.FileSize = int32(r.Int31())
 	if r.Intn(2) == 0 {
 		this.FileSize *= -1
@@ -1836,7 +2168,7 @@ func NewPopulatedNftTab(r randyNft, easy bool) *NftTab {
 	v1 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v1
 	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedNft(r, 12)
+		this.XXX_unrecognized = randUnrecognizedNft(r, 13)
 	}
 	return this
 }
@@ -1865,6 +2197,7 @@ func NewPopulatedReqUpLoad(r randyNft, easy bool) *ReqUpLoad {
 	this.ChainId = string(randStringNft(r))
 	this.FileHash = string(randStringNft(r))
 	this.FileName = string(randStringNft(r))
+	this.FileType = string(randStringNft(r))
 	this.FileSize = int32(r.Int31())
 	if r.Intn(2) == 0 {
 		this.FileSize *= -1
@@ -1874,7 +2207,7 @@ func NewPopulatedReqUpLoad(r randyNft, easy bool) *ReqUpLoad {
 	this.Signature = string(randStringNft(r))
 	this.Description = string(randStringNft(r))
 	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedNft(r, 10)
+		this.XXX_unrecognized = randUnrecognizedNft(r, 11)
 	}
 	return this
 }
@@ -1913,10 +2246,16 @@ func NewPopulatedRespCheckDownload(r randyNft, easy bool) *RespCheckDownload {
 	}
 	this.Message = string(randStringNft(r))
 	this.Address = string(randStringNft(r))
-	this.FileHash = string(randStringNft(r))
 	this.Exists = bool(bool(r.Intn(2) == 0))
+	this.FileHash = string(randStringNft(r))
+	this.FileName = string(randStringNft(r))
+	this.FileType = string(randStringNft(r))
+	this.FileSize = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.FileSize *= -1
+	}
 	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedNft(r, 6)
+		this.XXX_unrecognized = randUnrecognizedNft(r, 9)
 	}
 	return this
 }
@@ -1986,6 +2325,33 @@ func NewPopulatedRespSubscribe(r randyNft, easy bool) *RespSubscribe {
 	this.Address = string(randStringNft(r))
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNft(r, 4)
+	}
+	return this
+}
+
+func NewPopulatedReqStatus(r randyNft, easy bool) *ReqStatus {
+	this := &ReqStatus{}
+	this.Address = string(randStringNft(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 2)
+	}
+	return this
+}
+
+func NewPopulatedRespStatus(r randyNft, easy bool) *RespStatus {
+	this := &RespStatus{}
+	this.Code = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Code *= -1
+	}
+	this.Message = string(randStringNft(r))
+	this.Address = string(randStringNft(r))
+	this.FileCount = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.FileCount *= -1
+	}
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedNft(r, 5)
 	}
 	return this
 }
@@ -2088,6 +2454,10 @@ func (m *NftTab) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
+	l = len(m.FileType)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
 	if m.FileSize != 0 {
 		n += 1 + sovNft(uint64(m.FileSize))
 	}
@@ -2167,6 +2537,10 @@ func (m *ReqUpLoad) Size() (n int) {
 		n += 1 + l + sovNft(uint64(l))
 	}
 	l = len(m.FileName)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileType)
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
@@ -2263,12 +2637,23 @@ func (m *RespCheckDownload) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
+	if m.Exists {
+		n += 2
+	}
 	l = len(m.FileHash)
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
 	}
-	if m.Exists {
-		n += 2
+	l = len(m.FileName)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.FileType)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.FileSize != 0 {
+		n += 1 + sovNft(uint64(m.FileSize))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2378,6 +2763,48 @@ func (m *RespSubscribe) Size() (n int) {
 	l = len(m.Address)
 	if l > 0 {
 		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ReqStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RespStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovNft(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovNft(uint64(l))
+	}
+	if m.FileCount != 0 {
+		n += 1 + sovNft(uint64(m.FileCount))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2581,6 +3008,38 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			m.FileName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileSize", wireType)
 			}
@@ -2599,7 +3058,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 7:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Thumbnail", wireType)
 			}
@@ -2631,7 +3090,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			}
 			m.Thumbnail = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 8:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TransactionId", wireType)
 			}
@@ -2663,7 +3122,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			}
 			m.TransactionId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
 			}
@@ -2695,7 +3154,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			}
 			m.Signature = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 10:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
 			}
@@ -2727,7 +3186,7 @@ func (m *NftTab) Unmarshal(dAtA []byte) error {
 			}
 			m.Description = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TimeCreated", wireType)
 			}
@@ -3177,6 +3636,38 @@ func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
 			m.FileName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileSize", wireType)
 			}
@@ -3195,7 +3686,7 @@ func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Thumbnail", wireType)
 			}
@@ -3227,7 +3718,7 @@ func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
 			}
 			m.Thumbnail = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 7:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TransactionId", wireType)
 			}
@@ -3259,7 +3750,7 @@ func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
 			}
 			m.TransactionId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 8:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
 			}
@@ -3291,7 +3782,7 @@ func (m *ReqUpLoad) Unmarshal(dAtA []byte) error {
 			}
 			m.Signature = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
 			}
@@ -3780,6 +4271,26 @@ func (m *RespCheckDownload) Unmarshal(dAtA []byte) error {
 			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Exists", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Exists = bool(v != 0)
+		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FileHash", wireType)
 			}
@@ -3811,11 +4322,11 @@ func (m *RespCheckDownload) Unmarshal(dAtA []byte) error {
 			}
 			m.FileHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Exists", wireType)
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileName", wireType)
 			}
-			var v int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowNft
@@ -3825,12 +4336,75 @@ func (m *RespCheckDownload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				v |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			m.Exists = bool(v != 0)
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FileType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 8:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileSize", wireType)
+			}
+			m.FileSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.FileSize |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNft(dAtA[iNdEx:])
@@ -4496,6 +5070,248 @@ func (m *RespSubscribe) Unmarshal(dAtA []byte) error {
 			}
 			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipNft(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthNft
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RespStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowNft
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RespStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RespStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNft
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNft
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FileCount", wireType)
+			}
+			m.FileCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNft
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.FileCount |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNft(dAtA[iNdEx:])
