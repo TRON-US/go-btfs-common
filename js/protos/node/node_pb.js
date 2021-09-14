@@ -5927,7 +5927,9 @@ proto.node.BtfsScanTab.toObject = function(includeInstance, msg) {
     storageLeftWhenContract: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
     superOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 17, 0),
     newOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 18, 0),
-    minersAllAmount: jspb.Message.getFieldWithDefault(msg, 19, 0)
+    minersAllAmount: jspb.Message.getFieldWithDefault(msg, 19, 0),
+    totalMiners: jspb.Message.getFieldWithDefault(msg, 20, 0),
+    bigMiners: jspb.Message.getFieldWithDefault(msg, 21, 0)
   };
 
   if (includeInstance) {
@@ -6045,6 +6047,14 @@ proto.node.BtfsScanTab.deserializeBinaryFromReader = function(msg, reader) {
     case 19:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setMinersAllAmount(value);
+      break;
+    case 20:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalMiners(value);
+      break;
+    case 21:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setBigMiners(value);
       break;
     default:
       reader.skipField();
@@ -6201,6 +6211,20 @@ proto.node.BtfsScanTab.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt64(
       19,
+      f
+    );
+  }
+  f = message.getTotalMiners();
+  if (f !== 0) {
+    writer.writeInt64(
+      20,
+      f
+    );
+  }
+  f = message.getBigMiners();
+  if (f !== 0) {
+    writer.writeInt64(
+      21,
       f
     );
   }
@@ -6592,6 +6616,42 @@ proto.node.BtfsScanTab.prototype.getMinersAllAmount = function() {
  */
 proto.node.BtfsScanTab.prototype.setMinersAllAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 19, value);
+};
+
+
+/**
+ * optional int64 total_miners = 20;
+ * @return {number}
+ */
+proto.node.BtfsScanTab.prototype.getTotalMiners = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 20, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setTotalMiners = function(value) {
+  return jspb.Message.setProto3IntField(this, 20, value);
+};
+
+
+/**
+ * optional int64 big_miners = 21;
+ * @return {number}
+ */
+proto.node.BtfsScanTab.prototype.getBigMiners = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 21, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.setBigMiners = function(value) {
+  return jspb.Message.setProto3IntField(this, 21, value);
 };
 
 
