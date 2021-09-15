@@ -71,6 +71,8 @@ message BtfsScanAggrReq {
   uint32 super_online_miners_count = 17;
   uint32 new_online_miners_count = 18;
   int64 miners_all_amount = 19;
+  int64 total_miners = 20;
+  int64 big_miners = 21;
 }
 
 message ScoreHistoryReq {
