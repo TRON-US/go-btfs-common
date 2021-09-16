@@ -152,6 +152,16 @@ message Node {
   ];
 }
 
+message NodeContractStat {
+  string table_name = 1 [(gogoproto.moretags) = "pg:\"all_miners,alias:t,discard_unknown_columns\""];
+  string node_id = 2;
+  bool big_miner = 3;
+  google.protobuf.Timestamp last_modify_time = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
 message StorageStat {
   option (gogoproto.json_no_omit_empty) = true;
   message HostStats {
