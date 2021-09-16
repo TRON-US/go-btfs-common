@@ -16,7 +16,6 @@ option java_multiple_files = true;
 option java_outer_classname = "StatusProto";
 option java_package = "io.btfs.status";
 
-import "github.com/tron-us/go-btfs-common/protos/hub/hub.proto";
 import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
@@ -110,6 +109,14 @@ message AirdropRewardHistoryReq {
   bytes signature = 6;
 }
 
+message Candidate {
+  string node_id = 1;
+  google.protobuf.Timestamp date_airdroped = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
 message NodeContractStatReq {
-  repeated hub.Candidate candidates = 1;
+  repeated node.NodeContractStat node_contract_stats = 1;
 }
