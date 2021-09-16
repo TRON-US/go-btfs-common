@@ -29,7 +29,7 @@ service StatusService {
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
   rpc UpdateScoreHistory(ScoreHistoryReq) returns (google.protobuf.Empty);
   rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
-  rpc UpdateNodeContractStat(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
+  rpc UpdateNodeContractStat(NodeContractStatReq) returns (google.protobuf.Empty);
 }
 
 message SignedMetrics {
