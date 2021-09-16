@@ -20,6 +20,7 @@ import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "hub/hub.proto";
 
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
@@ -29,6 +30,7 @@ service StatusService {
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
   rpc UpdateScoreHistory(ScoreHistoryReq) returns (google.protobuf.Empty);
   rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
+  rpc UpdateNodeContractStat(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
 }
 
 message SignedMetrics {
@@ -106,4 +108,8 @@ message AirdropRewardHistoryReq {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 6;
+}
+
+message NodeContractStatReq {
+  repeated Candidate candidates = 1;
 }
