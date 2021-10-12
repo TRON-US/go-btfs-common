@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"net/http"
 	"os"
 	"time"
 
@@ -26,7 +25,6 @@ import (
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	monitor "github.com/hypnoglow/go-pg-monitor"
 	"github.com/hypnoglow/go-pg-monitor/gopgv9"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -133,6 +131,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 	grpc_prometheus.Register(s.server)
 	grpc_prometheus.EnableHandlingTimeHistogram()
 
+	/*
 	go func() {
 		// Register Prometheus metrics handler.
 		http.Handle("/metrics", promhttp.Handler())
@@ -143,6 +142,7 @@ func (s *GrpcServer) GrpcServer(port string, dbURLs map[string]string, rdURL str
 			log.Panic("Prometheus listening server is shutting down", zap.Error(err))
 		}
 	}()
+	*/
 
 	// GRPC entry point
 	log.Info("Starting to accept connections", zap.String("service", s.serverName))
