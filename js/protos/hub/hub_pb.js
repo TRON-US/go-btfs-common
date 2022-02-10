@@ -1319,7 +1319,8 @@ proto.hub.HostsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    mode: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    mode: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    version: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -1368,6 +1369,10 @@ proto.hub.HostsReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {!proto.hub.HostsReq.Mode} */ (reader.readEnum());
       msg.setMode(value);
       break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setVersion(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1415,6 +1420,13 @@ proto.hub.HostsReq.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeEnum(
       3,
+      f
+    );
+  }
+  f = message.getVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -1484,6 +1496,24 @@ proto.hub.HostsReq.prototype.getMode = function() {
  */
 proto.hub.HostsReq.prototype.setMode = function(value) {
   return jspb.Message.setProto3EnumField(this, 3, value);
+};
+
+
+/**
+ * optional string version = 4;
+ * @return {string}
+ */
+proto.hub.HostsReq.prototype.getVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.HostsReq} returns this
+ */
+proto.hub.HostsReq.prototype.setVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
