@@ -29,6 +29,7 @@ service StatusService {
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
   rpc UpdateScoreHistory(ScoreHistoryReq) returns (google.protobuf.Empty);
   rpc UpdateAirdropRewardHistory(AirdropRewardHistoryReq) returns (google.protobuf.Empty);
+  rpc UpdateNodeContractStat(NodeContractStatReq) returns (google.protobuf.Empty);
 }
 
 message SignedMetrics {
@@ -106,4 +107,16 @@ message AirdropRewardHistoryReq {
     (gogoproto.stdtime) = true
   ];
   bytes signature = 6;
+}
+
+message Candidate {
+  string node_id = 1;
+  google.protobuf.Timestamp date_airdroped = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+message NodeContractStatReq {
+  repeated node.NodeContractStat node_contract_stats = 1;
 }
