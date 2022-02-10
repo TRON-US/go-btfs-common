@@ -78,6 +78,7 @@ message HostsReq {
     TESTNET = 5;
   }
   Mode mode = 3;
+  string version = 4;
 }
 
 message RolesHostsReq {
