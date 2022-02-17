@@ -6192,7 +6192,8 @@ proto.node.BtfsScanTab.toObject = function(includeInstance, msg) {
     newOnlineMinersCount: jspb.Message.getFieldWithDefault(msg, 18, 0),
     minersAllAmount: jspb.Message.getFieldWithDefault(msg, 19, 0),
     totalMiners: jspb.Message.getFieldWithDefault(msg, 20, 0),
-    bigMiners: jspb.Message.getFieldWithDefault(msg, 21, 0)
+    bigMiners: jspb.Message.getFieldWithDefault(msg, 21, 0),
+    versionDistributeMap: (f = msg.getVersionDistributeMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -6318,6 +6319,12 @@ proto.node.BtfsScanTab.deserializeBinaryFromReader = function(msg, reader) {
     case 21:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setBigMiners(value);
+      break;
+    case 22:
+      var value = msg.getVersionDistributeMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readInt32, null, "", 0);
+         });
       break;
     default:
       reader.skipField();
@@ -6490,6 +6497,10 @@ proto.node.BtfsScanTab.serializeBinaryToWriter = function(message, writer) {
       21,
       f
     );
+  }
+  f = message.getVersionDistributeMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(22, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeInt32);
   }
 };
 
@@ -6916,6 +6927,28 @@ proto.node.BtfsScanTab.prototype.getBigMiners = function() {
 proto.node.BtfsScanTab.prototype.setBigMiners = function(value) {
   return jspb.Message.setProto3IntField(this, 21, value);
 };
+
+
+/**
+ * map<string, int32> version_distribute = 22;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,number>}
+ */
+proto.node.BtfsScanTab.prototype.getVersionDistributeMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,number>} */ (
+      jspb.Message.getMapField(this, 22, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.node.BtfsScanTab} returns this
+ */
+proto.node.BtfsScanTab.prototype.clearVersionDistributeMap = function() {
+  this.getVersionDistributeMap().clear();
+  return this;};
 
 
 
