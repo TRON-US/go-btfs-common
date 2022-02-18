@@ -74,6 +74,7 @@ message BtfsScanAggrReq {
   int64 miners_all_amount = 19;
   int64 total_miners = 20;
   int64 big_miners = 21;
+  map<string, int32> version_distribute = 22;
 }
 
 message ScoreHistoryReq {
