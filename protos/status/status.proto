@@ -23,7 +23,7 @@ import "google/protobuf/timestamp.proto";
 
 service StatusService {
   rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
-  rpc UpdateMetricsAndDiscovery(SignedMetrics) returns (google.protobuf.Empty);
+  rpc UpdateMetricsAndDiscovery(SignedMetrics) returns (Resp);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
   rpc UpdateDiscoveryAggregation(NodeDiscoveryAggrReq) returns (google.protobuf.Empty);
   rpc UpdateBtfsScanAggr(BtfsScanAggrReq) returns (google.protobuf.Empty);
@@ -46,7 +46,7 @@ enum ResponseCode {
   OTHER_ERROR = 20;
 }
 
-message MetricsResp {
+message Resp {
   ResponseCode code = 1;
   string message = 2;
 }
