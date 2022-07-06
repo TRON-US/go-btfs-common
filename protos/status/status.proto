@@ -49,13 +49,6 @@ enum ResponseCode {
 message MetricsResp {
   ResponseCode code = 1;
   string message = 2;
-  string peer = 3;
-  uint32 created_time = 4;
-  string version = 5;
-  uint32 nonce = 6;
-  string bttc_address = 7;
-  uint32 signed_time = 8;
-  string signature = 9;
 }
 
 message NodeMetricsAggrReq {
