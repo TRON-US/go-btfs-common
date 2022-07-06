@@ -22,7 +22,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 service StatusService {
-  rpc UpdateMetrics(SignedMetrics) returns (MetricsResp);
+  rpc UpdateMetrics(SignedMetrics) returns (google.protobuf.Empty);
   rpc UpdateMetricsAndDiscovery(SignedMetrics) returns (MetricsResp);
   rpc UpdateMetricsAggregation(NodeMetricsAggrReq) returns (google.protobuf.Empty);
   rpc UpdateDiscoveryAggregation(NodeDiscoveryAggrReq) returns (google.protobuf.Empty);
