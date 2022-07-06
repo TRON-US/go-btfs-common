@@ -27,6 +27,7 @@ goog.exportSymbol('proto.status.MetricsResp', null, global);
 goog.exportSymbol('proto.status.NodeContractStatReq', null, global);
 goog.exportSymbol('proto.status.NodeDiscoveryAggrReq', null, global);
 goog.exportSymbol('proto.status.NodeMetricsAggrReq', null, global);
+goog.exportSymbol('proto.status.ResponseCode', null, global);
 goog.exportSymbol('proto.status.RewardInfo', null, global);
 goog.exportSymbol('proto.status.RewardType', null, global);
 goog.exportSymbol('proto.status.ScoreHistoryReq', null, global);
@@ -535,13 +536,15 @@ proto.status.MetricsResp.prototype.toObject = function(opt_includeInstance) {
  */
 proto.status.MetricsResp.toObject = function(includeInstance, msg) {
   var f, obj = {
-    peer: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    createdTime: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    version: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    nonce: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    bttcAddress: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    signedTime: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    signature: jspb.Message.getFieldWithDefault(msg, 7, "")
+    code: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    peer: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    createdTime: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    version: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    nonce: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    bttcAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    signedTime: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -579,30 +582,38 @@ proto.status.MetricsResp.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPeer(value);
+      var value = /** @type {!proto.status.ResponseCode} */ (reader.readEnum());
+      msg.setCode(value);
       break;
     case 2:
-      var value = /** @type {number} */ (reader.readUint32());
-      msg.setCreatedTime(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setMessage(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setVersion(value);
+      msg.setPeer(value);
       break;
     case 4:
       var value = /** @type {number} */ (reader.readUint32());
-      msg.setNonce(value);
+      msg.setCreatedTime(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setBttcAddress(value);
+      msg.setVersion(value);
       break;
     case 6:
       var value = /** @type {number} */ (reader.readUint32());
-      msg.setSignedTime(value);
+      msg.setNonce(value);
       break;
     case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setBttcAddress(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setSignedTime(value);
+      break;
+    case 9:
       var value = /** @type {string} */ (reader.readString());
       msg.setSignature(value);
       break;
@@ -635,52 +646,66 @@ proto.status.MetricsResp.prototype.serializeBinary = function() {
  */
 proto.status.MetricsResp.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getPeer();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getCode();
+  if (f !== 0.0) {
+    writer.writeEnum(
       1,
       f
     );
   }
-  f = message.getCreatedTime();
-  if (f !== 0) {
-    writer.writeUint32(
+  f = message.getMessage();
+  if (f.length > 0) {
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getVersion();
+  f = message.getPeer();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getNonce();
+  f = message.getCreatedTime();
   if (f !== 0) {
     writer.writeUint32(
       4,
       f
     );
   }
-  f = message.getBttcAddress();
+  f = message.getVersion();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getSignedTime();
+  f = message.getNonce();
   if (f !== 0) {
     writer.writeUint32(
       6,
       f
     );
   }
-  f = message.getSignature();
+  f = message.getBttcAddress();
   if (f.length > 0) {
     writer.writeString(
       7,
+      f
+    );
+  }
+  f = message.getSignedTime();
+  if (f !== 0) {
+    writer.writeUint32(
+      8,
+      f
+    );
+  }
+  f = message.getSignature();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
       f
     );
   }
@@ -688,11 +713,29 @@ proto.status.MetricsResp.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string peer = 1;
+ * optional ResponseCode code = 1;
+ * @return {!proto.status.ResponseCode}
+ */
+proto.status.MetricsResp.prototype.getCode = function() {
+  return /** @type {!proto.status.ResponseCode} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {!proto.status.ResponseCode} value
+ * @return {!proto.status.MetricsResp} returns this
+ */
+proto.status.MetricsResp.prototype.setCode = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional string message = 2;
  * @return {string}
  */
-proto.status.MetricsResp.prototype.getPeer = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+proto.status.MetricsResp.prototype.getMessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -700,34 +743,16 @@ proto.status.MetricsResp.prototype.getPeer = function() {
  * @param {string} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setPeer = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+proto.status.MetricsResp.prototype.setMessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional uint32 created_time = 2;
- * @return {number}
- */
-proto.status.MetricsResp.prototype.getCreatedTime = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.status.MetricsResp} returns this
- */
-proto.status.MetricsResp.prototype.setCreatedTime = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional string version = 3;
+ * optional string peer = 3;
  * @return {string}
  */
-proto.status.MetricsResp.prototype.getVersion = function() {
+proto.status.MetricsResp.prototype.getPeer = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -736,16 +761,16 @@ proto.status.MetricsResp.prototype.getVersion = function() {
  * @param {string} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setVersion = function(value) {
+proto.status.MetricsResp.prototype.setPeer = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional uint32 nonce = 4;
+ * optional uint32 created_time = 4;
  * @return {number}
  */
-proto.status.MetricsResp.prototype.getNonce = function() {
+proto.status.MetricsResp.prototype.getCreatedTime = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -754,16 +779,16 @@ proto.status.MetricsResp.prototype.getNonce = function() {
  * @param {number} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setNonce = function(value) {
+proto.status.MetricsResp.prototype.setCreatedTime = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional string bttc_address = 5;
+ * optional string version = 5;
  * @return {string}
  */
-proto.status.MetricsResp.prototype.getBttcAddress = function() {
+proto.status.MetricsResp.prototype.getVersion = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -772,16 +797,16 @@ proto.status.MetricsResp.prototype.getBttcAddress = function() {
  * @param {string} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setBttcAddress = function(value) {
+proto.status.MetricsResp.prototype.setVersion = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional uint32 signed_time = 6;
+ * optional uint32 nonce = 6;
  * @return {number}
  */
-proto.status.MetricsResp.prototype.getSignedTime = function() {
+proto.status.MetricsResp.prototype.getNonce = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
@@ -790,16 +815,16 @@ proto.status.MetricsResp.prototype.getSignedTime = function() {
  * @param {number} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setSignedTime = function(value) {
+proto.status.MetricsResp.prototype.setNonce = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
 /**
- * optional string signature = 7;
+ * optional string bttc_address = 7;
  * @return {string}
  */
-proto.status.MetricsResp.prototype.getSignature = function() {
+proto.status.MetricsResp.prototype.getBttcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -808,8 +833,44 @@ proto.status.MetricsResp.prototype.getSignature = function() {
  * @param {string} value
  * @return {!proto.status.MetricsResp} returns this
  */
-proto.status.MetricsResp.prototype.setSignature = function(value) {
+proto.status.MetricsResp.prototype.setBttcAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * optional uint32 signed_time = 8;
+ * @return {number}
+ */
+proto.status.MetricsResp.prototype.getSignedTime = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.status.MetricsResp} returns this
+ */
+proto.status.MetricsResp.prototype.setSignedTime = function(value) {
+  return jspb.Message.setProto3IntField(this, 8, value);
+};
+
+
+/**
+ * optional string signature = 9;
+ * @return {string}
+ */
+proto.status.MetricsResp.prototype.getSignature = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.status.MetricsResp} returns this
+ */
+proto.status.MetricsResp.prototype.setSignature = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
@@ -3109,6 +3170,17 @@ proto.status.NodeContractStatReq.prototype.clearNodeContractStatsList = function
   return this.setNodeContractStatsList([]);
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.status.ResponseCode = {
+  SUCCESS: 0,
+  SIGNATURE_FORMAT_ERROR: 1,
+  COMPUTE_ADDRESS_ERROR: 2,
+  TIMEOUT_ERROR: 3,
+  OTHER_ERROR: 20
+};
 
 /**
  * @enum {number}

@@ -38,6 +38,14 @@ message SignedMetrics {
   bytes payload = 3;
 }
 
+enum ResponseCode {
+  SUCCESS = 0;
+  SIGNATURE_FORMAT_ERROR = 1;
+  COMPUTE_ADDRESS_ERROR = 2;
+  TIMEOUT_ERROR = 3;
+  OTHER_ERROR = 20;
+}
+
 message MetricsResp {
   ResponseCode code = 1;
   string message = 2;
