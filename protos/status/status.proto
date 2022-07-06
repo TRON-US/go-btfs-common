@@ -45,7 +45,7 @@ message MetricsResp {
   uint32 nonce = 4;
   string bttc_address = 5;
   uint32 signed_time = 6;
-  bytes signature = 7;
+  string signature = 7;
 }
 
 message NodeMetricsAggrReq {
