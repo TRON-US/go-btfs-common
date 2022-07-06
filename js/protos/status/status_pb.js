@@ -540,7 +540,7 @@ proto.status.MetricsResp.toObject = function(includeInstance, msg) {
     version: jspb.Message.getFieldWithDefault(msg, 3, ""),
     nonce: jspb.Message.getFieldWithDefault(msg, 4, 0),
     bttcAddress: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    signedTime: (f = msg.getSignedTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    signedTime: jspb.Message.getFieldWithDefault(msg, 6, 0),
     signature: msg.getSignature_asB64()
   };
 
@@ -599,8 +599,7 @@ proto.status.MetricsResp.deserializeBinaryFromReader = function(msg, reader) {
       msg.setBttcAddress(value);
       break;
     case 6:
-      var value = new google_protobuf_timestamp_pb.Timestamp;
-      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      var value = /** @type {number} */ (reader.readUint32());
       msg.setSignedTime(value);
       break;
     case 7:
@@ -672,11 +671,10 @@ proto.status.MetricsResp.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getSignedTime();
-  if (f != null) {
-    writer.writeMessage(
+  if (f !== 0) {
+    writer.writeUint32(
       6,
-      f,
-      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+      f
     );
   }
   f = message.getSignature_asU8();
@@ -780,39 +778,20 @@ proto.status.MetricsResp.prototype.setBttcAddress = function(value) {
 
 
 /**
- * optional google.protobuf.Timestamp signed_time = 6;
- * @return {?proto.google.protobuf.Timestamp}
+ * optional uint32 signed_time = 6;
+ * @return {number}
  */
 proto.status.MetricsResp.prototype.getSignedTime = function() {
-  return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 6));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @param {number} value
  * @return {!proto.status.MetricsResp} returns this
-*/
+ */
 proto.status.MetricsResp.prototype.setSignedTime = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.status.MetricsResp} returns this
- */
-proto.status.MetricsResp.prototype.clearSignedTime = function() {
-  return this.setSignedTime(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.status.MetricsResp.prototype.hasSignedTime = function() {
-  return jspb.Message.getField(this, 6) != null;
+  return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 

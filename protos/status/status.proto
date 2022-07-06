@@ -44,10 +44,7 @@ message MetricsResp {
   string version = 3;
   uint32 nonce = 4;
   string bttc_address = 5;
-  google.protobuf.Timestamp signed_time = 6 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdtime) = true
-  ];
+  uint32 signed_time = 6;
   bytes signature = 7;
 }
 
