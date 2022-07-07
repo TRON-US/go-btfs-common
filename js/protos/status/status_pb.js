@@ -544,7 +544,7 @@ proto.status.MetricsResp.toObject = function(includeInstance, msg) {
     nonce: jspb.Message.getFieldWithDefault(msg, 6, 0),
     bttcAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
     signedTime: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    signature: msg.getSignature_asB64()
+    signature: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -614,7 +614,7 @@ proto.status.MetricsResp.deserializeBinaryFromReader = function(msg, reader) {
       msg.setSignedTime(value);
       break;
     case 9:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setSignature(value);
       break;
     default:
@@ -702,9 +702,9 @@ proto.status.MetricsResp.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getSignature_asU8();
+  f = message.getSignature();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       9,
       f
     );
@@ -857,44 +857,20 @@ proto.status.MetricsResp.prototype.setSignedTime = function(value) {
 
 
 /**
- * optional bytes signature = 9;
- * @return {!(string|Uint8Array)}
- */
-proto.status.MetricsResp.prototype.getSignature = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
-};
-
-
-/**
- * optional bytes signature = 9;
- * This is a type-conversion wrapper around `getSignature()`
+ * optional string signature = 9;
  * @return {string}
  */
-proto.status.MetricsResp.prototype.getSignature_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getSignature()));
+proto.status.MetricsResp.prototype.getSignature = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /**
- * optional bytes signature = 9;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getSignature()`
- * @return {!Uint8Array}
- */
-proto.status.MetricsResp.prototype.getSignature_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getSignature()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.status.MetricsResp} returns this
  */
 proto.status.MetricsResp.prototype.setSignature = function(value) {
-  return jspb.Message.setProto3BytesField(this, 9, value);
+  return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
