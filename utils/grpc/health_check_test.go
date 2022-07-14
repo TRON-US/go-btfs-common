@@ -20,6 +20,7 @@ func TestHealthCheckClient(t *testing.T) {
 		{addr: "guard", name: "guard-interceptor"},
 		{addr: "hub", name: "hub-query"},
 		{addr: "status", name: "status-server"},
+		{addr: "online", name: "online-server"},
 	}
 	for _, srv := range srvs {
 		client := HealthCheckClient(fmt.Sprintf(tpl, srv.addr))
