@@ -13,12 +13,12 @@ option (gogoproto.unmarshaler_all) = true;
 option go_package = "online";
 // java options
 option java_multiple_files = true;
-option java_outer_classname = "StatusProto";
+option java_outer_classname = "OnlineProto";
 option java_package = "io.btfs.online";
 
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
 
-service StatusService {
+service OnlineService {
   rpc UpdateMetricsSignInfo(SignedMetrics) returns (MetricsResp);
 }
 
