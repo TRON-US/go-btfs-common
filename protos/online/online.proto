@@ -16,16 +16,29 @@ option java_multiple_files = true;
 option java_outer_classname = "OnlineProto";
 option java_package = "io.btfs.online";
 
+import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
 import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
 
 service OnlineService {
-  rpc UpdateMetricsSignInfo(SignedMetrics) returns (MetricsResp);
+  rpc UpdateSignMetrics(ReqSignMetrics) returns (RespSignMetrics);
 }
 
-message SignedMetrics {
+message ReqSignMetrics {
   bytes public_key = 1;
   bytes signature = 2;
   bytes payload = 3;
+}
+
+message PayLoadInfo {
+  string node_id = 1;
+  node.Node node = 2;
+  SignedInfo last_signed_info = 3;
+  string last_signature = 4;
+  google.protobuf.Timestamp last_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 enum ResponseCode {
@@ -36,14 +49,18 @@ enum ResponseCode {
   OTHER_ERROR = 20;
 }
 
-message MetricsResp {
+message RespSignMetrics {
   ResponseCode code = 1;
   string message = 2;
+  SignedInfo signed_info = 3;
+  string signature = 4;
+}
+
+message SignedInfo {
   string peer = 3;
   uint32 created_time = 4;
   string version = 5;
   uint32 nonce = 6;
   string bttc_address = 7;
   uint32 signed_time = 8;
-  string signature = 9;
 }
