@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package online;
+
+// gogo plugin toggles
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.messagename_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+// golang option
+option go_package = "online";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "StatusProto";
+option java_package = "io.btfs.online";
+
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+
+service StatusService {
+  rpc UpdateMetricsSignInfo(SignedMetrics) returns (MetricsResp);
+}
+
+message SignedMetrics {
+  bytes public_key = 1;
+  bytes signature = 2;
+  bytes payload = 3;
+}
+
+enum ResponseCode {
+  SUCCESS = 0;
+  SIGNATURE_FORMAT_ERROR = 1;
+  COMPUTE_ADDRESS_ERROR = 2;
+  TIMEOUT_ERROR = 3;
+  OTHER_ERROR = 20;
+}
+
+message MetricsResp {
+  ResponseCode code = 1;
+  string message = 2;
+  string peer = 3;
+  uint32 created_time = 4;
+  string version = 5;
+  uint32 nonce = 6;
+  string bttc_address = 7;
+  uint32 signed_time = 8;
+  string signature = 9;
+}
