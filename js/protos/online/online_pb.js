@@ -955,12 +955,12 @@ proto.online.SignedInfo.prototype.toObject = function(opt_includeInstance) {
  */
 proto.online.SignedInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    peer: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    createdTime: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    version: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    nonce: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    bttcAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    signedTime: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    peer: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    createdTime: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    version: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    nonce: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    bttcAddress: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    signedTime: jspb.Message.getFieldWithDefault(msg, 6, 0)
   };
 
   if (includeInstance) {
@@ -997,27 +997,27 @@ proto.online.SignedInfo.deserializeBinaryFromReader = function(msg, reader) {
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 3:
+    case 1:
       var value = /** @type {string} */ (reader.readString());
       msg.setPeer(value);
       break;
-    case 4:
+    case 2:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setCreatedTime(value);
       break;
-    case 5:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setVersion(value);
       break;
-    case 6:
+    case 4:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setNonce(value);
       break;
-    case 7:
+    case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setBttcAddress(value);
       break;
-    case 8:
+    case 6:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setSignedTime(value);
       break;
@@ -1053,42 +1053,42 @@ proto.online.SignedInfo.serializeBinaryToWriter = function(message, writer) {
   f = message.getPeer();
   if (f.length > 0) {
     writer.writeString(
-      3,
+      1,
       f
     );
   }
   f = message.getCreatedTime();
   if (f !== 0) {
     writer.writeUint32(
-      4,
+      2,
       f
     );
   }
   f = message.getVersion();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      3,
       f
     );
   }
   f = message.getNonce();
   if (f !== 0) {
     writer.writeUint32(
-      6,
+      4,
       f
     );
   }
   f = message.getBttcAddress();
   if (f.length > 0) {
     writer.writeString(
-      7,
+      5,
       f
     );
   }
   f = message.getSignedTime();
   if (f !== 0) {
     writer.writeUint32(
-      8,
+      6,
       f
     );
   }
@@ -1096,11 +1096,11 @@ proto.online.SignedInfo.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string peer = 3;
+ * optional string peer = 1;
  * @return {string}
  */
 proto.online.SignedInfo.prototype.getPeer = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
@@ -1109,16 +1109,16 @@ proto.online.SignedInfo.prototype.getPeer = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setPeer = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional uint32 created_time = 4;
+ * optional uint32 created_time = 2;
  * @return {number}
  */
 proto.online.SignedInfo.prototype.getCreatedTime = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -1127,16 +1127,16 @@ proto.online.SignedInfo.prototype.getCreatedTime = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setCreatedTime = function(value) {
-  return jspb.Message.setProto3IntField(this, 4, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * optional string version = 5;
+ * optional string version = 3;
  * @return {string}
  */
 proto.online.SignedInfo.prototype.getVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -1145,16 +1145,16 @@ proto.online.SignedInfo.prototype.getVersion = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional uint32 nonce = 6;
+ * optional uint32 nonce = 4;
  * @return {number}
  */
 proto.online.SignedInfo.prototype.getNonce = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
@@ -1163,16 +1163,16 @@ proto.online.SignedInfo.prototype.getNonce = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setNonce = function(value) {
-  return jspb.Message.setProto3IntField(this, 6, value);
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional string bttc_address = 7;
+ * optional string bttc_address = 5;
  * @return {string}
  */
 proto.online.SignedInfo.prototype.getBttcAddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
@@ -1181,16 +1181,16 @@ proto.online.SignedInfo.prototype.getBttcAddress = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setBttcAddress = function(value) {
-  return jspb.Message.setProto3StringField(this, 7, value);
+  return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional uint32 signed_time = 8;
+ * optional uint32 signed_time = 6;
  * @return {number}
  */
 proto.online.SignedInfo.prototype.getSignedTime = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
@@ -1199,7 +1199,7 @@ proto.online.SignedInfo.prototype.getSignedTime = function() {
  * @return {!proto.online.SignedInfo} returns this
  */
 proto.online.SignedInfo.prototype.setSignedTime = function(value) {
-  return jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 

@@ -57,10 +57,10 @@ message RespSignMetrics {
 }
 
 message SignedInfo {
-  string peer = 3;
-  uint32 created_time = 4;
-  string version = 5;
-  uint32 nonce = 6;
-  string bttc_address = 7;
-  uint32 signed_time = 8;
+  string peer = 1;
+  uint32 created_time = 2;
+  string version = 3;
+  uint32 nonce = 4;
+  string bttc_address = 5;
+  uint32 signed_time = 6;
 }
