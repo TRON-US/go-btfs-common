@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package online;
+
+// gogo plugin toggles
+option (gogoproto.gogoproto_import) = true;
+option (gogoproto.goproto_registration) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.messagename_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+// golang option
+option go_package = "online";
+// java options
+option java_multiple_files = true;
+option java_outer_classname = "OnlineProto";
+option java_package = "io.btfs.online";
+
+import "github.com/tron-us/go-btfs-common/protos/node/node.proto";
+import "github.com/tron-us/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+service OnlineService {
+  rpc UpdateSignMetrics(ReqSignMetrics) returns (RespSignMetrics);
+}
+
+message ReqSignMetrics {
+  bytes public_key = 1;
+  bytes signature = 2;
+  bytes payload = 3;
+}
+
+message PayLoadInfo {
+  string node_id = 1;
+  node.Node node = 2;
+  SignedInfo last_signed_info = 3;
+  string last_signature = 4;
+  google.protobuf.Timestamp last_time = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+}
+
+enum ResponseCode {
+  SUCCESS = 0;
+  SIGNATURE_FORMAT_ERROR = 1;
+  COMPUTE_ADDRESS_ERROR = 2;
+  TIMEOUT_ERROR = 3;
+  OTHER_ERROR = 20;
+}
+
+message RespSignMetrics {
+  ResponseCode code = 1;
+  string message = 2;
+  SignedInfo signed_info = 3;
+  string signature = 4;
+}
+
+message SignedInfo {
+  string peer = 1;
+  uint32 created_time = 2;
+  string version = 3;
+  uint32 nonce = 4;
+  string bttc_address = 5;
+  uint32 signed_time = 6;
+}
