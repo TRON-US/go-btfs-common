@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/tron-us/go-btfs-common/protos/online"
+	"github.com/tron-us/go-btfs-common/protos/score"
 	"net/url"
 	"strconv"
 	"strings"
@@ -51,6 +52,8 @@ func (g *ClientBuilder) doWithContext(ctx context.Context, f interface{}) error 
 		return err
 	}
 	switch v := f.(type) {
+	case func(context.Context, score.ScoreServiceClient) error:
+		return wrapError("ScoreClient", v(ctx, score.NewScoreServiceClient(conn)))
 	case func(context.Context, online.OnlineServiceClient) error:
 		return wrapError("OnlineClient", v(ctx, online.NewOnlineServiceClient(conn)))
 	case func(context.Context, statuspb.StatusServiceClient) error:
