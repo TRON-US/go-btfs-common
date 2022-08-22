@@ -33,11 +33,13 @@ message NodesReq {
   repeated string node_id = 1;
   string requester_id = 2;
   bytes signature = 3;
+  string new_version = 4;
 }
 
 message SettingsReq {
   string id = 1;
   int32 resp_size = 2;
+  string new_version = 3;
 }
 
 enum ResponseCode {
@@ -79,12 +81,14 @@ message HostsReq {
   }
   Mode mode = 3;
   string version = 4;
+  string new_version = 5;
 }
 
 message RolesHostsReq {
   string id = 1;
   int32 resp_size = 2;
   node.NodeRole role = 3;
+  string new_version = 4;
 }
 
 message HostsResp {
@@ -101,6 +105,7 @@ message HostsResp {
 
 message StatsReq {
   string id = 1;
+  string new_version = 2;
 }
 
 message StatsResp {
@@ -210,6 +215,11 @@ message Host {
   float upload_speed_score = 33;
   float download_speed_score = 34;
   repeated node.NodeRole roles = 35 [(gogoproto.pgtag) = "roles,array"];
+  google.protobuf.Timestamp active_timestamp = 36 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
+  float active_score = 37;
 }
 
 message Location {

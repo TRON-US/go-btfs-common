@@ -414,7 +414,8 @@ proto.hub.NodesReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     nodeIdList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     requesterId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    signature: msg.getSignature_asB64()
+    signature: msg.getSignature_asB64(),
+    newVersion: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -463,6 +464,10 @@ proto.hub.NodesReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSignature(value);
       break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewVersion(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -510,6 +515,13 @@ proto.hub.NodesReq.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeBytes(
       3,
+      f
+    );
+  }
+  f = message.getNewVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -613,6 +625,24 @@ proto.hub.NodesReq.prototype.setSignature = function(value) {
 };
 
 
+/**
+ * optional string new_version = 4;
+ * @return {string}
+ */
+proto.hub.NodesReq.prototype.getNewVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.NodesReq} returns this
+ */
+proto.hub.NodesReq.prototype.setNewVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
 
 
 
@@ -646,7 +676,8 @@ proto.hub.SettingsReq.prototype.toObject = function(opt_includeInstance) {
 proto.hub.SettingsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    respSize: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    newVersion: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -691,6 +722,10 @@ proto.hub.SettingsReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt32());
       msg.setRespSize(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewVersion(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -734,6 +769,13 @@ proto.hub.SettingsReq.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getNewVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -770,6 +812,24 @@ proto.hub.SettingsReq.prototype.getRespSize = function() {
  */
 proto.hub.SettingsReq.prototype.setRespSize = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string new_version = 3;
+ * @return {string}
+ */
+proto.hub.SettingsReq.prototype.getNewVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.SettingsReq} returns this
+ */
+proto.hub.SettingsReq.prototype.setNewVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -1320,7 +1380,8 @@ proto.hub.HostsReq.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
     mode: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    version: jspb.Message.getFieldWithDefault(msg, 4, "")
+    version: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    newVersion: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
 
   if (includeInstance) {
@@ -1372,6 +1433,10 @@ proto.hub.HostsReq.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setVersion(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewVersion(value);
       break;
     default:
       reader.skipField();
@@ -1427,6 +1492,13 @@ proto.hub.HostsReq.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getNewVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
       f
     );
   }
@@ -1517,6 +1589,24 @@ proto.hub.HostsReq.prototype.setVersion = function(value) {
 };
 
 
+/**
+ * optional string new_version = 5;
+ * @return {string}
+ */
+proto.hub.HostsReq.prototype.getNewVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.HostsReq} returns this
+ */
+proto.hub.HostsReq.prototype.setNewVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
 
 
 
@@ -1551,7 +1641,8 @@ proto.hub.RolesHostsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    role: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    role: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    newVersion: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -1600,6 +1691,10 @@ proto.hub.RolesHostsReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {!proto.node.NodeRole} */ (reader.readEnum());
       msg.setRole(value);
       break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewVersion(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1647,6 +1742,13 @@ proto.hub.RolesHostsReq.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeEnum(
       3,
+      f
+    );
+  }
+  f = message.getNewVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -1704,6 +1806,24 @@ proto.hub.RolesHostsReq.prototype.getRole = function() {
  */
 proto.hub.RolesHostsReq.prototype.setRole = function(value) {
   return jspb.Message.setProto3EnumField(this, 3, value);
+};
+
+
+/**
+ * optional string new_version = 4;
+ * @return {string}
+ */
+proto.hub.RolesHostsReq.prototype.getNewVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.RolesHostsReq} returns this
+ */
+proto.hub.RolesHostsReq.prototype.setNewVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
@@ -2061,7 +2181,8 @@ proto.hub.StatsReq.prototype.toObject = function(opt_includeInstance) {
  */
 proto.hub.StatsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    newVersion: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -2102,6 +2223,10 @@ proto.hub.StatsReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNewVersion(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2138,6 +2263,13 @@ proto.hub.StatsReq.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getNewVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -2156,6 +2288,24 @@ proto.hub.StatsReq.prototype.getId = function() {
  */
 proto.hub.StatsReq.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string new_version = 2;
+ * @return {string}
+ */
+proto.hub.StatsReq.prototype.getNewVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.hub.StatsReq} returns this
+ */
+proto.hub.StatsReq.prototype.setNewVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -3474,7 +3624,9 @@ proto.hub.Host.toObject = function(includeInstance, msg) {
     versionScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 32, 0.0),
     uploadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 33, 0.0),
     downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 34, 0.0),
-    rolesList: (f = jspb.Message.getRepeatedField(msg, 35)) == null ? undefined : f
+    rolesList: (f = jspb.Message.getRepeatedField(msg, 35)) == null ? undefined : f,
+    activeTimestamp: (f = msg.getActiveTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 37, 0.0)
   };
 
   if (includeInstance) {
@@ -3654,6 +3806,15 @@ proto.hub.Host.deserializeBinaryFromReader = function(msg, reader) {
     case 35:
       var value = /** @type {!Array<!proto.node.NodeRole>} */ (reader.readPackedEnum());
       msg.setRolesList(value);
+      break;
+    case 36:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setActiveTimestamp(value);
+      break;
+    case 37:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setActiveScore(value);
       break;
     default:
       reader.skipField();
@@ -3930,6 +4091,21 @@ proto.hub.Host.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writePackedEnum(
       35,
+      f
+    );
+  }
+  f = message.getActiveTimestamp();
+  if (f != null) {
+    writer.writeMessage(
+      36,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getActiveScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      37,
       f
     );
   }
@@ -4658,6 +4834,61 @@ proto.hub.Host.prototype.addRoles = function(value, opt_index) {
  */
 proto.hub.Host.prototype.clearRolesList = function() {
   return this.setRolesList([]);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp active_timestamp = 36;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.hub.Host.prototype.getActiveTimestamp = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 36));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.hub.Host} returns this
+*/
+proto.hub.Host.prototype.setActiveTimestamp = function(value) {
+  return jspb.Message.setWrapperField(this, 36, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.clearActiveTimestamp = function() {
+  return this.setActiveTimestamp(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.hub.Host.prototype.hasActiveTimestamp = function() {
+  return jspb.Message.getField(this, 36) != null;
+};
+
+
+/**
+ * optional float active_score = 37;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getActiveScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 37, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setActiveScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 37, value);
 };
 
 
