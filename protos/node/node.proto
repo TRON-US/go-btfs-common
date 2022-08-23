@@ -184,6 +184,8 @@ message StorageStat {
       (gogoproto.nullable) = false,
       (gogoproto.stdtime) = true
     ];
+    float active_score = 16;
+    float active_weight = 17;
   }
   message Host {
     option (gogoproto.json_no_omit_empty) = true;

@@ -4015,7 +4015,9 @@ proto.node.StorageStat.HostStats.toObject = function(includeInstance, msg) {
     speedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
     uploadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
     downloadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
-    lastUpdated: (f = msg.getLastUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    lastUpdated: (f = msg.getLastUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
+    activeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 17, 0.0)
   };
 
   if (includeInstance) {
@@ -4112,6 +4114,14 @@ proto.node.StorageStat.HostStats.deserializeBinaryFromReader = function(msg, rea
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setLastUpdated(value);
+      break;
+    case 16:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setActiveScore(value);
+      break;
+    case 17:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setActiveWeight(value);
       break;
     default:
       reader.skipField();
@@ -4246,6 +4256,20 @@ proto.node.StorageStat.HostStats.serializeBinaryToWriter = function(message, wri
       15,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getActiveScore();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      16,
+      f
+    );
+  }
+  f = message.getActiveWeight();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      17,
+      f
     );
   }
 };
@@ -4537,6 +4561,42 @@ proto.node.StorageStat.HostStats.prototype.clearLastUpdated = function() {
  */
 proto.node.StorageStat.HostStats.prototype.hasLastUpdated = function() {
   return jspb.Message.getField(this, 15) != null;
+};
+
+
+/**
+ * optional float active_score = 16;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getActiveScore = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 16, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setActiveScore = function(value) {
+  return jspb.Message.setProto3FloatField(this, 16, value);
+};
+
+
+/**
+ * optional float active_weight = 17;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getActiveWeight = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 17, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setActiveWeight = function(value) {
+  return jspb.Message.setProto3FloatField(this, 17, value);
 };
 
 
