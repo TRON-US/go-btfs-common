@@ -186,6 +186,10 @@ message StorageStat {
     ];
     float active_score = 16;
     float active_weight = 17;
+    int32 uptime_level = 18;
+    int32 age_level = 19;
+    int32 version_level = 20;
+    int32 active_level = 21;
   }
   message Host {
     option (gogoproto.json_no_omit_empty) = true;

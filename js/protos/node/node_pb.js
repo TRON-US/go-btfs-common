@@ -4017,7 +4017,11 @@ proto.node.StorageStat.HostStats.toObject = function(includeInstance, msg) {
     downloadSpeedWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0),
     lastUpdated: (f = msg.getLastUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 16, 0.0),
-    activeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 17, 0.0)
+    activeWeight: jspb.Message.getFloatingPointFieldWithDefault(msg, 17, 0.0),
+    uptimeLevel: jspb.Message.getFieldWithDefault(msg, 18, 0),
+    ageLevel: jspb.Message.getFieldWithDefault(msg, 19, 0),
+    versionLevel: jspb.Message.getFieldWithDefault(msg, 20, 0),
+    activeLevel: jspb.Message.getFieldWithDefault(msg, 21, 0)
   };
 
   if (includeInstance) {
@@ -4122,6 +4126,22 @@ proto.node.StorageStat.HostStats.deserializeBinaryFromReader = function(msg, rea
     case 17:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setActiveWeight(value);
+      break;
+    case 18:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setUptimeLevel(value);
+      break;
+    case 19:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setAgeLevel(value);
+      break;
+    case 20:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setVersionLevel(value);
+      break;
+    case 21:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setActiveLevel(value);
       break;
     default:
       reader.skipField();
@@ -4269,6 +4289,34 @@ proto.node.StorageStat.HostStats.serializeBinaryToWriter = function(message, wri
   if (f !== 0.0) {
     writer.writeFloat(
       17,
+      f
+    );
+  }
+  f = message.getUptimeLevel();
+  if (f !== 0) {
+    writer.writeInt32(
+      18,
+      f
+    );
+  }
+  f = message.getAgeLevel();
+  if (f !== 0) {
+    writer.writeInt32(
+      19,
+      f
+    );
+  }
+  f = message.getVersionLevel();
+  if (f !== 0) {
+    writer.writeInt32(
+      20,
+      f
+    );
+  }
+  f = message.getActiveLevel();
+  if (f !== 0) {
+    writer.writeInt32(
+      21,
       f
     );
   }
@@ -4597,6 +4645,78 @@ proto.node.StorageStat.HostStats.prototype.getActiveWeight = function() {
  */
 proto.node.StorageStat.HostStats.prototype.setActiveWeight = function(value) {
   return jspb.Message.setProto3FloatField(this, 17, value);
+};
+
+
+/**
+ * optional int32 uptime_level = 18;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getUptimeLevel = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 18, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setUptimeLevel = function(value) {
+  return jspb.Message.setProto3IntField(this, 18, value);
+};
+
+
+/**
+ * optional int32 age_level = 19;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getAgeLevel = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setAgeLevel = function(value) {
+  return jspb.Message.setProto3IntField(this, 19, value);
+};
+
+
+/**
+ * optional int32 version_level = 20;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getVersionLevel = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 20, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setVersionLevel = function(value) {
+  return jspb.Message.setProto3IntField(this, 20, value);
+};
+
+
+/**
+ * optional int32 active_level = 21;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getActiveLevel = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 21, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setActiveLevel = function(value) {
+  return jspb.Message.setProto3IntField(this, 21, value);
 };
 
 
