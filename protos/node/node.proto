@@ -190,6 +190,7 @@ message StorageStat {
     int32 age_level = 19;
     int32 version_level = 20;
     int32 active_level = 21;
+    int32 level = 22;
   }
   message Host {
     option (gogoproto.json_no_omit_empty) = true;

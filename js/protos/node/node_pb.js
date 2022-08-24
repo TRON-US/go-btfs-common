@@ -4021,7 +4021,8 @@ proto.node.StorageStat.HostStats.toObject = function(includeInstance, msg) {
     uptimeLevel: jspb.Message.getFieldWithDefault(msg, 18, 0),
     ageLevel: jspb.Message.getFieldWithDefault(msg, 19, 0),
     versionLevel: jspb.Message.getFieldWithDefault(msg, 20, 0),
-    activeLevel: jspb.Message.getFieldWithDefault(msg, 21, 0)
+    activeLevel: jspb.Message.getFieldWithDefault(msg, 21, 0),
+    level: jspb.Message.getFieldWithDefault(msg, 22, 0)
   };
 
   if (includeInstance) {
@@ -4142,6 +4143,10 @@ proto.node.StorageStat.HostStats.deserializeBinaryFromReader = function(msg, rea
     case 21:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setActiveLevel(value);
+      break;
+    case 22:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setLevel(value);
       break;
     default:
       reader.skipField();
@@ -4317,6 +4322,13 @@ proto.node.StorageStat.HostStats.serializeBinaryToWriter = function(message, wri
   if (f !== 0) {
     writer.writeInt32(
       21,
+      f
+    );
+  }
+  f = message.getLevel();
+  if (f !== 0) {
+    writer.writeInt32(
+      22,
       f
     );
   }
@@ -4717,6 +4729,24 @@ proto.node.StorageStat.HostStats.prototype.getActiveLevel = function() {
  */
 proto.node.StorageStat.HostStats.prototype.setActiveLevel = function(value) {
   return jspb.Message.setProto3IntField(this, 21, value);
+};
+
+
+/**
+ * optional int32 level = 22;
+ * @return {number}
+ */
+proto.node.StorageStat.HostStats.prototype.getLevel = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 22, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.node.StorageStat.HostStats} returns this
+ */
+proto.node.StorageStat.HostStats.prototype.setLevel = function(value) {
+  return jspb.Message.setProto3IntField(this, 22, value);
 };
 
 
