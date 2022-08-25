@@ -19,6 +19,7 @@ goog.object.extend(proto, github_com_tron$us_protobuf_gogoproto_gogo_pb);
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.hub.Candidate', null, global);
+goog.exportSymbol('proto.hub.GrpcHubRouter', null, global);
 goog.exportSymbol('proto.hub.Host', null, global);
 goog.exportSymbol('proto.hub.HostsData', null, global);
 goog.exportSymbol('proto.hub.HostsReq', null, global);
@@ -5061,6 +5062,16 @@ proto.hub.ResponseCode = {
   COMPUTE_ADDRESS_ERROR: 2,
   TIMEOUT_ERROR: 3,
   OTHER_ERROR: 20
+};
+
+/**
+ * @enum {number}
+ */
+proto.hub.GrpcHubRouter = {
+  GRPC_HUB_V1: 0,
+  GRPC_HUB_NONE: 1,
+  GRPC_HUB_V2: 2,
+  GRPC_HUB_ALL: 3
 };
 
 goog.object.extend(exports, proto.hub);

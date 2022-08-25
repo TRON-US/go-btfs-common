@@ -226,3 +226,10 @@ message Location {
   double lat = 1;
   double lon = 2;
 }
+
+enum GrpcHubRouter {
+  GRPC_HUB_V1 = 0; //default
+  GRPC_HUB_NONE = 1;
+  GRPC_HUB_V2 = 2;
+  GRPC_HUB_ALL = 3;
+}
