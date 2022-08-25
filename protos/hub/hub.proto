@@ -220,6 +220,7 @@ message Host {
     (gogoproto.stdtime) = true
   ];
   float active_score = 37;
+  uint64 inactive = 38;
 }
 
 message Location {

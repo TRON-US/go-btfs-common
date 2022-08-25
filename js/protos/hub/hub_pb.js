@@ -3627,7 +3627,8 @@ proto.hub.Host.toObject = function(includeInstance, msg) {
     downloadSpeedScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 34, 0.0),
     rolesList: (f = jspb.Message.getRepeatedField(msg, 35)) == null ? undefined : f,
     activeTimestamp: (f = msg.getActiveTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 37, 0.0)
+    activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 37, 0.0),
+    inactive: jspb.Message.getFieldWithDefault(msg, 38, 0)
   };
 
   if (includeInstance) {
@@ -3816,6 +3817,10 @@ proto.hub.Host.deserializeBinaryFromReader = function(msg, reader) {
     case 37:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setActiveScore(value);
+      break;
+    case 38:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setInactive(value);
       break;
     default:
       reader.skipField();
@@ -4107,6 +4112,13 @@ proto.hub.Host.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       37,
+      f
+    );
+  }
+  f = message.getInactive();
+  if (f !== 0) {
+    writer.writeUint64(
+      38,
       f
     );
   }
@@ -4890,6 +4902,24 @@ proto.hub.Host.prototype.getActiveScore = function() {
  */
 proto.hub.Host.prototype.setActiveScore = function(value) {
   return jspb.Message.setProto3FloatField(this, 37, value);
+};
+
+
+/**
+ * optional uint64 inactive = 38;
+ * @return {number}
+ */
+proto.hub.Host.prototype.getInactive = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 38, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.setInactive = function(value) {
+  return jspb.Message.setProto3IntField(this, 38, value);
 };
 
 
