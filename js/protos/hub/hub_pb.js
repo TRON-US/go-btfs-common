@@ -19,12 +19,12 @@ goog.object.extend(proto, github_com_tron$us_protobuf_gogoproto_gogo_pb);
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.hub.Candidate', null, global);
-goog.exportSymbol('proto.hub.GrpcHubRouter', null, global);
 goog.exportSymbol('proto.hub.Host', null, global);
 goog.exportSymbol('proto.hub.HostsData', null, global);
 goog.exportSymbol('proto.hub.HostsReq', null, global);
 goog.exportSymbol('proto.hub.HostsReq.Mode', null, global);
 goog.exportSymbol('proto.hub.HostsResp', null, global);
+goog.exportSymbol('proto.hub.HubRouter', null, global);
 goog.exportSymbol('proto.hub.Location', null, global);
 goog.exportSymbol('proto.hub.NodesReq', null, global);
 goog.exportSymbol('proto.hub.ParseReq', null, global);
@@ -416,7 +416,7 @@ proto.hub.NodesReq.toObject = function(includeInstance, msg) {
     nodeIdList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     requesterId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     signature: msg.getSignature_asB64(),
-    newVersion: jspb.Message.getFieldWithDefault(msg, 4, "")
+    newVersion: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -466,7 +466,7 @@ proto.hub.NodesReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setSignature(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!proto.hub.HubRouter} */ (reader.readEnum());
       msg.setNewVersion(value);
       break;
     default:
@@ -520,8 +520,8 @@ proto.hub.NodesReq.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getNewVersion();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0.0) {
+    writer.writeEnum(
       4,
       f
     );
@@ -627,20 +627,20 @@ proto.hub.NodesReq.prototype.setSignature = function(value) {
 
 
 /**
- * optional string new_version = 4;
- * @return {string}
+ * optional HubRouter new_version = 4;
+ * @return {!proto.hub.HubRouter}
  */
 proto.hub.NodesReq.prototype.getNewVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+  return /** @type {!proto.hub.HubRouter} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.hub.HubRouter} value
  * @return {!proto.hub.NodesReq} returns this
  */
 proto.hub.NodesReq.prototype.setNewVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+  return jspb.Message.setProto3EnumField(this, 4, value);
 };
 
 
@@ -678,7 +678,7 @@ proto.hub.SettingsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    newVersion: jspb.Message.getFieldWithDefault(msg, 3, "")
+    newVersion: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -724,7 +724,7 @@ proto.hub.SettingsReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setRespSize(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!proto.hub.HubRouter} */ (reader.readEnum());
       msg.setNewVersion(value);
       break;
     default:
@@ -771,8 +771,8 @@ proto.hub.SettingsReq.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getNewVersion();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0.0) {
+    writer.writeEnum(
       3,
       f
     );
@@ -817,20 +817,20 @@ proto.hub.SettingsReq.prototype.setRespSize = function(value) {
 
 
 /**
- * optional string new_version = 3;
- * @return {string}
+ * optional HubRouter new_version = 3;
+ * @return {!proto.hub.HubRouter}
  */
 proto.hub.SettingsReq.prototype.getNewVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {!proto.hub.HubRouter} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.hub.HubRouter} value
  * @return {!proto.hub.SettingsReq} returns this
  */
 proto.hub.SettingsReq.prototype.setNewVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3EnumField(this, 3, value);
 };
 
 
@@ -1382,7 +1382,7 @@ proto.hub.HostsReq.toObject = function(includeInstance, msg) {
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
     mode: jspb.Message.getFieldWithDefault(msg, 3, 0),
     version: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    newVersion: jspb.Message.getFieldWithDefault(msg, 5, "")
+    newVersion: jspb.Message.getFieldWithDefault(msg, 5, 0)
   };
 
   if (includeInstance) {
@@ -1436,7 +1436,7 @@ proto.hub.HostsReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setVersion(value);
       break;
     case 5:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!proto.hub.HubRouter} */ (reader.readEnum());
       msg.setNewVersion(value);
       break;
     default:
@@ -1497,8 +1497,8 @@ proto.hub.HostsReq.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getNewVersion();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0.0) {
+    writer.writeEnum(
       5,
       f
     );
@@ -1591,20 +1591,20 @@ proto.hub.HostsReq.prototype.setVersion = function(value) {
 
 
 /**
- * optional string new_version = 5;
- * @return {string}
+ * optional HubRouter new_version = 5;
+ * @return {!proto.hub.HubRouter}
  */
 proto.hub.HostsReq.prototype.getNewVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {!proto.hub.HubRouter} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.hub.HubRouter} value
  * @return {!proto.hub.HostsReq} returns this
  */
 proto.hub.HostsReq.prototype.setNewVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setProto3EnumField(this, 5, value);
 };
 
 
@@ -1643,7 +1643,7 @@ proto.hub.RolesHostsReq.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     respSize: jspb.Message.getFieldWithDefault(msg, 2, 0),
     role: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    newVersion: jspb.Message.getFieldWithDefault(msg, 4, "")
+    newVersion: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -1693,7 +1693,7 @@ proto.hub.RolesHostsReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setRole(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!proto.hub.HubRouter} */ (reader.readEnum());
       msg.setNewVersion(value);
       break;
     default:
@@ -1747,8 +1747,8 @@ proto.hub.RolesHostsReq.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getNewVersion();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0.0) {
+    writer.writeEnum(
       4,
       f
     );
@@ -1811,20 +1811,20 @@ proto.hub.RolesHostsReq.prototype.setRole = function(value) {
 
 
 /**
- * optional string new_version = 4;
- * @return {string}
+ * optional HubRouter new_version = 4;
+ * @return {!proto.hub.HubRouter}
  */
 proto.hub.RolesHostsReq.prototype.getNewVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+  return /** @type {!proto.hub.HubRouter} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.hub.HubRouter} value
  * @return {!proto.hub.RolesHostsReq} returns this
  */
 proto.hub.RolesHostsReq.prototype.setNewVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+  return jspb.Message.setProto3EnumField(this, 4, value);
 };
 
 
@@ -2183,7 +2183,7 @@ proto.hub.StatsReq.prototype.toObject = function(opt_includeInstance) {
 proto.hub.StatsReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    newVersion: jspb.Message.getFieldWithDefault(msg, 2, "")
+    newVersion: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -2225,7 +2225,7 @@ proto.hub.StatsReq.deserializeBinaryFromReader = function(msg, reader) {
       msg.setId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {!proto.hub.HubRouter} */ (reader.readEnum());
       msg.setNewVersion(value);
       break;
     default:
@@ -2265,8 +2265,8 @@ proto.hub.StatsReq.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getNewVersion();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0.0) {
+    writer.writeEnum(
       2,
       f
     );
@@ -2293,20 +2293,20 @@ proto.hub.StatsReq.prototype.setId = function(value) {
 
 
 /**
- * optional string new_version = 2;
- * @return {string}
+ * optional HubRouter new_version = 2;
+ * @return {!proto.hub.HubRouter}
  */
 proto.hub.StatsReq.prototype.getNewVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {!proto.hub.HubRouter} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.hub.HubRouter} value
  * @return {!proto.hub.StatsReq} returns this
  */
 proto.hub.StatsReq.prototype.setNewVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
 
@@ -5067,11 +5067,11 @@ proto.hub.ResponseCode = {
 /**
  * @enum {number}
  */
-proto.hub.GrpcHubRouter = {
-  GRPC_HUB_V1: 0,
-  GRPC_HUB_NONE: 1,
-  GRPC_HUB_V2: 2,
-  GRPC_HUB_ALL: 3
+proto.hub.HubRouter = {
+  V1: 0,
+  NONE: 1,
+  V2: 2,
+  ALL: 3
 };
 
 goog.object.extend(exports, proto.hub);
