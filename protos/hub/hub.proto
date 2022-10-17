@@ -221,6 +221,10 @@ message Host {
   ];
   float active_score = 37;
   uint64 inactive = 38;
+  google.protobuf.Timestamp report_status_timestamp = 39 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message Location {

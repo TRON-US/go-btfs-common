@@ -1287,7 +1287,8 @@ proto.node.Node.toObject = function(includeInstance, msg) {
     timeCreated: (f = msg.getTimeCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     hVal: jspb.Message.getFieldWithDefault(msg, 25, ""),
     geo: (f = msg.getGeo()) && proto.node.Node.Geo.toObject(includeInstance, f),
-    flg: (f = msg.getFlg()) && proto.node.Node.ExperimentalFlags.toObject(includeInstance, f)
+    flg: (f = msg.getFlg()) && proto.node.Node.ExperimentalFlags.toObject(includeInstance, f),
+    firstCreatedTime: (f = msg.getFirstCreatedTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1431,6 +1432,11 @@ proto.node.Node.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.node.Node.ExperimentalFlags;
       reader.readMessage(value,proto.node.Node.ExperimentalFlags.deserializeBinaryFromReader);
       msg.setFlg(value);
+      break;
+    case 28:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setFirstCreatedTime(value);
       break;
     default:
       reader.skipField();
@@ -1645,6 +1651,14 @@ proto.node.Node.serializeBinaryToWriter = function(message, writer) {
       27,
       f,
       proto.node.Node.ExperimentalFlags.serializeBinaryToWriter
+    );
+  }
+  f = message.getFirstCreatedTime();
+  if (f != null) {
+    writer.writeMessage(
+      28,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -3597,6 +3611,43 @@ proto.node.Node.prototype.clearFlg = function() {
  */
 proto.node.Node.prototype.hasFlg = function() {
   return jspb.Message.getField(this, 27) != null;
+};
+
+
+/**
+ * optional google.protobuf.Timestamp first_created_time = 28;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.node.Node.prototype.getFirstCreatedTime = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 28));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.node.Node} returns this
+*/
+proto.node.Node.prototype.setFirstCreatedTime = function(value) {
+  return jspb.Message.setWrapperField(this, 28, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.node.Node} returns this
+ */
+proto.node.Node.prototype.clearFirstCreatedTime = function() {
+  return this.setFirstCreatedTime(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.node.Node.prototype.hasFirstCreatedTime = function() {
+  return jspb.Message.getField(this, 28) != null;
 };
 
 

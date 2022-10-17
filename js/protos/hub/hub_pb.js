@@ -3628,7 +3628,8 @@ proto.hub.Host.toObject = function(includeInstance, msg) {
     rolesList: (f = jspb.Message.getRepeatedField(msg, 35)) == null ? undefined : f,
     activeTimestamp: (f = msg.getActiveTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     activeScore: jspb.Message.getFloatingPointFieldWithDefault(msg, 37, 0.0),
-    inactive: jspb.Message.getFieldWithDefault(msg, 38, 0)
+    inactive: jspb.Message.getFieldWithDefault(msg, 38, 0),
+    reportStatusTimestamp: (f = msg.getReportStatusTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3821,6 +3822,11 @@ proto.hub.Host.deserializeBinaryFromReader = function(msg, reader) {
     case 38:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setInactive(value);
+      break;
+    case 39:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setReportStatusTimestamp(value);
       break;
     default:
       reader.skipField();
@@ -4120,6 +4126,14 @@ proto.hub.Host.serializeBinaryToWriter = function(message, writer) {
     writer.writeUint64(
       38,
       f
+    );
+  }
+  f = message.getReportStatusTimestamp();
+  if (f != null) {
+    writer.writeMessage(
+      39,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -4920,6 +4934,43 @@ proto.hub.Host.prototype.getInactive = function() {
  */
 proto.hub.Host.prototype.setInactive = function(value) {
   return jspb.Message.setProto3IntField(this, 38, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp report_status_timestamp = 39;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.hub.Host.prototype.getReportStatusTimestamp = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 39));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.hub.Host} returns this
+*/
+proto.hub.Host.prototype.setReportStatusTimestamp = function(value) {
+  return jspb.Message.setWrapperField(this, 39, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.hub.Host} returns this
+ */
+proto.hub.Host.prototype.clearReportStatusTimestamp = function() {
+  return this.setReportStatusTimestamp(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.hub.Host.prototype.hasReportStatusTimestamp = function() {
+  return jspb.Message.getField(this, 39) != null;
 };
 
 
