@@ -150,6 +150,10 @@ message Node {
     (gogoproto.embed) = true,
     (gogoproto.nullable) = false
   ];
+  google.protobuf.Timestamp first_created_time = 28 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
 
 message NodeContractStat {
