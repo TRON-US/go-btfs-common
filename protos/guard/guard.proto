@@ -217,6 +217,7 @@ message Contract {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  string token = 18;
 }
 
 message FileStoreListResponse {
@@ -254,6 +255,7 @@ message FileStoreMeta {
   int32 warn_challenge_times_limit = 14; //reserve: indicate how many times warn challenge will take the contract to cancel status, renter cannot set it now, use 7 as default
   int32 success_challenge_times_limit = 15; //reserve: indicate how many times success will take the contract from warn status back to right, renter cannot set it now, use 1 as default
   int32 check_frequency_warn = 16; //reserve: check frequency in days while in warn status, renter cannot set it now, use 1 as default
+  string token = 17;
 }
 
 message FileStoreStatus {

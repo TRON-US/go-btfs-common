@@ -3597,7 +3597,8 @@ proto.guard.Contract.toObject = function(includeInstance, msg) {
     challengeTimes: jspb.Message.getFieldWithDefault(msg, 14, 0),
     challengeWarnTimes: jspb.Message.getFieldWithDefault(msg, 15, 0),
     challengeSuccessTimes: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    firstChallengeSuccess: (f = msg.getFirstChallengeSuccess()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    firstChallengeSuccess: (f = msg.getFirstChallengeSuccess()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    token: jspb.Message.getFieldWithDefault(msg, 18, "")
   };
 
   if (includeInstance) {
@@ -3708,6 +3709,10 @@ proto.guard.Contract.deserializeBinaryFromReader = function(msg, reader) {
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setFirstChallengeSuccess(value);
+      break;
+    case 18:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setToken(value);
       break;
     default:
       reader.skipField();
@@ -3862,6 +3867,13 @@ proto.guard.Contract.serializeBinaryToWriter = function(message, writer) {
       17,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getToken();
+  if (f.length > 0) {
+    writer.writeString(
+      18,
+      f
     );
   }
 };
@@ -4446,6 +4458,24 @@ proto.guard.Contract.prototype.hasFirstChallengeSuccess = function() {
 };
 
 
+/**
+ * optional string token = 18;
+ * @return {string}
+ */
+proto.guard.Contract.prototype.getToken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.Contract} returns this
+ */
+proto.guard.Contract.prototype.setToken = function(value) {
+  return jspb.Message.setProto3StringField(this, 18, value);
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -4839,7 +4869,8 @@ proto.guard.FileStoreMeta.toObject = function(includeInstance, msg) {
     guardPid: jspb.Message.getFieldWithDefault(msg, 13, ""),
     warnChallengeTimesLimit: jspb.Message.getFieldWithDefault(msg, 14, 0),
     successChallengeTimesLimit: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    checkFrequencyWarn: jspb.Message.getFieldWithDefault(msg, 16, 0)
+    checkFrequencyWarn: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    token: jspb.Message.getFieldWithDefault(msg, 17, "")
   };
 
   if (includeInstance) {
@@ -4941,6 +4972,10 @@ proto.guard.FileStoreMeta.deserializeBinaryFromReader = function(msg, reader) {
     case 16:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setCheckFrequencyWarn(value);
+      break;
+    case 17:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setToken(value);
       break;
     default:
       reader.skipField();
@@ -5082,6 +5117,13 @@ proto.guard.FileStoreMeta.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt32(
       16,
+      f
+    );
+  }
+  f = message.getToken();
+  if (f.length > 0) {
+    writer.writeString(
+      17,
       f
     );
   }
@@ -5411,6 +5453,24 @@ proto.guard.FileStoreMeta.prototype.getCheckFrequencyWarn = function() {
  */
 proto.guard.FileStoreMeta.prototype.setCheckFrequencyWarn = function(value) {
   return jspb.Message.setProto3IntField(this, 16, value);
+};
+
+
+/**
+ * optional string token = 17;
+ * @return {string}
+ */
+proto.guard.FileStoreMeta.prototype.getToken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 17, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.FileStoreMeta} returns this
+ */
+proto.guard.FileStoreMeta.prototype.setToken = function(value) {
+  return jspb.Message.setProto3StringField(this, 17, value);
 };
 
 
