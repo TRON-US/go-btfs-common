@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/btcsuite/btcutil v1.0.2
 	github.com/ethereum/go-ethereum v1.9.24
-	github.com/gogo/protobuf v1.3.1
+	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.4.3
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/hypnoglow/go-pg-monitor v0.1.0
