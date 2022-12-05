@@ -26,7 +26,7 @@ service OnlineService {
   rpc GetLatestSignReport(ReqLatestSignReport) returns (RespSignMetrics);
 }
 
-message ReqLatestSignReport {
+message ReqSignMetrics {
   bytes public_key = 1;
   bytes signature = 2;
   bytes payload = 3;
@@ -67,7 +67,7 @@ message SignedInfo {
   uint32 signed_time = 6;
 }
 
-message ReqSignMetrics {
+message ReqLatestSignReport {
   string node_id = 1;
 }
 
