@@ -68,7 +68,7 @@ func (ResponseCode) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_ee5923c3111b600a, []int{0}
 }
 
-type ReqSignMetrics struct {
+type ReqLatestSignReport struct {
 	PublicKey            []byte   `protobuf:"bytes,1,opt,name=public_key,json=publicKey,proto3" json:"public_key,omitempty" pg:"public_key"`
 	Signature            []byte   `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty" pg:"signature"`
 	Payload              []byte   `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty" pg:"payload"`
@@ -77,18 +77,18 @@ type ReqSignMetrics struct {
 	XXX_sizecache        int32    `json:"-" pg:"-"`
 }
 
-func (m *ReqSignMetrics) Reset()         { *m = ReqSignMetrics{} }
-func (m *ReqSignMetrics) String() string { return proto.CompactTextString(m) }
-func (*ReqSignMetrics) ProtoMessage()    {}
-func (*ReqSignMetrics) Descriptor() ([]byte, []int) {
+func (m *ReqLatestSignReport) Reset()         { *m = ReqLatestSignReport{} }
+func (m *ReqLatestSignReport) String() string { return proto.CompactTextString(m) }
+func (*ReqLatestSignReport) ProtoMessage()    {}
+func (*ReqLatestSignReport) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ee5923c3111b600a, []int{0}
 }
-func (m *ReqSignMetrics) XXX_Unmarshal(b []byte) error {
+func (m *ReqLatestSignReport) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ReqSignMetrics) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ReqLatestSignReport) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ReqSignMetrics.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ReqLatestSignReport.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -98,41 +98,41 @@ func (m *ReqSignMetrics) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *ReqSignMetrics) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ReqSignMetrics.Merge(m, src)
+func (m *ReqLatestSignReport) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqLatestSignReport.Merge(m, src)
 }
-func (m *ReqSignMetrics) XXX_Size() int {
+func (m *ReqLatestSignReport) XXX_Size() int {
 	return m.Size()
 }
-func (m *ReqSignMetrics) XXX_DiscardUnknown() {
-	xxx_messageInfo_ReqSignMetrics.DiscardUnknown(m)
+func (m *ReqLatestSignReport) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqLatestSignReport.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ReqSignMetrics proto.InternalMessageInfo
+var xxx_messageInfo_ReqLatestSignReport proto.InternalMessageInfo
 
-func (m *ReqSignMetrics) GetPublicKey() []byte {
+func (m *ReqLatestSignReport) GetPublicKey() []byte {
 	if m != nil {
 		return m.PublicKey
 	}
 	return nil
 }
 
-func (m *ReqSignMetrics) GetSignature() []byte {
+func (m *ReqLatestSignReport) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
 	return nil
 }
 
-func (m *ReqSignMetrics) GetPayload() []byte {
+func (m *ReqLatestSignReport) GetPayload() []byte {
 	if m != nil {
 		return m.Payload
 	}
 	return nil
 }
 
-func (*ReqSignMetrics) XXX_MessageName() string {
-	return "online.ReqSignMetrics"
+func (*ReqLatestSignReport) XXX_MessageName() string {
+	return "online.ReqLatestSignReport"
 }
 
 type PayLoadInfo struct {
@@ -383,66 +383,194 @@ func (m *SignedInfo) GetSignedTime() uint32 {
 func (*SignedInfo) XXX_MessageName() string {
 	return "online.SignedInfo"
 }
+
+type ReqSignMetrics struct {
+	NodeId               string   `protobuf:"bytes,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty" pg:"node_id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" pg:"-"`
+	XXX_unrecognized     []byte   `json:"-" pg:"-"`
+	XXX_sizecache        int32    `json:"-" pg:"-"`
+}
+
+func (m *ReqSignMetrics) Reset()         { *m = ReqSignMetrics{} }
+func (m *ReqSignMetrics) String() string { return proto.CompactTextString(m) }
+func (*ReqSignMetrics) ProtoMessage()    {}
+func (*ReqSignMetrics) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ee5923c3111b600a, []int{4}
+}
+func (m *ReqSignMetrics) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ReqSignMetrics) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ReqSignMetrics.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ReqSignMetrics) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSignMetrics.Merge(m, src)
+}
+func (m *ReqSignMetrics) XXX_Size() int {
+	return m.Size()
+}
+func (m *ReqSignMetrics) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSignMetrics.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqSignMetrics proto.InternalMessageInfo
+
+func (m *ReqSignMetrics) GetNodeId() string {
+	if m != nil {
+		return m.NodeId
+	}
+	return ""
+}
+
+func (*ReqSignMetrics) XXX_MessageName() string {
+	return "online.ReqSignMetrics"
+}
+
+type Result struct {
+	Code                 ResponseCode `protobuf:"varint,1,opt,name=code,proto3,enum=online.ResponseCode" json:"code,omitempty" pg:"code"`
+	Message              string       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" pg:"message"`
+	ResponseTime         time.Time    `protobuf:"bytes,3,opt,name=response_time,json=responseTime,proto3,stdtime" json:"response_time" pg:"response_time"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-" pg:"-"`
+	XXX_unrecognized     []byte       `json:"-" pg:"-"`
+	XXX_sizecache        int32        `json:"-" pg:"-"`
+}
+
+func (m *Result) Reset()         { *m = Result{} }
+func (m *Result) String() string { return proto.CompactTextString(m) }
+func (*Result) ProtoMessage()    {}
+func (*Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ee5923c3111b600a, []int{5}
+}
+func (m *Result) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Result.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Result.Merge(m, src)
+}
+func (m *Result) XXX_Size() int {
+	return m.Size()
+}
+func (m *Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Result proto.InternalMessageInfo
+
+func (m *Result) GetCode() ResponseCode {
+	if m != nil {
+		return m.Code
+	}
+	return ResponseCode_SUCCESS
+}
+
+func (m *Result) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *Result) GetResponseTime() time.Time {
+	if m != nil {
+		return m.ResponseTime
+	}
+	return time.Time{}
+}
+
+func (*Result) XXX_MessageName() string {
+	return "online.Result"
+}
 func init() {
 	proto.RegisterEnum("online.ResponseCode", ResponseCode_name, ResponseCode_value)
 	golang_proto.RegisterEnum("online.ResponseCode", ResponseCode_name, ResponseCode_value)
-	proto.RegisterType((*ReqSignMetrics)(nil), "online.ReqSignMetrics")
-	golang_proto.RegisterType((*ReqSignMetrics)(nil), "online.ReqSignMetrics")
+	proto.RegisterType((*ReqLatestSignReport)(nil), "online.ReqLatestSignReport")
+	golang_proto.RegisterType((*ReqLatestSignReport)(nil), "online.ReqLatestSignReport")
 	proto.RegisterType((*PayLoadInfo)(nil), "online.PayLoadInfo")
 	golang_proto.RegisterType((*PayLoadInfo)(nil), "online.PayLoadInfo")
 	proto.RegisterType((*RespSignMetrics)(nil), "online.RespSignMetrics")
 	golang_proto.RegisterType((*RespSignMetrics)(nil), "online.RespSignMetrics")
 	proto.RegisterType((*SignedInfo)(nil), "online.SignedInfo")
 	golang_proto.RegisterType((*SignedInfo)(nil), "online.SignedInfo")
+	proto.RegisterType((*ReqSignMetrics)(nil), "online.ReqSignMetrics")
+	golang_proto.RegisterType((*ReqSignMetrics)(nil), "online.ReqSignMetrics")
+	proto.RegisterType((*Result)(nil), "online.Result")
+	golang_proto.RegisterType((*Result)(nil), "online.Result")
 }
 
 func init() { proto.RegisterFile("protos/online/online.proto", fileDescriptor_ee5923c3111b600a) }
 func init() { golang_proto.RegisterFile("protos/online/online.proto", fileDescriptor_ee5923c3111b600a) }
 
 var fileDescriptor_ee5923c3111b600a = []byte{
-	// 670 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0xd3, 0x4c,
-	0x14, 0xed, 0xb4, 0x69, 0x5a, 0x5f, 0x37, 0x69, 0x3b, 0xea, 0xd7, 0xe6, 0x8b, 0xc0, 0x81, 0x48,
-	0x48, 0x15, 0x52, 0x1d, 0x94, 0x6e, 0x58, 0x20, 0xa1, 0x34, 0x35, 0x10, 0x41, 0x9a, 0x68, 0x9c,
-	0x6c, 0xd8, 0x58, 0x8e, 0x3d, 0x31, 0x16, 0x89, 0xc7, 0x78, 0x9c, 0x4a, 0x79, 0x0b, 0x96, 0x3c,
-	0x02, 0x6f, 0xc0, 0x96, 0x65, 0x97, 0x3c, 0x01, 0xa0, 0x76, 0xcf, 0x33, 0xa0, 0x99, 0xb1, 0x13,
-	0x23, 0xb1, 0x60, 0x93, 0xcc, 0x3d, 0xf7, 0xe7, 0xcc, 0x39, 0xd7, 0x36, 0xd4, 0xe3, 0x84, 0xa5,
-	0x8c, 0xb7, 0x58, 0x34, 0x0b, 0x23, 0x9a, 0xfd, 0x99, 0x12, 0xc4, 0x65, 0x15, 0xd5, 0x9f, 0x06,
-	0x61, 0xfa, 0x6e, 0x31, 0x31, 0x3d, 0x36, 0x6f, 0xa5, 0x09, 0x8b, 0xce, 0x16, 0xbc, 0x15, 0xb0,
-	0xb3, 0x49, 0x3a, 0xe5, 0x67, 0x1e, 0x9b, 0xcf, 0x59, 0xd4, 0xca, 0xa6, 0x44, 0xcc, 0xa7, 0xf2,
-	0x47, 0x4d, 0xa8, 0x3f, 0xf9, 0x4b, 0xa7, 0xcc, 0x4c, 0x16, 0xd3, 0x56, 0xc0, 0x02, 0x26, 0x03,
-	0x79, 0xca, 0x3a, 0x1a, 0x01, 0x63, 0xc1, 0x8c, 0xae, 0xab, 0xd2, 0x70, 0x4e, 0x79, 0xea, 0xce,
-	0x63, 0x55, 0xd0, 0x0c, 0xa0, 0x4a, 0xe8, 0x07, 0x3b, 0x0c, 0xa2, 0x3e, 0x4d, 0x93, 0xd0, 0xe3,
-	0xf8, 0x3e, 0x40, 0xbc, 0x98, 0xcc, 0x42, 0xcf, 0x79, 0x4f, 0x97, 0x35, 0xf4, 0x00, 0x9d, 0xee,
-	0x11, 0x4d, 0x21, 0xaf, 0xe9, 0x12, 0xdf, 0x03, 0x8d, 0x87, 0x41, 0xe4, 0xa6, 0x8b, 0x84, 0xd6,
-	0x36, 0x55, 0x76, 0x05, 0xe0, 0x1a, 0xec, 0xc4, 0xee, 0x72, 0xc6, 0x5c, 0xbf, 0xb6, 0x25, 0x73,
-	0x79, 0xd8, 0xfc, 0x85, 0x40, 0x1f, 0xba, 0xcb, 0x37, 0xcc, 0xf5, 0x7b, 0xd1, 0x94, 0xe1, 0x13,
-	0xd8, 0x11, 0xca, 0x9c, 0xd0, 0x97, 0x1c, 0x1a, 0x29, 0x8b, 0xb0, 0xe7, 0x63, 0x03, 0x4a, 0xe2,
-	0x24, 0x67, 0xeb, 0x6d, 0x30, 0xa5, 0xfe, 0x2b, 0xe6, 0x53, 0x22, 0x71, 0xfc, 0x0c, 0x0e, 0x66,
-	0x2e, 0x4f, 0x1d, 0x41, 0x4a, 0x7d, 0x27, 0x8c, 0xa6, 0x4c, 0x72, 0xe9, 0x6d, 0x6c, 0x66, 0x7e,
-	0xdb, 0x32, 0x25, 0x68, 0x48, 0x55, 0xd4, 0xae, 0x63, 0xfc, 0x08, 0xaa, 0xab, 0x6e, 0xa5, 0xa1,
-	0x24, 0xd9, 0x2b, 0x79, 0x9d, 0xd2, 0xd1, 0x01, 0x4d, 0x96, 0x09, 0xbb, 0x6a, 0xdb, 0x72, 0x7a,
-	0xdd, 0x54, 0x5e, 0x9a, 0xb9, 0x97, 0xe6, 0x28, 0xf7, 0xf2, 0x62, 0xf7, 0xe6, 0x7b, 0x63, 0xe3,
-	0xe3, 0x8f, 0x06, 0x22, 0xbb, 0xa2, 0x4d, 0x24, 0x9a, 0x9f, 0x11, 0xec, 0x13, 0xca, 0xe3, 0xa2,
-	0xb7, 0xa7, 0x50, 0xf2, 0x84, 0x36, 0xa1, 0xb8, 0xda, 0x3e, 0xca, 0xef, 0x2b, 0xca, 0x58, 0xc4,
-	0x69, 0x57, 0xaa, 0x14, 0x15, 0xc2, 0xc8, 0x39, 0xe5, 0xdc, 0x0d, 0x94, 0x11, 0x1a, 0xc9, 0x43,
-	0x7c, 0x0e, 0xfa, 0xbf, 0x49, 0x07, 0xbe, 0x96, 0xfd, 0xc7, 0xd6, 0x94, 0xe2, 0x35, 0xd0, 0xfc,
-	0x82, 0x00, 0x0a, 0x1e, 0x61, 0x28, 0xc5, 0x94, 0x26, 0xd9, 0x5e, 0xe4, 0x19, 0x3f, 0x84, 0x3d,
-	0x2f, 0xa1, 0x6e, 0x4a, 0x7d, 0xe5, 0x89, 0xb8, 0x54, 0x85, 0xe8, 0x19, 0x26, 0x04, 0x8b, 0x2b,
-	0x5f, 0xd3, 0x84, 0x87, 0x2c, 0x92, 0x97, 0xd2, 0x48, 0x1e, 0xe2, 0x23, 0xd8, 0x8e, 0x58, 0xe4,
-	0x29, 0xe6, 0x0a, 0x51, 0x81, 0x18, 0x39, 0x49, 0x53, 0xcf, 0x71, 0x7d, 0x3f, 0xa1, 0x9c, 0x4b,
-	0x9b, 0x35, 0xa2, 0x0b, 0xac, 0xa3, 0x20, 0xdc, 0x58, 0x69, 0x95, 0xa4, 0x65, 0xd9, 0x9e, 0xe9,
-	0x12, 0x9c, 0x8f, 0xaf, 0x61, 0xaf, 0x68, 0x1e, 0xd6, 0x61, 0xc7, 0x1e, 0x77, 0xbb, 0x96, 0x6d,
-	0x1f, 0x6c, 0xe0, 0x3a, 0x1c, 0xdb, 0xbd, 0x97, 0x57, 0x9d, 0xd1, 0x98, 0x58, 0xce, 0x8b, 0x01,
-	0xe9, 0x77, 0x46, 0x8e, 0x45, 0xc8, 0x80, 0x1c, 0x20, 0xfc, 0x3f, 0xfc, 0xd7, 0x1d, 0xf4, 0x87,
-	0xe3, 0x91, 0xe5, 0x74, 0x2e, 0x2f, 0x89, 0x65, 0xdb, 0x59, 0x6a, 0x13, 0x1f, 0x42, 0x65, 0xd4,
-	0xeb, 0x5b, 0x83, 0x71, 0x5e, 0xbd, 0x85, 0xf7, 0x41, 0x1f, 0x8c, 0x5e, 0x59, 0x24, 0x03, 0x8e,
-	0xda, 0x63, 0xa8, 0x0c, 0xa4, 0xe1, 0x36, 0x4d, 0xae, 0x43, 0x8f, 0xe2, 0x4b, 0x38, 0x1c, 0xc7,
-	0xbe, 0x9b, 0xd2, 0xe2, 0xba, 0x8f, 0xd7, 0x0b, 0x2e, 0xbe, 0x62, 0xf5, 0x93, 0xe2, 0xe2, 0x0b,
-	0x89, 0x8b, 0xe7, 0x37, 0xb7, 0x06, 0xfa, 0x76, 0x6b, 0xa0, 0x9f, 0xb7, 0x06, 0xfa, 0x74, 0x67,
-	0xa0, 0xaf, 0x77, 0x06, 0xba, 0xb9, 0x33, 0x10, 0x54, 0x43, 0x66, 0x8a, 0x2f, 0x44, 0xd6, 0x79,
-	0xa1, 0x2b, 0xfa, 0xa1, 0x78, 0x16, 0x87, 0xe8, 0x6d, 0xf6, 0x6d, 0x99, 0x94, 0xe5, 0xc3, 0x79,
-	0xfe, 0x3b, 0x00, 0x00, 0xff, 0xff, 0xc8, 0x75, 0xbf, 0xac, 0x88, 0x04, 0x00, 0x00,
+	// 760 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xcb, 0x6e, 0xf3, 0x44,
+	0x14, 0xfe, 0xe7, 0x6f, 0xfe, 0xb4, 0x39, 0x4e, 0xd2, 0x76, 0x5a, 0xda, 0x10, 0x20, 0x81, 0x48,
+	0x48, 0x05, 0xa9, 0x0e, 0x4a, 0x37, 0x2c, 0x90, 0x50, 0x6e, 0xb4, 0x51, 0x9b, 0x26, 0x1a, 0x27,
+	0x1b, 0x36, 0x96, 0x63, 0x4f, 0x8c, 0x85, 0xe3, 0x71, 0x3d, 0x93, 0x4a, 0x79, 0x0b, 0x76, 0xf0,
+	0x08, 0xbc, 0x01, 0x5b, 0x96, 0x5d, 0xf2, 0x04, 0x80, 0x5a, 0x89, 0x25, 0xcf, 0x80, 0x66, 0xc6,
+	0x6e, 0xcc, 0xa5, 0x12, 0x48, 0x6c, 0x92, 0x39, 0x97, 0xef, 0x9c, 0xf3, 0x7d, 0xc7, 0x3a, 0x50,
+	0x8f, 0x13, 0x26, 0x18, 0x6f, 0xb3, 0x28, 0x0c, 0x22, 0x9a, 0xfe, 0x99, 0xca, 0x89, 0x8b, 0xda,
+	0xaa, 0x7f, 0xea, 0x07, 0xe2, 0xab, 0xf5, 0xc2, 0x74, 0xd9, 0xaa, 0x2d, 0x12, 0x16, 0x9d, 0xaf,
+	0x79, 0xdb, 0x67, 0xe7, 0x0b, 0xb1, 0xe4, 0xe7, 0x2e, 0x5b, 0xad, 0x58, 0xd4, 0x4e, 0xab, 0x44,
+	0xcc, 0xa3, 0xea, 0x47, 0x57, 0xa8, 0x7f, 0xf2, 0x0f, 0x48, 0x15, 0x59, 0xac, 0x97, 0x6d, 0x9f,
+	0xf9, 0x4c, 0x19, 0xea, 0x95, 0x22, 0x9a, 0x3e, 0x63, 0x7e, 0x48, 0xb7, 0x59, 0x22, 0x58, 0x51,
+	0x2e, 0x9c, 0x55, 0xac, 0x13, 0x5a, 0x21, 0x1c, 0x11, 0x7a, 0x77, 0xe3, 0x08, 0xca, 0x85, 0x15,
+	0xf8, 0x11, 0xa1, 0x31, 0x4b, 0x04, 0x7e, 0x0f, 0x20, 0x5e, 0x2f, 0xc2, 0xc0, 0xb5, 0xbf, 0xa6,
+	0x9b, 0x1a, 0x7a, 0x1f, 0x9d, 0x95, 0x49, 0x49, 0x7b, 0xae, 0xe9, 0x06, 0xbf, 0x0b, 0x25, 0x1e,
+	0xf8, 0x91, 0x23, 0xd6, 0x09, 0xad, 0xbd, 0xd6, 0xd1, 0x67, 0x07, 0xae, 0xc1, 0x6e, 0xec, 0x6c,
+	0x42, 0xe6, 0x78, 0xb5, 0x1d, 0x15, 0xcb, 0xcc, 0xd6, 0xef, 0x08, 0x8c, 0xa9, 0xb3, 0xb9, 0x61,
+	0x8e, 0x37, 0x8a, 0x96, 0x0c, 0x9f, 0xc2, 0xae, 0xa4, 0x67, 0x07, 0x9e, 0xea, 0x51, 0x22, 0x45,
+	0x69, 0x8e, 0x3c, 0xdc, 0x80, 0x82, 0x7c, 0xa9, 0xda, 0x46, 0x07, 0x4c, 0x25, 0xc2, 0x2d, 0xf3,
+	0x28, 0x51, 0x7e, 0xfc, 0x19, 0x1c, 0x84, 0x0e, 0x17, 0xb6, 0x6c, 0x4a, 0x3d, 0x3b, 0x88, 0x96,
+	0x4c, 0xf5, 0x32, 0x3a, 0xd8, 0x4c, 0x45, 0xb7, 0x54, 0x48, 0xb6, 0x21, 0x55, 0x99, 0xbb, 0xb5,
+	0xf1, 0x87, 0x50, 0x7d, 0x46, 0x6b, 0x0e, 0x05, 0xd5, 0xbd, 0x92, 0xe5, 0x69, 0x1e, 0x5d, 0x28,
+	0xa9, 0x34, 0xa9, 0x59, 0xed, 0x8d, 0xaa, 0x5e, 0x37, 0xb5, 0xa0, 0x66, 0x26, 0xa8, 0x39, 0xcb,
+	0x04, 0xed, 0xed, 0x3d, 0xfc, 0xdc, 0x7c, 0xf5, 0xcd, 0x2f, 0x4d, 0x44, 0xf6, 0x24, 0x4c, 0x06,
+	0x5a, 0xdf, 0x23, 0xd8, 0x27, 0x94, 0xc7, 0xb2, 0xe8, 0x98, 0x8a, 0x24, 0x70, 0x39, 0x3e, 0x83,
+	0x82, 0x2b, 0xb9, 0x49, 0xc6, 0xd5, 0xce, 0x71, 0x36, 0xaf, 0x4c, 0x63, 0x11, 0xa7, 0x7d, 0xc5,
+	0x52, 0x66, 0x48, 0x21, 0x57, 0x94, 0x73, 0xc7, 0xd7, 0x42, 0x94, 0x48, 0x66, 0xe2, 0x0b, 0x30,
+	0xfe, 0x1d, 0x75, 0xe0, 0x5b, 0xda, 0x7f, 0xda, 0x9a, 0x66, 0xbc, 0x75, 0xb4, 0x7e, 0x40, 0x00,
+	0x39, 0x8d, 0x30, 0x14, 0x62, 0x4a, 0x93, 0x74, 0x2f, 0xea, 0x8d, 0x3f, 0x80, 0xb2, 0x9b, 0x50,
+	0x47, 0x50, 0x4f, 0x6b, 0x22, 0x87, 0xaa, 0x10, 0x23, 0xf5, 0x49, 0xc2, 0x72, 0xe4, 0x7b, 0x9a,
+	0xf0, 0x80, 0x45, 0x6a, 0xa8, 0x12, 0xc9, 0x4c, 0x7c, 0x0c, 0x6f, 0x22, 0x16, 0xb9, 0xba, 0x73,
+	0x85, 0x68, 0x43, 0x96, 0x5c, 0x08, 0xe1, 0xda, 0x8e, 0xe7, 0x25, 0x94, 0x73, 0x25, 0x73, 0x89,
+	0x18, 0xd2, 0xd7, 0xd5, 0x2e, 0xdc, 0x7c, 0xe6, 0xaa, 0x9a, 0x16, 0x15, 0x3c, 0xe5, 0xa5, 0x44,
+	0xfe, 0x08, 0xaa, 0x84, 0xde, 0xe5, 0x25, 0x7e, 0xe9, 0xbb, 0x6a, 0x7d, 0x8b, 0xa0, 0x48, 0x28,
+	0x5f, 0x87, 0xe2, 0x7f, 0x59, 0xc3, 0x08, 0x2a, 0x49, 0x9a, 0xaf, 0x87, 0xdb, 0xf9, 0x0f, 0x5f,
+	0x49, 0x39, 0x83, 0xca, 0xe0, 0xc7, 0xf7, 0x50, 0xce, 0xb7, 0xc6, 0x06, 0xec, 0x5a, 0xf3, 0x7e,
+	0x7f, 0x68, 0x59, 0x07, 0xaf, 0x70, 0x1d, 0x4e, 0xac, 0xd1, 0xe5, 0x6d, 0x77, 0x36, 0x27, 0x43,
+	0xfb, 0x8b, 0x09, 0x19, 0x77, 0x67, 0xf6, 0x90, 0x90, 0x09, 0x39, 0x40, 0xf8, 0x6d, 0x78, 0xab,
+	0x3f, 0x19, 0x4f, 0xe7, 0xb3, 0xa1, 0xdd, 0x1d, 0x0c, 0xc8, 0xd0, 0xb2, 0xd2, 0xd0, 0x6b, 0x7c,
+	0x08, 0x95, 0xd9, 0x68, 0x3c, 0x9c, 0xcc, 0xb3, 0xec, 0x1d, 0xbc, 0x0f, 0xc6, 0x64, 0x76, 0x35,
+	0x24, 0xa9, 0xe3, 0xb8, 0xf3, 0x1b, 0x82, 0xca, 0x44, 0x51, 0xb7, 0x68, 0x72, 0x1f, 0xb8, 0x14,
+	0x0f, 0xe0, 0x70, 0x1e, 0x7b, 0x8e, 0xa0, 0x79, 0x45, 0x4f, 0xb6, 0xfa, 0xe4, 0x95, 0xae, 0x9f,
+	0xe6, 0x75, 0xcb, 0x03, 0x7a, 0x50, 0x1b, 0xb0, 0x81, 0x13, 0x84, 0x9b, 0xed, 0x59, 0xb9, 0x72,
+	0x22, 0x2f, 0xa4, 0xc9, 0x8b, 0xc5, 0xaa, 0xb9, 0x62, 0x72, 0x45, 0xd7, 0x70, 0x74, 0x49, 0xc5,
+	0xdf, 0x8e, 0xd3, 0x3b, 0x39, 0xf8, 0x5f, 0x83, 0x2f, 0x0e, 0xd4, 0xfb, 0xfc, 0xe1, 0xb1, 0x81,
+	0x7e, 0x7a, 0x6c, 0xa0, 0x5f, 0x1f, 0x1b, 0xe8, 0xbb, 0xa7, 0x06, 0xfa, 0xf1, 0xa9, 0x81, 0x1e,
+	0x9e, 0x1a, 0x08, 0xaa, 0x01, 0x33, 0xe5, 0xf5, 0x4d, 0x91, 0x3d, 0x43, 0xeb, 0x31, 0x95, 0xcb,
+	0x9b, 0xa2, 0x2f, 0xd3, 0xbb, 0xbd, 0x28, 0xaa, 0x6d, 0x5e, 0xfc, 0x11, 0x00, 0x00, 0xff, 0xff,
+	0x61, 0x5a, 0xdc, 0x79, 0xe4, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -458,6 +586,8 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type OnlineServiceClient interface {
 	UpdateSignMetrics(ctx context.Context, in *ReqSignMetrics, opts ...grpc.CallOption) (*RespSignMetrics, error)
+	DoDailySignReportHandler(ctx context.Context, in *ReqSignMetrics, opts ...grpc.CallOption) (*Result, error)
+	GetLatestSignReport(ctx context.Context, in *ReqLatestSignReport, opts ...grpc.CallOption) (*RespSignMetrics, error)
 }
 
 type onlineServiceClient struct {
@@ -477,9 +607,29 @@ func (c *onlineServiceClient) UpdateSignMetrics(ctx context.Context, in *ReqSign
 	return out, nil
 }
 
+func (c *onlineServiceClient) DoDailySignReportHandler(ctx context.Context, in *ReqSignMetrics, opts ...grpc.CallOption) (*Result, error) {
+	out := new(Result)
+	err := c.cc.Invoke(ctx, "/online.OnlineService/DoDailySignReportHandler", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *onlineServiceClient) GetLatestSignReport(ctx context.Context, in *ReqLatestSignReport, opts ...grpc.CallOption) (*RespSignMetrics, error) {
+	out := new(RespSignMetrics)
+	err := c.cc.Invoke(ctx, "/online.OnlineService/GetLatestSignReport", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OnlineServiceServer is the server API for OnlineService service.
 type OnlineServiceServer interface {
 	UpdateSignMetrics(context.Context, *ReqSignMetrics) (*RespSignMetrics, error)
+	DoDailySignReportHandler(context.Context, *ReqSignMetrics) (*Result, error)
+	GetLatestSignReport(context.Context, *ReqLatestSignReport) (*RespSignMetrics, error)
 }
 
 // UnimplementedOnlineServiceServer can be embedded to have forward compatible implementations.
@@ -488,6 +638,12 @@ type UnimplementedOnlineServiceServer struct {
 
 func (*UnimplementedOnlineServiceServer) UpdateSignMetrics(ctx context.Context, req *ReqSignMetrics) (*RespSignMetrics, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSignMetrics not implemented")
+}
+func (*UnimplementedOnlineServiceServer) DoDailySignReportHandler(ctx context.Context, req *ReqSignMetrics) (*Result, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DoDailySignReportHandler not implemented")
+}
+func (*UnimplementedOnlineServiceServer) GetLatestSignReport(ctx context.Context, req *ReqLatestSignReport) (*RespSignMetrics, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLatestSignReport not implemented")
 }
 
 func RegisterOnlineServiceServer(s *grpc.Server, srv OnlineServiceServer) {
@@ -512,6 +668,42 @@ func _OnlineService_UpdateSignMetrics_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OnlineService_DoDailySignReportHandler_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqSignMetrics)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OnlineServiceServer).DoDailySignReportHandler(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/online.OnlineService/DoDailySignReportHandler",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OnlineServiceServer).DoDailySignReportHandler(ctx, req.(*ReqSignMetrics))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OnlineService_GetLatestSignReport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqLatestSignReport)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OnlineServiceServer).GetLatestSignReport(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/online.OnlineService/GetLatestSignReport",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OnlineServiceServer).GetLatestSignReport(ctx, req.(*ReqLatestSignReport))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _OnlineService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "online.OnlineService",
 	HandlerType: (*OnlineServiceServer)(nil),
@@ -520,12 +712,20 @@ var _OnlineService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "UpdateSignMetrics",
 			Handler:    _OnlineService_UpdateSignMetrics_Handler,
 		},
+		{
+			MethodName: "DoDailySignReportHandler",
+			Handler:    _OnlineService_DoDailySignReportHandler_Handler,
+		},
+		{
+			MethodName: "GetLatestSignReport",
+			Handler:    _OnlineService_GetLatestSignReport_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "protos/online/online.proto",
 }
 
-func (m *ReqSignMetrics) Marshal() (dAtA []byte, err error) {
+func (m *ReqLatestSignReport) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -535,12 +735,12 @@ func (m *ReqSignMetrics) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ReqSignMetrics) MarshalTo(dAtA []byte) (int, error) {
+func (m *ReqLatestSignReport) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ReqSignMetrics) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ReqLatestSignReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -767,6 +967,87 @@ func (m *SignedInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *ReqSignMetrics) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReqSignMetrics) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ReqSignMetrics) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.NodeId) > 0 {
+		i -= len(m.NodeId)
+		copy(dAtA[i:], m.NodeId)
+		i = encodeVarintOnline(dAtA, i, uint64(len(m.NodeId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Result) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Result) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Result) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	n5, err5 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.ResponseTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime):])
+	if err5 != nil {
+		return 0, err5
+	}
+	i -= n5
+	i = encodeVarintOnline(dAtA, i, uint64(n5))
+	i--
+	dAtA[i] = 0x1a
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintOnline(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintOnline(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintOnline(dAtA []byte, offset int, v uint64) int {
 	offset -= sovOnline(v)
 	base := offset
@@ -778,7 +1059,7 @@ func encodeVarintOnline(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *ReqSignMetrics) Size() (n int) {
+func (m *ReqLatestSignReport) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -892,13 +1173,50 @@ func (m *SignedInfo) Size() (n int) {
 	return n
 }
 
+func (m *ReqSignMetrics) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.NodeId)
+	if l > 0 {
+		n += 1 + l + sovOnline(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *Result) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Code != 0 {
+		n += 1 + sovOnline(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovOnline(uint64(l))
+	}
+	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime)
+	n += 1 + l + sovOnline(uint64(l))
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func sovOnline(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozOnline(x uint64) (n int) {
 	return sovOnline(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *ReqSignMetrics) Unmarshal(dAtA []byte) error {
+func (m *ReqLatestSignReport) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -921,10 +1239,10 @@ func (m *ReqSignMetrics) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ReqSignMetrics: wiretype end group for non-group")
+			return fmt.Errorf("proto: ReqLatestSignReport: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ReqSignMetrics: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ReqLatestSignReport: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1632,6 +1950,230 @@ func (m *SignedInfo) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipOnline(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReqSignMetrics) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowOnline
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReqSignMetrics: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReqSignMetrics: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NodeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowOnline
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthOnline
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NodeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipOnline(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Result) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowOnline
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Result: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Result: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowOnline
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= ResponseCode(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowOnline
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthOnline
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ResponseTime", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowOnline
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthOnline
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthOnline
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.ResponseTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipOnline(dAtA[iNdEx:])

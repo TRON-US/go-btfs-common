@@ -22,9 +22,11 @@ import "google/protobuf/timestamp.proto";
 
 service OnlineService {
   rpc UpdateSignMetrics(ReqSignMetrics) returns (RespSignMetrics);
+  rpc DoDailySignReportHandler(ReqSignMetrics) returns (Result);
+  rpc GetLatestSignReport(ReqLatestSignReport) returns (RespSignMetrics);
 }
 
-message ReqSignMetrics {
+message ReqLatestSignReport {
   bytes public_key = 1;
   bytes signature = 2;
   bytes payload = 3;
@@ -63,4 +65,17 @@ message SignedInfo {
   uint32 nonce = 4;
   string bttc_address = 5;
   uint32 signed_time = 6;
+}
+
+message ReqSignMetrics {
+  string node_id = 1;
+}
+
+message Result {
+  ResponseCode code = 1;
+  string message = 2;
+  google.protobuf.Timestamp response_time = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdtime) = true
+  ];
 }
