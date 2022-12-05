@@ -22,8 +22,8 @@ import "google/protobuf/timestamp.proto";
 
 service OnlineService {
   rpc UpdateSignMetrics(ReqSignMetrics) returns (RespSignMetrics);
-  rpc DoDailyStatusReportHandler(ReqSignMetrics) returns (Result);
-  rpc GetLastDailySignedInfoHandler(ReqLastDailySignedInfo) returns (RespSignMetrics);
+  rpc DoDailyStatusReport(ReqSignMetrics) returns (Result);
+  rpc GetLastDailySignedInfo(ReqLastDailySignedInfo) returns (RespSignMetrics);
 }
 
 message ReqLastDailySignedInfo {
