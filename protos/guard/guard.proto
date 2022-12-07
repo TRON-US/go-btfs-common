@@ -108,6 +108,10 @@ message TotalStateSummary {
   int64 invalid_contract_count = 7;
   int64 lost_shard_size = 8;
   int64 total_host_reward = 9;
+  int64 total_wbtt_reward = 10;
+  int64 total_trx_reward = 11;
+  int64 total_usdd_reward = 12;
+  int64 total_usdt_reward = 13;
 }
 
 message HostStatus {

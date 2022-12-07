@@ -2023,7 +2023,11 @@ proto.guard.TotalStateSummary.toObject = function(includeInstance, msg) {
     existedShardSize: jspb.Message.getFieldWithDefault(msg, 6, 0),
     invalidContractCount: jspb.Message.getFieldWithDefault(msg, 7, 0),
     lostShardSize: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    totalHostReward: jspb.Message.getFieldWithDefault(msg, 9, 0)
+    totalHostReward: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    totalWbttReward: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    totalTrxReward: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    totalUsddReward: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    totalUsdtReward: jspb.Message.getFieldWithDefault(msg, 13, 0)
   };
 
   if (includeInstance) {
@@ -2097,6 +2101,22 @@ proto.guard.TotalStateSummary.deserializeBinaryFromReader = function(msg, reader
     case 9:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setTotalHostReward(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalWbttReward(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalTrxReward(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalUsddReward(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalUsdtReward(value);
       break;
     default:
       reader.skipField();
@@ -2189,6 +2209,34 @@ proto.guard.TotalStateSummary.serializeBinaryToWriter = function(message, writer
   if (f !== 0) {
     writer.writeInt64(
       9,
+      f
+    );
+  }
+  f = message.getTotalWbttReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      10,
+      f
+    );
+  }
+  f = message.getTotalTrxReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      11,
+      f
+    );
+  }
+  f = message.getTotalUsddReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      12,
+      f
+    );
+  }
+  f = message.getTotalUsdtReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      13,
       f
     );
   }
@@ -2416,6 +2464,78 @@ proto.guard.TotalStateSummary.prototype.getTotalHostReward = function() {
  */
 proto.guard.TotalStateSummary.prototype.setTotalHostReward = function(value) {
   return jspb.Message.setProto3IntField(this, 9, value);
+};
+
+
+/**
+ * optional int64 total_wbtt_reward = 10;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalWbttReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalWbttReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional int64 total_trx_reward = 11;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalTrxReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalTrxReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 11, value);
+};
+
+
+/**
+ * optional int64 total_usdd_reward = 12;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalUsddReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalUsddReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 12, value);
+};
+
+
+/**
+ * optional int64 total_usdt_reward = 13;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalUsdtReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalUsdtReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 13, value);
 };
 
 
