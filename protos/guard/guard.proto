@@ -108,6 +108,10 @@ message TotalStateSummary {
   int64 invalid_contract_count = 7;
   int64 lost_shard_size = 8;
   int64 total_host_reward = 9;
+  int64 total_wbtt_reward = 10;
+  int64 total_trx_reward = 11;
+  int64 total_usdd_reward = 12;
+  int64 total_usdt_reward = 13;
 }
 
 message HostStatus {
@@ -217,6 +221,7 @@ message Contract {
     (gogoproto.nullable) = false,
     (gogoproto.stdtime) = true
   ];
+  string token = 18;
 }
 
 message FileStoreListResponse {
@@ -254,6 +259,7 @@ message FileStoreMeta {
   int32 warn_challenge_times_limit = 14; //reserve: indicate how many times warn challenge will take the contract to cancel status, renter cannot set it now, use 7 as default
   int32 success_challenge_times_limit = 15; //reserve: indicate how many times success will take the contract from warn status back to right, renter cannot set it now, use 1 as default
   int32 check_frequency_warn = 16; //reserve: check frequency in days while in warn status, renter cannot set it now, use 1 as default
+  string token = 17;
 }
 
 message FileStoreStatus {
