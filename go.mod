@@ -11,7 +11,7 @@ require (
 	github.com/hypnoglow/go-pg-monitor v0.1.0
 	github.com/hypnoglow/go-pg-monitor/gopgv9 v0.1.0
 	github.com/libp2p/go-libp2p-core v0.0.6
-	github.com/prometheus/client_golang v1.8.0
+	github.com/prometheus/client_golang v1.11.1
 	github.com/stretchr/testify v1.6.1
 	github.com/tron-us/go-common/v2 v2.3.0
 	github.com/tron-us/protobuf v1.3.4
