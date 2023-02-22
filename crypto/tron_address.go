@@ -9,8 +9,8 @@ import (
 	"github.com/tron-us/protobuf/proto"
 
 	eth "github.com/ethereum/go-ethereum/crypto"
-	ic "github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
@@ -19,7 +19,7 @@ func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
 		return nil, err
 	}
 
-	pubkeyRaw, err := ic.RawFull(pubkey)
+	pubkeyRaw, err := ic.MarshalPublicKey(pubkey)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
 }
 
 func GetTronPubKeyFromPeerIdPretty(peerId string) (*string, error) {
-	pid, err := peer.IDB58Decode(peerId)
+	pid, err := peer.IDFromBytes([]byte(peerId))
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func TronSignRaw(privKey ic.PrivKey, data []byte) ([]byte, error) {
 }
 
 func GetTronPubKeyFromIcPubKey(pubkey ic.PubKey) (*string, error) {
-	pubkeyRaw, err := ic.RawFull(pubkey)
+	pubkeyRaw, err := ic.MarshalPublicKey(pubkey)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func EcdsaPublicKeyToAddress(p ecdsa.PublicKey) (Address, error) {
 }
 
 func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
-	peerId, err := peer.IDB58Decode(peerid)
+	peerId, err := peer.IDFromBytes([]byte(peerid))
 	if err != nil {
 		return nil, err
 	}

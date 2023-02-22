@@ -10,7 +10,7 @@ import (
 	"github.com/tron-us/go-btfs-common/utils/grpc"
 	"github.com/tron-us/protobuf/proto"
 
-	ic "github.com/libp2p/go-libp2p-core/crypto"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
 )
 
 const LedgerVersion = "BTFS_Escrow_1.0.0"
@@ -24,7 +24,7 @@ func NewClient(addr string) *Client {
 }
 
 func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
-	addr, err := ic.RawFull(pubKey)
+	addr, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
 	}
@@ -35,11 +35,11 @@ func NewAccount(pubKey ic.PubKey, amount int64) (*ledgerpb.Account, error) {
 }
 
 func NewChannelCommit(fromKey ic.PubKey, toKey ic.PubKey, amount int64) (*ledgerpb.ChannelCommit, error) {
-	fromAddr, err := ic.RawFull(fromKey)
+	fromAddr, err := fromKey.Raw()
 	if err != nil {
 		return nil, err
 	}
-	toAddr, err := ic.RawFull(toKey)
+	toAddr, err := toKey.Raw()
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func NewSignedCreateAccountRequest(key *ledgerpb.PublicKey, sig []byte) *ledgerp
 }
 
 func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb.Account, error) {
-	keyBytes, err := ic.RawFull(pubKey)
+	keyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func (c *Client) ImportAccount(ctx context.Context, pubKey ic.PubKey) (*ledgerpb
 }
 
 func (c *Client) ImportSignedAccount(ctx context.Context, privKey ic.PrivKey, pubKey ic.PubKey) (*ledgerpb.SignedCreateAccountResult, error) {
-	pubKeyBytes, err := ic.RawFull(pubKey)
+	pubKeyBytes, err := pubKey.Raw()
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +149,7 @@ func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.
 }
 
 func NewSignedPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
-	raw, err := ic.RawFull(pubK)
+	raw, err := pubK.Raw()
 	if err != nil {
 		return nil, err
 	}
