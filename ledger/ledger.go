@@ -149,7 +149,7 @@ func (c *Client) CloseChannel(ctx context.Context, signedChannelState *ledgerpb.
 }
 
 func NewSignedPublicKey(privK ic.PrivKey, pubK ic.PubKey) (*ledgerpb.SignedPublicKey, error) {
-	raw, err := pubK.Raw()
+	raw, err := ic.MarshalPublicKey(pubK)
 	if err != nil {
 		return nil, err
 	}
