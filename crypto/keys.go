@@ -9,7 +9,7 @@ import (
 	"github.com/btcsuite/btcutil/base58"
 	ethCommon "github.com/ethereum/go-ethereum/common"
 	eth "github.com/ethereum/go-ethereum/crypto"
-	ic "github.com/libp2p/go-libp2p-core/crypto"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
 )
 
 const (
@@ -36,7 +36,7 @@ func FromIcPrivateKey(privKey ic.PrivKey) (*Keys, error) {
 		return nil, err
 	}
 
-	pubKeyRaw, err := ic.RawFull(pubKey)
+	pubKeyRaw, err := ic.MarshalPublicKey(pubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +167,7 @@ func Encode58Check(input []byte) (string, error) {
 	return base58.Encode(inputCheck), nil
 }
 
-//Package goLang sha256 hash algorithm.
+// Package goLang sha256 hash algorithm.
 func Hash(s []byte) ([]byte, error) {
 	h := sha256.New()
 	_, err := h.Write(s)

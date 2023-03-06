@@ -6,12 +6,12 @@ import (
 	escrowpb "github.com/tron-us/go-btfs-common/protos/escrow"
 	ledgerpb "github.com/tron-us/go-btfs-common/protos/ledger"
 
-	ic "github.com/libp2p/go-libp2p-core/crypto"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
 )
 
 func NewPayinRequest(payinId string, payerPubkey ic.PubKey, state *ledgerpb.SignedChannelState) (
 	*escrowpb.PayinRequest, error) {
-	raw, err := ic.RawFull(payerPubkey)
+	raw, err := ic.MarshalPublicKey(payerPubkey)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func NewSignedPayinRequest(req *escrowpb.PayinRequest, sig []byte) *escrowpb.Sig
 }
 
 func NewContractID(id string, key ic.PubKey) (*escrowpb.ContractID, error) {
-	raw, err := ic.RawFull(key)
+	raw, err := ic.MarshalPublicKey(key)
 	if err != nil {
 		return nil, err
 	}
@@ -50,18 +50,18 @@ func NewSingedContractID(id *escrowpb.ContractID, sig []byte) *escrowpb.SignedCo
 func NewEscrowContract(id string, payerPubKey ic.PubKey, hostPubKey ic.PubKey, authPubKey ic.PubKey,
 	amount int64, ps escrowpb.Schedule, period int32, contrType escrowpb.ContractType,
 	contingentAmount int64, storageLength int) (*escrowpb.EscrowContract, error) {
-	payerAddr, err := ic.RawFull(payerPubKey)
+	payerAddr, err := ic.MarshalPublicKey(payerPubKey)
 	if err != nil {
 		return nil, err
 	}
 	var hostAddr []byte
 	if hostPubKey != nil {
-		hostAddr, err = ic.RawFull(hostPubKey)
+		hostAddr, err = ic.MarshalPublicKey(hostPubKey)
 		if err != nil {
 			return nil, err
 		}
 	}
-	authAddress, err := ic.RawFull(authPubKey)
+	authAddress, err := ic.MarshalPublicKey(authPubKey)
 	if err != nil {
 		return nil, err
 	}
