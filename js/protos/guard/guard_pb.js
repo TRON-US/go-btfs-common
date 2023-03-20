@@ -2023,7 +2023,11 @@ proto.guard.TotalStateSummary.toObject = function(includeInstance, msg) {
     existedShardSize: jspb.Message.getFieldWithDefault(msg, 6, 0),
     invalidContractCount: jspb.Message.getFieldWithDefault(msg, 7, 0),
     lostShardSize: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    totalHostReward: jspb.Message.getFieldWithDefault(msg, 9, 0)
+    totalHostReward: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    totalWbttReward: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    totalTrxReward: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    totalUsddReward: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    totalUsdtReward: jspb.Message.getFieldWithDefault(msg, 13, 0)
   };
 
   if (includeInstance) {
@@ -2097,6 +2101,22 @@ proto.guard.TotalStateSummary.deserializeBinaryFromReader = function(msg, reader
     case 9:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setTotalHostReward(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalWbttReward(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalTrxReward(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalUsddReward(value);
+      break;
+    case 13:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalUsdtReward(value);
       break;
     default:
       reader.skipField();
@@ -2189,6 +2209,34 @@ proto.guard.TotalStateSummary.serializeBinaryToWriter = function(message, writer
   if (f !== 0) {
     writer.writeInt64(
       9,
+      f
+    );
+  }
+  f = message.getTotalWbttReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      10,
+      f
+    );
+  }
+  f = message.getTotalTrxReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      11,
+      f
+    );
+  }
+  f = message.getTotalUsddReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      12,
+      f
+    );
+  }
+  f = message.getTotalUsdtReward();
+  if (f !== 0) {
+    writer.writeInt64(
+      13,
       f
     );
   }
@@ -2416,6 +2464,78 @@ proto.guard.TotalStateSummary.prototype.getTotalHostReward = function() {
  */
 proto.guard.TotalStateSummary.prototype.setTotalHostReward = function(value) {
   return jspb.Message.setProto3IntField(this, 9, value);
+};
+
+
+/**
+ * optional int64 total_wbtt_reward = 10;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalWbttReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalWbttReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional int64 total_trx_reward = 11;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalTrxReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalTrxReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 11, value);
+};
+
+
+/**
+ * optional int64 total_usdd_reward = 12;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalUsddReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalUsddReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 12, value);
+};
+
+
+/**
+ * optional int64 total_usdt_reward = 13;
+ * @return {number}
+ */
+proto.guard.TotalStateSummary.prototype.getTotalUsdtReward = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.guard.TotalStateSummary} returns this
+ */
+proto.guard.TotalStateSummary.prototype.setTotalUsdtReward = function(value) {
+  return jspb.Message.setProto3IntField(this, 13, value);
 };
 
 
@@ -3597,7 +3717,8 @@ proto.guard.Contract.toObject = function(includeInstance, msg) {
     challengeTimes: jspb.Message.getFieldWithDefault(msg, 14, 0),
     challengeWarnTimes: jspb.Message.getFieldWithDefault(msg, 15, 0),
     challengeSuccessTimes: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    firstChallengeSuccess: (f = msg.getFirstChallengeSuccess()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    firstChallengeSuccess: (f = msg.getFirstChallengeSuccess()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    token: jspb.Message.getFieldWithDefault(msg, 18, "")
   };
 
   if (includeInstance) {
@@ -3708,6 +3829,10 @@ proto.guard.Contract.deserializeBinaryFromReader = function(msg, reader) {
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setFirstChallengeSuccess(value);
+      break;
+    case 18:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setToken(value);
       break;
     default:
       reader.skipField();
@@ -3862,6 +3987,13 @@ proto.guard.Contract.serializeBinaryToWriter = function(message, writer) {
       17,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getToken();
+  if (f.length > 0) {
+    writer.writeString(
+      18,
+      f
     );
   }
 };
@@ -4446,6 +4578,24 @@ proto.guard.Contract.prototype.hasFirstChallengeSuccess = function() {
 };
 
 
+/**
+ * optional string token = 18;
+ * @return {string}
+ */
+proto.guard.Contract.prototype.getToken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.Contract} returns this
+ */
+proto.guard.Contract.prototype.setToken = function(value) {
+  return jspb.Message.setProto3StringField(this, 18, value);
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -4839,7 +4989,8 @@ proto.guard.FileStoreMeta.toObject = function(includeInstance, msg) {
     guardPid: jspb.Message.getFieldWithDefault(msg, 13, ""),
     warnChallengeTimesLimit: jspb.Message.getFieldWithDefault(msg, 14, 0),
     successChallengeTimesLimit: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    checkFrequencyWarn: jspb.Message.getFieldWithDefault(msg, 16, 0)
+    checkFrequencyWarn: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    token: jspb.Message.getFieldWithDefault(msg, 17, "")
   };
 
   if (includeInstance) {
@@ -4941,6 +5092,10 @@ proto.guard.FileStoreMeta.deserializeBinaryFromReader = function(msg, reader) {
     case 16:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setCheckFrequencyWarn(value);
+      break;
+    case 17:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setToken(value);
       break;
     default:
       reader.skipField();
@@ -5082,6 +5237,13 @@ proto.guard.FileStoreMeta.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt32(
       16,
+      f
+    );
+  }
+  f = message.getToken();
+  if (f.length > 0) {
+    writer.writeString(
+      17,
       f
     );
   }
@@ -5411,6 +5573,24 @@ proto.guard.FileStoreMeta.prototype.getCheckFrequencyWarn = function() {
  */
 proto.guard.FileStoreMeta.prototype.setCheckFrequencyWarn = function(value) {
   return jspb.Message.setProto3IntField(this, 16, value);
+};
+
+
+/**
+ * optional string token = 17;
+ * @return {string}
+ */
+proto.guard.FileStoreMeta.prototype.getToken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 17, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.guard.FileStoreMeta} returns this
+ */
+proto.guard.FileStoreMeta.prototype.setToken = function(value) {
+  return jspb.Message.setProto3StringField(this, 17, value);
 };
 
 
