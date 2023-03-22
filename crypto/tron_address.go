@@ -4,13 +4,15 @@ import (
 	"crypto/ecdsa"
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 
+	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 	"github.com/tron-us/go-common/v2/crypto"
 	"github.com/tron-us/protobuf/proto"
 
 	eth "github.com/ethereum/go-ethereum/crypto"
-	ic "github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
@@ -19,7 +21,7 @@ func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
 		return nil, err
 	}
 
-	pubkeyRaw, err := ic.RawFull(pubkey)
+	pubkeyRaw, err := ic.MarshalPublicKey(pubkey)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +43,7 @@ func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
 }
 
 func GetTronPubKeyFromPeerIdPretty(peerId string) (*string, error) {
-	pid, err := peer.IDB58Decode(peerId)
+	pid, err := peer.Decode(peerId)
 	if err != nil {
 		return nil, err
 	}
@@ -80,12 +82,11 @@ func TronSignRaw(privKey ic.PrivKey, data []byte) ([]byte, error) {
 }
 
 func GetTronPubKeyFromIcPubKey(pubkey ic.PubKey) (*string, error) {
-	pubkeyRaw, err := ic.RawFull(pubkey)
+	rawPubKey, err := Secp256k1PublicKeyRaw(pubkey)
 	if err != nil {
 		return nil, err
 	}
-
-	ethPubkey, err := eth.UnmarshalPubkey(pubkeyRaw)
+	ethPubkey, err := eth.UnmarshalPubkey(rawPubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +118,7 @@ func EcdsaPublicKeyToAddress(p ecdsa.PublicKey) (Address, error) {
 }
 
 func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
-	peerId, err := peer.IDB58Decode(peerid)
+	peerId, err := peer.Decode(peerid)
 	if err != nil {
 		return nil, err
 	}
@@ -126,4 +127,18 @@ func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
 		return nil, err
 	}
 	return pubkey.Raw()
+}
+
+// Raw returns the bytes of the key
+func Secp256k1PublicKeyRaw(pk ic.PubKey) (res []byte, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("secp256k1 public key marshaling error: %v", r)
+		}
+	}()
+	k, ok := pk.(*ic.Secp256k1PublicKey)
+	if !ok {
+		return nil, fmt.Errorf("only secp256k1 keys support full public key bytes")
+	}
+	return (*secp256k1.PublicKey)(k).SerializeUncompressed(), nil
 }

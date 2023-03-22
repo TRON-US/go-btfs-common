@@ -16,9 +16,9 @@ import (
 
 	eth "github.com/ethereum/go-ethereum/crypto"
 	"github.com/gogo/protobuf/proto"
-	ic "github.com/libp2p/go-libp2p-core/crypto"
-	pb "github.com/libp2p/go-libp2p-core/crypto/pb"
-	"github.com/libp2p/go-libp2p-core/peer"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
+	pb "github.com/libp2p/go-libp2p/core/crypto/pb"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func Sign(key ic.PrivKey, channelMessage proto.Message) ([]byte, error) {
@@ -176,7 +176,7 @@ func Decrypt(key, text []byte) ([]byte, error) {
 }
 
 func GetPubKeyFromPeerId(pid string) (ic.PubKey, error) {
-	peerId, err := peer.IDB58Decode(pid)
+	peerId, err := peer.Decode(pid)
 	if err != nil {
 		return nil, err
 	}
