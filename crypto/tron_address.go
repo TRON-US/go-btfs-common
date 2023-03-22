@@ -4,7 +4,9 @@ import (
 	"crypto/ecdsa"
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 
+	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 	"github.com/tron-us/go-common/v2/crypto"
 	"github.com/tron-us/protobuf/proto"
 
@@ -41,7 +43,7 @@ func GetTronPubKeyFromPubkey(pubkeyS string) (*string, error) {
 }
 
 func GetTronPubKeyFromPeerIdPretty(peerId string) (*string, error) {
-	pid, err := peer.IDFromBytes([]byte(peerId))
+	pid, err := peer.Decode(peerId)
 	if err != nil {
 		return nil, err
 	}
@@ -80,12 +82,11 @@ func TronSignRaw(privKey ic.PrivKey, data []byte) ([]byte, error) {
 }
 
 func GetTronPubKeyFromIcPubKey(pubkey ic.PubKey) (*string, error) {
-	pubkeyRaw, err := ic.MarshalPublicKey(pubkey)
+	rawPubKey, err := Secp256k1PublicKeyRaw(pubkey)
 	if err != nil {
 		return nil, err
 	}
-
-	ethPubkey, err := eth.UnmarshalPubkey(pubkeyRaw)
+	ethPubkey, err := eth.UnmarshalPubkey(rawPubKey)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +118,7 @@ func EcdsaPublicKeyToAddress(p ecdsa.PublicKey) (Address, error) {
 }
 
 func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
-	peerId, err := peer.IDFromBytes([]byte(peerid))
+	peerId, err := peer.Decode(peerid)
 	if err != nil {
 		return nil, err
 	}
@@ -126,4 +127,14 @@ func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
 		return nil, err
 	}
 	return pubkey.Raw()
+}
+
+// Raw returns the bytes of the key
+func Secp256k1PublicKeyRaw(pk ic.PubKey) (res []byte, err error) {
+	// defer func() { catch.HandlePanic(recover(), &err, "secp256k1 public key marshaling") }()
+	k, ok := pk.(*ic.Secp256k1PublicKey)
+	if !ok {
+		return nil, fmt.Errorf("only secp256k1 keys support full public key bytes")
+	}
+	return (*secp256k1.PublicKey)(k).SerializeUncompressed(), nil
 }
