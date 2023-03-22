@@ -131,7 +131,11 @@ func GetRawFullFromPeerIdPretty(peerid string) ([]byte, error) {
 
 // Raw returns the bytes of the key
 func Secp256k1PublicKeyRaw(pk ic.PubKey) (res []byte, err error) {
-	// defer func() { catch.HandlePanic(recover(), &err, "secp256k1 public key marshaling") }()
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("secp256k1 public key marshaling error: %v", r)
+		}
+	}()
 	k, ok := pk.(*ic.Secp256k1PublicKey)
 	if !ok {
 		return nil, fmt.Errorf("only secp256k1 keys support full public key bytes")
