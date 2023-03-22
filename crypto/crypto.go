@@ -176,7 +176,7 @@ func Decrypt(key, text []byte) ([]byte, error) {
 }
 
 func GetPubKeyFromPeerId(pid string) (ic.PubKey, error) {
-	peerId, err := peer.IDFromBytes([]byte(pid))
+	peerId, err := peer.Decode(pid)
 	if err != nil {
 		return nil, err
 	}

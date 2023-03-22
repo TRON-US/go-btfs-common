@@ -36,7 +36,7 @@ func FromIcPrivateKey(privKey ic.PrivKey) (*Keys, error) {
 		return nil, err
 	}
 
-	pubKeyRaw, err := ic.MarshalPublicKey(pubKey)
+	pubKeyRaw, err := Secp256k1PublicKeyRaw(pubKey)
 	if err != nil {
 		return nil, err
 	}
