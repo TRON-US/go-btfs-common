@@ -6,11 +6,11 @@ package shared
 import (
 	context "context"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
+	github_com_bittorrent_protobuf_types "github.com/bittorrent/protobuf/types"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
-	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -502,7 +502,7 @@ func (m *RuntimeInfoRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime):])
+	n1, err1 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.CurentTime):])
 	if err1 != nil {
 		return 0, err1
 	}
@@ -658,7 +658,7 @@ func (m *RuntimeInfoReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x3a
 	}
-	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime):])
+	n3, err3 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime):])
 	if err3 != nil {
 		return 0, err3
 	}
@@ -666,7 +666,7 @@ func (m *RuntimeInfoReport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintShared(dAtA, i, uint64(n3))
 	i--
 	dAtA[i] = 0x32
-	n4, err4 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime):])
+	n4, err4 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.CurentTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.CurentTime):])
 	if err4 != nil {
 		return 0, err4
 	}
@@ -724,7 +724,7 @@ func (m *RuntimeInfoRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovShared(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.CurentTime)
 	n += 1 + l + sovShared(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -773,9 +773,9 @@ func (m *RuntimeInfoReport) Size() (n int) {
 	if m.Status != 0 {
 		n += 1 + sovShared(uint64(m.Status))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.CurentTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.CurentTime)
 	n += 1 + l + sovShared(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime)
 	n += 1 + l + sovShared(uint64(l))
 	l = len(m.GitHash)
 	if l > 0 {
@@ -917,7 +917,7 @@ func (m *RuntimeInfoRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1243,7 +1243,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.CurentTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1276,7 +1276,7 @@ func (m *RuntimeInfoReport) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

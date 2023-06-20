@@ -6,12 +6,12 @@ package online
 import (
 	context "context"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
+	github_com_bittorrent_protobuf_types "github.com/bittorrent/protobuf/types"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	node "github.com/tron-us/go-btfs-common/protos/node"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
-	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -783,7 +783,7 @@ func (m *Result) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.ResponseTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime):])
+	n1, err1 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.ResponseTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.ResponseTime):])
 	if err1 != nil {
 		return 0, err1
 	}
@@ -878,7 +878,7 @@ func (m *PayLoadInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n2, err2 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastTime):])
+	n2, err2 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastTime):])
 	if err2 != nil {
 		return 0, err2
 	}
@@ -1088,7 +1088,7 @@ func (m *Result) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovOnline(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ResponseTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.ResponseTime)
 	n += 1 + l + sovOnline(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -1142,7 +1142,7 @@ func (m *PayLoadInfo) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovOnline(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastTime)
 	n += 1 + l + sovOnline(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -1411,7 +1411,7 @@ func (m *Result) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.ResponseTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.ResponseTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1790,7 +1790,7 @@ func (m *PayLoadInfo) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

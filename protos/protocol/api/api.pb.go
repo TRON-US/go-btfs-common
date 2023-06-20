@@ -6,8 +6,8 @@ package protocol_api
 import (
 	context "context"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
 	core "github.com/tron-us/go-btfs-common/protos/protocol/core"
-	proto "github.com/tron-us/protobuf/proto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -967,7 +967,7 @@ func (m *TimePaginatedMessage) GetLimit() int64 {
 	return 0
 }
 
-//deprecated
+// deprecated
 type AccountNetMessage struct {
 	FreeNetUsed          int64            `protobuf:"varint,1,opt,name=freeNetUsed,proto3" json:"freeNetUsed,omitempty" pg:"freeNetUsed"`
 	FreeNetLimit         int64            `protobuf:"varint,2,opt,name=freeNetLimit,proto3" json:"freeNetLimit,omitempty" pg:"freeNetLimit"`
@@ -1944,67 +1944,67 @@ const _ = grpc.SupportPackageIsVersion4
 type WalletClient interface {
 	GetAccount(ctx context.Context, in *core.Account, opts ...grpc.CallOption) (*core.Account, error)
 	GetAccountById(ctx context.Context, in *core.Account, opts ...grpc.CallOption) (*core.Account, error)
-	//Please use CreateTransaction2 instead of this function.
+	// Please use CreateTransaction2 instead of this function.
 	CreateTransaction(ctx context.Context, in *core.TransferContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of CreateTransaction.
+	// Use this function instead of CreateTransaction.
 	CreateTransaction2(ctx context.Context, in *core.TransferContract, opts ...grpc.CallOption) (*TransactionExtention, error)
 	BroadcastTransaction(ctx context.Context, in *core.Transaction, opts ...grpc.CallOption) (*Return, error)
-	//Please use UpdateAccount2 instead of this function.
+	// Please use UpdateAccount2 instead of this function.
 	UpdateAccount(ctx context.Context, in *core.AccountUpdateContract, opts ...grpc.CallOption) (*core.Transaction, error)
 	SetAccountId(ctx context.Context, in *core.SetAccountIdContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of UpdateAccount.
+	// Use this function instead of UpdateAccount.
 	UpdateAccount2(ctx context.Context, in *core.AccountUpdateContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use VoteWitnessAccount2 instead of this function.
+	// Please use VoteWitnessAccount2 instead of this function.
 	VoteWitnessAccount(ctx context.Context, in *core.VoteWitnessContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//modify the consume_user_resource_percent
+	// modify the consume_user_resource_percent
 	UpdateSetting(ctx context.Context, in *core.UpdateSettingContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//modify the energy_limit
+	// modify the energy_limit
 	UpdateEnergyLimit(ctx context.Context, in *core.UpdateEnergyLimitContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Use this function instead of VoteWitnessAccount.
+	// Use this function instead of VoteWitnessAccount.
 	VoteWitnessAccount2(ctx context.Context, in *core.VoteWitnessContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use CreateAssetIssue2 instead of this function.
+	// Please use CreateAssetIssue2 instead of this function.
 	CreateAssetIssue(ctx context.Context, in *core.AssetIssueContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of CreateAssetIssue.
+	// Use this function instead of CreateAssetIssue.
 	CreateAssetIssue2(ctx context.Context, in *core.AssetIssueContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use UpdateWitness2 instead of this function.
+	// Please use UpdateWitness2 instead of this function.
 	UpdateWitness(ctx context.Context, in *core.WitnessUpdateContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of UpdateWitness.
+	// Use this function instead of UpdateWitness.
 	UpdateWitness2(ctx context.Context, in *core.WitnessUpdateContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use CreateAccount2 instead of this function.
+	// Please use CreateAccount2 instead of this function.
 	CreateAccount(ctx context.Context, in *core.AccountCreateContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of CreateAccount.
+	// Use this function instead of CreateAccount.
 	CreateAccount2(ctx context.Context, in *core.AccountCreateContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use CreateWitness2 instead of this function.
+	// Please use CreateWitness2 instead of this function.
 	CreateWitness(ctx context.Context, in *core.WitnessCreateContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of CreateWitness.
+	// Use this function instead of CreateWitness.
 	CreateWitness2(ctx context.Context, in *core.WitnessCreateContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use TransferAsset2 instead of this function.
+	// Please use TransferAsset2 instead of this function.
 	TransferAsset(ctx context.Context, in *core.TransferAssetContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of TransferAsset.
+	// Use this function instead of TransferAsset.
 	TransferAsset2(ctx context.Context, in *core.TransferAssetContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use ParticipateAssetIssue2 instead of this function.
+	// Please use ParticipateAssetIssue2 instead of this function.
 	ParticipateAssetIssue(ctx context.Context, in *core.ParticipateAssetIssueContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of ParticipateAssetIssue.
+	// Use this function instead of ParticipateAssetIssue.
 	ParticipateAssetIssue2(ctx context.Context, in *core.ParticipateAssetIssueContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use FreezeBalance2 instead of this function.
+	// Please use FreezeBalance2 instead of this function.
 	FreezeBalance(ctx context.Context, in *core.FreezeBalanceContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of FreezeBalance.
+	// Use this function instead of FreezeBalance.
 	FreezeBalance2(ctx context.Context, in *core.FreezeBalanceContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use UnfreezeBalance2 instead of this function.
+	// Please use UnfreezeBalance2 instead of this function.
 	UnfreezeBalance(ctx context.Context, in *core.UnfreezeBalanceContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of UnfreezeBalance.
+	// Use this function instead of UnfreezeBalance.
 	UnfreezeBalance2(ctx context.Context, in *core.UnfreezeBalanceContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use UnfreezeAsset2 instead of this function.
+	// Please use UnfreezeAsset2 instead of this function.
 	UnfreezeAsset(ctx context.Context, in *core.UnfreezeAssetContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of UnfreezeAsset.
+	// Use this function instead of UnfreezeAsset.
 	UnfreezeAsset2(ctx context.Context, in *core.UnfreezeAssetContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use WithdrawBalance2 instead of this function.
+	// Please use WithdrawBalance2 instead of this function.
 	WithdrawBalance(ctx context.Context, in *core.WithdrawBalanceContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of WithdrawBalance.
+	// Use this function instead of WithdrawBalance.
 	WithdrawBalance2(ctx context.Context, in *core.WithdrawBalanceContract, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Please use UpdateAsset2 instead of this function.
+	// Please use UpdateAsset2 instead of this function.
 	UpdateAsset(ctx context.Context, in *core.UpdateAssetContract, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Use this function instead of UpdateAsset.
+	// Use this function instead of UpdateAsset.
 	UpdateAsset2(ctx context.Context, in *core.UpdateAssetContract, opts ...grpc.CallOption) (*TransactionExtention, error)
 	ProposalCreate(ctx context.Context, in *core.ProposalCreateContract, opts ...grpc.CallOption) (*TransactionExtention, error)
 	ProposalApprove(ctx context.Context, in *core.ProposalApproveContract, opts ...grpc.CallOption) (*TransactionExtention, error)
@@ -2023,23 +2023,23 @@ type WalletClient interface {
 	GetAssetIssueByName(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.AssetIssueContract, error)
 	GetAssetIssueListByName(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*AssetIssueList, error)
 	GetAssetIssueById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.AssetIssueContract, error)
-	//Please use GetNowBlock2 instead of this function.
+	// Please use GetNowBlock2 instead of this function.
 	GetNowBlock(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*core.Block, error)
-	//Use this function instead of GetNowBlock.
+	// Use this function instead of GetNowBlock.
 	GetNowBlock2(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*BlockExtention, error)
-	//Please use GetBlockByNum2 instead of this function.
+	// Please use GetBlockByNum2 instead of this function.
 	GetBlockByNum(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*core.Block, error)
-	//Use this function instead of GetBlockByNum.
+	// Use this function instead of GetBlockByNum.
 	GetBlockByNum2(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*BlockExtention, error)
 	GetTransactionCountByBlockNum(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*NumberMessage, error)
 	GetBlockById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.Block, error)
-	//Please use GetBlockByLimitNext2 instead of this function.
+	// Please use GetBlockByLimitNext2 instead of this function.
 	GetBlockByLimitNext(ctx context.Context, in *BlockLimit, opts ...grpc.CallOption) (*BlockList, error)
-	//Use this function instead of GetBlockByLimitNext.
+	// Use this function instead of GetBlockByLimitNext.
 	GetBlockByLimitNext2(ctx context.Context, in *BlockLimit, opts ...grpc.CallOption) (*BlockListExtention, error)
-	//Please use GetBlockByLatestNum2 instead of this function.
+	// Please use GetBlockByLatestNum2 instead of this function.
 	GetBlockByLatestNum(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*BlockList, error)
-	//Use this function instead of GetBlockByLatestNum.
+	// Use this function instead of GetBlockByLatestNum.
 	GetBlockByLatestNum2(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*BlockListExtention, error)
 	GetTransactionById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.Transaction, error)
 	DeployContract(ctx context.Context, in *core.CreateSmartContract, opts ...grpc.CallOption) (*TransactionExtention, error)
@@ -2059,19 +2059,19 @@ type WalletClient interface {
 	GetPaginatedAssetIssueList(ctx context.Context, in *PaginatedMessage, opts ...grpc.CallOption) (*AssetIssueList, error)
 	TotalTransaction(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*NumberMessage, error)
 	GetNextMaintenanceTime(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*NumberMessage, error)
-	//Warning: do not invoke this interface provided by others.
-	//Please use GetTransactionSign2 instead of this function.
+	// Warning: do not invoke this interface provided by others.
+	// Please use GetTransactionSign2 instead of this function.
 	GetTransactionSign(ctx context.Context, in *core.TransactionSign, opts ...grpc.CallOption) (*core.Transaction, error)
-	//Warning: do not invoke this interface provided by others.
-	//Use this function instead of GetTransactionSign.
+	// Warning: do not invoke this interface provided by others.
+	// Use this function instead of GetTransactionSign.
 	GetTransactionSign2(ctx context.Context, in *core.TransactionSign, opts ...grpc.CallOption) (*TransactionExtention, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	CreateAddress(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*BytesMessage, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	EasyTransfer(ctx context.Context, in *EasyTransferMessage, opts ...grpc.CallOption) (*EasyTransferResponse, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	EasyTransferByPrivate(ctx context.Context, in *EasyTransferByPrivateMessage, opts ...grpc.CallOption) (*EasyTransferResponse, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	GenerateAddress(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*AddressPrKeyPairMessage, error)
 	GetTransactionInfoById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.TransactionInfo, error)
 }
@@ -2862,67 +2862,67 @@ func (c *walletClient) GetTransactionInfoById(ctx context.Context, in *BytesMess
 type WalletServer interface {
 	GetAccount(context.Context, *core.Account) (*core.Account, error)
 	GetAccountById(context.Context, *core.Account) (*core.Account, error)
-	//Please use CreateTransaction2 instead of this function.
+	// Please use CreateTransaction2 instead of this function.
 	CreateTransaction(context.Context, *core.TransferContract) (*core.Transaction, error)
-	//Use this function instead of CreateTransaction.
+	// Use this function instead of CreateTransaction.
 	CreateTransaction2(context.Context, *core.TransferContract) (*TransactionExtention, error)
 	BroadcastTransaction(context.Context, *core.Transaction) (*Return, error)
-	//Please use UpdateAccount2 instead of this function.
+	// Please use UpdateAccount2 instead of this function.
 	UpdateAccount(context.Context, *core.AccountUpdateContract) (*core.Transaction, error)
 	SetAccountId(context.Context, *core.SetAccountIdContract) (*core.Transaction, error)
-	//Use this function instead of UpdateAccount.
+	// Use this function instead of UpdateAccount.
 	UpdateAccount2(context.Context, *core.AccountUpdateContract) (*TransactionExtention, error)
-	//Please use VoteWitnessAccount2 instead of this function.
+	// Please use VoteWitnessAccount2 instead of this function.
 	VoteWitnessAccount(context.Context, *core.VoteWitnessContract) (*core.Transaction, error)
-	//modify the consume_user_resource_percent
+	// modify the consume_user_resource_percent
 	UpdateSetting(context.Context, *core.UpdateSettingContract) (*TransactionExtention, error)
-	//modify the energy_limit
+	// modify the energy_limit
 	UpdateEnergyLimit(context.Context, *core.UpdateEnergyLimitContract) (*TransactionExtention, error)
-	//Use this function instead of VoteWitnessAccount.
+	// Use this function instead of VoteWitnessAccount.
 	VoteWitnessAccount2(context.Context, *core.VoteWitnessContract) (*TransactionExtention, error)
-	//Please use CreateAssetIssue2 instead of this function.
+	// Please use CreateAssetIssue2 instead of this function.
 	CreateAssetIssue(context.Context, *core.AssetIssueContract) (*core.Transaction, error)
-	//Use this function instead of CreateAssetIssue.
+	// Use this function instead of CreateAssetIssue.
 	CreateAssetIssue2(context.Context, *core.AssetIssueContract) (*TransactionExtention, error)
-	//Please use UpdateWitness2 instead of this function.
+	// Please use UpdateWitness2 instead of this function.
 	UpdateWitness(context.Context, *core.WitnessUpdateContract) (*core.Transaction, error)
-	//Use this function instead of UpdateWitness.
+	// Use this function instead of UpdateWitness.
 	UpdateWitness2(context.Context, *core.WitnessUpdateContract) (*TransactionExtention, error)
-	//Please use CreateAccount2 instead of this function.
+	// Please use CreateAccount2 instead of this function.
 	CreateAccount(context.Context, *core.AccountCreateContract) (*core.Transaction, error)
-	//Use this function instead of CreateAccount.
+	// Use this function instead of CreateAccount.
 	CreateAccount2(context.Context, *core.AccountCreateContract) (*TransactionExtention, error)
-	//Please use CreateWitness2 instead of this function.
+	// Please use CreateWitness2 instead of this function.
 	CreateWitness(context.Context, *core.WitnessCreateContract) (*core.Transaction, error)
-	//Use this function instead of CreateWitness.
+	// Use this function instead of CreateWitness.
 	CreateWitness2(context.Context, *core.WitnessCreateContract) (*TransactionExtention, error)
-	//Please use TransferAsset2 instead of this function.
+	// Please use TransferAsset2 instead of this function.
 	TransferAsset(context.Context, *core.TransferAssetContract) (*core.Transaction, error)
-	//Use this function instead of TransferAsset.
+	// Use this function instead of TransferAsset.
 	TransferAsset2(context.Context, *core.TransferAssetContract) (*TransactionExtention, error)
-	//Please use ParticipateAssetIssue2 instead of this function.
+	// Please use ParticipateAssetIssue2 instead of this function.
 	ParticipateAssetIssue(context.Context, *core.ParticipateAssetIssueContract) (*core.Transaction, error)
-	//Use this function instead of ParticipateAssetIssue.
+	// Use this function instead of ParticipateAssetIssue.
 	ParticipateAssetIssue2(context.Context, *core.ParticipateAssetIssueContract) (*TransactionExtention, error)
-	//Please use FreezeBalance2 instead of this function.
+	// Please use FreezeBalance2 instead of this function.
 	FreezeBalance(context.Context, *core.FreezeBalanceContract) (*core.Transaction, error)
-	//Use this function instead of FreezeBalance.
+	// Use this function instead of FreezeBalance.
 	FreezeBalance2(context.Context, *core.FreezeBalanceContract) (*TransactionExtention, error)
-	//Please use UnfreezeBalance2 instead of this function.
+	// Please use UnfreezeBalance2 instead of this function.
 	UnfreezeBalance(context.Context, *core.UnfreezeBalanceContract) (*core.Transaction, error)
-	//Use this function instead of UnfreezeBalance.
+	// Use this function instead of UnfreezeBalance.
 	UnfreezeBalance2(context.Context, *core.UnfreezeBalanceContract) (*TransactionExtention, error)
-	//Please use UnfreezeAsset2 instead of this function.
+	// Please use UnfreezeAsset2 instead of this function.
 	UnfreezeAsset(context.Context, *core.UnfreezeAssetContract) (*core.Transaction, error)
-	//Use this function instead of UnfreezeAsset.
+	// Use this function instead of UnfreezeAsset.
 	UnfreezeAsset2(context.Context, *core.UnfreezeAssetContract) (*TransactionExtention, error)
-	//Please use WithdrawBalance2 instead of this function.
+	// Please use WithdrawBalance2 instead of this function.
 	WithdrawBalance(context.Context, *core.WithdrawBalanceContract) (*core.Transaction, error)
-	//Use this function instead of WithdrawBalance.
+	// Use this function instead of WithdrawBalance.
 	WithdrawBalance2(context.Context, *core.WithdrawBalanceContract) (*TransactionExtention, error)
-	//Please use UpdateAsset2 instead of this function.
+	// Please use UpdateAsset2 instead of this function.
 	UpdateAsset(context.Context, *core.UpdateAssetContract) (*core.Transaction, error)
-	//Use this function instead of UpdateAsset.
+	// Use this function instead of UpdateAsset.
 	UpdateAsset2(context.Context, *core.UpdateAssetContract) (*TransactionExtention, error)
 	ProposalCreate(context.Context, *core.ProposalCreateContract) (*TransactionExtention, error)
 	ProposalApprove(context.Context, *core.ProposalApproveContract) (*TransactionExtention, error)
@@ -2941,23 +2941,23 @@ type WalletServer interface {
 	GetAssetIssueByName(context.Context, *BytesMessage) (*core.AssetIssueContract, error)
 	GetAssetIssueListByName(context.Context, *BytesMessage) (*AssetIssueList, error)
 	GetAssetIssueById(context.Context, *BytesMessage) (*core.AssetIssueContract, error)
-	//Please use GetNowBlock2 instead of this function.
+	// Please use GetNowBlock2 instead of this function.
 	GetNowBlock(context.Context, *EmptyMessage) (*core.Block, error)
-	//Use this function instead of GetNowBlock.
+	// Use this function instead of GetNowBlock.
 	GetNowBlock2(context.Context, *EmptyMessage) (*BlockExtention, error)
-	//Please use GetBlockByNum2 instead of this function.
+	// Please use GetBlockByNum2 instead of this function.
 	GetBlockByNum(context.Context, *NumberMessage) (*core.Block, error)
-	//Use this function instead of GetBlockByNum.
+	// Use this function instead of GetBlockByNum.
 	GetBlockByNum2(context.Context, *NumberMessage) (*BlockExtention, error)
 	GetTransactionCountByBlockNum(context.Context, *NumberMessage) (*NumberMessage, error)
 	GetBlockById(context.Context, *BytesMessage) (*core.Block, error)
-	//Please use GetBlockByLimitNext2 instead of this function.
+	// Please use GetBlockByLimitNext2 instead of this function.
 	GetBlockByLimitNext(context.Context, *BlockLimit) (*BlockList, error)
-	//Use this function instead of GetBlockByLimitNext.
+	// Use this function instead of GetBlockByLimitNext.
 	GetBlockByLimitNext2(context.Context, *BlockLimit) (*BlockListExtention, error)
-	//Please use GetBlockByLatestNum2 instead of this function.
+	// Please use GetBlockByLatestNum2 instead of this function.
 	GetBlockByLatestNum(context.Context, *NumberMessage) (*BlockList, error)
-	//Use this function instead of GetBlockByLatestNum.
+	// Use this function instead of GetBlockByLatestNum.
 	GetBlockByLatestNum2(context.Context, *NumberMessage) (*BlockListExtention, error)
 	GetTransactionById(context.Context, *BytesMessage) (*core.Transaction, error)
 	DeployContract(context.Context, *core.CreateSmartContract) (*TransactionExtention, error)
@@ -2977,19 +2977,19 @@ type WalletServer interface {
 	GetPaginatedAssetIssueList(context.Context, *PaginatedMessage) (*AssetIssueList, error)
 	TotalTransaction(context.Context, *EmptyMessage) (*NumberMessage, error)
 	GetNextMaintenanceTime(context.Context, *EmptyMessage) (*NumberMessage, error)
-	//Warning: do not invoke this interface provided by others.
-	//Please use GetTransactionSign2 instead of this function.
+	// Warning: do not invoke this interface provided by others.
+	// Please use GetTransactionSign2 instead of this function.
 	GetTransactionSign(context.Context, *core.TransactionSign) (*core.Transaction, error)
-	//Warning: do not invoke this interface provided by others.
-	//Use this function instead of GetTransactionSign.
+	// Warning: do not invoke this interface provided by others.
+	// Use this function instead of GetTransactionSign.
 	GetTransactionSign2(context.Context, *core.TransactionSign) (*TransactionExtention, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	CreateAddress(context.Context, *BytesMessage) (*BytesMessage, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	EasyTransfer(context.Context, *EasyTransferMessage) (*EasyTransferResponse, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	EasyTransferByPrivate(context.Context, *EasyTransferByPrivateMessage) (*EasyTransferResponse, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	GenerateAddress(context.Context, *EmptyMessage) (*AddressPrKeyPairMessage, error)
 	GetTransactionInfoById(context.Context, *BytesMessage) (*core.TransactionInfo, error)
 }
@@ -5171,13 +5171,13 @@ type WalletSolidityClient interface {
 	ListWitnesses(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*WitnessList, error)
 	GetAssetIssueList(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*AssetIssueList, error)
 	GetPaginatedAssetIssueList(ctx context.Context, in *PaginatedMessage, opts ...grpc.CallOption) (*AssetIssueList, error)
-	//Please use GetNowBlock2 instead of this function.
+	// Please use GetNowBlock2 instead of this function.
 	GetNowBlock(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*core.Block, error)
-	//Use this function instead of GetNowBlock.
+	// Use this function instead of GetNowBlock.
 	GetNowBlock2(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*BlockExtention, error)
-	//Please use GetBlockByNum2 instead of this function.
+	// Please use GetBlockByNum2 instead of this function.
 	GetBlockByNum(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*core.Block, error)
-	//Use this function instead of GetBlockByNum.
+	// Use this function instead of GetBlockByNum.
 	GetBlockByNum2(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*BlockExtention, error)
 	GetTransactionCountByBlockNum(ctx context.Context, in *NumberMessage, opts ...grpc.CallOption) (*NumberMessage, error)
 	GetDelegatedResource(ctx context.Context, in *DelegatedResourceMessage, opts ...grpc.CallOption) (*DelegatedResourceList, error)
@@ -5186,7 +5186,7 @@ type WalletSolidityClient interface {
 	ListExchanges(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*ExchangeList, error)
 	GetTransactionById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.Transaction, error)
 	GetTransactionInfoById(ctx context.Context, in *BytesMessage, opts ...grpc.CallOption) (*core.TransactionInfo, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	GenerateAddress(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*AddressPrKeyPairMessage, error)
 }
 
@@ -5358,13 +5358,13 @@ type WalletSolidityServer interface {
 	ListWitnesses(context.Context, *EmptyMessage) (*WitnessList, error)
 	GetAssetIssueList(context.Context, *EmptyMessage) (*AssetIssueList, error)
 	GetPaginatedAssetIssueList(context.Context, *PaginatedMessage) (*AssetIssueList, error)
-	//Please use GetNowBlock2 instead of this function.
+	// Please use GetNowBlock2 instead of this function.
 	GetNowBlock(context.Context, *EmptyMessage) (*core.Block, error)
-	//Use this function instead of GetNowBlock.
+	// Use this function instead of GetNowBlock.
 	GetNowBlock2(context.Context, *EmptyMessage) (*BlockExtention, error)
-	//Please use GetBlockByNum2 instead of this function.
+	// Please use GetBlockByNum2 instead of this function.
 	GetBlockByNum(context.Context, *NumberMessage) (*core.Block, error)
-	//Use this function instead of GetBlockByNum.
+	// Use this function instead of GetBlockByNum.
 	GetBlockByNum2(context.Context, *NumberMessage) (*BlockExtention, error)
 	GetTransactionCountByBlockNum(context.Context, *NumberMessage) (*NumberMessage, error)
 	GetDelegatedResource(context.Context, *DelegatedResourceMessage) (*DelegatedResourceList, error)
@@ -5373,7 +5373,7 @@ type WalletSolidityServer interface {
 	ListExchanges(context.Context, *EmptyMessage) (*ExchangeList, error)
 	GetTransactionById(context.Context, *BytesMessage) (*core.Transaction, error)
 	GetTransactionInfoById(context.Context, *BytesMessage) (*core.TransactionInfo, error)
-	//Warning: do not invoke this interface provided by others.
+	// Warning: do not invoke this interface provided by others.
 	GenerateAddress(context.Context, *EmptyMessage) (*AddressPrKeyPairMessage, error)
 }
 
@@ -5824,13 +5824,13 @@ var _WalletSolidity_serviceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type WalletExtensionClient interface {
-	//Please use GetTransactionsFromThis2 instead of this function.
+	// Please use GetTransactionsFromThis2 instead of this function.
 	GetTransactionsFromThis(ctx context.Context, in *AccountPaginated, opts ...grpc.CallOption) (*TransactionList, error)
-	//Use this function instead of GetTransactionsFromThis.
+	// Use this function instead of GetTransactionsFromThis.
 	GetTransactionsFromThis2(ctx context.Context, in *AccountPaginated, opts ...grpc.CallOption) (*TransactionListExtention, error)
-	//Please use GetTransactionsToThis2 instead of this function.
+	// Please use GetTransactionsToThis2 instead of this function.
 	GetTransactionsToThis(ctx context.Context, in *AccountPaginated, opts ...grpc.CallOption) (*TransactionList, error)
-	//Use this function instead of GetTransactionsToThis.
+	// Use this function instead of GetTransactionsToThis.
 	GetTransactionsToThis2(ctx context.Context, in *AccountPaginated, opts ...grpc.CallOption) (*TransactionListExtention, error)
 }
 
@@ -5880,13 +5880,13 @@ func (c *walletExtensionClient) GetTransactionsToThis2(ctx context.Context, in *
 
 // WalletExtensionServer is the server API for WalletExtension service.
 type WalletExtensionServer interface {
-	//Please use GetTransactionsFromThis2 instead of this function.
+	// Please use GetTransactionsFromThis2 instead of this function.
 	GetTransactionsFromThis(context.Context, *AccountPaginated) (*TransactionList, error)
-	//Use this function instead of GetTransactionsFromThis.
+	// Use this function instead of GetTransactionsFromThis.
 	GetTransactionsFromThis2(context.Context, *AccountPaginated) (*TransactionListExtention, error)
-	//Please use GetTransactionsToThis2 instead of this function.
+	// Please use GetTransactionsToThis2 instead of this function.
 	GetTransactionsToThis(context.Context, *AccountPaginated) (*TransactionList, error)
-	//Use this function instead of GetTransactionsToThis.
+	// Use this function instead of GetTransactionsToThis.
 	GetTransactionsToThis2(context.Context, *AccountPaginated) (*TransactionListExtention, error)
 }
 

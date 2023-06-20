@@ -6,9 +6,9 @@ package ledger
 import (
 	context "context"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
 	golang_proto "github.com/golang/protobuf/proto"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"

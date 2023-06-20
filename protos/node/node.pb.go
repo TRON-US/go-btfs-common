@@ -6,12 +6,12 @@ package node
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
+	github_com_bittorrent_protobuf_types "github.com/bittorrent/protobuf/types"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	guard "github.com/tron-us/go-btfs-common/protos/guard"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
-	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -2572,7 +2572,7 @@ func (m *PayLoadInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastTime):])
+	n1, err1 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastTime):])
 	if err1 != nil {
 		return 0, err1
 	}
@@ -2684,7 +2684,7 @@ func (m *DiscoveryTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n3, err3 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err3 != nil {
 		return 0, err3
 	}
@@ -2753,7 +2753,7 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n4, err4 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.FirstCreatedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.FirstCreatedTime):])
+	n4, err4 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.FirstCreatedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FirstCreatedTime):])
 	if err4 != nil {
 		return 0, err4
 	}
@@ -2796,7 +2796,7 @@ func (m *Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xca
 	}
-	n7, err7 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n7, err7 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err7 != nil {
 		return 0, err7
 	}
@@ -3365,7 +3365,7 @@ func (m *NodeContractStat) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n11, err11 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
+	n11, err11 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
 	if err11 != nil {
 		return 0, err11
 	}
@@ -3522,7 +3522,7 @@ func (m *StorageStat_HostStats) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x85
 	}
-	n14, err14 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastUpdated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastUpdated):])
+	n14, err14 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastUpdated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastUpdated):])
 	if err14 != nil {
 		return 0, err14
 	}
@@ -3747,7 +3747,7 @@ func (m *ContractStat) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x30
 	}
-	n16, err16 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastContractEnd, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastContractEnd):])
+	n16, err16 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastContractEnd, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastContractEnd):])
 	if err16 != nil {
 		return 0, err16
 	}
@@ -3755,7 +3755,7 @@ func (m *ContractStat) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintNode(dAtA, i, uint64(n16))
 	i--
 	dAtA[i] = 0x2a
-	n17, err17 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.FirstContractStart, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.FirstContractStart):])
+	n17, err17 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.FirstContractStart, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FirstContractStart):])
 	if err17 != nil {
 		return 0, err17
 	}
@@ -3846,7 +3846,7 @@ func (m *Contracts_Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n18, err18 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
+	n18, err18 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
 	if err18 != nil {
 		return 0, err18
 	}
@@ -3888,7 +3888,7 @@ func (m *Contracts_Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x40
 	}
-	n19, err19 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.NextEscrowTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.NextEscrowTime):])
+	n19, err19 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.NextEscrowTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.NextEscrowTime):])
 	if err19 != nil {
 		return 0, err19
 	}
@@ -3896,7 +3896,7 @@ func (m *Contracts_Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintNode(dAtA, i, uint64(n19))
 	i--
 	dAtA[i] = 0x3a
-	n20, err20 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EndTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EndTime):])
+	n20, err20 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EndTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EndTime):])
 	if err20 != nil {
 		return 0, err20
 	}
@@ -3904,7 +3904,7 @@ func (m *Contracts_Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintNode(dAtA, i, uint64(n20))
 	i--
 	dAtA[i] = 0x32
-	n21, err21 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime):])
+	n21, err21 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime):])
 	if err21 != nil {
 		return 0, err21
 	}
@@ -4063,7 +4063,7 @@ func (m *BtfsScanTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
-	n22, err22 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated):])
+	n22, err22 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated):])
 	if err22 != nil {
 		return 0, err22
 	}
@@ -4083,7 +4083,7 @@ func (m *BtfsScanTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x39
 	}
-	n23, err23 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n23, err23 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err23 != nil {
 		return 0, err23
 	}
@@ -4170,7 +4170,7 @@ func (m *ScoreHistoryTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n24, err24 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n24, err24 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err24 != nil {
 		return 0, err24
 	}
@@ -4178,7 +4178,7 @@ func (m *ScoreHistoryTab) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintNode(dAtA, i, uint64(n24))
 	i--
 	dAtA[i] = 0x3a
-	n25, err25 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated):])
+	n25, err25 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated):])
 	if err25 != nil {
 		return 0, err25
 	}
@@ -4262,7 +4262,7 @@ func (m *AirdropRewardHistoryTab) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		i--
 		dAtA[i] = 0x50
 	}
-	n26, err26 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n26, err26 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err26 != nil {
 		return 0, err26
 	}
@@ -4270,7 +4270,7 @@ func (m *AirdropRewardHistoryTab) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	i = encodeVarintNode(dAtA, i, uint64(n26))
 	i--
 	dAtA[i] = 0x4a
-	n27, err27 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated):])
+	n27, err27 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated):])
 	if err27 != nil {
 		return 0, err27
 	}
@@ -4344,7 +4344,7 @@ func NewPopulatedPayLoadInfo(r randyNode, easy bool) *PayLoadInfo {
 			this.DiscoveryNodes[i] = NewPopulatedDiscoveryNode(r, easy)
 		}
 	}
-	v2 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v2 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.LastTime = *v2
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 5)
@@ -4380,7 +4380,7 @@ func NewPopulatedDiscoveryTab(r randyNode, easy bool) *DiscoveryTab {
 	if r.Intn(2) == 0 {
 		this.DiscoveryLabel *= -1
 	}
-	v3 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v3 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v3
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 8)
@@ -4419,14 +4419,14 @@ func NewPopulatedNode(r randyNode, easy bool) *Node {
 	this.ArchType = string(randStringNode(r))
 	this.CpuInfo = string(randStringNode(r))
 	this.PeersConnected = uint64(uint64(r.Uint32()))
-	v5 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v5 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v5
 	this.HVal = string(randStringNode(r))
 	v6 := NewPopulatedNode_Geo(r, easy)
 	this.Node_Geo = *v6
 	v7 := NewPopulatedNode_ExperimentalFlags(r, easy)
 	this.Node_ExperimentalFlags = *v7
-	v8 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v8 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.FirstCreatedTime = *v8
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 29)
@@ -4512,7 +4512,7 @@ func NewPopulatedNodeContractStat(r randyNode, easy bool) *NodeContractStat {
 	this.tableName = string(randStringNode(r))
 	this.NodeId = string(randStringNode(r))
 	this.BigMiner = bool(bool(r.Intn(2) == 0))
-	v10 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v10 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.LastModifyTime = *v10
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 5)
@@ -4590,7 +4590,7 @@ func NewPopulatedStorageStat_HostStats(r randyNode, easy bool) *StorageStat_Host
 	if r.Intn(2) == 0 {
 		this.DownloadSpeedWeight *= -1
 	}
-	v13 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v13 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.LastUpdated = *v13
 	this.ActiveScore = float32(r.Float32())
 	if r.Intn(2) == 0 {
@@ -4676,9 +4676,9 @@ func NewPopulatedContractStat(r randyNode, easy bool) *ContractStat {
 	if r.Intn(2) == 0 {
 		this.CompensationOutstanding *= -1
 	}
-	v15 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v15 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.FirstContractStart = *v15
-	v16 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v16 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.LastContractEnd = *v16
 	this.Role = ContractStat_Role([]int32{0, 1, 2}[r.Intn(3)])
 	if !easy && r.Intn(10) != 0 {
@@ -4708,11 +4708,11 @@ func NewPopulatedContracts_Contract(r randyNode, easy bool) *Contracts_Contract 
 	this.HostId = string(randStringNode(r))
 	this.RenterId = string(randStringNode(r))
 	this.Status = guard.Contract_ContractState([]int32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}[r.Intn(13)])
-	v18 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v18 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.StartTime = *v18
-	v19 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v19 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.EndTime = *v19
-	v20 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v20 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.NextEscrowTime = *v20
 	this.CompensationPaid = int64(r.Int63())
 	if r.Intn(2) == 0 {
@@ -4732,7 +4732,7 @@ func NewPopulatedContracts_Contract(r randyNode, easy bool) *Contracts_Contract 
 	}
 	this.ShardHash = string(randStringNode(r))
 	this.FileHash = string(randStringNode(r))
-	v21 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v21 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.LastModifyTime = *v21
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 15)
@@ -4770,7 +4770,7 @@ func NewPopulatedBtfsScanTab(r randyNode, easy bool) *BtfsScanTab {
 			}
 		}
 	}
-	v26 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v26 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v26
 	this.StorageAlreadyUsed = float64(r.Float64())
 	if r.Intn(2) == 0 {
@@ -4780,7 +4780,7 @@ func NewPopulatedBtfsScanTab(r randyNode, easy bool) *BtfsScanTab {
 	if r.Intn(2) == 0 {
 		this.Price *= -1
 	}
-	v27 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v27 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.DateCreated = *v27
 	this.NewRank = string(randStringNode(r))
 	this.TotalRank = string(randStringNode(r))
@@ -4836,9 +4836,9 @@ func NewPopulatedScoreHistoryTab(r randyNode, easy bool) *ScoreHistoryTab {
 	this.StorageVolumeCap = uint64(uint64(r.Uint32()))
 	this.StorageVolumeLeft = uint64(uint64(r.Uint32()))
 	this.Score = uint32(r.Uint32())
-	v30 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v30 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.DateCreated = *v30
-	v31 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v31 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v31
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedNode(r, 8)
@@ -4854,9 +4854,9 @@ func NewPopulatedAirdropRewardHistoryTab(r randyNode, easy bool) *AirdropRewardH
 	this.IsSuspect = bool(bool(r.Intn(2) == 0))
 	this.Weight = uint32(r.Uint32())
 	this.Stake = uint32(r.Uint32())
-	v32 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v32 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.DateCreated = *v32
-	v33 := github_com_tron_us_protobuf_types.NewPopulatedStdTime(r, easy)
+	v33 := github_com_bittorrent_protobuf_types.NewPopulatedStdTime(r, easy)
 	this.TimeCreated = *v33
 	this.FileCount = uint32(r.Uint32())
 	this.FileSize = uint64(uint64(r.Uint32()))
@@ -4960,7 +4960,7 @@ func (m *PayLoadInfo) Size() (n int) {
 			n += 1 + l + sovNode(uint64(l))
 		}
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastTime)
 	n += 1 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5016,7 +5016,7 @@ func (m *DiscoveryTab) Size() (n int) {
 	if m.DiscoveryLabel != 0 {
 		n += 1 + sovNode(uint64(m.DiscoveryLabel))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5101,7 +5101,7 @@ func (m *Node) Size() (n int) {
 	if m.PeersConnected != 0 {
 		n += 2 + sovNode(uint64(m.PeersConnected))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 2 + l + sovNode(uint64(l))
 	l = len(m.HVal)
 	if l > 0 {
@@ -5111,7 +5111,7 @@ func (m *Node) Size() (n int) {
 	n += 2 + l + sovNode(uint64(l))
 	l = m.Node_ExperimentalFlags.Size()
 	n += 2 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.FirstCreatedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FirstCreatedTime)
 	n += 2 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5287,7 +5287,7 @@ func (m *NodeContractStat) Size() (n int) {
 	if m.BigMiner {
 		n += 2
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime)
 	n += 1 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5359,7 +5359,7 @@ func (m *StorageStat_HostStats) Size() (n int) {
 	if m.DownloadSpeedWeight != 0 {
 		n += 5
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastUpdated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastUpdated)
 	n += 1 + l + sovNode(uint64(l))
 	if m.ActiveScore != 0 {
 		n += 6
@@ -5448,9 +5448,9 @@ func (m *ContractStat) Size() (n int) {
 	if m.CompensationOutstanding != 0 {
 		n += 1 + sovNode(uint64(m.CompensationOutstanding))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.FirstContractStart)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FirstContractStart)
 	n += 1 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastContractEnd)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastContractEnd)
 	n += 1 + l + sovNode(uint64(l))
 	if m.Role != 0 {
 		n += 1 + sovNode(uint64(m.Role))
@@ -5500,11 +5500,11 @@ func (m *Contracts_Contract) Size() (n int) {
 	if m.Status != 0 {
 		n += 1 + sovNode(uint64(m.Status))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime)
 	n += 1 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EndTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EndTime)
 	n += 1 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.NextEscrowTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.NextEscrowTime)
 	n += 1 + l + sovNode(uint64(l))
 	if m.CompensationPaid != 0 {
 		n += 1 + sovNode(uint64(m.CompensationPaid))
@@ -5526,7 +5526,7 @@ func (m *Contracts_Contract) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovNode(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime)
 	n += 1 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5566,7 +5566,7 @@ func (m *BtfsScanTab) Size() (n int) {
 			n += mapEntrySize + 1 + sovNode(uint64(mapEntrySize))
 		}
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovNode(uint64(l))
 	if m.StorageAlreadyUsed != 0 {
 		n += 9
@@ -5574,7 +5574,7 @@ func (m *BtfsScanTab) Size() (n int) {
 	if m.Price != 0 {
 		n += 9
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated)
 	n += 1 + l + sovNode(uint64(l))
 	l = len(m.NewRank)
 	if l > 0 {
@@ -5651,9 +5651,9 @@ func (m *ScoreHistoryTab) Size() (n int) {
 	if m.Score != 0 {
 		n += 1 + sovNode(uint64(m.Score))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated)
 	n += 1 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovNode(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -5687,9 +5687,9 @@ func (m *AirdropRewardHistoryTab) Size() (n int) {
 	if m.Stake != 0 {
 		n += 1 + sovNode(uint64(m.Stake))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated)
 	n += 1 + l + sovNode(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovNode(uint64(l))
 	if m.FileCount != 0 {
 		n += 1 + sovNode(uint64(m.FileCount))
@@ -5875,7 +5875,7 @@ func (m *PayLoadInfo) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6226,7 +6226,7 @@ func (m *DiscoveryTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6807,7 +6807,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6938,7 +6938,7 @@ func (m *Node) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.FirstCreatedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.FirstCreatedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -8040,7 +8040,7 @@ func (m *NodeContractStat) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -8401,7 +8401,7 @@ func (m *StorageStat_HostStats) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastUpdated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastUpdated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -8931,7 +8931,7 @@ func (m *ContractStat) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.FirstContractStart, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.FirstContractStart, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -8964,7 +8964,7 @@ func (m *ContractStat) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastContractEnd, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastContractEnd, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9273,7 +9273,7 @@ func (m *Contracts_Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9306,7 +9306,7 @@ func (m *Contracts_Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EndTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EndTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9339,7 +9339,7 @@ func (m *Contracts_Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.NextEscrowTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.NextEscrowTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9512,7 +9512,7 @@ func (m *Contracts_Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9887,7 +9887,7 @@ func (m *BtfsScanTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9942,7 +9942,7 @@ func (m *BtfsScanTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10493,7 +10493,7 @@ func (m *ScoreHistoryTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10526,7 +10526,7 @@ func (m *ScoreHistoryTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10754,7 +10754,7 @@ func (m *AirdropRewardHistoryTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10787,7 +10787,7 @@ func (m *AirdropRewardHistoryTab) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

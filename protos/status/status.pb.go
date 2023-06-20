@@ -7,12 +7,12 @@ import (
 	context "context"
 	encoding_binary "encoding/binary"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
+	github_com_bittorrent_protobuf_types "github.com/bittorrent/protobuf/types"
 	types "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	node "github.com/tron-us/go-btfs-common/protos/node"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
-	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -1507,7 +1507,7 @@ func (m *BtfsScanAggrReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
-	n1, err1 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated):])
+	n1, err1 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated):])
 	if err1 != nil {
 		return 0, err1
 	}
@@ -1527,7 +1527,7 @@ func (m *BtfsScanAggrReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x39
 	}
-	n2, err2 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated):])
+	n2, err2 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.TimeCreated, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated):])
 	if err2 != nil {
 		return 0, err2
 	}
@@ -1741,7 +1741,7 @@ func (m *AirdropRewardHistoryReq) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		i--
 		dAtA[i] = 0x32
 	}
-	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateAirdroped, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateAirdroped):])
+	n3, err3 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateAirdroped, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateAirdroped):])
 	if err3 != nil {
 		return 0, err3
 	}
@@ -1807,7 +1807,7 @@ func (m *Candidate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n4, err4 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.DateAirdroped, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateAirdroped):])
+	n4, err4 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.DateAirdroped, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateAirdroped):])
 	if err4 != nil {
 		return 0, err4
 	}
@@ -1965,7 +1965,7 @@ func (m *BtfsScanAggrReq) Size() (n int) {
 			n += mapEntrySize + 1 + sovStatus(uint64(mapEntrySize))
 		}
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.TimeCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.TimeCreated)
 	n += 1 + l + sovStatus(uint64(l))
 	if m.StorageAlreadyUsed != 0 {
 		n += 9
@@ -1973,7 +1973,7 @@ func (m *BtfsScanAggrReq) Size() (n int) {
 	if m.Price != 0 {
 		n += 9
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateCreated)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateCreated)
 	n += 1 + l + sovStatus(uint64(l))
 	l = len(m.NewRank)
 	if l > 0 {
@@ -2107,7 +2107,7 @@ func (m *AirdropRewardHistoryReq) Size() (n int) {
 	if m.PageTotal != 0 {
 		n += 1 + sovStatus(uint64(m.PageTotal))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateAirdroped)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateAirdroped)
 	n += 1 + l + sovStatus(uint64(l))
 	l = len(m.Signature)
 	if l > 0 {
@@ -2129,7 +2129,7 @@ func (m *Candidate) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovStatus(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.DateAirdroped)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.DateAirdroped)
 	n += 1 + l + sovStatus(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2835,7 +2835,7 @@ func (m *BtfsScanAggrReq) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.TimeCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2890,7 +2890,7 @@ func (m *BtfsScanAggrReq) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateCreated, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3751,7 +3751,7 @@ func (m *AirdropRewardHistoryReq) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateAirdroped, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateAirdroped, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3904,7 +3904,7 @@ func (m *Candidate) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.DateAirdroped, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.DateAirdroped, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

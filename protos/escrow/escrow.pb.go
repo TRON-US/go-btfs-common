@@ -6,12 +6,12 @@ package escrow
 import (
 	context "context"
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
+	github_com_bittorrent_protobuf_types "github.com/bittorrent/protobuf/types"
 	_ "github.com/gogo/protobuf/types"
 	golang_proto "github.com/golang/protobuf/proto"
 	ledger "github.com/tron-us/go-btfs-common/protos/ledger"
 	_ "github.com/tron-us/protobuf/gogoproto"
-	proto "github.com/tron-us/protobuf/proto"
-	github_com_tron_us_protobuf_types "github.com/tron-us/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -3705,9 +3705,9 @@ type EscrowServiceClient interface {
 	IsPaid(ctx context.Context, in *SignedContractID, opts ...grpc.CallOption) (*SignedPayinStatus, error)
 	// check escrow pay out to seller status of a contract
 	GetPayOutStatus(ctx context.Context, in *SignedContractID, opts ...grpc.CallOption) (*SignedPayoutStatus, error)
-	//get the payout status in batch
+	// get the payout status in batch
 	GetPayOutStatusBatch(ctx context.Context, in *SignedContractIDBatch, opts ...grpc.CallOption) (*SignedPayoutStatusBatch, error)
-	//get the modified payout status in batch
+	// get the modified payout status in batch
 	GetModifyPayOutStatusBatch(ctx context.Context, in *SignedModifyContractIDBatch, opts ...grpc.CallOption) (*SignedPayoutStatusBatch, error)
 	// auth request to cancel the contract
 	// escrow will cancel the left payments to seller
@@ -3720,7 +3720,7 @@ type EscrowServiceClient interface {
 	CreateChannel(ctx context.Context, in *ledger.SignedChannelCommit, opts ...grpc.CallOption) (*ledger.ChannelID, error)
 	// Closes a channel on the ledger.
 	CloseChannel(ctx context.Context, in *ledger.SignedChannelState, opts ...grpc.CallOption) (*ledger.ChannelClosed, error)
-	//use escrow as proxy to do the payment
+	// use escrow as proxy to do the payment
 	Pay(ctx context.Context, in *ledger.SignedTransferRequest, opts ...grpc.CallOption) (*ledger.TransferResult, error)
 	Stake(ctx context.Context, in *SignedStakeRequest, opts ...grpc.CallOption) (*SignedStakeResult, error)
 	StakePenalty(ctx context.Context, in *SignedStakePenaltyRequest, opts ...grpc.CallOption) (*SignedStakePenaltyResult, error)
@@ -3884,9 +3884,9 @@ type EscrowServiceServer interface {
 	IsPaid(context.Context, *SignedContractID) (*SignedPayinStatus, error)
 	// check escrow pay out to seller status of a contract
 	GetPayOutStatus(context.Context, *SignedContractID) (*SignedPayoutStatus, error)
-	//get the payout status in batch
+	// get the payout status in batch
 	GetPayOutStatusBatch(context.Context, *SignedContractIDBatch) (*SignedPayoutStatusBatch, error)
-	//get the modified payout status in batch
+	// get the modified payout status in batch
 	GetModifyPayOutStatusBatch(context.Context, *SignedModifyContractIDBatch) (*SignedPayoutStatusBatch, error)
 	// auth request to cancel the contract
 	// escrow will cancel the left payments to seller
@@ -3899,7 +3899,7 @@ type EscrowServiceServer interface {
 	CreateChannel(context.Context, *ledger.SignedChannelCommit) (*ledger.ChannelID, error)
 	// Closes a channel on the ledger.
 	CloseChannel(context.Context, *ledger.SignedChannelState) (*ledger.ChannelClosed, error)
-	//use escrow as proxy to do the payment
+	// use escrow as proxy to do the payment
 	Pay(context.Context, *ledger.SignedTransferRequest) (*ledger.TransferResult, error)
 	Stake(context.Context, *SignedStakeRequest) (*SignedStakeResult, error)
 	StakePenalty(context.Context, *SignedStakePenaltyRequest) (*SignedStakePenaltyResult, error)
@@ -4505,7 +4505,7 @@ func (m *SignedModifyContractIDBatch) MarshalToSizedBuffer(dAtA []byte) (int, er
 		i--
 		dAtA[i] = 0x1a
 	}
-	n3, err3 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
+	n3, err3 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
 	if err3 != nil {
 		return 0, err3
 	}
@@ -4852,7 +4852,7 @@ func (m *SubmitContractResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	n8, err8 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n8, err8 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err8 != nil {
 		return 0, err8
 	}
@@ -4961,7 +4961,7 @@ func (m *StartEscrowResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n10, err10 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n10, err10 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err10 != nil {
 		return 0, err10
 	}
@@ -5162,7 +5162,7 @@ func (m *PayinResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n14, err14 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n14, err14 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err14 != nil {
 		return 0, err14
 	}
@@ -5267,7 +5267,7 @@ func (m *PayinStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n16, err16 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n16, err16 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err16 != nil {
 		return 0, err16
 	}
@@ -5370,7 +5370,7 @@ func (m *PayoutStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n18, err18 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
+	n18, err18 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastModifyTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime):])
 	if err18 != nil {
 		return 0, err18
 	}
@@ -5389,7 +5389,7 @@ func (m *PayoutStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x9a
 	}
-	n19, err19 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignTime):])
+	n19, err19 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignTime):])
 	if err19 != nil {
 		return 0, err19
 	}
@@ -5408,7 +5408,7 @@ func (m *PayoutStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x8a
 	}
-	n20, err20 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.NextPayoutTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.NextPayoutTime):])
+	n20, err20 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.NextPayoutTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.NextPayoutTime):])
 	if err20 != nil {
 		return 0, err20
 	}
@@ -5418,7 +5418,7 @@ func (m *PayoutStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	dAtA[i] = 0x1
 	i--
 	dAtA[i] = 0x82
-	n21, err21 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.LastPayoutTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastPayoutTime):])
+	n21, err21 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.LastPayoutTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastPayoutTime):])
 	if err21 != nil {
 		return 0, err21
 	}
@@ -5625,7 +5625,7 @@ func (m *CancelContractRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n23, err23 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.AuthSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.AuthSignedTime):])
+	n23, err23 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.AuthSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.AuthSignedTime):])
 	if err23 != nil {
 		return 0, err23
 	}
@@ -5742,7 +5742,7 @@ func (m *CancelContractResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x30
 	}
-	n25, err25 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n25, err25 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err25 != nil {
 		return 0, err25
 	}
@@ -5852,7 +5852,7 @@ func (m *PayoutAddress) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n27, err27 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.SignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.SignedTime):])
+	n27, err27 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.SignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SignedTime):])
 	if err27 != nil {
 		return 0, err27
 	}
@@ -6003,7 +6003,7 @@ func (m *PaymentResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n29, err29 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n29, err29 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err29 != nil {
 		return 0, err29
 	}
@@ -6105,7 +6105,7 @@ func (m *BalanceResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n31, err31 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
+	n31, err31 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.EscrowSignedTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime):])
 	if err31 != nil {
 		return 0, err31
 	}
@@ -6244,7 +6244,7 @@ func (m *StakeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n34, err34 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.RequestTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.RequestTime):])
+	n34, err34 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.RequestTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.RequestTime):])
 	if err34 != nil {
 		return 0, err34
 	}
@@ -6445,7 +6445,7 @@ func (m *StakeLedger) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	n37, err37 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.MatureTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.MatureTime):])
+	n37, err37 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.MatureTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.MatureTime):])
 	if err37 != nil {
 		return 0, err37
 	}
@@ -6453,7 +6453,7 @@ func (m *StakeLedger) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintEscrow(dAtA, i, uint64(n37))
 	i--
 	dAtA[i] = 0x22
-	n38, err38 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime):])
+	n38, err38 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.StartTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime):])
 	if err38 != nil {
 		return 0, err38
 	}
@@ -6500,7 +6500,7 @@ func (m *UnfinishStakeLedger) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n39, err39 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.FailTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.FailTime):])
+	n39, err39 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.FailTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FailTime):])
 	if err39 != nil {
 		return 0, err39
 	}
@@ -6508,7 +6508,7 @@ func (m *UnfinishStakeLedger) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i = encodeVarintEscrow(dAtA, i, uint64(n39))
 	i--
 	dAtA[i] = 0x32
-	n40, err40 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.SubmitTime):])
+	n40, err40 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SubmitTime):])
 	if err40 != nil {
 		return 0, err40
 	}
@@ -6613,7 +6613,7 @@ func (m *StakePenaltyRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n42, err42 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.SubmitTime):])
+	n42, err42 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SubmitTime):])
 	if err42 != nil {
 		return 0, err42
 	}
@@ -6679,7 +6679,7 @@ func (m *StakePenaltyResult) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	n43, err43 := github_com_tron_us_protobuf_types.StdTimeMarshalTo(m.ReceiveTime, dAtA[i-github_com_tron_us_protobuf_types.SizeOfStdTime(m.ReceiveTime):])
+	n43, err43 := github_com_bittorrent_protobuf_types.StdTimeMarshalTo(m.ReceiveTime, dAtA[i-github_com_bittorrent_protobuf_types.SizeOfStdTime(m.ReceiveTime):])
 	if err43 != nil {
 		return 0, err43
 	}
@@ -6863,7 +6863,7 @@ func (m *SignedModifyContractIDBatch) Size() (n int) {
 		l = m.Data.Size()
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	l = len(m.Signature)
 	if l > 0 {
@@ -7040,7 +7040,7 @@ func (m *SubmitContractResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.BuyerChannelState != nil {
 		l = m.BuyerChannelState.Size()
@@ -7088,7 +7088,7 @@ func (m *StartEscrowResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7180,7 +7180,7 @@ func (m *PayinResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7224,7 +7224,7 @@ func (m *PayinStatus) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7304,21 +7304,21 @@ func (m *PayoutStatus) Size() (n int) {
 	if m.NextAmount != 0 {
 		n += 1 + sovEscrow(uint64(m.NextAmount))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastPayoutTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastPayoutTime)
 	n += 1 + l + sovEscrow(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.NextPayoutTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.NextPayoutTime)
 	n += 2 + l + sovEscrow(uint64(l))
 	l = len(m.EscrowAddress)
 	if l > 0 {
 		n += 2 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignTime)
 	n += 2 + l + sovEscrow(uint64(l))
 	l = len(m.ErrorMsg)
 	if l > 0 {
 		n += 2 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.LastModifyTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.LastModifyTime)
 	n += 2 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7382,7 +7382,7 @@ func (m *CancelContractRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.AuthSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.AuthSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7430,7 +7430,7 @@ func (m *CancelContractResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.Amount != 0 {
 		n += 1 + sovEscrow(uint64(m.Amount))
@@ -7478,7 +7478,7 @@ func (m *PayoutAddress) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.SignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7555,7 +7555,7 @@ func (m *PaymentResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7596,7 +7596,7 @@ func (m *BalanceResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.EscrowSignedTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7661,7 +7661,7 @@ func (m *StakeRequest) Size() (n int) {
 		l = m.TransferRequest.Size()
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.RequestTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.RequestTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7739,9 +7739,9 @@ func (m *StakeLedger) Size() (n int) {
 	if m.Amount != 0 {
 		n += 1 + sovEscrow(uint64(m.Amount))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.StartTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.StartTime)
 	n += 1 + l + sovEscrow(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.MatureTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.MatureTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	l = len(m.OperatorId)
 	if l > 0 {
@@ -7780,9 +7780,9 @@ func (m *UnfinishStakeLedger) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.SubmitTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SubmitTime)
 	n += 1 + l + sovEscrow(uint64(l))
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.FailTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.FailTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7834,7 +7834,7 @@ func (m *StakePenaltyRequest) Size() (n int) {
 	if m.Amount != 0 {
 		n += 1 + sovEscrow(uint64(m.Amount))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.SubmitTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.SubmitTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -7862,7 +7862,7 @@ func (m *StakePenaltyResult) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEscrow(uint64(l))
 	}
-	l = github_com_tron_us_protobuf_types.SizeOfStdTime(m.ReceiveTime)
+	l = github_com_bittorrent_protobuf_types.SizeOfStdTime(m.ReceiveTime)
 	n += 1 + l + sovEscrow(uint64(l))
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -8478,7 +8478,7 @@ func (m *SignedModifyContractIDBatch) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9636,7 +9636,7 @@ func (m *SubmitContractResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -9951,7 +9951,7 @@ func (m *StartEscrowResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10546,7 +10546,7 @@ func (m *PayinResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -10830,7 +10830,7 @@ func (m *PayinStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -11365,7 +11365,7 @@ func (m *PayoutStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastPayoutTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastPayoutTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -11398,7 +11398,7 @@ func (m *PayoutStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.NextPayoutTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.NextPayoutTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -11465,7 +11465,7 @@ func (m *PayoutStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -11530,7 +11530,7 @@ func (m *PayoutStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.LastModifyTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -11929,7 +11929,7 @@ func (m *CancelContractRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.AuthSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.AuthSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -12245,7 +12245,7 @@ func (m *CancelContractResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -12561,7 +12561,7 @@ func (m *PayoutAddress) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.SignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.SignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -13051,7 +13051,7 @@ func (m *PaymentResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -13315,7 +13315,7 @@ func (m *BalanceResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.EscrowSignedTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -13737,7 +13737,7 @@ func (m *StakeRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.RequestTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.RequestTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -14210,7 +14210,7 @@ func (m *StakeLedger) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -14243,7 +14243,7 @@ func (m *StakeLedger) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.MatureTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.MatureTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -14515,7 +14515,7 @@ func (m *UnfinishStakeLedger) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -14548,7 +14548,7 @@ func (m *UnfinishStakeLedger) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.FailTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.FailTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -14893,7 +14893,7 @@ func (m *StakePenaltyRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -15082,7 +15082,7 @@ func (m *StakePenaltyResult) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_tron_us_protobuf_types.StdTimeUnmarshal(&m.ReceiveTime, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_bittorrent_protobuf_types.StdTimeUnmarshal(&m.ReceiveTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

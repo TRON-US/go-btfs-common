@@ -5,8 +5,8 @@ package protocol_core
 
 import (
 	fmt "fmt"
+	proto "github.com/bittorrent/protobuf/proto"
 	types "github.com/gogo/protobuf/types"
-	proto "github.com/tron-us/protobuf/proto"
 	math "math"
 )
 
@@ -916,9 +916,9 @@ type Account struct {
 	Frozen []*Account_Frozen `protobuf:"bytes,7,rep,name=frozen,proto3" json:"frozen,omitempty" pg:"frozen"`
 	// bandwidth, get from frozen
 	NetUsage int64 `protobuf:"varint,8,opt,name=net_usage,json=netUsage,proto3" json:"net_usage,omitempty" pg:"net_usage"`
-	//Frozen balance provided by other accounts to this account
+	// Frozen balance provided by other accounts to this account
 	AcquiredDelegatedFrozenBalanceForBandwidth int64 `protobuf:"varint,41,opt,name=acquired_delegated_frozen_balance_for_bandwidth,json=acquiredDelegatedFrozenBalanceForBandwidth,proto3" json:"acquired_delegated_frozen_balance_for_bandwidth,omitempty" pg:"acquired_delegated_frozen_balance_for_bandwidth"`
-	//Freeze and provide balances to other accounts
+	// Freeze and provide balances to other accounts
 	DelegatedFrozenBalanceForBandwidth int64 `protobuf:"varint,42,opt,name=delegated_frozen_balance_for_bandwidth,json=delegatedFrozenBalanceForBandwidth,proto3" json:"delegated_frozen_balance_for_bandwidth,omitempty" pg:"delegated_frozen_balance_for_bandwidth"`
 	// this account create time
 	CreateTime int64 `protobuf:"varint,9,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty" pg:"create_time"`
@@ -1247,9 +1247,9 @@ type Account_AccountResource struct {
 	// the frozen balance for energy
 	FrozenBalanceForEnergy     *Account_Frozen `protobuf:"bytes,2,opt,name=frozen_balance_for_energy,json=frozenBalanceForEnergy,proto3" json:"frozen_balance_for_energy,omitempty" pg:"frozen_balance_for_energy"`
 	LatestConsumeTimeForEnergy int64           `protobuf:"varint,3,opt,name=latest_consume_time_for_energy,json=latestConsumeTimeForEnergy,proto3" json:"latest_consume_time_for_energy,omitempty" pg:"latest_consume_time_for_energy"`
-	//Frozen balance provided by other accounts to this account
+	// Frozen balance provided by other accounts to this account
 	AcquiredDelegatedFrozenBalanceForEnergy int64 `protobuf:"varint,4,opt,name=acquired_delegated_frozen_balance_for_energy,json=acquiredDelegatedFrozenBalanceForEnergy,proto3" json:"acquired_delegated_frozen_balance_for_energy,omitempty" pg:"acquired_delegated_frozen_balance_for_energy"`
-	//Frozen balances provided to other accounts
+	// Frozen balances provided to other accounts
 	DelegatedFrozenBalanceForEnergy int64 `protobuf:"varint,5,opt,name=delegated_frozen_balance_for_energy,json=delegatedFrozenBalanceForEnergy,proto3" json:"delegated_frozen_balance_for_energy,omitempty" pg:"delegated_frozen_balance_for_energy"`
 	// storage resource, get from market
 	StorageLimit              int64    `protobuf:"varint,6,opt,name=storage_limit,json=storageLimit,proto3" json:"storage_limit,omitempty" pg:"storage_limit"`
@@ -2165,7 +2165,7 @@ type TransactionRaw struct {
 	Auths         []*Authority `protobuf:"bytes,9,rep,name=auths,proto3" json:"auths,omitempty" pg:"auths"`
 	// data not used
 	Data []byte `protobuf:"bytes,10,opt,name=data,proto3" json:"data,omitempty" pg:"data"`
-	//only support size = 1,  repeated list here for extension
+	// only support size = 1,  repeated list here for extension
 	Contract []*Transaction_Contract `protobuf:"bytes,11,rep,name=contract,proto3" json:"contract,omitempty" pg:"contract"`
 	// scripts not used
 	Scripts              []byte   `protobuf:"bytes,12,opt,name=scripts,proto3" json:"scripts,omitempty" pg:"scripts"`
@@ -2632,8 +2632,8 @@ type BlockHeaderRaw struct {
 	Timestamp  int64  `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty" pg:"timestamp"`
 	TxTrieRoot []byte `protobuf:"bytes,2,opt,name=txTrieRoot,proto3" json:"txTrieRoot,omitempty" pg:"txTrieRoot"`
 	ParentHash []byte `protobuf:"bytes,3,opt,name=parentHash,proto3" json:"parentHash,omitempty" pg:"parentHash"`
-	//bytes nonce = 5;
-	//bytes difficulty = 6;
+	// bytes nonce = 5;
+	// bytes difficulty = 6;
 	Number               int64    `protobuf:"varint,7,opt,name=number,proto3" json:"number,omitempty" pg:"number"`
 	WitnessId            int64    `protobuf:"varint,8,opt,name=witness_id,json=witnessId,proto3" json:"witness_id,omitempty" pg:"witness_id"`
 	WitnessAddress       []byte   `protobuf:"bytes,9,opt,name=witness_address,json=witnessAddress,proto3" json:"witness_address,omitempty" pg:"witness_address"`
